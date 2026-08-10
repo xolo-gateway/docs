@@ -1,18 +1,123 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Redirecting</title>
-  <noscript>
-    <meta http-equiv="refresh" content="1; url=0.55.0/" />
-  </noscript>
-  <script>
-    window.location.replace(
-      "0.55.0/" + window.location.search + window.location.hash
-    );
-  </script>
-</head>
-<body>
-  Redirecting to <a href="0.55.0/">0.55.0/</a>...
-</body>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Xolo — Documentation</title>
+    <link rel="canonical" href="https://xolo-gateway.org/latest/" />
+    <meta http-equiv="refresh" content="0; url=https://xolo-gateway.org/latest/" />
+    <meta name="robots" content="noindex" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #f5f5f5;
+        color: #333;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+        padding: 2rem;
+      }
+      a {
+        color: #1565c0;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      a:focus-visible {
+        outline: 2px solid #1565c0;
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+      .spinner {
+        width: 2rem;
+        height: 2rem;
+        border: 3px solid #e0e0e0;
+        border-top-color: #1565c0;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background: #1a1a1a;
+          color: #e0e0e0;
+        }
+        a {
+          color: #64b5f6;
+        }
+        .spinner {
+          border-color: #333;
+          border-top-color: #64b5f6;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .spinner {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <svg
+      viewBox="0 0 512.00001 512"
+      version="1.1"
+      id="svg1"
+      height="120px"
+      inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+      sodipodi:docname="logo.svg"
+      xmlns:inkscape="http://www.inkspaces.org/namespaces/inkscape"
+      xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:svg="http://www.w3.org/2000/svg"
+    >
+      <defs id="defs1" />
+      <g
+        inkscape:label="Calque 1"
+        inkscape:groupmode="layer"
+        id="layer1"
+        transform="translate(349.22236,280.54324)"
+      >
+        <path
+          d="m -165.88053,140.05421 h 0.96505 l 5.79017,-9.6503 -20.26565,-18.24922 -6.51169,-7.82073 11.33684,-22.181565 h 0.96506 c 16.15281,20.032935 39.26351,36.287635 57.90176,54.079695 4.67337,4.46117 15.37676,18.39076 22.195685,18.22232 7.12187,-0.17586 18.25499,-14.4364 23.16072,-19.2254 18.88739,-18.43791 39.23236,-35.372064 57.90172,-54.041625 l 11.3473799,23.159975 -6.52218,7.99649 -20.2656199,18.06006 5.79016,9.6503 c 9.98234,-6.24399 18.6098299,-15.90629 27.0208299,-24.11162 2.78342,-2.71538 8.6428701,-6.10361 7.8676901,-10.63318 -0.8362,-4.88602 -5.2096901,-10.168914 -7.5728201,-14.471725 -6.9233,-12.60641 -15.7861699,-25.28158 -21.1852399,-38.60119 -5.03576,-12.42329 -2.31025,-35.87035 -1.21515,-49.2165098 0.84924,-10.3503799 7.3396899,-20.3374302 8.9904899,-30.8809602 2.43537,-15.55443 -0.16843,-33.50774 5.83258,-48.251471 6.48386,-15.929698 20.5471801,-28.427554 24.8838001,-45.356384 2.40604,-9.39249 -0.83999,-18.63358 -1.07153,-27.98587 -0.36123,-14.59406 2.5808,-28.66805 1.00079,-43.42634 -1.63132,-15.23744 -4.22859,-30.60278 -8.43874,-45.35642 -1.57736,-5.52751 -2.86698,-13.07601 -7.3680901,-17.06375 -9.45627,-8.37771 -21.9960399,10.76293 -26.5308599,17.06375 -17.83288,24.77767 -37.14776,57.36188 -45.64011,86.85273 -17.57676,-3.26522 -39.451045,-4.16487 -56.936725,0 -8.19564,-29.96472 -26.88424,-61.47331 -44.4159,-86.85273 -4.35716,-6.30752 -17.13181,-25.73966 -26.61949,-16.95202 -4.14739,3.84131 -5.35887,10.78767 -6.85129,15.987 -4.04685,14.09882 -6.41008,28.88098 -8.15061,43.42635 -1.89552,15.84011 0.33416,31.46607 0.14585,47.28647 -0.1111,9.34026 -3.00392,17.6982 -0.48924,27.02083 4.47972,16.60761 17.83593,28.676836 24.1816,44.391374 6.55912,16.243151 3.28493,35.965451 6.47895,53.076611 1.90401,10.20012 8.85531,19.6181903 9.35991,29.9159202 0.63336,12.9261698 3.67921,34.5082398 -1.87643,46.3214198 -6.06263,12.89106 -13.81868,25.24298 -20.83604,37.63618 -2.52076,4.451871 -7.99372,11.163215 -8.17295,16.391355 -0.13878,4.0466 5.20109,7.182 7.7634,10.70322 8.37148,11.52369 16.85013,21.19049 26.80099,30.87934 z"
+          style="fill: currentColor; stroke: none; stroke-width: 0.281469"
+          id="path1"
+        />
+      </g>
+    </svg>
+    <div class="spinner" role="status" aria-label="Redirection en cours"></div>
+    <p>
+      Redirection vers la
+      <a href="https://xolo-gateway.org/latest/">dernière version de la documentation</a>…
+    </p>
+    <script>
+      (function () {
+        window.location.replace("https://xolo-gateway.org/latest/");
+      })();
+    </script>
+    <noscript>
+      <p>
+        <a href="https://xolo-gateway.org/latest/"
+          >Cliquez ici</a
+        >
+        pour accéder à la documentation.
+      </p>
+    </noscript>
+  </body>
 </html>
