@@ -9,13 +9,13 @@
   {
     "version": "main",
     "title": "main",
-    "aliases": [
-      "latest"
-    ]
+    "aliases": []
   },
   {
     "version": "0.55.0",
     "title": "0.55.0",
-    "aliases": []
+    "aliases": [
+      "latest"
+    ]
   }
 ]
