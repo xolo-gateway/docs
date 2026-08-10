@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/application/application/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/application/application/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/budget/budget/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/budget/budget/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/dashboard/dashboard/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/dashboard/dashboard/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/evenements/evenement/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/evenements/evenement/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/fournisseurs/fournisseurs/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/fournisseurs/fournisseurs/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/invitation/invitation/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/invitation/invitation/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/membre/membre/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/membre/membre/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/middleware/middleware/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/middleware/middleware/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/parametres/parametre/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/parametres/parametre/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/roles/roles/</loc>
       </url>
       <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/roles/roles/</loc>
-      </url>
-      <url>
-        <loc>https://forcibly-right-hawk.ngrok-free.app/docs/0.55.0/getting_started/virtual_model/virtual_model/</loc>
+        <loc>https://xolo-gateway.org/0.55.0/getting_started/virtual_model/virtual_model/</loc>
       </url>
 </urlset>
