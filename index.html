@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Xolo — Documentation</title>
+  <link rel="canonical" href="./latest/">
+  <meta http-equiv="refresh" content="0; url=./latest/">
+  <meta name="robots" content="noindex">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #f5f5f5;
+      color: #333;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        "Helvetica Neue", Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      text-align: center;
+      padding: 2rem;
+    }
+    a {
+      color: #1565c0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    a:focus-visible {
+      outline: 2px solid #1565c0;
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
+    .spinner {
+      width: 2rem;
+      height: 2rem;
+      border: 3px solid #e0e0e0;
+      border-top-color: #1565c0;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (prefers-color-scheme: dark) {
+      html, body { background: #1a1a1a; color: #e0e0e0; }
+      a { color: #64b5f6; }
+      .spinner { border-color: #333; border-top-color: #64b5f6; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="spinner" role="status" aria-label="Redirection en cours"></div>
+  <p>
+    Redirection vers la <a href="./latest/">dernière version de la documentation</a>…
+  </p>
+  <script>
+    (function () {
+      var search = window.location.search || "";
+      var hash = window.location.hash || "";
+      window.location.replace("./latest/" + search + hash);
+    })();
+  </script>
+  <noscript>
+    <p>
+      <a href="./latest/">Cliquez ici</a> pour accéder à la documentation.
+    </p>
+  </noscript>
+</body>
+</html>
