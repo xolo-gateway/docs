@@ -7,13 +7,6 @@
     ]
   },
   {
-    "version": "main",
-    "title": "main",
-    "aliases": [
-      "latest"
-    ]
-  },
-  {
     "version": "0.55.0",
     "title": "0.55.0",
     "aliases": []
