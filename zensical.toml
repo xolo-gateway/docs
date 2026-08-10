@@ -1,0 +1,33 @@
+[project]
+site_name = "Xolo"
+site_description = "Documentation officielle de Xolo — passerelle LLM souveraine"
+site_author = "Xolo Gateway"
+site_url = "https://xolo-gateway.org"
+
+docs_dir = "content"
+site_dir = "site"
+
+repo_name = "xolo-gateway/xolo"
+repo_url = "https://github.com/xolo-gateway/xolo"
+edit_uri = ""
+
+copyright = "Copyright © Xolo Gateway"
+
+extra_css = [
+  "stylesheets/extra.css",
+]
+
+[project.theme]
+variant = "modern"
+language = "fr"
+logo = "logo.svg"
+favicon = "logo.svg"
+custom_dir = "overrides"
+
+[project.extra]
+homepage = "https://xolo-gateway.org"
+
+[project.extra.version]
+provider = "mike"
+default = "latest"
+alias = true

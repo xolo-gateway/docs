@@ -1,0 +1,24 @@
+# Python environment
+/tools/.venv/
+
+# Generated documentation sources (from Xolo)
+# Only index.md (Zensical landing page), the SVG logo and .gitkeep are versioned.
+/content/*
+!/content/.gitkeep
+!/content/index.md
+!/content/logo.svg
+
+/site/
+
+# Temporary source repository (cloned Xolo)
+/.cache/
+
+# Zensical caches
+/.cache-zensical/
+__pycache__/
+*.pyc
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
