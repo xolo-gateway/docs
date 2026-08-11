@@ -21,6 +21,9 @@ PUSH ?= false
 # inutilement le contenu.
 ALIAS_TYPE ?= redirect
 DEFAULT ?= latest
+# Gabarit HTML des pages de redirection (racine, alias latest/dev...) : ajoute
+# des métadonnées Open Graph / Twitter pour des aperçus de lien informatifs.
+REDIRECT_TEMPLATE := $(CURDIR)/overrides/mike-redirect-template.html
 
 # Chaque langue est un build Zensical indépendant (docs_dir=content/<lang>),
 # déployé par Mike sous son propre --deploy-prefix. Le français reste sans
@@ -122,7 +125,7 @@ publish: require-version tools
 		args+=(--push); \
 	fi; \
 	if [[ -n "$(ALIASES)" ]]; then \
-		args+=(--update-aliases --alias-type="$(ALIAS_TYPE)"); \
+		args+=(--update-aliases --alias-type="$(ALIAS_TYPE)" --template "$(REDIRECT_TEMPLATE)"); \
 	fi; \
 	"$(MIKE)" deploy --config-file "$(CONFIG)" "$${args[@]}" "$(VERSION)" $(ALIASES)
 
@@ -140,7 +143,7 @@ publish-latest: publish
 .PHONY: alias
 alias: require-version tools
 	@test -n "$(ALIASES)" || { echo "ALIASES est obligatoire"; exit 1; }; \
-	args=(--deploy-prefix "$(DEPLOY_PREFIX)" --update-aliases --alias-type="$(ALIAS_TYPE)"); \
+	args=(--deploy-prefix "$(DEPLOY_PREFIX)" --update-aliases --alias-type="$(ALIAS_TYPE)" --template "$(REDIRECT_TEMPLATE)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
 	fi; \
@@ -148,7 +151,7 @@ alias: require-version tools
 
 .PHONY: set-default
 set-default: tools
-	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
+	@args=(--deploy-prefix "$(DEPLOY_PREFIX)" --template "$(REDIRECT_TEMPLATE)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
 	fi; \
