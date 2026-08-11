@@ -70,8 +70,8 @@ jobs:
             exit 1
           fi
 
-      - name: Validate documentation
-        run: make check
+      - name: Validate documentation (fr, en, es)
+        run: make check-all
 
       - name: Configure Git identity
         run: |
@@ -87,10 +87,11 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/xolo-gateway/docs.git"
           git fetch origin gh-pages || true
 
-      # Publie dans ./main/ et (re)pointe la redirection ./dev/ vers ./main/.
-      - name: Publish main documentation with Mike
+      # Publie dans ./main/, ./en/main/, ./es/main/ et (re)pointe les alias
+      # ./dev/, ./en/dev/, ./es/dev/ vers leur ./main/ respectif.
+      - name: Publish main documentation with Mike (fr, en, es)
         run: |
-          make publish \
+          make publish-all \
             VERSION=main \
             ALIASES=dev \
             PUSH=true

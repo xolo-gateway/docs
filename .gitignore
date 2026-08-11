@@ -1,12 +1,11 @@
 # Python environment
 /tools/.venv/
 
-# Generated documentation sources (from Xolo)
-# Only index.md (Zensical landing page), the SVG logo and .gitkeep are versioned.
+# Generated documentation sources (from Xolo): content/fr, content/en,
+# content/es (one docs_dir per language build, each with its own logo.svg).
+# Only .gitkeep is versioned.
 /content/*
 !/content/.gitkeep
-!/content/index.md
-!/content/logo.svg
 
 /site/
 

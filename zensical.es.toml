@@ -1,0 +1,41 @@
+[project]
+site_name = "Xolo"
+site_description = "Documentación oficial de Xolo — pasarela LLM soberana"
+site_author = "Xolo Gateway"
+site_url = "https://xolo-gateway.org/es/"
+
+docs_dir = "content/es"
+site_dir = "site/es"
+
+repo_name = "xolo-gateway/xolo"
+repo_url = "https://github.com/xolo-gateway/xolo"
+edit_uri = ""
+
+copyright = "Copyright © Xolo Gateway"
+
+extra_css = [
+  "stylesheets/extra.css",
+]
+
+[project.theme]
+variant = "modern"
+language = "es"
+logo = "logo.svg"
+favicon = "logo.svg"
+custom_dir = "overrides"
+
+[project.extra]
+homepage = "https://xolo-gateway.org"
+
+# See zensical.fr.toml for why each language is a separate build deployed
+# under its own Mike deploy-prefix.
+alternate = [
+  { name = "Français", link = "/latest/", lang = "fr" },
+  { name = "English", link = "/en/latest/", lang = "en" },
+  { name = "Español", link = "/es/latest/", lang = "es" },
+]
+
+[project.extra.version]
+provider = "mike"
+default = "latest"
+alias = true

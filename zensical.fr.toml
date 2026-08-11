@@ -1,0 +1,45 @@
+[project]
+site_name = "Xolo"
+site_description = "Documentation officielle de Xolo — passerelle LLM souveraine"
+site_author = "Xolo Gateway"
+site_url = "https://xolo-gateway.org"
+
+docs_dir = "content/fr"
+site_dir = "site/fr"
+
+repo_name = "xolo-gateway/xolo"
+repo_url = "https://github.com/xolo-gateway/xolo"
+edit_uri = ""
+
+copyright = "Copyright © Xolo Gateway"
+
+extra_css = [
+  "stylesheets/extra.css",
+]
+
+[project.theme]
+variant = "modern"
+language = "fr"
+logo = "logo.svg"
+favicon = "logo.svg"
+custom_dir = "overrides"
+
+[project.extra]
+homepage = "https://xolo-gateway.org"
+
+# Chaque langue est un build Zensical indépendant (docs_dir scopé à
+# content/<lang>), déployé par Mike sous son propre préfixe : voir
+# scripts/publish-language.sh. Le français reste sans préfixe pour préserver
+# les URLs existantes (xolo-gateway.org/latest/, /main/, /X.Y.Z/) ; anglais et
+# espagnol sont sous /en/ et /es/. Ce switcher renvoie donc toujours vers la
+# dernière version publiée de la langue cible, pas vers la page équivalente.
+alternate = [
+  { name = "Français", link = "/latest/", lang = "fr" },
+  { name = "English", link = "/en/latest/", lang = "en" },
+  { name = "Español", link = "/es/latest/", lang = "es" },
+]
+
+[project.extra.version]
+provider = "mike"
+default = "latest"
+alias = true

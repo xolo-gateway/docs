@@ -130,8 +130,8 @@ jobs:
             exit 1
           fi
 
-      - name: Validate documentation
-        run: make check
+      - name: Validate documentation (fr, en, es)
+        run: make check-all
 
       - name: Configure Git identity
         run: |
@@ -147,9 +147,10 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/xolo-gateway/docs.git"
           git fetch origin gh-pages || true
 
-      # Publie dans ./<version>/ ; l'alias latest est une page de redirection
-      # HTML, et set-default régénère l'index racine qui redirige vers ./latest/.
-      - name: Publish version with Mike
+      # Publie dans ./<version>/, ./en/<version>/, ./es/<version>/ ; l'alias
+      # latest est une page de redirection HTML, et set-default régénère
+      # l'index racine (par langue) qui redirige vers ./latest/.
+      - name: Publish version with Mike (fr, en, es)
         env:
           VERSION: ${{ steps.metadata.outputs.version }}
           UPDATE_LATEST: ${{ steps.metadata.outputs.update_latest }}
@@ -157,14 +158,14 @@ jobs:
           set -euo pipefail
 
           if [[ "${UPDATE_LATEST}" == "true" ]]; then
-            make publish \
+            make publish-all \
               VERSION="${VERSION}" \
               ALIASES="latest" \
               PUSH=true
 
-            make set-default DEFAULT=latest PUSH=true
+            make set-default-all DEFAULT=latest PUSH=true
           else
-            make publish \
+            make publish-all \
               VERSION="${VERSION}" \
               PUSH=true
           fi

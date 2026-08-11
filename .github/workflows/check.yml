@@ -36,5 +36,5 @@ jobs:
           XOLO_REPOSITORY: https://github.com/xolo-gateway/xolo.git
         run: make prepare
 
-      - name: Build in strict mode
-        run: make check
+      - name: Build in strict mode (fr, en, es)
+        run: make check-all

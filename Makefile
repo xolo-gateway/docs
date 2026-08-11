@@ -22,27 +22,39 @@ PUSH ?= false
 ALIAS_TYPE ?= redirect
 DEFAULT ?= latest
 
+# Chaque langue est un build Zensical indépendant (docs_dir=content/<lang>),
+# déployé par Mike sous son propre --deploy-prefix. Le français reste sans
+# préfixe pour préserver les URLs existantes (xolo-gateway.org/latest/,
+# /main/, /X.Y.Z/) ; anglais et espagnol sont publiés sous /en/ et /es/.
+LANGUAGES := fr en es
+DOC_LANG ?= fr
+CONFIG := zensical.$(DOC_LANG).toml
+DEPLOY_PREFIX := $(if $(filter fr,$(DOC_LANG)),,$(DOC_LANG))
+
 .PHONY: help
 help:
 	@printf '%s\n' \
-		"Commandes disponibles:" \
+		"Commandes disponibles (DOC_LANG=fr|en|es, défaut fr) :" \
 		"" \
-		"  make tools                 Installe Zensical et Mike localement" \
-		"  make tools-lock            Génère tools/requirements.lock" \
-		"  make tools-sync            Installe depuis tools/requirements.lock" \
-		"  make tools-clean           Supprime l'environnement Python local" \
-		"  make prepare XOLO_REF=...  Récupère docs/fr/ depuis Xolo" \
-		"  make build                 Construit la documentation" \
-		"  make check                 Construit en mode strict" \
-		"  make serve                 Lance le serveur local" \
-		"  make preview XOLO_REF=...  Prépare et sert une version de Xolo" \
-		"  make publish VERSION=...   Publie une version avec Mike" \
-		"  make publish-latest ...    Publie et déplace l'alias latest" \
-		"  make alias VERSION=... ALIASES=...  (Re)pointe un alias" \
-		"  make set-default DEFAULT=  Redirige / vers cet alias (latest)" \
-		"  make versions              Liste les versions Mike" \
-		"  make delete VERSION=...    Supprime une version" \
-		"  make clean                 Supprime les fichiers générés"
+		"  make tools                      Installe Zensical et Mike localement" \
+		"  make tools-lock                 Génère tools/requirements.lock" \
+		"  make tools-sync                 Installe depuis tools/requirements.lock" \
+		"  make tools-clean                Supprime l'environnement Python local" \
+		"  make prepare XOLO_REF=...       Récupère docs/{fr,en,es}/ depuis Xolo" \
+		"  make build DOC_LANG=...             Construit une langue" \
+		"  make check DOC_LANG=...             Construit une langue en mode strict" \
+		"  make check-all                  Construit les 3 langues en mode strict" \
+		"  make serve DOC_LANG=...             Lance le serveur local pour une langue" \
+		"  make preview DOC_LANG=... XOLO_REF=...  Prépare et sert une langue" \
+		"  make publish DOC_LANG=... VERSION=...   Publie une langue avec Mike" \
+		"  make publish-all VERSION=...    Publie les 3 langues" \
+		"  make publish-latest DOC_LANG=... ...    Publie et déplace l'alias latest" \
+		"  make alias DOC_LANG=... VERSION=... ALIASES=...  (Re)pointe un alias" \
+		"  make set-default DOC_LANG=... DEFAULT=  Redirige / vers cet alias (latest)" \
+		"  make set-default-all DEFAULT=   set-default sur les 3 langues" \
+		"  make versions DOC_LANG=...          Liste les versions Mike d'une langue" \
+		"  make delete DOC_LANG=... VERSION=...    Supprime une version" \
+		"  make clean                      Supprime les fichiers générés"
 
 $(VENV_DIR)/pyvenv.cfg:
 	$(PYTHON) -m venv "$(VENV_DIR)"
@@ -76,15 +88,22 @@ prepare:
 
 .PHONY: build
 build: tools
-	"$(ZENSICAL)" build --clean
+	"$(ZENSICAL)" build --clean --config-file "$(CONFIG)"
 
 .PHONY: check
 check: tools
-	"$(ZENSICAL)" build --clean --strict
+	"$(ZENSICAL)" build --clean --strict --config-file "$(CONFIG)"
+
+.PHONY: check-all
+check-all: tools
+	@for lang in $(LANGUAGES); do \
+		echo "== check $$lang =="; \
+		"$(ZENSICAL)" build --clean --strict --config-file "zensical.$$lang.toml" || exit 1; \
+	done
 
 .PHONY: serve
 serve: tools
-	"$(ZENSICAL)" serve
+	"$(ZENSICAL)" serve --config-file "$(CONFIG)"
 
 .PHONY: preview
 preview: prepare serve
@@ -98,14 +117,21 @@ require-version:
 
 .PHONY: publish
 publish: require-version tools
-	@args=(); \
+	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
 	fi; \
 	if [[ -n "$(ALIASES)" ]]; then \
 		args+=(--update-aliases --alias-type="$(ALIAS_TYPE)"); \
 	fi; \
-	"$(MIKE)" deploy "$${args[@]}" "$(VERSION)" $(ALIASES)
+	"$(MIKE)" deploy --config-file "$(CONFIG)" "$${args[@]}" "$(VERSION)" $(ALIASES)
+
+.PHONY: publish-all
+publish-all: require-version tools
+	@for lang in $(LANGUAGES); do \
+		echo "== publish $$lang =="; \
+		$(MAKE) publish DOC_LANG=$$lang VERSION="$(VERSION)" ALIASES="$(ALIASES)" PUSH="$(PUSH)" || exit 1; \
+	done
 
 .PHONY: publish-latest
 publish-latest: ALIASES=latest
@@ -114,31 +140,38 @@ publish-latest: publish
 .PHONY: alias
 alias: require-version tools
 	@test -n "$(ALIASES)" || { echo "ALIASES est obligatoire"; exit 1; }; \
-	args=(--update-aliases --alias-type="$(ALIAS_TYPE)"); \
+	args=(--deploy-prefix "$(DEPLOY_PREFIX)" --update-aliases --alias-type="$(ALIAS_TYPE)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
 	fi; \
-	"$(MIKE)" alias "$${args[@]}" "$(VERSION)" $(ALIASES)
+	"$(MIKE)" alias --config-file "$(CONFIG)" "$${args[@]}" "$(VERSION)" $(ALIASES)
 
 .PHONY: set-default
 set-default: tools
-	@if [[ "$(PUSH)" == "true" ]]; then \
-		"$(MIKE)" set-default --push "$(DEFAULT)"; \
-	else \
-		"$(MIKE)" set-default "$(DEFAULT)"; \
-	fi
+	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
+	if [[ "$(PUSH)" == "true" ]]; then \
+		args+=(--push); \
+	fi; \
+	"$(MIKE)" set-default --config-file "$(CONFIG)" "$${args[@]}" "$(DEFAULT)"
+
+.PHONY: set-default-all
+set-default-all: tools
+	@for lang in $(LANGUAGES); do \
+		echo "== set-default $$lang =="; \
+		$(MAKE) set-default DOC_LANG=$$lang DEFAULT="$(DEFAULT)" PUSH="$(PUSH)" || exit 1; \
+	done
 
 .PHONY: versions
 versions: tools
-	"$(MIKE)" list
+	"$(MIKE)" list --config-file "$(CONFIG)" --deploy-prefix "$(DEPLOY_PREFIX)"
 
 .PHONY: delete
 delete: require-version tools
-	@if [[ "$(PUSH)" == "true" ]]; then \
-		"$(MIKE)" delete --push "$(VERSION)"; \
-	else \
-		"$(MIKE)" delete "$(VERSION)"; \
-	fi
+	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
+	if [[ "$(PUSH)" == "true" ]]; then \
+		args+=(--push); \
+	fi; \
+	"$(MIKE)" delete --config-file "$(CONFIG)" "$${args[@]}" "$(VERSION)"
 
 .PHONY: clean
 clean:
