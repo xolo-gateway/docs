@@ -12,11 +12,13 @@
         <meta name="author" content="Xolo Gateway">
       
       
-        <link rel="canonical" href="https://xolo-gateway.org/main/">
+        <link rel="canonical" href="https://xolo-gateway.org/main/concepts/fournisseurs-modeles-pipeline/">
       
       
+        <link rel="prev" href="../eventql/">
       
-        <link rel="next" href="./administration/">
+      
+        <link rel="next" href="../organisation-et-permissions/">
       
       
         
@@ -28,19 +30,19 @@
         
       
       
-      <link rel="icon" href="./logo.svg">
+      <link rel="icon" href="../../logo.svg">
       <meta name="generator" content="zensical-0.0.53">
     
     
       
-        <title>Bienvenue dans Xolo - Xolo</title>
+        <title>Fournisseurs, modèles et pipelines - Xolo</title>
       
     
     
       
         
       
-      <link rel="stylesheet" href="./assets/stylesheets/modern/main.20815dad.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.20815dad.min.css">
       
       
 
@@ -59,9 +61,9 @@
       
     
     
-      <link rel="stylesheet" href="./stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
     
       
 
@@ -79,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bienvenue-dans-xolo" class="md-skip">
+        <a href="#fournisseurs-modeles-et-pipelines" class="md-skip">
           Aller au contenu
         </a>
       
@@ -101,7 +103,7 @@
   <nav class="md-header__inner md-grid" aria-label="En-tête">
     <a href="https://xolo-gateway.org" title="Xolo" class="md-header__button md-logo" aria-label="Xolo" data-md-component="logo">
       
-  <img src="./logo.svg" alt="Xolo" class="xolo-header-logo">
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
@@ -118,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Bienvenue dans Xolo
+              Fournisseurs, modèles et pipelines
             
           </span>
         </div>
@@ -215,7 +217,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="https://xolo-gateway.org" title="Xolo" class="md-nav__button md-logo" aria-label="Xolo" data-md-component="logo">
       
-  <img src="./logo.svg" alt="Xolo" class="xolo-header-logo">
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
 
     </a>
     Xolo
@@ -239,36 +241,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-  Bienvenue dans Xolo
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -283,49 +259,6 @@
   
 
       </a>
-      
-        
-
-
-<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table des matières
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#comment-est-organisee-cette-documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Comment est organisée cette documentation
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#prochaines-etapes" class="md-nav__link">
-    <span class="md-ellipsis">
-      <span class="md-typeset">
-        Prochaines étapes
-      </span>
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -382,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/" class="md-nav__link">
+      <a href="../../administration/" class="md-nav__link">
         
   
   
@@ -454,7 +387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/installation/" class="md-nav__link">
+      <a href="../../administration/installation/" class="md-nav__link">
         
   
   
@@ -481,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/installation/configuration/" class="md-nav__link">
+      <a href="../../administration/installation/configuration/" class="md-nav__link">
         
   
   
@@ -508,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/installation/plugins/" class="md-nav__link">
+      <a href="../../administration/installation/plugins/" class="md-nav__link">
         
   
   
@@ -588,7 +521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/" class="md-nav__link">
+      <a href="../../administration/organisation/" class="md-nav__link">
         
   
   
@@ -660,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/application/application/" class="md-nav__link">
+      <a href="../../administration/organisation/application/application/" class="md-nav__link">
         
   
   
@@ -740,7 +673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/budget/budget/" class="md-nav__link">
+      <a href="../../administration/organisation/budget/budget/" class="md-nav__link">
         
   
   
@@ -820,7 +753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/fournisseurs/fournisseurs/" class="md-nav__link">
+      <a href="../../administration/organisation/fournisseurs/fournisseurs/" class="md-nav__link">
         
   
   
@@ -900,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/invitation/invitation/" class="md-nav__link">
+      <a href="../../administration/organisation/invitation/invitation/" class="md-nav__link">
         
   
   
@@ -980,7 +913,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/membre/membre/" class="md-nav__link">
+      <a href="../../administration/organisation/membre/membre/" class="md-nav__link">
         
   
   
@@ -1060,7 +993,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/middleware/middleware/" class="md-nav__link">
+      <a href="../../administration/organisation/middleware/middleware/" class="md-nav__link">
         
   
   
@@ -1140,7 +1073,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/parametres/parametre/" class="md-nav__link">
+      <a href="../../administration/organisation/parametres/parametre/" class="md-nav__link">
         
   
   
@@ -1220,7 +1153,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/roles/roles/" class="md-nav__link">
+      <a href="../../administration/organisation/roles/roles/" class="md-nav__link">
         
   
   
@@ -1300,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./administration/organisation/virtual_model/virtual_model/" class="md-nav__link">
+      <a href="../../administration/organisation/virtual_model/virtual_model/" class="md-nav__link">
         
   
   
@@ -1347,18 +1280,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -1378,7 +1313,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1395,7 +1330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./concepts/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   
@@ -1422,7 +1357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./concepts/budgets-et-quotas/" class="md-nav__link">
+      <a href="../budgets-et-quotas/" class="md-nav__link">
         
   
   
@@ -1449,7 +1384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./concepts/estimation-energetique/" class="md-nav__link">
+      <a href="../estimation-energetique/" class="md-nav__link">
         
   
   
@@ -1476,7 +1411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./concepts/eventql/" class="md-nav__link">
+      <a href="../eventql/" class="md-nav__link">
         
   
   
@@ -1500,10 +1435,36 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="./concepts/fournisseurs-modeles-pipeline/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs, modèles et pipelines
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1518,6 +1479,71 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fournisseur-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fournisseur → modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modele-virtuel-un-pipeline-de-traitement" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèle virtuel : un pipeline de traitement
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware-traitement-transversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Middleware : traitement transversal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vue-densemble" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Vue d'ensemble
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1530,7 +1556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./concepts/organisation-et-permissions/" class="md-nav__link">
+      <a href="../organisation-et-permissions/" class="md-nav__link">
         
   
   
@@ -1609,7 +1635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./utilisation/" class="md-nav__link">
+      <a href="../../utilisation/" class="md-nav__link">
         
   
   
@@ -1681,7 +1707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./utilisation/dashboard/dashboard/" class="md-nav__link">
+      <a href="../../utilisation/dashboard/dashboard/" class="md-nav__link">
         
   
   
@@ -1761,7 +1787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="./utilisation/evenements/evenement/" class="md-nav__link">
+      <a href="../../utilisation/evenements/evenement/" class="md-nav__link">
         
   
   
@@ -1837,10 +1863,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#comment-est-organisee-cette-documentation" class="md-nav__link">
+  <a href="#fournisseur-modele" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Comment est organisée cette documentation
+        Fournisseur → modèle
       </span>
     </span>
   </a>
@@ -1848,10 +1874,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#prochaines-etapes" class="md-nav__link">
+  <a href="#modele-virtuel-un-pipeline-de-traitement" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Prochaines étapes
+        Modèle virtuel : un pipeline de traitement
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#middleware-traitement-transversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Middleware : traitement transversal
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vue-densemble" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Vue d'ensemble
       </span>
     </span>
   </a>
@@ -1876,44 +1924,88 @@
   
 
 
-<h1 id="bienvenue-dans-xolo">Bienvenue dans Xolo<a class="headerlink" href="#bienvenue-dans-xolo" title="Permanent link">&para;</a></h1>
-<p><img alt="Accueil" src="accueil.png" /></p>
-<p>Xolo est une passerelle LLM souveraine pour l'entreprise. Elle vous permet de contrôler, surveiller et sécuriser l'accès aux modèles de langage au sein de votre organisation.</p>
-<hr />
-<h2 id="comment-est-organisee-cette-documentation">Comment est organisée cette documentation<a class="headerlink" href="#comment-est-organisee-cette-documentation" title="Permanent link">&para;</a></h2>
+<h1 id="fournisseurs-modeles-et-pipelines">Fournisseurs, modèles et pipelines<a class="headerlink" href="#fournisseurs-modeles-et-pipelines" title="Permanent link">&para;</a></h1>
+<p>Xolo s'intercale entre les utilisateurs et les services LLM. Cette page explique comment les briques suivantes s'articulent : <strong>fournisseur</strong>, <strong>modèle</strong>, <strong>modèle virtuel</strong>, <strong>middleware</strong> et <strong>plugin</strong>.</p>
+<h2 id="fournisseur-modele">Fournisseur → modèle<a class="headerlink" href="#fournisseur-modele" title="Permanent link">&para;</a></h2>
+<p>Un <strong>fournisseur</strong> est une connexion vers un service LLM externe (OpenAI, Mistral, OpenRouter, un déploiement <code>yzma</code> interne…). Il porte les informations de connexion (URL, clé API), le mode de facturation (pay-as-you-go ou abonnement) et un <strong>niveau d'infrastructure</strong> (Hyperscaler, Major Cloud, Small Provider) utilisé pour l'<a href=".././estimation-energetique/">estimation énergétique</a>.</p>
+<p>Un fournisseur expose un ou plusieurs <strong>modèles</strong>. Chaque modèle est décrit par :</p>
+<ul>
+<li>son identité (nom proxy exposé aux utilisateurs, nom réel côté fournisseur, taille de contexte) ;</li>
+<li>ses capacités (outils, vision, raisonnement, audio, embeddings) ;</li>
+<li>sa tarification (coût par million de tokens, en prompt, en cache, en complétion) ;</li>
+<li>ses caractéristiques physiques (paramètres actifs, débit min/max) utilisées pour l'estimation énergétique.</li>
+</ul>
+<p>Les utilisateurs consomment un modèle sous la forme <code>{org-slug}/{nom-proxy}</code>.</p>
+<h2 id="modele-virtuel-un-pipeline-de-traitement">Modèle virtuel : un pipeline de traitement<a class="headerlink" href="#modele-virtuel-un-pipeline-de-traitement" title="Permanent link">&para;</a></h2>
+<p>Un <strong>modèle virtuel</strong> est un modèle personnalisé, exposé exactement comme un modèle classique, mais qui applique un <strong>pipeline de traitement</strong> aux requêtes/réponses avant/après l'appel au modèle réel. L'utilisateur final ne voit jamais ces traitements : toute la personnalisation reste transparente.</p>
+<p>Le pipeline est un graphe de nœuds <strong>plugins</strong> connectés entre eux par des <strong>ports</strong> typés (<code>request</code>, <code>response</code>, <code>string</code>, <code>number</code>, <code>boolean</code>). Le moteur de pipeline trie le graphe topologiquement et fait circuler les valeurs d'un nœud à l'autre. Composer plusieurs traitements ne demande aucune ligne de code, juste du câblage dans l'interface.</p>
+<p>Xolo est livré avec plusieurs plugins intégrés :</p>
 <table>
 <thead>
 <tr>
-<th>Section</th>
-<th>Pour qui ?</th>
-<th>Contenu</th>
+<th>Plugin</th>
+<th>Capacité</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong><a href="./utilisation/">Utilisation</a></strong></td>
-<td>Tous les membres</td>
-<td>Fonctionnalités du quotidien : tableau de bord, événements, alertes</td>
+<td><code>system-prompt</code></td>
+<td>PRE_REQUEST</td>
+<td>Injecte un prompt système personnalisé</td>
 </tr>
 <tr>
-<td><strong><a href="./administration/">Administration</a></strong></td>
-<td>Administrateurs, ops</td>
-<td>Installation, déploiement, configuration technique et administration d'une organisation (budgets, rôles, fournisseurs, middlewares…)</td>
+<td><code>pseudonymizer</code></td>
+<td>PRE_REQUEST</td>
+<td>Anonymisation des données sensibles</td>
 </tr>
 <tr>
-<td><strong><a href="./concepts/">Concepts</a></strong></td>
-<td>Tous, pour aller plus loin</td>
-<td>Principes transversaux de Xolo : modèle d'organisation, pipeline fournisseur → modèle → middleware, budgets, estimation énergétique, langage <code>eventql</code></td>
+<td><code>time-restriction</code></td>
+<td>PRE_REQUEST</td>
+<td>Restreint l'accès selon des plages horaires</td>
+</tr>
+<tr>
+<td><code>request-evaluator</code></td>
+<td>PRE_REQUEST</td>
+<td>Évalue la complexité, la vision, le raisonnement et le coût énergétique d'une requête</td>
+</tr>
+<tr>
+<td><code>fuzzy-evaluator</code></td>
+<td>PRE_REQUEST</td>
+<td>Inférence par logique floue sur des valeurs numériques</td>
+</tr>
+<tr>
+<td><code>script-processor</code></td>
+<td>PRE_REQUEST</td>
+<td>Exécute un script <a href="https://github.com/d5/tengo">Tengo</a> avec des ports d'entrée/sortie personnalisés</td>
+</tr>
+<tr>
+<td><code>mcp-bridge</code></td>
+<td>—</td>
+<td>Pont vers des serveurs MCP</td>
+</tr>
+<tr>
+<td><code>dummy-model</code></td>
+<td>RESOLVE_MODEL</td>
+<td>Retourne des réponses synthétiques pour les modèles virtuels de test</td>
 </tr>
 </tbody>
 </table>
-<h2 id="prochaines-etapes">Prochaines étapes<a class="headerlink" href="#prochaines-etapes" title="Permanent link">&para;</a></h2>
+<p>Pour créer un modèle virtuel, voir le tutoriel <a href="../../administration/organisation/virtual_model/virtual_model/">Modèles virtuels</a>. Pour développer un plugin sur mesure, voir le guide <a href="../../administration/installation/plugins/">Développement de plugins</a>.</p>
+<h2 id="middleware-traitement-transversal">Middleware : traitement transversal<a class="headerlink" href="#middleware-traitement-transversal" title="Permanent link">&para;</a></h2>
+<p>Un <strong>middleware</strong> applique lui aussi un pipeline de traitement, mais à un niveau différent des modèles virtuels : il s'attache à un ou plusieurs modèles existants (ou à tous les modèles de l'organisation) plutôt que d'en créer un nouveau. Plusieurs middlewares peuvent être chaînés ; ils s'exécutent par <strong>priorité croissante</strong> (le plus petit nombre en premier).</p>
+<p><strong>Exemple.</strong> Trois middlewares enchaînés sur un même modèle :</p>
 <ol>
-<li><strong><a href="./administration/organisation/invitation/invitation/">Invitations</a></strong>. Invitez vos premiers utilisateurs.</li>
-<li><strong><a href="./administration/organisation/roles/roles/">Rôles</a></strong>. Définissez les permissions pour votre équipe.</li>
-<li><strong><a href="./administration/organisation/fournisseurs/fournisseurs/">Fournisseurs</a></strong>. Connectez vos services LLM préférés.</li>
-<li><strong><a href="./administration/organisation/budget/budget/">Budget</a></strong>. Définissez vos limites de dépenses.</li>
+<li>Journalisation (priorité 1)</li>
+<li>Contrôle horaire (priorité 10)</li>
+<li>Filtrage de contenu (priorité 20)</li>
 </ol>
+<p>Voir le tutoriel <a href="../../administration/organisation/middleware/middleware/">Middlewares</a> pour la configuration.</p>
+<h2 id="vue-densemble">Vue d'ensemble<a class="headerlink" href="#vue-densemble" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Fournisseur ──▶ Modèle ──▶ [Middlewares, par priorité] ──▶ Utilisateur
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                   ▲
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Modèle virtuel ────┘  (pipeline de plugins pré/post-requête, résolution de modèle)
+</span></code></pre></div>
 
 
 
@@ -1969,10 +2061,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate":null,"base":".","features":[],"search":"./assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copié dans le presse-papier","clipboard.copy":"Copier dans le presse-papier","search.result.more.one":"1 de plus sur cette page","search.result.more.other":"# de plus sur cette page","search.result.none":"Aucun document trouvé","search.result.one":"1 document trouvé","search.result.other":"# documents trouvés","search.result.placeholder":"Taper pour démarrer la recherche","search.result.term.missing":"Non trouvé","select.version":"Sélectionner la version"},"version":{"alias":true,"default":"latest","provider":"mike"}}</script>
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":[],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copié dans le presse-papier","clipboard.copy":"Copier dans le presse-papier","search.result.more.one":"1 de plus sur cette page","search.result.more.other":"# de plus sur cette page","search.result.none":"Aucun document trouvé","search.result.one":"1 document trouvé","search.result.other":"# documents trouvés","search.result.placeholder":"Taper pour démarrer la recherche","search.result.term.missing":"Non trouvé","select.version":"Sélectionner la version"},"version":{"alias":true,"default":"latest","provider":"mike"}}</script>
     
     
-      <script src="./assets/javascripts/bundle.69c251d7.min.js"></script>
+      <script src="../../assets/javascripts/bundle.69c251d7.min.js"></script>
       
     
   </body>
