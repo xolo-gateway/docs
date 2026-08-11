@@ -7,18 +7,21 @@ ref="${XOLO_REF:?XOLO_REF doit contenir un tag, une branche ou un SHA}"
 
 xolo_logo_src="${XOLO_LOGO_PATH:-internal/http/handler/webui/common/assets/logo.svg}"
 
+# Langues publiées, dans l'ordre de priorité (la première sert de repli si une
+# langue est absente du dépôt source).
+languages=(fr en es)
+
 root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cache_dir="${root_dir}/.cache/xolo"
 content_dir="${root_dir}/content"
 
 rm -rf "${cache_dir}"
 
-# Nettoie le contenu généré sans toucher aux fichiers versionnés (index.md, .gitkeep, logo.svg).
-find "${content_dir}" -mindepth 1 -maxdepth 1 \
-  ! -name 'index.md' \
-  ! -name '.gitkeep' \
-  ! -name 'logo.svg' \
-  -exec rm -rf {} +
+# Nettoie les répertoires de langue générés sans toucher aux fichiers
+# versionnés à la racine de content/ (index.md, .gitkeep, logo.svg).
+for lang in "${languages[@]}"; do
+  rm -rf "${content_dir}/${lang}"
+done
 
 mkdir -p "${root_dir}/.cache" "${content_dir}"
 
@@ -33,8 +36,15 @@ if [[ ! -d "${cache_dir}/docs/fr" ]]; then
   exit 1
 fi
 
-# Filtrage linguistique : on ne copie que la version française.
-cp -a "${cache_dir}/docs/fr/." "${content_dir}/"
+for lang in "${languages[@]}"; do
+  src="${cache_dir}/docs/${lang}"
+  if [[ ! -d "${src}" ]]; then
+    echo "docs/${lang} absent de ${repository}@${ref}, langue ignorée" >&2
+    continue
+  fi
+  mkdir -p "${content_dir}/${lang}"
+  cp -a "${src}/." "${content_dir}/${lang}/"
+done
 
 # Logo du projet (SVG) — versionné dans content/, réécrasé à chaque prepare
 # pour suivre les évolutions éventuelles du fichier source.
@@ -48,4 +58,4 @@ fi
 # Évite une publication Jekyll accidentelle.
 touch "${content_dir}/.nojekyll"
 
-echo "Documentation FR préparée depuis ${repository}@${ref}"
+echo "Documentation préparée depuis ${repository}@${ref} pour : ${languages[*]}"
