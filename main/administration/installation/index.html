@@ -1970,7 +1970,7 @@
 </span></code></pre></div>
 <p>Deux points spécifiques à l'image :</p>
 <ul>
-<li><code>XOLO_STORAGE_DATABASE_DSN</code> vaut <code>/data/data.sqlite</code> par défaut : montez un volume sur <code>/data</code> pour persister la base entre redémarrages.</li>
+<li><code>XOLO_STORAGE_DATABASE_DSN</code> vaut <code>/data/data.sqlite</code> par défaut : montez un volume sur <code>/data</code> pour persister la base entre redémarrages. Pour utiliser PostgreSQL à la place, positionnez cette variable sur un DSN <code>postgres://…</code> (voir <a href="./configuration/">Configuration</a>) ; le volume <code>/data</code> devient alors inutile.</li>
 <li><code>XOLO_PLUGINS_DIR</code> vaut <code>/plugins</code> par défaut. L'image embarque déjà les plugins officiels (<code>time-restriction</code>, <code>dummy-model</code>, <code>fuzzy-evaluator</code>, <code>request-evaluator</code>, <code>script-processor</code>, <code>pseudonymizer</code>, <code>mcp-bridge</code>, <code>system-prompt</code>) à cet emplacement.</li>
 <li>Le port exposé est <code>3002</code>.</li>
 </ul>
