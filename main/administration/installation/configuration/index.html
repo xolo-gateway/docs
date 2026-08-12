@@ -577,6 +577,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api-de-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        API de provisioning
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taux-de-change-et-taches-de-fond" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -1442,6 +1453,86 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Provisioning
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Provisioning
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../provisioning/provisioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  API de provisioning
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2043,6 +2134,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#api-de-provisioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        API de provisioning
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taux-de-change-et-taches-de-fond" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2279,6 +2381,49 @@
 <td><code>XOLO_EVENTS_PURGE_INTERVAL</code></td>
 <td><code>5m</code></td>
 <td>Fréquence de purge de la fenêtre glissante.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="api-de-provisioning">API de provisioning<a class="headerlink" href="#api-de-provisioning" title="Permanent link">&para;</a></h2>
+<p>Écouteur d'administration dédié, protégé par TLS mutuel. Voir <a href="../../provisioning/provisioning/">API de provisioning</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Ouvre l'écouteur d'administration.</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ADDRESS</code></td>
+<td><code>:3003</code></td>
+<td>Adresse d'écoute.</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CERT_FILE</code></td>
+<td><em>(requis si activé)</em></td>
+<td>Certificat serveur (PEM).</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_KEY_FILE</code></td>
+<td><em>(requis si activé)</em></td>
+<td>Clé privée du serveur (PEM).</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</code></td>
+<td><em>(requis si activé)</em></td>
+<td>Autorité vérifiant les certificats clients.</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_SHUTDOWN_TIMEOUT</code></td>
+<td><code>10s</code></td>
+<td>Délai d'arrêt gracieux.</td>
 </tr>
 </tbody>
 </table>
