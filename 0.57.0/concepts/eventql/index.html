@@ -1,0 +1,2733 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation officielle de Xolo — passerelle LLM souveraine">
+      
+      
+        <meta name="author" content="Xolo Gateway">
+      
+      
+        <link rel="canonical" href="https://xolo-gateway.org/0.57.0/concepts/eventql/">
+      
+      
+        <link rel="prev" href="../estimation-energetique/">
+      
+      
+        <link rel="next" href="../fournisseurs-modeles-pipeline/">
+      
+      
+        
+          <link rel="alternate" href="/latest/" hreflang="fr">
+        
+          <link rel="alternate" href="/en/latest/" hreflang="en">
+        
+          <link rel="alternate" href="/es/latest/" hreflang="es">
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="zensical-0.0.53">
+    
+    
+      
+        <title>Syntaxe eventql - Xolo</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.20815dad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,500,500i,700,700i%7CJetBrains+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#syntaxe-eventql" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-header__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xolo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Syntaxe eventql
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    
+    <button class="md-header__button md-icon" aria-label="Sélectionner la langue">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-languages" viewBox="0 0 24 24"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/latest/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/en/latest/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/es/latest/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Recherche">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Recherche">
+  <button type="button" class="md-search__button">
+    Recherche
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/xolo-gateway/xolo" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-nav__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    Xolo
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xolo-gateway/xolo" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Bienvenue dans Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administration
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Administration
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administration
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Installation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation &amp; déploiement
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/installation/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Configuration
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/installation/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Développement de plugins (Go)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Organisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administration de l'organisation
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Application
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Application
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/application/application/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Applications
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budget
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Budget
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/budget/budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budget
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_4" id="__nav_2_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Fournisseurs
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/fournisseurs/fournisseurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_5" id="__nav_2_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Invitation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Invitation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/invitation/invitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Invitation des utilisateurs
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_6" id="__nav_2_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Membre
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Membre
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/membre/membre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Membres
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_7" id="__nav_2_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Middleware
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Middleware
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/middleware/middleware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Middleware
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_8" id="__nav_2_3_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Parametres
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Parametres
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/parametres/parametre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Paramètres
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_9" id="__nav_2_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Roles
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Roles
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/roles/roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Rôles &amp; Permissions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_10" id="__nav_2_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Virtual model
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Virtual model
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../administration/organisation/virtual_model/virtual_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Modèle virtuel
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Concepts
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Concepts
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Concepts
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../budgets-et-quotas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budgets et quotas
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../estimation-energetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Estimation de l'énergie consommée par une requête LLM
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Syntaxe eventql
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Syntaxe eventql
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modele-dun-evenement" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèle d'un événement
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selecteur-detiquettes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sélecteur d'étiquettes
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sélecteur d&#x27;étiquettes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Opérateurs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-de-filtres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pipeline de filtres
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipeline de filtres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtres-dattributs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Filtres d'attributs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtres-de-ligne-sur-le-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Filtres de ligne (sur le message)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chaines-et-echappements" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Chaînes et échappements
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions-regulieres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Expressions régulières
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grammaire-ebnf-simplifiee" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Grammaire (EBNF simplifiée)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comment-la-requete-est-evaluee" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comment la requête est évaluée
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evenements-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements de base
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Événements de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evenements-de-la-plateforme" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements de la plateforme
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evenements-des-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements des plugins
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemples" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemples
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portee-des-alertes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Portée des alertes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-dusage-dans-une-alerte" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemple d'usage dans une alerte
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fournisseurs-modeles-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs, modèles et pipelines
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../organisation-et-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organisation, rôles et permissions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Utilisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Utilisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Utilisation
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Dashboard
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Dashboard
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/dashboard/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tableau de bord
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Evenements
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Evenements
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/evenements/evenement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Événements
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#modele-dun-evenement" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèle d'un événement
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selecteur-detiquettes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sélecteur d'étiquettes
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sélecteur d&#x27;étiquettes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Opérateurs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-de-filtres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pipeline de filtres
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipeline de filtres">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#filtres-dattributs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Filtres d'attributs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filtres-de-ligne-sur-le-message" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Filtres de ligne (sur le message)
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chaines-et-echappements" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Chaînes et échappements
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#expressions-regulieres" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Expressions régulières
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grammaire-ebnf-simplifiee" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Grammaire (EBNF simplifiée)
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comment-la-requete-est-evaluee" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Comment la requête est évaluée
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#evenements-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements de base
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Événements de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evenements-de-la-plateforme" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements de la plateforme
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evenements-des-plugins" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Événements des plugins
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exemples" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemples
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exemples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#portee-des-alertes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Portée des alertes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exemple-dusage-dans-une-alerte" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exemple d'usage dans une alerte
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+  
+
+
+<h1 id="syntaxe-eventql">Syntaxe eventql<a class="headerlink" href="#syntaxe-eventql" title="Permanent link">&para;</a></h1>
+<p><code>eventql</code> est le petit langage de requête utilisé pour filtrer les événements de
+Xolo, dans l'explorateur (<code>/orgs/{slug}/events</code>) comme dans les règles d'alerte.
+Sa syntaxe s'inspire de <a href="https://grafana.com/docs/loki/latest/query/">LogQL</a> de
+Grafana Loki : un <strong>sélecteur d'étiquettes</strong> suivi d'un <strong>pipeline de filtres</strong>
+optionnel.</p>
+<p>Le paquet de référence est <code>internal/core/eventql</code>.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>{type=&quot;auth.login.failed&quot;, severity=~&quot;warning|error&quot;} | provider=&quot;oidc&quot; |~ &quot;timeout&quot;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>└──────────────── sélecteur ────────────────────────┘ └─── filtres du pipeline ───┘
+</span></code></pre></div>
+<hr />
+<h2 id="modele-dun-evenement">Modèle d'un événement<a class="headerlink" href="#modele-dun-evenement" title="Permanent link">&para;</a></h2>
+<p>Chaque événement possède un ensemble de champs. Une partie est <strong>indexée</strong> (les
+« étiquettes », interrogeables dans le sélecteur) ; le reste est constitué
+d'<strong>attributs</strong> clé/valeur libres et du <strong>message</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Type</th>
+<th>Interrogeable via</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td>étiquette</td>
+<td>sélecteur</td>
+<td>Type pointé, ex. <code>auth.login.failed</code>, <code>proxy.request</code></td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td>étiquette</td>
+<td>sélecteur</td>
+<td><code>platform</code> ou le nom du plugin émetteur</td>
+</tr>
+<tr>
+<td><code>severity</code></td>
+<td>étiquette</td>
+<td>sélecteur</td>
+<td><code>info</code>, <code>warning</code> ou <code>error</code></td>
+</tr>
+<tr>
+<td><code>org</code></td>
+<td>étiquette</td>
+<td>sélecteur</td>
+<td>ID de l'organisation (souvent déjà contraint par la page)</td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>étiquette</td>
+<td>sélecteur</td>
+<td>ID de l'utilisateur concerné (vide = événement global)</td>
+</tr>
+<tr>
+<td><em>attributs</em></td>
+<td>clé/valeur</td>
+<td>filtre <code>\| clé …</code></td>
+<td>Paires arbitraires propres à chaque type d'événement</td>
+</tr>
+<tr>
+<td><em>message</em></td>
+<td>texte libre</td>
+<td>filtres de ligne <code>\|=</code>, <code>\|~</code>, …</td>
+<td>Message lisible de l'événement</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note.</strong> Seules les cinq étiquettes ci-dessus sont autorisées dans le
+sélecteur. Toute autre clé y provoque une erreur de compilation. Les clés
+libres se filtrent dans le pipeline (<code>| clé="valeur"</code>).</p>
+</blockquote>
+<hr />
+<h2 id="selecteur-detiquettes">Sélecteur d'étiquettes<a class="headerlink" href="#selecteur-detiquettes" title="Permanent link">&para;</a></h2>
+<p>Le sélecteur est <strong>obligatoire</strong> dès qu'il y a une requête, et se place entre
+accolades. Il contient zéro ou plusieurs matchers séparés par des virgules :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>{type=&quot;proxy.request&quot;, user=&quot;c8p2...&quot;}
+</span></code></pre></div>
+<p>Un sélecteur vide <code>{}</code> (ou une requête entièrement vide) correspond à <strong>tous</strong>
+les événements (dans le périmètre de visibilité courant).</p>
+<h3 id="operateurs">Opérateurs<a class="headerlink" href="#operateurs" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Opérateur</th>
+<th>Signification</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>=</code></td>
+<td>égal</td>
+<td><code>{type="proxy.request"}</code></td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>différent</td>
+<td><code>{severity!="info"}</code></td>
+</tr>
+<tr>
+<td><code>=~</code></td>
+<td>correspond à l'expression régulière</td>
+<td><code>{type=~"auth\\..*"}</code></td>
+</tr>
+<tr>
+<td><code>!~</code></td>
+<td>ne correspond pas à l'expression régulière</td>
+<td><code>{source!~"plugin\\..*"}</code></td>
+</tr>
+</tbody>
+</table>
+<p>Les valeurs sont <strong>toujours entre guillemets doubles</strong>.</p>
+<hr />
+<h2 id="pipeline-de-filtres">Pipeline de filtres<a class="headerlink" href="#pipeline-de-filtres" title="Permanent link">&para;</a></h2>
+<p>Après le sélecteur, on enchaîne des étages de filtrage. Il en existe deux
+familles : les <strong>filtres d'attributs</strong> et les <strong>filtres de ligne</strong> (sur le
+message). Ils peuvent se combiner et se répéter librement ; tous doivent être
+satisfaits (ET logique).</p>
+<h3 id="filtres-dattributs">Filtres d'attributs<a class="headerlink" href="#filtres-dattributs" title="Permanent link">&para;</a></h3>
+<p>Introduits par une barre verticale <code>|</code> suivie d'un nom d'attribut, d'un
+opérateur et d'une valeur. Les opérateurs sont les mêmes que pour le sélecteur
+(<code>=</code>, <code>!=</code>, <code>=~</code>, <code>!~</code>).</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{type=&quot;proxy.request&quot;} | model=&quot;gpt-4o&quot; | provider=~&quot;open.*&quot;
+</span></code></pre></div>
+<blockquote>
+<p>Un attribut <strong>absent</strong> est traité comme une chaîne vide. Ainsi
+<code>| model="gpt-4o"</code> exclut les événements sans attribut <code>model</code>, tandis que
+<code>| model!="gpt-4o"</code> les inclut (car <code>"" != "gpt-4o"</code>).</p>
+</blockquote>
+<h3 id="filtres-de-ligne-sur-le-message">Filtres de ligne (sur le message)<a class="headerlink" href="#filtres-de-ligne-sur-le-message" title="Permanent link">&para;</a></h3>
+<p>Ils s'appliquent au champ <code>message</code>. Contrairement aux filtres d'attributs, ils
+ne sont <strong>pas</strong> précédés d'un nom.</p>
+<table>
+<thead>
+<tr>
+<th>Opérateur</th>
+<th>Signification</th>
+<th>Exemple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\|=</code></td>
+<td>le message contient la sous-chaîne</td>
+<td><code>\|= "timeout"</code></td>
+</tr>
+<tr>
+<td><code>!=</code></td>
+<td>le message ne contient pas la sous-chaîne</td>
+<td><code>!= "success"</code></td>
+</tr>
+<tr>
+<td><code>\|~</code></td>
+<td>le message correspond à l'expression régulière</td>
+<td><code>\|~ "time.?out"</code></td>
+</tr>
+<tr>
+<td><code>!~</code></td>
+<td>le message ne correspond pas à l'expression régulière</td>
+<td><code>!~ "^ok"</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>{type=&quot;auth.login.failed&quot;} |~ &quot;timeout|refused&quot; != &quot;retrying&quot;
+</span></code></pre></div>
+<hr />
+<h2 id="chaines-et-echappements">Chaînes et échappements<a class="headerlink" href="#chaines-et-echappements" title="Permanent link">&para;</a></h2>
+<p>Les valeurs sont entre guillemets doubles. Les séquences d'échappement
+suivantes sont reconnues :</p>
+<table>
+<thead>
+<tr>
+<th>Séquence</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\"</code></td>
+<td>guillemet double littéral</td>
+</tr>
+<tr>
+<td><code>\\</code></td>
+<td>antislash littéral</td>
+</tr>
+<tr>
+<td><code>\n</code></td>
+<td>saut de ligne</td>
+</tr>
+<tr>
+<td><code>\t</code></td>
+<td>tabulation</td>
+</tr>
+</tbody>
+</table>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{type=&quot;proxy.request&quot;} | prompt=~&quot;say \&quot;hello\&quot;&quot;
+</span></code></pre></div>
+<hr />
+<h2 id="expressions-regulieres">Expressions régulières<a class="headerlink" href="#expressions-regulieres" title="Permanent link">&para;</a></h2>
+<p>Les opérateurs <code>=~</code> / <code>!~</code> (étiquettes, attributs et lignes) utilisent le moteur
+d'expressions régulières standard de Go
+(<a href="https://github.com/google/re2/wiki/Syntax">RE2</a>).</p>
+<ul>
+<li>La correspondance est <strong>non ancrée</strong> : <code>=~"error"</code> correspond à toute valeur
+  <strong>contenant</strong> <code>error</code>. Utilisez <code>^…$</code> pour une correspondance exacte.</li>
+<li>Une expression invalide fait échouer la compilation de la requête (un message
+  d'erreur est affiché dans l'explorateur).</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{type=~&quot;^auth\\.login\\.(failed|ok)$&quot;}
+</span></code></pre></div>
+<hr />
+<h2 id="grammaire-ebnf-simplifiee">Grammaire (EBNF simplifiée)<a class="headerlink" href="#grammaire-ebnf-simplifiee" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>query        := selector pipeline?
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>selector     := &#39;{&#39; ( matcher (&#39;,&#39; matcher)* )? &#39;}&#39;
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>matcher      := IDENT op STRING
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>op           := &#39;=&#39; | &#39;!=&#39; | &#39;=~&#39; | &#39;!~&#39;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>pipeline     := stage*
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>stage        := lineFilter | labelFilter
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>lineFilter   := (&#39;|=&#39; | &#39;|~&#39; | &#39;!=&#39; | &#39;!~&#39;) STRING
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>labelFilter  := &#39;|&#39; IDENT op STRING
+</span></code></pre></div>
+<ul>
+<li><code>IDENT</code> commence par une lettre ou <code>_</code>, suivi de lettres, chiffres, <code>_</code>, <code>.</code>,
+  <code>-</code> ou <code>:</code>.</li>
+<li><code>STRING</code> est une chaîne entre guillemets doubles (voir « Chaînes et
+  échappements »).</li>
+<li>Une entrée vide compile vers une requête qui correspond à tout.</li>
+</ul>
+<hr />
+<h2 id="comment-la-requete-est-evaluee">Comment la requête est évaluée<a class="headerlink" href="#comment-la-requete-est-evaluee" title="Permanent link">&para;</a></h2>
+<p>L'implémentation reste fidèle à l'esprit de Loki : <strong>les étiquettes sont
+indexées, le reste est scanné</strong>.</p>
+<ul>
+<li>Les matchers d'<strong>étiquettes</strong> en <code>=</code> / <code>!=</code> et la <strong>plage temporelle</strong> sont
+  poussés dans la requête SQL (colonnes indexées), ce qui borne rapidement le
+  jeu de lignes.</li>
+<li>Les <strong>filtres d'attributs</strong>, les <strong>filtres de ligne</strong> et <strong>toute expression
+  régulière</strong> sont évalués en mémoire sur les lignes ainsi présélectionnées.</li>
+</ul>
+<p>Cette même requête compilée sert à deux usages : le filtrage dans l'explorateur
+et l'évaluation périodique des règles d'alerte (<code>count(fenêtre)</code> sur les
+événements correspondants).</p>
+<hr />
+<h2 id="evenements-de-base">Événements de base<a class="headerlink" href="#evenements-de-base" title="Permanent link">&para;</a></h2>
+<h3 id="evenements-de-la-plateforme">Événements de la plateforme<a class="headerlink" href="#evenements-de-la-plateforme" title="Permanent link">&para;</a></h3>
+<p>Émis par Xolo lui-même, avec <code>source="platform"</code>.</p>
+<p><code>proxy.request</code> et <code>auth.login.failed</code> sont émis dans le chemin de requête. Les
+événements de <strong>configuration</strong> (CRUD sur les entités) sont émis par des
+<strong>décorateurs de stores</strong> : toute création / modification / suppression via
+n'importe quel appelant (UI ou API) produit l'événement correspondant, sans
+duplication de code dans les handlers.</p>
+<p><strong>Activité &amp; authentification</strong></p>
+<table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th><code>severity</code></th>
+<th>Portée</th>
+<th>Émis quand</th>
+<th>Attributs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proxy.request</code></td>
+<td><code>info</code></td>
+<td>utilisateur</td>
+<td>Une requête proxy aboutit</td>
+<td><code>model</code>, <code>auth_token_id</code>, <code>prompt_tokens</code>, <code>completion_tokens</code>, <code>total_tokens</code></td>
+</tr>
+<tr>
+<td><code>auth.login.failed</code></td>
+<td><code>warning</code></td>
+<td>globale</td>
+<td>Une connexion échoue (ex. compte déjà existant avec un autre fournisseur)</td>
+<td><code>email</code>, <code>provider</code>, <code>reason</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Configuration (CRUD)</strong> — tous globaux à l'organisation (<code>user</code> vide), avec les
+attributs <code>actor</code> et <code>actor_id</code> (l'utilisateur ayant effectué l'action) en plus
+de ceux listés :</p>
+<table>
+<thead>
+<tr>
+<th>Entité</th>
+<th><code>type</code> (created / updated / deleted)</th>
+<th>Attributs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fournisseur</td>
+<td><code>provider.created</code> · <code>provider.updated</code> · <code>provider.deleted</code></td>
+<td><code>provider_id</code>, <code>provider_name</code></td>
+</tr>
+<tr>
+<td>Modèle</td>
+<td><code>model.created</code> · <code>model.updated</code> · <code>model.deleted</code></td>
+<td><code>model_id</code>, <code>model_name</code></td>
+</tr>
+<tr>
+<td>Modèle virtuel</td>
+<td><code>virtual-model.created</code> · <code>virtual-model.updated</code> · <code>virtual-model.deleted</code></td>
+<td><code>virtual_model_id</code>, <code>virtual_model_name</code></td>
+</tr>
+<tr>
+<td>Middleware</td>
+<td><code>middleware.created</code> · <code>middleware.updated</code> · <code>middleware.deleted</code></td>
+<td><code>middleware_id</code>, <code>middleware_name</code></td>
+</tr>
+<tr>
+<td>Rôle</td>
+<td><code>role.created</code> · <code>role.updated</code> · <code>role.deleted</code></td>
+<td><code>role_id</code>, <code>role_name</code></td>
+</tr>
+<tr>
+<td>Application</td>
+<td><code>application.created</code> · <code>application.updated</code> · <code>application.deleted</code></td>
+<td><code>application_id</code>, <code>application_name</code></td>
+</tr>
+<tr>
+<td>Jeton d'application</td>
+<td><code>application-token.created</code> · <code>application-token.deleted</code></td>
+<td><code>token_id</code>, <code>label</code>, <code>application_id</code>, <code>application_name</code></td>
+</tr>
+<tr>
+<td>Invitation</td>
+<td><code>invite.created</code> · <code>invite.deleted</code></td>
+<td><code>invite_id</code>, <code>role</code>, <code>email</code></td>
+</tr>
+<tr>
+<td>Membre</td>
+<td><code>member.added</code> · <code>member.updated</code> · <code>member.removed</code></td>
+<td><code>membership_id</code>, <code>member_user_id</code> (+ <code>role_count</code> pour <code>updated</code>)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Sévérité : <code>created</code>/<code>updated</code>/<code>added</code> → <code>info</code> ; <code>deleted</code>/<code>removed</code> →
+<code>warning</code>. Les rôles <em>builtin</em> (owner/admin/member) ne produisent pas
+d'événement.</p>
+<p>Les événements de configuration étant globaux (<code>user</code> vide), ils ne sont
+visibles qu'avec la portée « Tous » ou « Globaux » de l'explorateur (permission
+<code>events:read:all</code>). Ils ne sont émis que pour des actions <strong>initiées par un
+utilisateur</strong> (le seeding système, les migrations et les tests n'en génèrent
+pas).</p>
+</blockquote>
+<h3 id="evenements-des-plugins">Événements des plugins<a class="headerlink" href="#evenements-des-plugins" title="Permanent link">&para;</a></h3>
+<p>Émis par les plugins. L'hôte force <code>source</code> au nom du plugin et préfixe le <code>type</code>
+par <code>plugin.&lt;nom&gt;.</code> (voir le tutoriel plugin, section <em>Emitting Events</em>).</p>
+<table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th><code>severity</code></th>
+<th>Émis quand</th>
+<th>Attributs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plugin.pseudonymizer.sensitive-data.detected</code></td>
+<td><code>warning</code></td>
+<td>Le plugin <code>pseudonymizer</code> détecte/pseudonymise des données sensibles</td>
+<td><code>entities</code>, <code>types</code> (ex. <code>EMAIL:2,PERSON:1</code>), <code>removed_attachments</code></td>
+</tr>
+<tr>
+<td><code>plugin.time-restriction.request.blocked</code></td>
+<td><code>warning</code></td>
+<td>Le plugin <code>time-restriction</code> bloque une requête hors des plages autorisées</td>
+<td><code>reason</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pour cibler l'ensemble des événements de plugins : <code>{type=~"plugin\\..*"}</code> (ou
+<code>{source!="platform"}</code>).</p>
+<hr />
+<h2 id="exemples">Exemples<a class="headerlink" href="#exemples" title="Permanent link">&para;</a></h2>
+<p>| Requête                                                    | Intention                                                          |
+| ---------------------------------------------------------- | ------------------------------------------------------------------ | -------------------------------- |
+| <code>{}</code>                                                       | Tous les événements visibles                                       |
+| <code>{type="proxy.request"}</code>                                   | Toutes les requêtes proxy                                          |
+| <code>{severity=~"warning                                       | error"}</code>                                                           | Tout ce qui n'est pas informatif |
+| <code>{type="auth.login.failed"} \| provider="oidc"</code>            | Échecs de connexion via OIDC                                       |
+| <code>{source!="platform"}</code>                                     | Uniquement les événements émis par des plugins                     |
+| <code>{type=~"provider\\..*"}</code>                                  | Créations / suppressions de fournisseurs                           |
+| <code>{type="proxy.request"} \| model=~"gpt-4.*" \|~ "timeout"</code> | Requêtes vers un modèle GPT‑4 dont le message mentionne un timeout |
+| <code>{} \| actor_id="c8p2..."</code>                                 | Événements de configuration déclenchés par un acteur donné         |</p>
+<h3 id="portee-des-alertes">Portée des alertes<a class="headerlink" href="#portee-des-alertes" title="Permanent link">&para;</a></h3>
+<p>Une alerte a une <strong>portée</strong> qui détermine les événements qu'elle évalue :</p>
+<table>
+<thead>
+<tr>
+<th>Portée</th>
+<th>Évalue</th>
+<th>Permission requise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>org</code></td>
+<td>Tous les événements de l'organisation</td>
+<td><code>events:write</code></td>
+</tr>
+<tr>
+<td><code>personal</code></td>
+<td>Uniquement les <strong>propres</strong> événements du créateur</td>
+<td><code>events:alerts:own</code></td>
+</tr>
+</tbody>
+</table>
+<p>La portée est déduite des droits à la création : un utilisateur disposant de
+<code>events:write</code> crée des alertes d'organisation ; sinon (avec <code>events:alerts:own</code>)
+il crée des alertes personnelles sur ses propres événements. Chacun ne voit et ne
+gère que les alertes et incidents qui le concernent (les alertes personnelles
+sont privées à leur propriétaire). Consulter ses propres événements dans
+l'explorateur ne requiert aucune permission particulière.</p>
+<h3 id="exemple-dusage-dans-une-alerte">Exemple d'usage dans une alerte<a class="headerlink" href="#exemple-dusage-dans-une-alerte" title="Permanent link">&para;</a></h3>
+<p>Règle « brute-force » : plus de 5 échecs de connexion sur 5 minutes.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Requête     : {type=&quot;auth.login.failed&quot;}
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Agrégation  : count
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Fenêtre     : 5m
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Condition   : &gt; 5
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Portée      : org (nécessite events:write)
+</span></code></pre></div>
+<p>Exemple d'alerte <strong>personnelle</strong> : un utilisateur veut être alerté au-delà de
+100 requêtes proxy sur une heure (<code>count(1h) &gt; 100</code> sur <code>{type="proxy.request"}</code>,
+portée <code>personal</code>) — l'alerte n'évalue que ses propres requêtes.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © Xolo Gateway
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":[],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copié dans le presse-papier","clipboard.copy":"Copier dans le presse-papier","search.result.more.one":"1 de plus sur cette page","search.result.more.other":"# de plus sur cette page","search.result.none":"Aucun document trouvé","search.result.one":"1 document trouvé","search.result.other":"# documents trouvés","search.result.placeholder":"Taper pour démarrer la recherche","search.result.term.missing":"Non trouvé","select.version":"Sélectionner la version"},"version":{"alias":true,"default":"latest","provider":"mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.69c251d7.min.js"></script>
+      
+    
+  </body>
+</html>
