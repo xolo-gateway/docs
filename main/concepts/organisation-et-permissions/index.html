@@ -1615,6 +1615,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#le-tenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Le tenant
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#roles" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2010,6 +2021,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#le-tenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Le tenant
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#roles" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2120,6 +2142,11 @@
 <h2 id="lorganisation">L'organisation<a class="headerlink" href="#lorganisation" title="Permanent link">&para;</a></h2>
 <p>L'<strong>organisation</strong> est l'entité centrale de Xolo : elle regroupe des <strong>membres</strong>, un ou plusieurs <strong>fournisseurs</strong> LLM, des <strong>budgets</strong>, des <strong>middlewares</strong> et des <strong>paramètres</strong> (devise, rétention des événements…). Toutes les données et configurations sont cloisonnées par organisation.</p>
 <p>Un même utilisateur peut appartenir à plusieurs organisations ; il bascule de l'une à l'autre depuis le menu de l'interface.</p>
+<h2 id="le-tenant">Le tenant<a class="headerlink" href="#le-tenant" title="Permanent link">&para;</a></h2>
+<p>Au-dessus de l'organisation se trouve le <strong>tenant</strong>, la frontière d'isolation la plus externe : il possède des organisations et des utilisateurs. Rien ne franchit cette frontière — ni un compte, ni un jeton d'API, ni une session.</p>
+<p><strong>Vous n'avez normalement pas à vous en soucier.</strong> Par défaut, Xolo fonctionne avec un tenant unique nommé <code>default</code>, créé automatiquement : aucun sous-domaine n'est nécessaire, aucune URL ne change, et le tenant n'apparaît nulle part dans l'interface.</p>
+<p>Il ne devient visible que sur une instance mutualisée, où plusieurs clients cohabitent. Le multi-tenant s'active alors par configuration (<code>XOLO_MULTITENANCY_ENABLED</code>), et chaque tenant est identifié par son sous-domaine selon un modèle configurable, par exemple <code>acme.xolo.example.com</code>. Un sous-domaine qui ne correspond à aucun tenant actif renvoie une erreur 404.</p>
+<p>Deux tenants peuvent héberger une organisation portant le même slug, et une même identité peut y disposer de deux comptes distincts, sans aucune collision. La gestion des tenants passe exclusivement par l'<a href="../../administration/provisioning/provisioning/">API de provisioning</a> ; il n'existe pas d'interface dédiée.</p>
 <h2 id="roles">Rôles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
 <p>Un <strong>rôle</strong> est un ensemble de permissions attribué à un ou plusieurs membres. Xolo distingue deux catégories de rôles :</p>
 <h3 id="roles-integres">Rôles intégrés<a class="headerlink" href="#roles-integres" title="Permanent link">&para;</a></h3>
