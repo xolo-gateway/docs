@@ -2066,31 +2066,31 @@ TODO UPDATE LISTE DES PLUGINS + DESCRIPTION DES PLUGINS</p>
 <h2 id="exemple-configuration-du-plugin-system-prompt">Exemple : configuration du plugin <code>system-prompt</code><a class="headerlink" href="#exemple-configuration-du-plugin-system-prompt" title="Permanent link">&para;</a></h2>
 <p>Voici comment configurer le plugin <code>system-prompt</code> pour ajouter un prompt système personnalisé :</p>
 <ol>
-<li>Cliquez sur le plugin <code>system-prompt</code> dans l'éditeur
+<li>Dans la palette de gauche, cliquez sur le plugin <code>system-prompt</code> pour l'ajouter au graphe
    <img alt="system-prompt" src=".././screenshots/system-prompt-plugin.png" /></li>
-<li>Cliquez sur les nœuds pour les relier entre eux
+<li>Reliez les ports des nœuds en faisant glisser un port de sortie vers un port d'entrée
    <img alt="nodes" src=".././screenshots/image7.png" /></li>
-<li>Cliquez sur <code>Configurer</code>
-   <img alt="Configurer" src=".././screenshots/system-prompt-config.png" /></li>
-<li>Saisissez votre prompt système. Vous pouvez :</li>
-<li>L'ajouter au prompt existant</li>
-<li>Le remplacer entièrement
-     <img alt="system-prompt" src=".././screenshots/promptsystemedit.png" /></li>
-<li>Cliquez sur <code>Sauvegarder</code> TODO FAIRE UNE REDIRECTION À LA SAUVEGARDE ???</li>
-<li>Fermez la page de configuration du plugin</li>
-<li>Cliquez sur <code>Modèle LLM</code></li>
-<li>Reliez les nœuds comme indiqué :
+<li>Sélectionnez le nœud du plugin : son panneau de configuration s'ouvre à droite de l'éditeur
+   <img alt="Configuration du plugin" src=".././screenshots/system-prompt-config.png" /></li>
+<li>Saisissez votre prompt système. La case <strong>Ajouter au prompt système existant</strong> détermine si le
+   prompt complète celui de la requête ou le remplace entièrement
+   <img alt="system-prompt" src=".././screenshots/promptsystemedit.png" /></li>
+<li>Cliquez sur <code>Sauvegarder</code> pour valider la configuration du nœud</li>
+<li>Ajoutez un nœud <code>model</code> depuis la palette, reliez-le, puis sélectionnez-le : renseignez le
+   <strong>Modèle appelé</strong> dans son panneau de configuration
    <img alt="Modèle LLM" src=".././screenshots/image10.png" /></li>
-<li>Cliquez sur <code>Valeur</code>
+<li>Pour rendre ce nom dynamique, ajoutez un nœud <code>value</code> depuis la palette
    <img alt="Valeur" src=".././screenshots/image11.png" /></li>
-<li>Saisissez le nom du modèle sous-jacent à utiliser
-    <img alt="modele" src=".././screenshots/image12.png" /></li>
-<li>Votre modèle virtuel est maintenant configuré avec le pipeline complet
-    <img alt="modele" src=".././screenshots/image13.png" /></li>
+<li>Saisissez le nom du modèle sous-jacent à utiliser, puis reliez la sortie du nœud <code>value</code> au
+   port <code>model_name</code> du nœud <code>model</code>
+   <img alt="modele" src=".././screenshots/image12.png" /></li>
+<li>Le bandeau bas indique <strong>Graphe valide</strong> lorsque tous les ports requis sont connectés. Cliquez
+   sur <code>Enregistrer</code> pour publier le pipeline
+   <img alt="modele" src=".././screenshots/image13.png" /></li>
 </ol>
 <h3 id="resultat">Résultat<a class="headerlink" href="#resultat" title="Permanent link">&para;</a></h3>
-<p>Dans cet exemple, <code>demo/MonModelVirtuel</code> utilise le modèle <code>minimax-2.7</code> et répondra uniquement en espagnol (grâce au plugin <code>system_prompt</code> configuré).</p>
-<p>Le modèle virtuel est exposé aux utilisateurs sous la forme : <code>nom-de-l'organisation/nom_du_modele</code>. Dans notre exemple : <code>demo/MonModelVirtuel</code></p>
+<p>Dans cet exemple, <code>acme/assistant-espagnol</code> s'appuie sur le modèle <code>acme/gpt-4o-mini</code> et répond uniquement en espagnol, grâce au plugin <code>system-prompt</code> configuré.</p>
+<p>Le modèle virtuel est exposé aux utilisateurs sous la forme : <code>nom-de-l'organisation/nom_du_modele</code>. Dans notre exemple : <code>acme/assistant-espagnol</code></p>
 <p>Pour l'utilisateur final, ce modèle fonctionne comme n'importe quel autre modèle. Toute la personnalisation reste transparente, gérée en arrière-plan.</p>
 
 
