@@ -566,6 +566,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Proxy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evenements" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2123,6 +2134,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Proxy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#evenements" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2227,6 +2249,11 @@
 <td><code>XOLO_HTTP_BASE_URL</code></td>
 <td><code>/</code></td>
 <td>URL publique de l'instance (utilisée pour construire les liens absolus, les redirections OIDC…).</td>
+</tr>
+<tr>
+<td><code>XOLO_HTTP_SHUTDOWN_TIMEOUT</code></td>
+<td><code>30s</code></td>
+<td>Délai d'arrêt gracieux : sur SIGTERM/SIGINT le serveur cesse d'accepter des connexions puis laisse ce délai aux requêtes en cours (complétions streamées comprises) avant de les couper. Le délai de grâce du conteneur (<code>stop_grace_period</code> Docker, <code>TimeoutStopSec</code> systemd) doit lui être supérieur.</td>
 </tr>
 <tr>
 <td><code>XOLO_HTTP_SESSION_COOKIE_SECURE</code></td>
@@ -2352,6 +2379,23 @@
 </tr>
 </tbody>
 </table>
+<h2 id="proxy">Proxy<a class="headerlink" href="#proxy" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_PROXY_UPSTREAM_TIMEOUT</code></td>
+<td><code>5m</code></td>
+<td>Délai maximal accordé à un fournisseur. Pour une complétion non streamée ou un calcul d'embeddings, il borne l'appel complet, tentatives de retry comprises. Pour une complétion streamée, il borne l'attente du premier fragment puis le silence entre deux fragments, sans jamais couper une réponse longue qui continue d'arriver. À expiration le client reçoit une erreur 504 explicite au lieu d'une coupure opaque du reverse proxy. Le timeout du reverse proxy placé devant Xolo doit rester strictement supérieur à cette valeur. <code>0</code> désactive la borne.</td>
+</tr>
+</tbody>
+</table>
 <h2 id="evenements">Événements<a class="headerlink" href="#evenements" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2455,7 +2499,7 @@
 <tr>
 <td><code>XOLO_LOGGER_LEVEL</code></td>
 <td><code>0</code></td>
-<td>Niveau de log (<code>slog</code>, valeurs négatives = debug).</td>
+<td>Niveau de log (<code>slog</code>, valeurs négatives = debug). Au niveau <code>0</code> (info) seules les requêtes SQL en erreur ou lentes sont journalisées ; le niveau debug (<code>-4</code>) trace chaque requête SQL.</td>
 </tr>
 </tbody>
 </table>
