@@ -40,14 +40,6 @@
   </div>
 {% endmacro %}
 
-{#- L'accueil se passe des deux barres latérales : la navigation est le sujet
-    de la page elle-même. -#}
-{% block site_nav %}
-  {% if page.url or not config.extra.home %}
-    {{ super() }}
-  {% endif %}
-{% endblock %}
-
 {% block container %}
   {% if page.url or not config.extra.home %}
     {{ super() }}
