@@ -1,0 +1,1529 @@
+/*
+ * Identité Xolo pour la documentation — planches de « Refonte doc Xolo ».
+ *
+ * Les valeurs viennent des tokens du produit (templui.css) : IBM Plex Sans /
+ * Mono (déclarés dans zensical.<lang>.toml), primaire oklch(0.487 0.0973
+ * 236.2), fond oklch(0.9759 …), rayon 9 px. La structure Zensical est
+ * conservée : tout passe par les variables du thème et quelques surcharges de
+ * composants, jamais par une réécriture du gabarit.
+ *
+ * Les longueurs sont en rem parce que Zensical fait grandir la racine à
+ * 137,5 % puis 150 % sur les grands écrans : en px, la maquette se
+ * désolidariserait du reste de la page. Base : 1rem = 20px, la grille fait
+ * 61rem (1220px) et chaque barre latérale 12.1rem — les mesures de la
+ * maquette (1240px) sont converties telles quelles.
+ */
+
+:root {
+  /* Palette Xolo */
+  --xolo-primary: oklch(0.487 0.0973 236.2);
+  --xolo-primary-dark: oklch(0.4 0.1 236.2);
+  --xolo-primary-soft: oklch(0.9524 0.0134 233.7);
+  --xolo-primary-line: oklch(0.9 0.02 233.7);
+  --xolo-primary-ink: #1f3a4d;
+
+  --xolo-purple: oklch(0.4937 0.1458 298);
+  --xolo-purple-soft: oklch(0.9464 0.0222 302.9);
+  --xolo-purple-line: oklch(0.85 0.05 302.9);
+  --xolo-green: oklch(0.5101 0.1146 156.6);
+  --xolo-green-soft: oklch(0.9622 0.0157 160.6);
+  --xolo-green-line: oklch(0.88 0.05 160.6);
+  --xolo-amber: oklch(0.5081 0.1058 72.3);
+  --xolo-amber-soft: oklch(0.9601 0.0299 78.8);
+  --xolo-amber-line: oklch(0.9 0.05 78.8);
+  --xolo-red: oklch(0.4783 0.1701 28.6);
+  --xolo-red-soft: oklch(0.9372 0.0253 20.6);
+  --xolo-red-line: oklch(0.88 0.05 20.6);
+
+  /* Surfaces et encres */
+  --xolo-surface: oklch(0.9759 0.0029 264.5);
+  --xolo-surface-alt: oklch(0.9542 0.0034 247.9);
+  --xolo-surface-head: oklch(0.9906 0.0017 247.8);
+  --xolo-ink: #262b33;
+  --xolo-ink-soft: #4d5563;
+  --xolo-muted: #6c7583;
+  --xolo-faint: #9aa1ad;
+  --xolo-line: #e8e9ec;
+  --xolo-line-strong: #e0e1e5;
+  --xolo-hairline: #f3f3f5;
+
+  /* Terminal */
+  --xolo-term-bg: #1d222b;
+  --xolo-term-fg: #e6e8ec;
+  --xolo-term-accent: oklch(0.6304 0.1013 183);
+  --xolo-term-string: oklch(0.7485 0.1343 73.5);
+
+  --xolo-radius: 0.45rem;      /*  9px */
+  --xolo-radius-md: 0.35rem;   /*  7px */
+  --xolo-radius-sm: 0.25rem;   /*  5px */
+
+  /* Report sur les variables du thème */
+  --md-primary-fg-color: var(--xolo-primary);
+  --md-primary-fg-color--light: oklch(0.56 0.09 236.2);
+  --md-primary-fg-color--dark: var(--xolo-primary-dark);
+  --md-primary-bg-color: #fff;
+  --md-primary-bg-color--light: #ffffffb3;
+  --md-accent-fg-color: var(--xolo-primary-dark);
+  --md-accent-fg-color--transparent: var(--xolo-primary-soft);
+
+  --md-default-fg-color: var(--xolo-ink);
+  --md-default-fg-color--light: var(--xolo-ink-soft);
+  --md-default-fg-color--lighter: var(--xolo-muted);
+  --md-default-fg-color--lightest: var(--xolo-line);
+  --md-default-bg-color: #fff;
+  --md-default-bg-color--light: #fff;
+  --md-default-bg-color--lighter: var(--xolo-surface);
+  --md-default-bg-color--lightest: var(--xolo-surface-alt);
+
+  --md-typeset-a-color: var(--xolo-primary);
+  --md-typeset-table-color: var(--xolo-line);
+  --md-typeset-mark-color: var(--xolo-amber-soft);
+
+  --md-code-fg-color: var(--xolo-ink-soft);
+  --md-code-bg-color: var(--xolo-hairline);
+  --md-code-hl-color: var(--xolo-primary-soft);
+  --md-code-hl-comment-color: var(--xolo-faint);
+  --md-code-hl-keyword-color: var(--xolo-purple);
+  --md-code-hl-constant-color: var(--xolo-purple);
+  --md-code-hl-string-color: var(--xolo-amber);
+  --md-code-hl-number-color: var(--xolo-green);
+  --md-code-hl-function-color: var(--xolo-primary);
+  --md-code-hl-variable-color: var(--xolo-primary);
+  --md-code-hl-name-color: var(--xolo-ink);
+  --md-code-hl-operator-color: var(--xolo-muted);
+  --md-code-hl-punctuation-color: var(--xolo-faint);
+  --md-code-hl-special-color: var(--xolo-red);
+  --md-code-hl-generic-color: var(--xolo-muted);
+
+  /* Diagrammes Mermaid : mêmes encres et mêmes bleus que le reste. */
+  --md-mermaid-font-family: var(--md-text-font-family), sans-serif;
+  --md-mermaid-edge-color: var(--xolo-faint);
+  --md-mermaid-node-bg-color: var(--xolo-primary-soft);
+  --md-mermaid-node-fg-color: var(--xolo-primary);
+  --md-mermaid-label-bg-color: #fff;
+  --md-mermaid-label-fg-color: var(--xolo-ink);
+
+  --md-shadow-z1: 0 0.05rem 0.15rem #262b330f;
+  --md-shadow-z2: 0 0.2rem 0.6rem -0.2rem #262b3326;
+  --md-shadow-z3: 0 0.9rem 2rem -0.9rem #262b3347;
+}
+
+/* ------------------------------------------------------------------ Header */
+
+.md-header {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background-color: #fff;
+}
+
+.md-header--shadow {
+  box-shadow: 0 0.05rem 0 var(--xolo-line);
+}
+
+.md-header__inner {
+  height: 2.85rem;
+  padding: 0 0.5rem;
+}
+
+.md-header__button.md-logo {
+  margin: 0.2rem 0;
+  padding: 0.4rem 0.35rem 0.4rem 0.4rem;
+}
+
+.md-header__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  height: 2.85rem;
+  letter-spacing: -0.01em;
+  line-height: 2.85rem;
+  margin-left: 0.1rem;
+}
+
+.md-header__topic:first-child {
+  font-weight: 600;
+}
+
+.xolo-header-logo {
+  height: 1.3rem !important;
+  width: auto;
+}
+
+/* Le sélecteur de version (Mike) devient la pastille de la maquette. */
+.md-version {
+  font-size: 0.55rem;
+  height: 2.85rem;
+  line-height: 2.85rem;
+}
+
+.md-version__current {
+  background: var(--xolo-primary-soft);
+  border: 1px solid var(--xolo-primary-line);
+  border-radius: var(--xolo-radius-sm);
+  color: var(--xolo-primary);
+  font-family: var(--md-code-font-family);
+  font-weight: 500;
+  margin-inline: 0.45rem 0.4rem;
+  padding: 0.1rem 0.3rem;
+  top: -0.05rem;
+}
+
+.md-version__current:after {
+  height: 0.45rem;
+  margin-left: 0.25rem;
+  width: 0.45rem;
+}
+
+.md-version__list {
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: var(--md-shadow-z2);
+  font-size: 0.65rem;
+  overflow: hidden;
+}
+
+.md-version__link {
+  font-family: var(--md-text-font-family);
+}
+
+/* Champ de recherche : boîte claire bordée, avec la touche d'appel à droite. */
+.md-search {
+  padding: 0;
+}
+
+.md-search__button {
+  background-color: var(--xolo-surface);
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  color: var(--xolo-faint);
+  font-size: 0.625rem;
+  height: 1.6rem;
+  width: 10.5rem;
+}
+
+.md-search__button:focus,
+.md-search__button:hover {
+  background-color: #fff;
+  border-color: var(--xolo-line-strong);
+  color: var(--xolo-muted);
+}
+
+.md-search__button:before {
+  background-color: var(--xolo-faint);
+  height: 0.7rem;
+  top: 0.4rem;
+  width: 0.7rem;
+}
+
+.md-search__button:after {
+  background: #fff;
+  border: 1px solid var(--xolo-line-strong);
+  border-radius: var(--xolo-radius-sm);
+  color: var(--xolo-faint);
+  font-family: var(--md-code-font-family);
+  font-size: 0.5rem;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 0.05rem 0.2rem;
+  top: 0.3rem;
+}
+
+.md-search__form,
+.md-search__input {
+  border-radius: var(--xolo-radius);
+}
+
+.md-search__output {
+  border-radius: 0 0 var(--xolo-radius) var(--xolo-radius);
+}
+
+/* Langue courante en toutes lettres, chevron discret. */
+.md-header__button.xolo-lang {
+  align-items: center;
+  color: var(--xolo-muted);
+  display: inline-flex;
+  font-size: 0.6rem;
+  font-weight: 500;
+  gap: 0.2rem;
+  margin: 0.2rem 0.1rem;
+  padding: 0.4rem 0.3rem;
+  text-transform: uppercase;
+}
+
+.md-header .xolo-lang svg {
+  color: var(--xolo-faint);
+  height: 0.5rem;
+  width: 0.5rem;
+}
+
+.md-select__inner {
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: var(--md-shadow-z2);
+}
+
+.md-select__list {
+  font-size: 0.65rem;
+}
+
+/* Dépôt : l'icône seule, séparée par un filet, comme sur la maquette. */
+[dir=ltr] .md-header__source {
+  border-left: 1px solid var(--xolo-line);
+  margin-left: 0.35rem;
+  padding-left: 0.25rem;
+  width: auto;
+}
+
+.md-header .md-source {
+  color: var(--xolo-muted);
+}
+
+.md-header .md-source__repository {
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.md-header .md-source__icon {
+  align-items: center;
+  display: flex;
+  height: 2.85rem;
+  justify-content: center;
+  width: 1.6rem;
+}
+
+.md-header .md-source__icon svg {
+  height: 0.9rem;
+  margin: 0;
+  width: 0.9rem;
+}
+
+/* -------------------------------------------------------------- Navigation */
+
+.md-nav {
+  font-size: 0.65rem;
+}
+
+.md-nav__title {
+  color: var(--xolo-faint);
+  font-family: var(--md-code-font-family);
+  font-size: 0.525rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* Le titre du tiroir mobile reste une ligne de navigation. */
+.md-nav--primary > .md-nav__title {
+  font-family: var(--md-text-font-family);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.md-nav__list {
+  gap: 0.05rem;
+}
+
+.md-nav__link {
+  border-radius: var(--xolo-radius-md);
+  color: var(--xolo-ink-soft);
+  gap: 0.4rem;
+  line-height: 1.4;
+  padding: 0.3rem 0.45rem;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.md-nav__link:hover {
+  background: var(--xolo-hairline);
+  color: var(--xolo-ink);
+}
+
+.md-nav__item .md-nav__link--active,
+.md-nav__item .md-nav__link--active:hover,
+.md-nav--primary .md-nav__item .md-nav__link--active {
+  background: var(--xolo-primary-soft);
+  color: var(--xolo-primary);
+  font-weight: 500;
+}
+
+/* Filet vertical sous une page qui a des enfants — pas sous les groupes de
+   premier niveau, qui sont des étiquettes et non des pages. */
+.md-nav__item:not(.md-nav__item--section) > .md-nav > .md-nav__list {
+  border-inline-start: 1px solid var(--xolo-line-strong);
+  margin-block: 0.1rem;
+  margin-inline-start: 0.45rem;
+  padding-inline-start: 0.55rem;
+}
+
+@media screen and (min-width: 76.25em) {
+  /* Colonne de navigation teintée sur toute la hauteur, séparée du contenu
+     par un filet : la grille fait 61rem centrés, la barre 12.1rem — la
+     transition se calcule depuis le bord gauche de la fenêtre. */
+  .md-main:has(.md-sidebar--primary:not([hidden])) {
+    --xolo-nav-edge: calc(max(0px, 50% - 30.5rem) + 12.1rem);
+    background: linear-gradient(
+      90deg,
+      var(--xolo-surface) 0,
+      var(--xolo-surface) var(--xolo-nav-edge),
+      var(--xolo-line) var(--xolo-nav-edge),
+      var(--xolo-line) calc(var(--xolo-nav-edge) + 1px),
+      #fff calc(var(--xolo-nav-edge) + 1px)
+    );
+  }
+
+  .md-main__inner {
+    margin-top: 0;
+  }
+
+  .md-sidebar {
+    padding: 1.3rem 0;
+    top: 2.85rem;
+  }
+
+  .md-sidebar--primary {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: none;
+    border-radius: 0;
+  }
+
+  [dir=ltr] .md-sidebar--primary .md-sidebar__inner,
+  [dir=rtl] .md-sidebar--primary .md-sidebar__inner {
+    padding-inline: 0.9rem;
+  }
+
+  /* Titres de groupe (navigation.sections) : étiquette mono, comme 1b. */
+  .md-nav--primary .md-nav__item--section {
+    margin-top: 1.1rem;
+  }
+
+  .md-nav--primary .md-nav__item--section:first-child {
+    margin-top: 0;
+  }
+
+  .md-nav--primary .md-nav__item--section > .md-nav__link,
+  .md-nav--primary .md-nav__item--section > .md-nav__link:hover {
+    background: none;
+    color: var(--xolo-faint);
+    font-family: var(--md-code-font-family);
+    font-size: 0.525rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    margin-bottom: 0.3rem;
+    padding: 0 0.4rem;
+    text-transform: uppercase;
+  }
+
+  /* La page parente de la page courante : carte blanche bordée. */
+  .md-nav--primary .md-nav__item--active:not(.md-nav__item--section) > .md-nav__link:not(.md-nav__link--active),
+  .md-nav--primary .md-nav__item--active:not(.md-nav__item--section) > .md-nav__container > .md-nav__link:not(.md-nav__link--active) {
+    background: #fff;
+    box-shadow: inset 0 0 0 1px var(--xolo-line);
+    color: var(--xolo-ink);
+    font-weight: 500;
+  }
+
+  /* Colonne de contenu : 44px de chaque côté, 26px en haut. */
+  [dir=ltr] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner {
+    margin-left: 2.2rem;
+  }
+
+  [dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+    margin-right: 2.2rem;
+  }
+
+  .md-content__inner {
+    padding-top: 1.3rem;
+  }
+
+  .md-content__inner:before {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------------- Sommaire (droite) */
+
+@media screen and (min-width: 60em) {
+  .md-sidebar--secondary .md-sidebar__inner {
+    border-left: 1px solid var(--xolo-hairline);
+    padding-left: 0.9rem;
+  }
+}
+
+/* Le titre reste collé en haut pendant que le sommaire défile : il garde un
+   fond opaque et un halo blanc pour ne pas laisser le texte passer dessous. */
+.md-nav--secondary .md-nav__title {
+  background: #fff;
+  box-shadow: 0 0 0.4rem 0.4rem #fff;
+  color: var(--xolo-faint);
+  padding: 0 0 0.6rem;
+}
+
+.md-nav--secondary .md-nav__list {
+  border-inline-start: 1px solid var(--xolo-line);
+  gap: 0;
+  padding-inline-start: 0.6rem;
+}
+
+.md-nav--secondary .md-nav__link {
+  border-radius: 0;
+  color: var(--xolo-muted);
+  font-size: 0.625rem;
+  line-height: 1.5;
+  padding: 0.2rem 0;
+}
+
+.md-nav--secondary .md-nav__link:hover {
+  background: none;
+  color: var(--xolo-ink);
+}
+
+/* Section courante : un trait de 2px posé sur le filet de son niveau. */
+.md-nav--secondary .md-nav__link {
+  position: relative;
+}
+
+.md-nav--secondary .md-nav__item .md-nav__link--active,
+.md-nav--secondary .md-nav__item .md-nav__link--active:hover {
+  background: none;
+  box-shadow: none;
+  color: var(--xolo-primary);
+  font-weight: 500;
+}
+
+.md-nav--secondary .md-nav__link--active:before {
+  background: var(--xolo-primary);
+  border-radius: 2px;
+  bottom: 0.2rem;
+  content: "";
+  left: calc(-0.6rem - 1.5px);
+  position: absolute;
+  top: 0.2rem;
+  width: 2px;
+}
+
+/* Ascenseur discret : le thème le colore en accent au survol, ce qui se
+   confond avec l'indicateur. */
+.md-sidebar__scrollwrap:focus-within,
+.md-sidebar__scrollwrap:hover {
+  scrollbar-color: var(--xolo-line-strong) #0000;
+}
+
+.md-sidebar__scrollwrap:focus-within::-webkit-scrollbar-thumb,
+.md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb,
+.md-sidebar__scrollwrap:focus-within::-webkit-scrollbar-thumb:hover,
+.md-sidebar__scrollwrap:hover::-webkit-scrollbar-thumb:hover {
+  background-color: var(--xolo-line-strong);
+}
+
+.md-nav--secondary .md-nav__item .md-nav__item .md-nav__link {
+  color: var(--xolo-faint);
+}
+
+/* Chaque niveau garde son filet : l'indicateur de section courante vient
+   s'y poser, quelle que soit la profondeur. */
+.md-nav--secondary .md-nav__item .md-nav__list {
+  border-inline-start: 1px solid var(--xolo-line);
+  margin-block: 0.15rem;
+  margin-inline-start: 0;
+  padding-inline-start: 0.6rem;
+}
+
+/* -------------------------------------------------------- Fil d'Ariane */
+
+.md-path {
+  font-size: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.md-path__item {
+  color: var(--xolo-faint);
+}
+
+.md-path__link {
+  color: var(--xolo-faint);
+}
+
+.md-path__link:hover {
+  color: var(--xolo-primary);
+}
+
+.md-path__item:last-child .md-path__link {
+  color: var(--xolo-ink-soft);
+}
+
+/* ------------------------------------------------------------ Typographie */
+
+.md-typeset {
+  color: var(--xolo-ink);
+  font-size: 0.725rem;
+  letter-spacing: -0.006em;
+  line-height: 1.75;
+}
+
+.md-typeset h1 {
+  color: var(--xolo-ink);
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.15;
+  margin: 0 0 0.6rem;
+  text-wrap: pretty;
+}
+
+.md-typeset h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin: 1.8rem 0 0.6rem;
+}
+
+.md-typeset h3 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  margin: 1.4rem 0 0.5rem;
+}
+
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+.md-typeset h5,
+.md-typeset h6 {
+  color: var(--xolo-muted);
+  text-transform: none;
+}
+
+/* Chapeau : le premier paragraphe qui suit le titre de page, fermé par un
+   filet — la maquette y place la ligne de métadonnées. */
+.md-typeset h1 + p {
+  border-bottom: 1px solid var(--xolo-hairline);
+  color: var(--xolo-muted);
+  font-size: 0.8rem;
+  line-height: 1.65;
+  margin: 0 0 1.4rem;
+  max-width: 62ch;
+  padding-bottom: 1.1rem;
+  text-wrap: pretty;
+}
+
+.md-typeset p,
+.md-typeset ul,
+.md-typeset ol {
+  max-width: 72ch;
+}
+
+.md-typeset p {
+  margin: 0 0 0.9rem;
+}
+
+.md-typeset a {
+  text-underline-offset: 0.15em;
+}
+
+.md-typeset hr {
+  border-bottom-color: var(--xolo-line);
+  margin: 1.6rem 0;
+}
+
+.md-typeset img {
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+}
+
+.md-typeset blockquote {
+  border-left: 2px solid var(--xolo-line-strong);
+  color: var(--xolo-muted);
+  padding-left: 0.8rem;
+}
+
+/* ------------------------------------------------------------------- Code */
+
+.md-typeset code {
+  border-radius: var(--xolo-radius-sm);
+  font-weight: 500;
+  padding: 0.05em 0.35em;
+}
+
+.md-typeset pre > code {
+  border-radius: var(--xolo-radius);
+  font-size: 0.65rem;
+  line-height: 1.8;
+  padding: 0.7rem 0.8rem;
+}
+
+.md-typeset .highlight {
+  border: 1px solid var(--xolo-line-strong);
+  border-radius: var(--xolo-radius);
+  margin: 1em 0 1.4rem;
+  max-width: 72ch;
+  overflow: hidden;
+}
+
+.md-typeset .highlight pre {
+  margin: 0;
+}
+
+.md-typeset .highlight pre > code {
+  background: #fff;
+  border-radius: 0;
+}
+
+/* En-tête « nom de fichier » d'un bloc de code (fence avec title=""). */
+.md-typeset .highlight .filename {
+  background: var(--xolo-surface-alt);
+  border-bottom: 1px solid var(--xolo-line);
+  color: var(--xolo-ink-soft);
+  font-family: var(--md-code-font-family);
+  font-size: 0.575rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+  margin: 0;
+  padding: 0 0.6rem;
+}
+
+.md-clipboard {
+  color: var(--xolo-faint);
+}
+
+.md-clipboard:hover {
+  color: var(--xolo-primary);
+}
+
+/* Les blocs shell passent en terminal sombre, comme sur les planches. */
+.md-typeset .highlight.language-bash,
+.md-typeset .highlight.language-sh,
+.md-typeset .highlight.language-shell,
+.md-typeset .highlight.language-zsh,
+.md-typeset .highlight.language-console {
+  background: var(--xolo-term-bg);
+  border-color: var(--xolo-term-bg);
+}
+
+.md-typeset .highlight.language-bash pre > code,
+.md-typeset .highlight.language-sh pre > code,
+.md-typeset .highlight.language-shell pre > code,
+.md-typeset .highlight.language-zsh pre > code,
+.md-typeset .highlight.language-console pre > code {
+  background: var(--xolo-term-bg);
+  color: var(--xolo-term-fg);
+
+  --md-code-hl-comment-color: #ffffff66;
+  --md-code-hl-keyword-color: var(--xolo-term-accent);
+  --md-code-hl-constant-color: var(--xolo-term-accent);
+  --md-code-hl-string-color: var(--xolo-term-string);
+  --md-code-hl-number-color: var(--xolo-term-string);
+  --md-code-hl-function-color: var(--xolo-term-accent);
+  --md-code-hl-variable-color: var(--xolo-term-accent);
+  --md-code-hl-name-color: var(--xolo-term-fg);
+  --md-code-hl-operator-color: #ffffffb3;
+  --md-code-hl-punctuation-color: #ffffffb3;
+  --md-code-hl-special-color: var(--xolo-term-string);
+}
+
+.md-typeset .highlight.language-bash .filename,
+.md-typeset .highlight.language-sh .filename,
+.md-typeset .highlight.language-shell .filename,
+.md-typeset .highlight.language-zsh .filename,
+.md-typeset .highlight.language-console .filename {
+  background: #ffffff0f;
+  border-bottom-color: #ffffff17;
+  color: #ffffffb3;
+}
+
+.md-typeset .highlight.language-bash .md-clipboard,
+.md-typeset .highlight.language-sh .md-clipboard,
+.md-typeset .highlight.language-shell .md-clipboard,
+.md-typeset .highlight.language-zsh .md-clipboard,
+.md-typeset .highlight.language-console .md-clipboard {
+  color: #ffffff80;
+}
+
+/* ---------------------------------------------------------------- Tableaux */
+
+.md-typeset__table {
+  margin-bottom: 1.6rem;
+}
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: none;
+  font-size: 0.65rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--xolo-surface-head);
+  border-bottom: 1px solid var(--xolo-line);
+  color: var(--xolo-muted);
+  font-family: var(--md-code-font-family);
+  font-size: 0.525rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  padding: 0.45rem 0.7rem;
+  text-transform: uppercase;
+}
+
+/* Sur écran large, les identifiants d'une cellule ne se coupent pas en plein
+   milieu : le tableau déborde dans son conteneur défilant plutôt que de casser
+   un mot. Sous 45em la place manque, la coupure redevient préférable. */
+@media screen and (min-width: 45em) {
+  .md-typeset table:not([class]) code {
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--xolo-hairline);
+  color: var(--xolo-ink-soft);
+  padding: 0.5rem 0.7rem;
+  vertical-align: top;
+}
+
+.md-typeset table:not([class]) tr:first-child td {
+  border-top: 0;
+}
+
+.md-typeset table:not([class]) tbody tr:hover {
+  background: var(--xolo-surface);
+  box-shadow: none;
+}
+
+/* ------------------------------------------------------------ Admonitions
+ *
+ * Le variant modern fixe la couleur de chaque type en dur, avec une
+ * spécificité supérieure aux variables : chaque famille est donc reprise
+ * explicitement. Cinq teintes suffisent — bleu (note, info, abstract), vert
+ * (tip, success, question), ambre (warning), rouge (danger, failure, bug),
+ * violet (example) ; quote reste neutre.
+ */
+
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: var(--xolo-primary-soft);
+  border: 1px solid var(--xolo-primary-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: none;
+  color: var(--xolo-primary-ink);
+  font-size: 0.675rem;
+  line-height: 1.6;
+  margin: 1.2rem 0 1.4rem;
+  max-width: 72ch;
+  padding: 0.6rem 0.8rem;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background: none;
+  font-weight: 600;
+  margin: 0 0 0.15rem;
+  padding: 0 0 0 1.3rem;
+}
+
+.md-typeset .admonition-title:before,
+.md-typeset summary:before {
+  height: 0.8rem;
+  top: 0.15rem;
+  width: 0.8rem;
+}
+
+.md-typeset summary {
+  cursor: pointer;
+  padding-right: 1.2rem;
+}
+
+.md-typeset .admonition > p,
+.md-typeset details > p {
+  margin: 0 0 0.4rem;
+  padding-left: 1.3rem;
+}
+
+html .md-typeset .admonition > :last-child,
+html .md-typeset details > :last-child {
+  margin-bottom: 0;
+}
+
+.md-typeset .admonition-title:before,
+.md-typeset summary:before,
+.md-typeset .note > .admonition-title:before,
+.md-typeset .info > .admonition-title:before,
+.md-typeset .abstract > .admonition-title:before,
+.md-typeset .note > summary:before,
+.md-typeset .info > summary:before,
+.md-typeset .abstract > summary:before {
+  background-color: var(--xolo-primary);
+}
+
+.md-typeset .admonition.note,
+.md-typeset .admonition.info,
+.md-typeset .admonition.abstract,
+.md-typeset details.note,
+.md-typeset details.info,
+.md-typeset details.abstract {
+  background-color: var(--xolo-primary-soft);
+}
+
+.md-typeset .admonition.tip,
+.md-typeset .admonition.success,
+.md-typeset .admonition.question,
+.md-typeset details.tip,
+.md-typeset details.success,
+.md-typeset details.question {
+  background-color: var(--xolo-green-soft);
+  border-color: var(--xolo-green-line);
+  color: oklch(0.32 0.07 156.6);
+}
+
+.md-typeset .tip > .admonition-title:before,
+.md-typeset .success > .admonition-title:before,
+.md-typeset .question > .admonition-title:before,
+.md-typeset .tip > summary:before,
+.md-typeset .success > summary:before,
+.md-typeset .question > summary:before {
+  background-color: var(--xolo-green);
+}
+
+.md-typeset .admonition.warning,
+.md-typeset details.warning {
+  background-color: var(--xolo-amber-soft);
+  border-color: var(--xolo-amber-line);
+  color: #4a3612;
+}
+
+.md-typeset .warning > .admonition-title:before,
+.md-typeset .warning > summary:before {
+  background-color: var(--xolo-amber);
+}
+
+.md-typeset .admonition.danger,
+.md-typeset .admonition.failure,
+.md-typeset .admonition.bug,
+.md-typeset details.danger,
+.md-typeset details.failure,
+.md-typeset details.bug {
+  background-color: var(--xolo-red-soft);
+  border-color: var(--xolo-red-line);
+  color: oklch(0.32 0.11 28.6);
+}
+
+.md-typeset .danger > .admonition-title:before,
+.md-typeset .failure > .admonition-title:before,
+.md-typeset .bug > .admonition-title:before,
+.md-typeset .danger > summary:before,
+.md-typeset .failure > summary:before,
+.md-typeset .bug > summary:before {
+  background-color: var(--xolo-red);
+}
+
+.md-typeset .admonition.example,
+.md-typeset details.example {
+  background-color: var(--xolo-purple-soft);
+  border-color: var(--xolo-purple-line);
+  color: oklch(0.32 0.1 298);
+}
+
+.md-typeset .example > .admonition-title:before,
+.md-typeset .example > summary:before {
+  background-color: var(--xolo-purple);
+}
+
+.md-typeset .admonition.quote,
+.md-typeset details.quote {
+  background-color: var(--xolo-surface);
+  border-color: var(--xolo-line);
+  color: var(--xolo-ink-soft);
+}
+
+.md-typeset .quote > .admonition-title:before,
+.md-typeset .quote > summary:before {
+  background-color: var(--xolo-muted);
+}
+
+/* ---------------------------------------------------------------- Boutons */
+
+.md-typeset .md-button {
+  border-radius: var(--xolo-radius);
+  border-width: 1px;
+  font-size: 0.675rem;
+  font-weight: 500;
+  padding: 0.4rem 0.9rem;
+}
+
+/* ------------------------------------------------------------ Pied de page */
+
+.md-footer {
+  background: none;
+  color: var(--xolo-ink);
+}
+
+.md-footer-meta {
+  background: var(--xolo-surface);
+  border-top: 1px solid var(--xolo-line);
+  color: var(--xolo-faint);
+}
+
+.md-footer-meta__inner {
+  padding: 0.6rem 0.8rem;
+}
+
+.md-copyright {
+  color: var(--xolo-faint);
+  font-size: 0.575rem;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  width: 100%;
+}
+
+.md-copyright__highlight {
+  color: var(--xolo-faint);
+  float: left;
+}
+
+html .md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
+  color: var(--xolo-muted);
+}
+
+.md-top {
+  background: #fff;
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: var(--md-shadow-z2);
+  color: var(--xolo-ink-soft);
+  font-size: 0.625rem;
+}
+
+/* ============================================================ Page d'accueil
+ *
+ * Rendue par overrides/main.html à partir de [project.extra.home]. Les
+ * sections sont posées à 64px (3.2rem) des bords de la grille, comme sur la
+ * planche 1a ; le hero, lui, porte son dégradé jusqu'aux bords.
+ */
+
+.xolo-home .md-content__inner {
+  margin: 0;
+  padding: 0;
+}
+
+.xolo-home .md-content__inner:before {
+  display: none;
+}
+
+/* Hero ------------------------------------------------------------------- */
+
+.xolo-hero {
+  align-items: center;
+  background: linear-gradient(180deg, var(--xolo-surface) 0%, #fff 100%);
+  border-bottom: 1px solid var(--xolo-line);
+  display: grid;
+  gap: 2.8rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  padding: 2.8rem 3.2rem 2.2rem;
+}
+
+.md-typeset .xolo-badge {
+  background: var(--xolo-primary-soft);
+  border-radius: 999px;
+  color: var(--xolo-primary);
+  display: inline-block;
+  font-family: var(--md-code-font-family);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  margin: 0 0 1rem;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.md-typeset .xolo-hero__title {
+  font-size: 2.1rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  margin: 0 0 0.8rem;
+  text-wrap: balance;
+}
+
+.md-typeset .xolo-hero__tagline {
+  border-bottom: 0;
+  color: var(--xolo-muted);
+  font-size: 0.775rem;
+  line-height: 1.6;
+  margin: 0 0 1.4rem;
+  max-width: 21.5rem;
+  padding-bottom: 0;
+  text-wrap: pretty;
+}
+
+.md-typeset .xolo-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.md-typeset .xolo-button {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--xolo-line-strong);
+  border-radius: var(--xolo-radius);
+  color: var(--xolo-ink);
+  display: inline-flex;
+  font-size: 0.675rem;
+  font-weight: 500;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.9rem;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.md-typeset .xolo-button:hover {
+  background: var(--xolo-surface);
+  border-color: var(--xolo-faint);
+  color: var(--xolo-ink);
+}
+
+.md-typeset .xolo-button--primary,
+.md-typeset .xolo-button--primary:hover {
+  background: var(--xolo-primary);
+  border-color: var(--xolo-primary);
+  color: #fff;
+}
+
+.md-typeset .xolo-button--primary:hover {
+  background: var(--xolo-primary-dark);
+  border-color: var(--xolo-primary-dark);
+}
+
+.xolo-button svg {
+  height: 0.7rem;
+  width: 0.7rem;
+}
+
+.md-typeset .xolo-hero__figure {
+  margin: 0;
+}
+
+.xolo-window {
+  border: 1px solid var(--xolo-line-strong);
+  border-radius: var(--xolo-radius);
+  box-shadow: 0 0.9rem 2rem -0.9rem #262b3347;
+  overflow: hidden;
+}
+
+.xolo-window__bar {
+  align-items: center;
+  background: var(--xolo-surface-alt);
+  border-bottom: 1px solid var(--xolo-line);
+  display: flex;
+  gap: 0.3rem;
+  height: 1.3rem;
+  padding: 0 0.5rem;
+}
+
+.xolo-window__bar i {
+  background: #d3d5da;
+  border-radius: 50%;
+  height: 0.35rem;
+  width: 0.35rem;
+}
+
+.md-typeset .xolo-window img {
+  border: 0;
+  border-radius: 0;
+  display: block;
+  width: 100%;
+}
+
+/* Sections --------------------------------------------------------------- */
+
+.xolo-section {
+  padding: 2.2rem 3.2rem 0;
+}
+
+.xolo-section__header {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+
+.md-typeset .xolo-section__header h2,
+.md-typeset .xolo-section__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.md-typeset .xolo-section__header p,
+.md-typeset .xolo-section__lead {
+  color: var(--xolo-faint);
+  font-size: 0.625rem;
+  margin: 0;
+}
+
+.md-typeset .xolo-section__lead {
+  color: var(--xolo-muted);
+  font-size: 0.65rem;
+  margin: 0.3rem 0 0.8rem;
+}
+
+/* Les trois portes ------------------------------------------------------- */
+
+.xolo-cards {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.xolo-card {
+  background: #fff;
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  box-shadow: 0 0.05rem 0.1rem #262b330a;
+  display: flex;
+  flex-direction: column;
+  padding: 1.1rem;
+  position: relative;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.xolo-card:hover {
+  border-color: var(--xolo-line-strong);
+  box-shadow: var(--md-shadow-z2);
+}
+
+.xolo-card__icon {
+  align-items: center;
+  background: var(--xolo-surface-alt);
+  border-radius: var(--xolo-radius);
+  color: var(--xolo-muted);
+  display: flex;
+  height: 1.7rem;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+  width: 1.7rem;
+}
+
+.xolo-card__icon svg {
+  height: 0.85rem;
+  width: 0.85rem;
+}
+
+.xolo-card--primary .xolo-card__icon {
+  background: var(--xolo-primary-soft);
+  color: var(--xolo-primary);
+}
+
+.xolo-card--purple .xolo-card__icon {
+  background: var(--xolo-purple-soft);
+  color: var(--xolo-purple);
+}
+
+.md-typeset .xolo-card__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.3rem;
+}
+
+.md-typeset .xolo-card__title a {
+  color: var(--xolo-ink);
+}
+
+/* La carte entière est cliquable, sans imbriquer de lien dans un lien. */
+.md-typeset .xolo-card__title a:after {
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.md-typeset .xolo-card__description {
+  color: var(--xolo-muted);
+  font-size: 0.65rem;
+  line-height: 1.6;
+  margin: 0 0 0.8rem;
+}
+
+[dir=ltr] .md-typeset .xolo-card__links,
+[dir=rtl] .md-typeset .xolo-card__links,
+[dir=ltr] .md-typeset .xolo-panel__list,
+[dir=rtl] .md-typeset .xolo-panel__list,
+[dir=ltr] .md-typeset .xolo-card__links li,
+[dir=rtl] .md-typeset .xolo-card__links li,
+[dir=ltr] .md-typeset .xolo-panel__list li,
+[dir=rtl] .md-typeset .xolo-panel__list li {
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+.md-typeset .xolo-card__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0 0 0.7rem;
+  padding: 0;
+}
+
+.md-typeset .xolo-card__links li {
+  margin: 0;
+}
+
+.md-typeset .xolo-card__links a {
+  font-size: 0.625rem;
+  position: relative;
+  z-index: 1;
+}
+
+.md-typeset .xolo-card__meta {
+  color: var(--xolo-faint);
+  font-family: var(--md-code-font-family);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: auto 0 0;
+  padding-top: 0.7rem;
+  text-transform: uppercase;
+}
+
+.md-typeset .xolo-button,
+.md-typeset .xolo-card__title a,
+.md-typeset .xolo-card__links a,
+.md-typeset .xolo-panel__link a {
+  text-decoration: none;
+}
+
+.md-typeset .xolo-card__links a:hover,
+.md-typeset .xolo-panel__link a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Démarrage rapide et encart souveraineté -------------------------------- */
+
+/* Les deux colonnes s'étirent à la même hauteur : le terminal remplit la
+   sienne, le lien de l'encart descend au bas de la sienne. */
+.xolo-split {
+  align-items: stretch;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  padding: 1.8rem 3.2rem 2.4rem;
+}
+
+.xolo-split__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.xolo-terminal {
+  background: var(--xolo-term-bg);
+  border: 1px solid var(--xolo-term-bg);
+  border-radius: var(--xolo-radius);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.xolo-terminal__panes {
+  flex: 1;
+}
+
+.xolo-terminal__toggle {
+  display: none;
+}
+
+.xolo-terminal__tabs {
+  border-bottom: 1px solid #ffffff17;
+  display: flex;
+  gap: 0.9rem;
+  padding: 0 0.7rem;
+}
+
+.xolo-terminal__tab {
+  color: #ffffff80;
+  cursor: pointer;
+  font-family: var(--md-code-font-family);
+  font-size: 0.575rem;
+  font-weight: 500;
+  padding: 0.45rem 0;
+}
+
+.md-typeset .xolo-terminal__pane {
+  color: var(--xolo-term-fg);
+  display: none;
+  font-family: var(--md-code-font-family);
+  font-size: 0.625rem;
+  line-height: 1.85;
+  margin: 0;
+  overflow-x: auto;
+  padding: 0.8rem 0.9rem;
+  white-space: pre;
+}
+
+.md-typeset .xolo-terminal__pane code {
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+
+.xolo-terminal__prompt {
+  color: var(--xolo-term-accent);
+}
+
+.xolo-terminal__comment {
+  color: #ffffff66;
+}
+
+/* Un onglet coché éclaire son étiquette et découvre son panneau. */
+.xolo-terminal__toggle:nth-of-type(1):checked ~ .xolo-terminal__tabs .xolo-terminal__tab:nth-of-type(1),
+.xolo-terminal__toggle:nth-of-type(2):checked ~ .xolo-terminal__tabs .xolo-terminal__tab:nth-of-type(2),
+.xolo-terminal__toggle:nth-of-type(3):checked ~ .xolo-terminal__tabs .xolo-terminal__tab:nth-of-type(3),
+.xolo-terminal__toggle:nth-of-type(4):checked ~ .xolo-terminal__tabs .xolo-terminal__tab:nth-of-type(4) {
+  box-shadow: inset 0 -2px 0 var(--xolo-term-accent);
+  color: #fff;
+}
+
+.xolo-terminal__toggle:nth-of-type(1):checked ~ .xolo-terminal__panes .xolo-terminal__pane:nth-of-type(1),
+.xolo-terminal__toggle:nth-of-type(2):checked ~ .xolo-terminal__panes .xolo-terminal__pane:nth-of-type(2),
+.xolo-terminal__toggle:nth-of-type(3):checked ~ .xolo-terminal__panes .xolo-terminal__pane:nth-of-type(3),
+.xolo-terminal__toggle:nth-of-type(4):checked ~ .xolo-terminal__panes .xolo-terminal__pane:nth-of-type(4) {
+  display: block;
+}
+
+.xolo-panel {
+  background: var(--xolo-surface);
+  border: 1px solid var(--xolo-line);
+  border-radius: var(--xolo-radius);
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+}
+
+.md-typeset .xolo-panel__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.7rem;
+}
+
+.md-typeset .xolo-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.md-typeset .xolo-panel__list li {
+  color: var(--xolo-muted);
+  display: flex;
+  font-size: 0.625rem;
+  gap: 0.55rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.xolo-panel__list svg {
+  color: var(--xolo-green);
+  flex: none;
+  height: 0.75rem;
+  margin-top: 0.15rem;
+  width: 0.75rem;
+}
+
+.md-typeset .xolo-panel__list strong {
+  color: var(--xolo-ink);
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  margin-bottom: 0.1rem;
+}
+
+.md-typeset .xolo-panel__link {
+  border-top: 1px solid var(--xolo-line);
+  font-size: 0.625rem;
+  margin: auto 0 0;
+  padding-top: 1rem;
+}
+
+/* ------------------------------------------------------------- Responsive */
+
+@media screen and (max-width: 44.984375em) {
+  /* Les tableaux passent pleine largeur : leur cadre arrondi n'aurait plus
+     de coin à montrer. */
+  .md-typeset table:not([class]) {
+    border-inline: 0;
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 59.984375em) {
+  .xolo-hero {
+    gap: 1.4rem;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.6rem 1rem 1.4rem;
+  }
+
+  .xolo-section {
+    padding: 1.4rem 1rem 0;
+  }
+
+  .xolo-split {
+    padding: 1.4rem 1rem 1.6rem;
+  }
+
+  .md-typeset .xolo-hero__title {
+    font-size: 1.5rem;
+  }
+
+  .md-typeset .xolo-hero__tagline {
+    max-width: none;
+  }
+
+  .xolo-cards,
+  .xolo-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media screen and (max-width: 76.234375em) {
+  /* Tiroir mobile : les liens y sont pleine largeur, sans pastille. */
+  .md-nav--primary .md-nav__link {
+    border-radius: 0;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .md-nav--primary .md-nav__title {
+    background: var(--xolo-surface);
+    color: var(--xolo-ink);
+  }
+
+  .md-nav--primary .md-nav__item .md-nav .md-nav__list {
+    border-inline-start: 0;
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+  }
+}
