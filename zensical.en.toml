@@ -24,6 +24,21 @@ logo = "logo.svg"
 favicon = "logo.svg"
 custom_dir = "overrides"
 
+features = [
+  "navigation.sections",   # titled top-level groups in the nav
+  "navigation.path",       # breadcrumb above the title
+  "navigation.top",        # back to top
+  "navigation.tracking",   # the URL tracks the section being read
+  "toc.follow",            # the table of contents follows reading
+  "content.code.copy",     # copy button on code blocks
+  "search.highlight",      # highlight search terms
+]
+
+# Xolo identity: same families as the product (templui.css).
+[project.theme.font]
+text = "IBM Plex Sans"
+code = "IBM Plex Mono"
+
 [project.extra]
 homepage = "https://xolo-gateway.org"
 
@@ -39,3 +54,112 @@ alternate = [
 provider = "mike"
 default = "latest"
 alias = true
+
+# Home page (board 1a of "Refonte doc Xolo"): hero, three entry points, quick
+# start and sovereignty panel. The overrides/main.html template renders this
+# section instead of the body of content/en/index.md as soon as
+# [project.extra.home] is defined — removing this block restores the plain
+# Markdown rendering.
+[project.extra.home]
+badge = "Official documentation"
+title = "Take back control of your generative AI usage"
+tagline = """
+Xolo sits between your applications and the model providers. It holds the API \
+keys, the budgets and the routing between models, and keeps a record of every \
+request. One binary, licensed under AGPL-3.0.\
+"""
+image = "accueil.png"
+image_alt = "Xolo dashboard"
+
+[[project.extra.home.actions]]
+title = "Install Xolo"
+link = "administration/installation/"
+primary = true
+
+[[project.extra.home.actions]]
+title = "Understand the model"
+link = "concepts/"
+
+[project.extra.home.paths]
+title = "Where to start"
+subtitle = "Three tracks, depending on your role"
+
+[[project.extra.home.paths.items]]
+title = "Deploy"
+description = "Installation, configuration, Go plugins, provisioning. For ops and administrators."
+icon = "deploy"
+tone = "primary"
+meta = "15 pages"
+link = "administration/"
+links = [
+  { title = "Installation & deployment", link = "administration/installation/" },
+  { title = "Configuration", link = "administration/installation/configuration/" },
+  { title = "Provisioning API", link = "administration/provisioning/provisioning/" },
+]
+
+[[project.extra.home.paths.items]]
+title = "Understand"
+description = "The organisation model, the provider → model → middleware pipeline, budgets, energy."
+icon = "concept"
+tone = "purple"
+meta = "6 pages"
+link = "concepts/"
+links = [
+  { title = "Organisation, roles and permissions", link = "concepts/organisation-et-permissions/" },
+  { title = "Providers, models and pipelines", link = "concepts/fournisseurs-modeles-pipeline/" },
+  { title = "Budgets and quotas", link = "concepts/budgets-et-quotas/" },
+]
+
+[[project.extra.home.paths.items]]
+title = "Use"
+description = "Day-to-day work in the interface: dashboard, events, alerts, eventql search."
+icon = "use"
+tone = "neutral"
+meta = "3 pages"
+link = "utilisation/"
+links = [
+  { title = "Dashboard", link = "utilisation/dashboard/dashboard/" },
+  { title = "Events", link = "utilisation/evenements/evenement/" },
+  { title = "eventql syntax", link = "concepts/eventql/" },
+]
+
+[project.extra.home.quickstart]
+title = "In five minutes"
+description = "A local instance, a key, a first call."
+
+[[project.extra.home.quickstart.tabs]]
+title = "docker"
+code = """
+$ docker run -p 8080:8080 \\
+    ghcr.io/xolo-gateway/xolo:latest
+
+# then, once the organisation is created
+$ curl localhost:8080/v1/chat/completions \\
+    -H "Authorization: Bearer $XOLO_KEY" \\
+    -d '{"model":"gpt-4o-mini","messages":[…]}'
+"""
+
+[[project.extra.home.quickstart.tabs]]
+title = "source"
+code = """
+$ git clone https://github.com/xolo-gateway/xolo
+$ cd xolo && make run
+
+# the interface listens on http://localhost:8080
+"""
+
+[project.extra.home.highlights]
+title = "A free project, and so are you"
+link = { title = "Read the code on GitHub", link = "https://github.com/xolo-gateway/xolo" }
+
+[[project.extra.home.highlights.items]]
+title = "Free to read, change, host"
+description = "AGPL-3.0. One binary, one SQLite file, and Xolo runs on your machine with no account and no third-party service."
+
+[[project.extra.home.highlights.items]]
+title = "Free to switch providers"
+description = "Your applications talk to a virtual model. Behind it, OpenAI, Mistral, OpenRouter, or Ollama and vLLM on your own hardware, swapped without touching client code."
+
+[[project.extra.home.highlights.items]]
+title = "Free to know what happens"
+description = "Every request leaves an event you can filter with eventql: cost, latency, tokens, energy range. A budget at its cap blocks the next calls."

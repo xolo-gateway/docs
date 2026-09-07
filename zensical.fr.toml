@@ -24,6 +24,21 @@ logo = "logo.svg"
 favicon = "logo.svg"
 custom_dir = "overrides"
 
+features = [
+  "navigation.sections",   # groupes de premier niveau titrés dans la nav
+  "navigation.path",       # fil d'Ariane au-dessus du titre
+  "navigation.top",        # retour en haut de page
+  "navigation.tracking",   # l'URL suit la section lue
+  "toc.follow",            # le sommaire suit la lecture
+  "content.code.copy",     # bouton copier sur les blocs de code
+  "search.highlight",      # surlignage des termes trouvés
+]
+
+# Identité Xolo : mêmes familles que le produit (templui.css).
+[project.theme.font]
+text = "IBM Plex Sans"
+code = "IBM Plex Mono"
+
 [project.extra]
 homepage = "https://xolo-gateway.org"
 
@@ -43,3 +58,121 @@ alternate = [
 provider = "mike"
 default = "latest"
 alias = true
+
+# Page d'accueil (planche 1a de « Refonte doc Xolo ») : hero, trois portes
+# d'entrée, démarrage rapide et encart souveraineté. Le gabarit
+# overrides/main.html rend cette section à la place du corps de content/fr/
+# index.md dès que [project.extra.home] est défini — retirer ce bloc suffit à
+# revenir au rendu Markdown classique.
+[project.extra.home]
+badge = "Documentation officielle"
+title = "Reprenez le contrôle sur vos usages de l'IA générative"
+tagline = """
+Xolo se place entre vos applications et les fournisseurs de modèles. Il tient \
+les clés d'API, les budgets et le routage entre modèles, et garde une trace de \
+chaque requête. Un binaire, sous licence AGPL-3.0.\
+"""
+image = "accueil.png"
+image_alt = "Tableau de bord Xolo"
+
+[[project.extra.home.actions]]
+title = "Installer Xolo"
+link = "administration/installation/"
+primary = true
+
+[[project.extra.home.actions]]
+title = "Comprendre le modèle"
+link = "concepts/"
+
+[project.extra.home.paths]
+title = "Par où commencer"
+subtitle = "Trois parcours, selon votre rôle"
+
+[[project.extra.home.paths.items]]
+title = "Déployer"
+description = """
+Installation, configuration, plugins Go, provisioning. Pour les ops et les \
+administrateurs.\
+"""
+icon = "deploy"
+tone = "primary"
+meta = "15 pages"
+link = "administration/"
+links = [
+  { title = "Installation & déploiement", link = "administration/installation/" },
+  { title = "Configuration", link = "administration/installation/configuration/" },
+  { title = "API de provisioning", link = "administration/provisioning/provisioning/" },
+]
+
+[[project.extra.home.paths.items]]
+title = "Comprendre"
+description = """
+Le modèle d'organisation, le pipeline fournisseur → modèle → middleware, les \
+budgets, l'énergie.\
+"""
+icon = "concept"
+tone = "purple"
+meta = "6 pages"
+link = "concepts/"
+links = [
+  { title = "Organisation, rôles et permissions", link = "concepts/organisation-et-permissions/" },
+  { title = "Fournisseurs, modèles et pipelines", link = "concepts/fournisseurs-modeles-pipeline/" },
+  { title = "Budgets et quotas", link = "concepts/budgets-et-quotas/" },
+]
+
+[[project.extra.home.paths.items]]
+title = "Utiliser"
+description = """
+Le quotidien dans l'interface : tableau de bord, événements, alertes, \
+recherche eventql.\
+"""
+icon = "use"
+tone = "neutral"
+meta = "3 pages"
+link = "utilisation/"
+links = [
+  { title = "Tableau de bord", link = "utilisation/dashboard/dashboard/" },
+  { title = "Événements", link = "utilisation/evenements/evenement/" },
+  { title = "Syntaxe eventql", link = "concepts/eventql/" },
+]
+
+[project.extra.home.quickstart]
+title = "En cinq minutes"
+description = "Une instance locale, une clé, un premier appel."
+
+[[project.extra.home.quickstart.tabs]]
+title = "docker"
+code = """
+$ docker run -p 8080:8080 \\
+    ghcr.io/xolo-gateway/xolo:latest
+
+# puis, une fois l'organisation créée
+$ curl localhost:8080/v1/chat/completions \\
+    -H "Authorization: Bearer $XOLO_KEY" \\
+    -d '{"model":"gpt-4o-mini","messages":[…]}'
+"""
+
+[[project.extra.home.quickstart.tabs]]
+title = "source"
+code = """
+$ git clone https://github.com/xolo-gateway/xolo
+$ cd xolo && make run
+
+# l'interface écoute sur http://localhost:8080
+"""
+
+[project.extra.home.highlights]
+title = "Un projet libre, et vous aussi"
+link = { title = "Lire le code sur GitHub", link = "https://github.com/xolo-gateway/xolo" }
+
+[[project.extra.home.highlights.items]]
+title = "Libre de lire, modifier, héberger"
+description = "Licence AGPL-3.0. Un binaire, une base SQLite, et Xolo tourne sur votre machine sans compte ni service tiers."
+
+[[project.extra.home.highlights.items]]
+title = "Libre de changer de fournisseur"
+description = "Vos applications parlent à un modèle virtuel. Derrière, OpenAI, Mistral, OpenRouter, ou Ollama et vLLM chez vous, interchangeables sans toucher au code client."
+
+[[project.extra.home.highlights.items]]
+title = "Libre de savoir ce qui se passe"
+description = "Chaque requête laisse un événement filtrable en eventql : coût, latence, tokens, fourchette d'énergie. Un budget atteint bloque les appels suivants."

@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{#-
+  Page d'accueil « Refonte doc Xolo » (planche 1a).
+
+  Zensical n'expose pas page.is_homepage : l'accueil est la seule page dont
+  l'URL est vide. Le hero, les trois portes d'entrée, le démarrage rapide et
+  l'encart souveraineté sont décrits dans [project.extra.home] de
+  zensical.<lang>.toml — une par langue, puisque chaque langue est un build
+  indépendant. Sans ce bloc de configuration, l'accueil retombe sur le rendu
+  Markdown standard de content/<lang>/index.md.
+-#}
+
+{% macro icon(name) %}
+  {%- if name == "deploy" -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></svg>
+  {%- elif name == "concept" -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.6"/><circle cx="18" cy="12" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M8.4 7.3l7.2 3.4M8.4 16.7l7.2-3.4"/></svg>
+  {%- else -%}
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14l3-4 2.5 3L16 9"/></svg>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro terminal(tabs, id) %}
+  <div class="xolo-terminal">
+    {% for tab in tabs %}
+      <input class="xolo-terminal__toggle" type="radio" name="{{ id }}" id="{{ id }}-{{ loop.index }}" autocomplete="off" {{ "checked" if loop.first }}>
+    {% endfor %}
+    <div class="xolo-terminal__tabs">
+      {% for tab in tabs %}
+        <label class="xolo-terminal__tab" for="{{ id }}-{{ loop.index }}">{{ tab.title }}</label>
+      {% endfor %}
+    </div>
+    <div class="xolo-terminal__panes">
+      {% for tab in tabs %}
+        <pre class="xolo-terminal__pane"><code>{% for line in tab.code | trim | split("\n") %}{% if line[:2] == "$ " %}<span class="xolo-terminal__prompt">$</span>{{ line[1:] }}{% elif line[:1] == "#" %}<span class="xolo-terminal__comment">{{ line }}</span>{% else %}{{ line }}{% endif %}
+{% endfor %}</code></pre>
+      {% endfor %}
+    </div>
+  </div>
+{% endmacro %}
+
+{#- L'accueil se passe des deux barres latérales : la navigation est le sujet
+    de la page elle-même. -#}
+{% block site_nav %}
+  {% if page.url or not config.extra.home %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
+{% block container %}
+  {% if page.url or not config.extra.home %}
+    {{ super() }}
+  {% else %}
+    {% set home = config.extra.home %}
+    <div class="md-content xolo-home" data-md-component="content">
+      <article class="md-content__inner md-typeset">
+
+        <section class="xolo-hero">
+          <div class="xolo-hero__text">
+            {% if home.badge %}
+              <p class="xolo-badge">{{ home.badge }}</p>
+            {% endif %}
+            <h1 class="xolo-hero__title">{{ home.title }}</h1>
+            <p class="xolo-hero__tagline">{{ home.tagline }}</p>
+            {% if home.actions %}
+              <p class="xolo-hero__actions">
+                {% for action in home.actions %}
+                  <a href="{{ action.link | url }}" class="xolo-button {{ 'xolo-button--primary' if action.primary }}">
+                    {{ action.title }}
+                    {% if action.primary %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+                    {% endif %}
+                  </a>
+                {% endfor %}
+              </p>
+            {% endif %}
+          </div>
+          {% if home.image %}
+            <figure class="xolo-hero__figure">
+              <div class="xolo-window">
+                <div class="xolo-window__bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                <img src="{{ home.image | url }}" alt="{{ home.image_alt | d('') }}">
+              </div>
+            </figure>
+          {% endif %}
+        </section>
+
+        {% if home.paths %}
+          <section class="xolo-section">
+            <header class="xolo-section__header">
+              <h2>{{ home.paths.title }}</h2>
+              {% if home.paths.subtitle %}
+                <p>{{ home.paths.subtitle }}</p>
+              {% endif %}
+            </header>
+            <div class="xolo-cards">
+              {% for item in home.paths.items %}
+                <article class="xolo-card xolo-card--{{ item.tone | d('neutral') }}">
+                  <span class="xolo-card__icon">{{ icon(item.icon) }}</span>
+                  <h3 class="xolo-card__title">
+                    <a href="{{ item.link | url }}">{{ item.title }}</a>
+                  </h3>
+                  <p class="xolo-card__description">{{ item.description }}</p>
+                  <ul class="xolo-card__links">
+                    {% for link in item.links %}
+                      <li><a href="{{ link.link | url }}">{{ link.title }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  {% if item.meta %}
+                    <p class="xolo-card__meta">{{ item.meta }}</p>
+                  {% endif %}
+                </article>
+              {% endfor %}
+            </div>
+          </section>
+        {% endif %}
+
+        <section class="xolo-split">
+          {% if home.quickstart %}
+            <div class="xolo-split__main">
+              <h2 class="xolo-section__title">{{ home.quickstart.title }}</h2>
+              {% if home.quickstart.description %}
+                <p class="xolo-section__lead">{{ home.quickstart.description }}</p>
+              {% endif %}
+              {{ terminal(home.quickstart.tabs, "__xolo_quickstart") }}
+            </div>
+          {% endif %}
+          {% if home.highlights %}
+            <aside class="xolo-panel">
+              <h2 class="xolo-panel__title">{{ home.highlights.title }}</h2>
+              <ul class="xolo-panel__list">
+                {% for item in home.highlights.items %}
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12.5 5 5L20 6.5"/></svg>
+                    <span>
+                      <strong>{{ item.title }}</strong>
+                      {{ item.description }}
+                    </span>
+                  </li>
+                {% endfor %}
+              </ul>
+              {% if home.highlights.link %}
+                <p class="xolo-panel__link">
+                  <a href="{{ home.highlights.link.link | url }}">{{ home.highlights.link.title }} →</a>
+                </p>
+              {% endif %}
+            </aside>
+          {% endif %}
+        </section>
+
+      </article>
+    </div>
+  {% endif %}
+{% endblock %}

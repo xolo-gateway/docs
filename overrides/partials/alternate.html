@@ -1,0 +1,24 @@
+{#-
+  Sélecteur de langue : la maquette affiche le code de la langue courante
+  (« FR ») suivi d'un chevron, plutôt que l'icône « traduction » du thème.
+  Le reste (liste déroulante au survol) est celui de Zensical.
+-#}
+<div class="md-header__option">
+  <div class="md-select">
+    <button class="md-header__button md-icon xolo-lang" aria-label="{{ lang.t('select.language') }}">
+      <span class="xolo-lang__code">{{ config.theme.language }}</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        {% for alt in config.extra.alternate %}
+          <li class="md-select__item">
+            <a href="{{ alt.link | url }}" hreflang="{{ alt.lang }}" class="md-select__link">
+              {{ alt.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
