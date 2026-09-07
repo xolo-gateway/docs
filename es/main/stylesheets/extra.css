@@ -1115,8 +1115,13 @@ html .md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
   width: 0.7rem;
 }
 
+/* Le thème donne aux figures une largeur « fit-content » : ici elles
+   remplissent leur colonne. */
 .md-typeset .xolo-hero__figure {
   margin: 0;
+  max-width: none;
+  min-width: 0;
+  width: 100%;
 }
 
 .xolo-window {
@@ -1525,5 +1530,246 @@ html .md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
     border-inline-start: 0;
     margin-inline-start: 0;
     padding-inline-start: 0;
+  }
+}
+
+/* ============================================ Illustration animée du hero
+ *
+ * Planche 2a : clients à gauche, Xolo au centre, fournisseurs à droite. Les
+ * paquets suivent les tracés en offset-path, les pointillés défilent en
+ * stroke-dashoffset. Tout s'arrête si l'utilisateur préfère moins de
+ * mouvement.
+ */
+
+@keyframes xolo-flow {
+  0% { offset-distance: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+@keyframes xolo-dash {
+  to { stroke-dashoffset: -28; }
+}
+
+@keyframes xolo-scan {
+  0% { transform: translateY(0); opacity: 0; }
+  14%, 86% { opacity: 0.09; }
+  100% { transform: translateY(122px); opacity: 0; }
+}
+
+@keyframes xolo-bar {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+/* Avec l'illustration, la colonne de droite s'élargit (0.85 / 1.15). */
+.xolo-hero--illustration {
+  gap: 2.6rem;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  padding-top: 2.6rem;
+}
+
+.xolo-hero--illustration .xolo-hero__title {
+  font-size: 2rem;
+}
+
+.xolo-illu {
+  display: block;
+  font-family: var(--md-text-font-family);
+  height: auto;
+  width: 100%;
+}
+
+.xolo-illu__heading,
+.xolo-illu__step,
+.xolo-illu__slot-sub,
+.xolo-illu__event-sub,
+.xolo-illu__sub {
+  fill: var(--xolo-faint);
+}
+
+.xolo-illu__heading {
+  font-family: var(--md-code-font-family);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+}
+
+.xolo-illu__rails {
+  fill: none;
+  stroke: #dcdee3;
+  stroke-width: 1.4;
+}
+
+.xolo-illu__dash {
+  animation: xolo-dash 1.6s linear infinite;
+  fill: none;
+  stroke-dasharray: 4 10;
+  stroke-width: 1.4;
+}
+
+.xolo-illu__dash--in {
+  opacity: 0.5;
+  stroke: var(--xolo-primary);
+}
+
+.xolo-illu__dash--out {
+  opacity: 0.55;
+  stroke: var(--xolo-term-accent);
+}
+
+.xolo-illu__card rect {
+  fill: #fff;
+  stroke: var(--xolo-line-strong);
+}
+
+.xolo-illu__glyph {
+  fill: none;
+  stroke: var(--xolo-muted);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.xolo-illu__title {
+  fill: var(--xolo-ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.xolo-illu__sub {
+  font-size: 10.5px;
+}
+
+.xolo-illu__box {
+  fill: #fff;
+  stroke: var(--xolo-primary);
+  stroke-opacity: 0.28;
+}
+
+.xolo-illu__brand {
+  fill: var(--xolo-ink);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.xolo-illu__rule {
+  stroke: var(--xolo-line-strong);
+}
+
+.xolo-illu__scan {
+  animation: xolo-scan 3.4s ease-in-out infinite;
+  fill: var(--xolo-primary);
+  opacity: 0.08;
+}
+
+.xolo-illu__step {
+  font-family: var(--md-code-font-family);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.xolo-illu__step--route,
+.xolo-illu__slot-title--route,
+.xolo-illu__slot-sub--route {
+  fill: var(--xolo-purple);
+}
+
+.xolo-illu__slot {
+  fill: var(--xolo-surface);
+  stroke: var(--xolo-line);
+}
+
+.xolo-illu__slot--route {
+  fill: var(--xolo-purple-soft);
+  stroke: var(--xolo-purple);
+  stroke-opacity: 0.35;
+}
+
+.xolo-illu__slot-title {
+  fill: var(--xolo-ink);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.xolo-illu__slot-title--route {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.xolo-illu__slot-sub {
+  font-family: var(--md-code-font-family);
+  font-size: 9.5px;
+}
+
+.xolo-illu__slot-sub--route {
+  font-size: 9px;
+  opacity: 0.9;
+}
+
+.xolo-illu__bars {
+  fill: var(--xolo-primary);
+  opacity: 0.55;
+}
+
+.xolo-illu__bars rect {
+  animation: xolo-bar 1.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.xolo-illu__bars rect:nth-child(2) { animation-delay: 0.18s; }
+.xolo-illu__bars rect:nth-child(3) { animation-delay: 0.36s; }
+.xolo-illu__bars rect:nth-child(4) { animation-delay: 0.54s; }
+
+.xolo-illu__event {
+  fill: var(--xolo-ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.xolo-illu__event-sub {
+  font-family: var(--md-code-font-family);
+  font-size: 9.5px;
+}
+
+.xolo-illu__packets circle {
+  animation: xolo-flow 2.6s linear infinite;
+}
+
+.xolo-illu__packets--in {
+  fill: var(--xolo-primary);
+}
+
+.xolo-illu__packets--out {
+  fill: var(--xolo-term-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xolo-illu__dash,
+  .xolo-illu__scan,
+  .xolo-illu__bars rect,
+  .xolo-illu__packets circle {
+    animation: none;
+  }
+
+  .xolo-illu__scan {
+    opacity: 0;
+  }
+
+  .xolo-illu__packets circle {
+    offset-distance: 60%;
+  }
+}
+
+@media screen and (max-width: 59.984375em) {
+  .xolo-hero--illustration {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .xolo-hero--illustration .xolo-hero__title {
+    font-size: 1.5rem;
   }
 }
