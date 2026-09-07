@@ -365,7 +365,7 @@
   /* Colonne de navigation teintée sur toute la hauteur, séparée du contenu
      par un filet : la grille fait 61rem centrés, la barre 12.1rem — la
      transition se calcule depuis le bord gauche de la fenêtre. */
-  .md-main:has(.md-sidebar--primary:not([hidden])) {
+  .md-main:has(.md-sidebar--primary:not([hidden])):not(:has(.xolo-home)) {
     --xolo-nav-edge: calc(max(0px, 50% - 30.5rem) + 12.1rem);
     background: linear-gradient(
       90deg,
@@ -429,12 +429,26 @@
     font-weight: 500;
   }
 
+  /* L'accueil se passe des deux barres latérales : la navigation est le sujet
+     de la page. La nav reste dans le document, elle alimente le tiroir mobile
+     sous 76.25em. */
+  .md-main__inner:has(.xolo-home) .md-sidebar {
+    display: none;
+  }
+
+  /* Les barres de l'accueil sont masquées mais restent dans le document : le
+     thème leur applique quand même sa gouttière de 1.2rem. Cette règle a la
+     même spécificité que la sienne et vient après. */
+  :is([dir=ltr], [dir=rtl]) .md-sidebar:not([hidden]) ~ .xolo-home > .md-content__inner {
+    margin-inline: 0;
+  }
+
   /* Colonne de contenu : 44px de chaque côté, 26px en haut. */
-  [dir=ltr] .md-sidebar--primary:not([hidden]) ~ .md-content > .md-content__inner {
+  [dir=ltr] .md-sidebar--primary:not([hidden]) ~ .md-content:not(.xolo-home) > .md-content__inner {
     margin-left: 2.2rem;
   }
 
-  [dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content > .md-content__inner {
+  [dir=ltr] .md-sidebar--secondary:not([hidden]) ~ .md-content:not(.xolo-home) > .md-content__inner {
     margin-right: 2.2rem;
   }
 
