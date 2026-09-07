@@ -72,8 +72,61 @@ Xolo se place entre vos applications et les fournisseurs de modèles. Il tient \
 les clés d'API, les budgets et le routage entre modèles, et garde une trace de \
 chaque requête. Un binaire, sous licence AGPL-3.0.\
 """
-image = "accueil.png"
-image_alt = "Tableau de bord Xolo"
+
+# Illustration animée du hero (planche 2a) à la place de la capture. Trois
+# clients, trois fournisseurs, trois étapes : le gabarit
+# overrides/partials/xolo-illustration.html est calé sur ces nombres.
+[project.extra.home.illustration]
+aria = "Xolo s'intercale entre les clients LLM et les fournisseurs"
+clients_label = "CLIENTS LLM"
+providers_label = "FOURNISSEURS"
+events = { title = "Un événement par requête", subtitle = "coût · latence · énergie" }
+
+[[project.extra.home.illustration.clients]]
+title = "Chat"
+subtitle = "SDK OpenAI"
+icon = "chat"
+
+[[project.extra.home.illustration.clients]]
+title = "Agents"
+subtitle = "outils, RAG"
+icon = "bot"
+
+[[project.extra.home.illustration.clients]]
+title = "IDE / CLI"
+subtitle = "clé d'application"
+icon = "terminal"
+
+[[project.extra.home.illustration.providers]]
+title = "API distante"
+subtitle = "OpenAI, Azure…"
+icon = "globe"
+
+[[project.extra.home.illustration.providers]]
+title = "API européenne"
+subtitle = "Mistral, OVH…"
+icon = "globe"
+
+[[project.extra.home.illustration.providers]]
+title = "Auto-hébergement"
+subtitle = "Ollama, vLLM, autre…"
+icon = "server"
+
+[[project.extra.home.illustration.steps]]
+label = "1 · AUTHENTIFIER"
+title = "Clé d'application"
+subtitle = "rôle et permissions"
+
+[[project.extra.home.illustration.steps]]
+label = "2 · CONTRÔLER"
+title = "Budget et quota"
+subtitle = "organisation, membre"
+
+[[project.extra.home.illustration.steps]]
+label = "3 · ROUTER"
+title = "Modèle virtuel"
+subtitle = "pipeline : plugins, modèles"
+subtitle2 = "repli et pondération"
 
 [[project.extra.home.actions]]
 title = "Installer Xolo"

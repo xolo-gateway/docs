@@ -1,0 +1,119 @@
+{#-
+  Illustration animée du hero (planche 2a/2c de « Refonte doc Xolo ») :
+  les clients à gauche, Xolo au centre, les fournisseurs à droite. SVG et
+  @keyframes seulement (voir extra.css), les paquets suivent les tracés en
+  offset-path. Les libellés viennent de [project.extra.home.illustration],
+  donc de la langue du build. Jusqu'à quatre lignes de chaque côté ; avec
+  moins, la colonne est recentrée.
+-#}
+{% set illu = config.extra.home.illustration %}
+{% set cy0 = 44 + (4 - (illu.clients | length)) * 36 %}
+{% set py0 = 44 + (4 - (illu.providers | length)) * 36 %}
+
+{% macro glyph(name) %}
+  {%- if name == "chat" -%}
+    <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>
+  {%- elif name == "bot" -%}
+    <path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/>
+  {%- elif name == "terminal" -%}
+    <path d="M12 19h8M4 17l6-6-6-6"/>
+  {%- elif name == "code" -%}
+    <path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>
+  {%- elif name == "globe" -%}
+    <circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/>
+  {%- elif name == "brain" -%}
+    <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18ZM9 13a4.5 4.5 0 0 0 3-4M12 13h4M12 18h6a2 2 0 0 1 2 2v1M12 8h8M16 8V5a2 2 0 0 1 2-2"/>
+  {%- else -%}
+    <rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01M6 18h.01"/>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro path_in(y) %}{% if y == 215 %}M146,215 L250,215{% else %}M146,{{ y }} C200,{{ y }} 206,215 250,215{% endif %}{% endmacro %}
+{% macro path_out(y) %}{% if y == 215 %}M450,215 L554,215{% else %}M450,215 C500,215 506,{{ y }} 554,{{ y }}{% endif %}{% endmacro %}
+
+<svg class="xolo-illu" viewBox="0 0 712 380" role="img" aria-label="{{ illu.aria | d('') }}">
+  <text class="xolo-illu__heading" x="6" y="26">{{ illu.clients_label }}</text>
+  <text class="xolo-illu__heading" x="554" y="26">{{ illu.providers_label }}</text>
+
+  {#- Tracés : le fond gris, puis le pointillé animé par-dessus. -#}
+  <g class="xolo-illu__rails">
+    {% for item in illu.clients %}<path d="{{ path_in(cy0 + 27 + loop.index0 * 72) }}"/>{% endfor %}
+    {% for item in illu.providers %}<path d="{{ path_out(py0 + 27 + loop.index0 * 72) }}"/>{% endfor %}
+  </g>
+  <g class="xolo-illu__dash xolo-illu__dash--in">
+    {% for item in illu.clients %}<path d="{{ path_in(cy0 + 27 + loop.index0 * 72) }}"/>{% endfor %}
+  </g>
+  <g class="xolo-illu__dash xolo-illu__dash--out">
+    {% for item in illu.providers %}<path d="{{ path_out(py0 + 27 + loop.index0 * 72) }}"/>{% endfor %}
+  </g>
+
+  {#- Cartes clients et fournisseurs. -#}
+  {% for item in illu.clients %}
+    {% set y = cy0 + loop.index0 * 72 %}
+    <g class="xolo-illu__card" transform="translate(6,{{ y }})">
+      <rect width="140" height="54" rx="9"/>
+      <g class="xolo-illu__glyph" transform="translate(14,18) scale(0.75)">{{ glyph(item.icon) }}</g>
+      <text class="xolo-illu__title" x="38" y="24">{{ item.title }}</text>
+      <text class="xolo-illu__sub" x="38" y="40">{{ item.subtitle }}</text>
+    </g>
+  {% endfor %}
+  {% for item in illu.providers %}
+    {% set y = py0 + loop.index0 * 72 %}
+    <g class="xolo-illu__card" transform="translate(554,{{ y }})">
+      <rect width="152" height="54" rx="9"/>
+      <g class="xolo-illu__glyph" transform="translate(12,18) scale(0.75)">{{ glyph(item.icon) }}</g>
+      <text class="xolo-illu__title" x="36" y="24">{{ item.title }}</text>
+      <text class="xolo-illu__sub" x="36" y="40">{{ item.subtitle }}</text>
+    </g>
+  {% endfor %}
+
+  {#- Xolo, au centre. -#}
+  <rect class="xolo-illu__box" x="250" y="60" width="200" height="310" rx="12"/>
+  {% if config.theme.logo %}
+    <image href="{{ config.theme.logo | url }}" x="392" y="302" width="72" height="72" opacity="0.07"/>
+    <image href="{{ config.theme.logo | url }}" x="266" y="72" width="22" height="22"/>
+  {% endif %}
+  <text class="xolo-illu__brand" x="295" y="88">{{ config.site_name }}</text>
+  <line class="xolo-illu__rule" x1="266" y1="104" x2="434" y2="104"/>
+
+  <rect class="xolo-illu__scan" x="252" y="126" width="196" height="36"/>
+  {% for step in illu.steps %}
+    {% set y = 120 + loop.index0 * 62 %}
+    {% if loop.last %}
+      <text class="xolo-illu__step xolo-illu__step--route" x="266" y="{{ y }}">{{ step.label }}</text>
+      <rect class="xolo-illu__slot xolo-illu__slot--route" x="266" y="{{ y + 6 }}" width="168" height="58" rx="8"/>
+      <text class="xolo-illu__slot-title xolo-illu__slot-title--route" x="278" y="{{ y + 26 }}">{{ step.title }}</text>
+      <text class="xolo-illu__slot-sub xolo-illu__slot-sub--route" x="278" y="{{ y + 42 }}">{{ step.subtitle }}</text>
+      {% if step.subtitle2 %}<text class="xolo-illu__slot-sub xolo-illu__slot-sub--route" x="278" y="{{ y + 56 }}">{{ step.subtitle2 }}</text>{% endif %}
+    {% else %}
+      <text class="xolo-illu__step" x="266" y="{{ y }}">{{ step.label }}</text>
+      <rect class="xolo-illu__slot" x="266" y="{{ y + 6 }}" width="168" height="36" rx="7"/>
+      <text class="xolo-illu__slot-title" x="278" y="{{ y + 23 }}">{{ step.title }}</text>
+      <text class="xolo-illu__slot-sub" x="278" y="{{ y + 36 }}">{{ step.subtitle }}</text>
+    {% endif %}
+  {% endfor %}
+  <line class="xolo-illu__rule" x1="266" y1="320" x2="434" y2="320"/>
+
+  <g transform="translate(268,330)">
+    <g class="xolo-illu__bars">
+      <rect x="0" y="0" width="3" height="20" rx="1.5"/>
+      <rect x="7" y="0" width="3" height="20" rx="1.5"/>
+      <rect x="14" y="0" width="3" height="20" rx="1.5"/>
+      <rect x="21" y="0" width="3" height="20" rx="1.5"/>
+    </g>
+    <text class="xolo-illu__event" x="34" y="10">{{ illu.events.title }}</text>
+    <text class="xolo-illu__event-sub" x="34" y="24">{{ illu.events.subtitle }}</text>
+  </g>
+
+  {#- Les paquets : un par tracé, décalés dans le temps. -#}
+  <g class="xolo-illu__packets xolo-illu__packets--in">
+    {% for item in illu.clients %}
+      <circle r="3.6" style="offset-path:path('{{ path_in(cy0 + 27 + loop.index0 * 72) }}');animation-delay:{{ loop.index0 * 0.6 }}s"/>
+    {% endfor %}
+  </g>
+  <g class="xolo-illu__packets xolo-illu__packets--out">
+    {% for item in illu.providers %}
+      <circle r="3.6" style="offset-path:path('{{ path_out(py0 + 27 + loop.index0 * 72) }}');animation-delay:{{ 1.3 + loop.index0 * 0.6 }}s"/>
+    {% endfor %}
+  </g>
+</svg>

@@ -75,6 +75,11 @@ ses gabarits :
   encart libre) depuis `[project.extra.home]` de chaque `zensical.<lang>.toml`.
   Le corps de `index.md` n'apparaît donc plus ; retirer ce bloc rend le rendu
   Markdown standard.
+- `partials/xolo-illustration.html` dessine le schéma animé du hero (clients,
+  Xolo, fournisseurs) en SVG et `@keyframes`, sans script ni image. Ses
+  libellés viennent de `[project.extra.home.illustration]` ; sans ce bloc, le
+  hero retombe sur la capture `image` si elle est définie. L'animation
+  s'arrête avec `prefers-reduced-motion`.
 - `partials/logo.html` et `partials/alternate.html` remplacent le logo et le
   sélecteur de langue du thème.
 

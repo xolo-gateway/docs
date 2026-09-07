@@ -56,7 +56,7 @@
     <div class="md-content xolo-home" data-md-component="content">
       <article class="md-content__inner md-typeset">
 
-        <section class="xolo-hero">
+        <section class="xolo-hero {{ 'xolo-hero--illustration' if home.illustration }}">
           <div class="xolo-hero__text">
             {% if home.badge %}
               <p class="xolo-badge">{{ home.badge }}</p>
@@ -76,7 +76,11 @@
               </p>
             {% endif %}
           </div>
-          {% if home.image %}
+          {% if home.illustration %}
+            <figure class="xolo-hero__figure xolo-hero__figure--illustration">
+              {% include "partials/xolo-illustration.html" %}
+            </figure>
+          {% elif home.image %}
             <figure class="xolo-hero__figure">
               <div class="xolo-window">
                 <div class="xolo-window__bar" aria-hidden="true"><i></i><i></i><i></i></div>

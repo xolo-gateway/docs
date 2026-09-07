@@ -68,8 +68,61 @@ Xolo sits between your applications and the model providers. It holds the API \
 keys, the budgets and the routing between models, and keeps a record of every \
 request. One binary, licensed under AGPL-3.0.\
 """
-image = "accueil.png"
-image_alt = "Xolo dashboard"
+
+# Animated hero illustration (board 2a) instead of the screenshot. Three
+# clients, three providers, three steps: overrides/partials/
+# xolo-illustration.html is laid out for these counts.
+[project.extra.home.illustration]
+aria = "Xolo sits between LLM clients and providers"
+clients_label = "LLM CLIENTS"
+providers_label = "PROVIDERS"
+events = { title = "One event per request", subtitle = "cost · latency · energy" }
+
+[[project.extra.home.illustration.clients]]
+title = "Chat"
+subtitle = "OpenAI SDK"
+icon = "chat"
+
+[[project.extra.home.illustration.clients]]
+title = "Agents"
+subtitle = "tools, RAG"
+icon = "bot"
+
+[[project.extra.home.illustration.clients]]
+title = "IDE / CLI"
+subtitle = "application key"
+icon = "terminal"
+
+[[project.extra.home.illustration.providers]]
+title = "Remote API"
+subtitle = "OpenAI, Azure…"
+icon = "globe"
+
+[[project.extra.home.illustration.providers]]
+title = "European API"
+subtitle = "Mistral, OVH…"
+icon = "globe"
+
+[[project.extra.home.illustration.providers]]
+title = "Self-hosted"
+subtitle = "Ollama, vLLM, others…"
+icon = "server"
+
+[[project.extra.home.illustration.steps]]
+label = "1 · AUTHENTICATE"
+title = "Application key"
+subtitle = "role and permissions"
+
+[[project.extra.home.illustration.steps]]
+label = "2 · CONTROL"
+title = "Budget and quota"
+subtitle = "organisation, member"
+
+[[project.extra.home.illustration.steps]]
+label = "3 · ROUTE"
+title = "Virtual model"
+subtitle = "pipeline: plugins, models"
+subtitle2 = "fallback and weighting"
 
 [[project.extra.home.actions]]
 title = "Install Xolo"
