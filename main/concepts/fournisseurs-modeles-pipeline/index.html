@@ -2007,7 +2007,7 @@
 <h1 id="fournisseurs-modeles-et-pipelines">Fournisseurs, modèles et pipelines<a class="headerlink" href="#fournisseurs-modeles-et-pipelines" title="Permanent link">&para;</a></h1>
 <p>Xolo s'intercale entre les utilisateurs et les services LLM. Cette page explique comment les briques suivantes s'articulent : <strong>fournisseur</strong>, <strong>modèle</strong>, <strong>modèle virtuel</strong>, <strong>middleware</strong> et <strong>plugin</strong>.</p>
 <h2 id="fournisseur-modele">Fournisseur → modèle<a class="headerlink" href="#fournisseur-modele" title="Permanent link">&para;</a></h2>
-<p>Un <strong>fournisseur</strong> est une connexion vers un service LLM externe (OpenAI, Mistral, OpenRouter, un déploiement <code>yzma</code> interne…). Il porte les informations de connexion (URL, clé API), le mode de facturation (pay-as-you-go ou abonnement) et un <strong>niveau d'infrastructure</strong> (Hyperscaler, Major Cloud, Small Provider) utilisé pour l'<a href=".././estimation-energetique/">estimation énergétique</a>.</p>
+<p>Un <strong>fournisseur</strong> est une connexion vers un service LLM externe (OpenAI, Mistral, OpenRouter, ou un serveur que vous opérez comme Ollama ou vLLM…). Il porte les informations de connexion (URL, clé API), le mode de facturation (pay-as-you-go ou abonnement) et un <strong>niveau d'infrastructure</strong> (Hyperscaler, Major Cloud, Small Provider) utilisé pour l'<a href=".././estimation-energetique/">estimation énergétique</a>.</p>
 <p>Un fournisseur expose un ou plusieurs <strong>modèles</strong>. Chaque modèle est décrit par :</p>
 <ul>
 <li>son identité (nom proxy exposé aux utilisateurs, nom réel côté fournisseur, taille de contexte) ;</li>

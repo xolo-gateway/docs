@@ -851,6 +851,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#serveurs-locaux-ollama-vllm-et-compatibles-openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Serveurs locaux : Ollama, vLLM et compatibles OpenAI
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2152,6 +2163,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#serveurs-locaux-ollama-vllm-et-compatibles-openai" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Serveurs locaux : Ollama, vLLM et compatibles OpenAI
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2417,6 +2439,35 @@
 <ol>
 <li>Cliquez sur <strong>Enregistrer</strong>.</li>
 </ol>
+<h2 id="serveurs-locaux-ollama-vllm-et-compatibles-openai">Serveurs locaux : Ollama, vLLM et compatibles OpenAI<a class="headerlink" href="#serveurs-locaux-ollama-vllm-et-compatibles-openai" title="Permanent link">&para;</a></h2>
+<p>Xolo n'a pas de type de connexion propre à Ollama ou à vLLM, et n'en a pas besoin : ces serveurs exposent l'API au format OpenAI. Déclarez-les avec le type <code>openai</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Ollama</th>
+<th>vLLM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td><code>openai</code></td>
+<td><code>openai</code></td>
+</tr>
+<tr>
+<td><strong>URL de base</strong></td>
+<td><code>http://localhost:11434/v1</code></td>
+<td><code>http://localhost:8000/v1</code></td>
+</tr>
+<tr>
+<td><strong>Clé API</strong></td>
+<td>vide, sauf si vous en avez configuré une</td>
+<td>celle passée à <code>--api-key</code>, sinon vide</td>
+</tr>
+</tbody>
+</table>
+<p>Adaptez l'hôte et le port à votre déploiement. Pour l'estimation énergétique, choisissez le niveau d'infrastructure <strong>Small Provider</strong> : c'est celui qui correspond le mieux à une machine que vous opérez vous-même. La même recette vaut pour tout serveur qui parle le format OpenAI (LM Studio, llama.cpp en mode serveur, LocalAI…).</p>
 <h2 id="tester-la-connexion">Tester la connexion<a class="headerlink" href="#tester-la-connexion" title="Permanent link">&para;</a></h2>
 <p>Après avoir créé un fournisseur, utilisez le bouton <strong>Tester la connexion</strong> pour vérifier que Xolo peut communiquer avec le fournisseur.</p>
 <h2 id="configurer-la-resilience">Configurer la résilience<a class="headerlink" href="#configurer-la-resilience" title="Permanent link">&para;</a></h2>
