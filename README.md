@@ -80,8 +80,9 @@ relue : elle peut être incomplète.
 `xolo-gateway/org` étant privé, les workflows lui passent le secret
 `EXPERTS_TOKEN` : un PAT fine-grained ou un token de GitHub App avec
 `Contents: read` sur ce dépôt. Sans jeton, la page est absente du build au lieu
-de le casser, sauf en publication où `EXPERTS_REQUIRED=true` la rend
-obligatoire.
+de le casser. En publication, `EXPERTS_REQUIRED` vaut `true` dès que le secret
+existe : un jeton expiré ou un dossier `experts/` disparu arrêtent alors le
+build, plutôt que de retirer la page du site sans prévenir.
 
 En local, `make serve` régénère la page à chaque démarrage à partir du clone
 d'`org` posé à côté de celui-ci (`../xolo-org/experts`), sans jeton ni accès

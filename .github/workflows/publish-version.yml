@@ -35,6 +35,10 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # EXPERTS_TOKEN est un secret de l'environnement github-pages :
+    # sans cette déclaration, le job ne le voit pas. La branche main y
+    # est autorisée par la politique de branches de l'environnement.
+    environment: github-pages
 
     outputs:
       version: ${{ steps.metadata.outputs.version }}
@@ -113,7 +117,10 @@ jobs:
           XOLO_REF: ${{ steps.metadata.outputs.xolo_ref }}
           XOLO_REPOSITORY: https://github.com/xolo-gateway/xolo.git
           EXPERTS_TOKEN: ${{ secrets.EXPERTS_TOKEN }}
-          EXPERTS_REQUIRED: "true"
+          # Obligatoire seulement si le jeton existe : un jeton absent laisse
+          # publier sans la page, un jeton présent mais cassé arrête le build
+          # plutôt que de retirer la page du site en silence.
+          EXPERTS_REQUIRED: ${{ secrets.EXPERTS_TOKEN != '' }}
         run: make prepare
 
       - name: Verify checked-out commit
