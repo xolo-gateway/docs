@@ -18,7 +18,7 @@
         <link rel="prev" href="../eventql/">
       
       
-        <link rel="next" href="../organisation-et-permissions/">
+        <link rel="next" href="../noeuds-pipeline/">
       
       
         
@@ -1696,6 +1696,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../noeuds-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Nœuds de pipeline : intégrés et plugins
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../organisation-et-permissions/" class="md-nav__link">
         
   
@@ -2142,8 +2169,9 @@
 <p>Les utilisateurs consomment un modèle sous la forme <code>{org-slug}/{nom-proxy}</code>.</p>
 <h2 id="modele-virtuel-un-pipeline-de-traitement">Modèle virtuel : un pipeline de traitement<a class="headerlink" href="#modele-virtuel-un-pipeline-de-traitement" title="Permanent link">&para;</a></h2>
 <p>Un <strong>modèle virtuel</strong> est un modèle personnalisé, exposé exactement comme un modèle classique, mais qui applique un <strong>pipeline de traitement</strong> aux requêtes/réponses avant/après l'appel au modèle réel. L'utilisateur final ne voit jamais ces traitements : toute la personnalisation reste transparente.</p>
-<p>Le pipeline est un graphe de nœuds <strong>plugins</strong> connectés entre eux par des <strong>ports</strong> typés (<code>request</code>, <code>response</code>, <code>string</code>, <code>number</code>, <code>boolean</code>). Le moteur de pipeline trie le graphe topologiquement et fait circuler les valeurs d'un nœud à l'autre. Composer plusieurs traitements ne demande aucune ligne de code, juste du câblage dans l'interface.</p>
-<p>Xolo est livré avec plusieurs plugins intégrés :</p>
+<p>Le pipeline est un graphe de nœuds connectés entre eux par des <strong>ports</strong> typés (<code>request</code>, <code>response</code>, <code>string</code>, <code>number</code>, <code>boolean</code>). Le moteur de pipeline trie le graphe topologiquement et fait circuler les valeurs d'un nœud à l'autre. Composer plusieurs traitements ne demande aucune ligne de code, juste du câblage dans l'interface.</p>
+<p>Les nœuds sont de deux sortes. Les nœuds <strong>intégrés</strong> font partie du serveur : requête entrante, réponse, appel de modèle, modèle avec repli, référence de modèle, valeur fixe, comparaison, sélection, calcul, échantillonnage, contexte de la requête, trace et note. Les <strong>plugins</strong> sont des binaires séparés chargés au démarrage. La page <a href=".././noeuds-pipeline/">Nœuds de pipeline</a> décrit chacun d'eux, ports et configuration compris.</p>
+<p>Plugins livrés avec Xolo :</p>
 <table>
 <thead>
 <tr>
@@ -2169,9 +2197,34 @@
 <td>Restreint l'accès selon des plages horaires</td>
 </tr>
 <tr>
-<td><code>request-evaluator</code></td>
+<td><code>request-inspector</code></td>
 <td>PRE_REQUEST</td>
-<td>Évalue la complexité, la vision, le raisonnement et le coût énergétique d'une requête</td>
+<td>Détecte la structure de la requête : images, raisonnement, outils, taille du contexte</td>
+</tr>
+<tr>
+<td><code>complexity-scorer</code></td>
+<td>PRE_REQUEST</td>
+<td>Évalue la complexité lexicale et structurelle de la requête</td>
+</tr>
+<tr>
+<td><code>text-classifier</code></td>
+<td>PRE_REQUEST</td>
+<td>Classe la requête dans une catégorie thématique par règles lexicales et modèle bayésien embarqué, sans appel LLM</td>
+</tr>
+<tr>
+<td><code>llm-classifier</code></td>
+<td>PRE_REQUEST</td>
+<td>Classe la requête en interrogeant un modèle de l'organisation, selon des catégories décrites dans la configuration</td>
+</tr>
+<tr>
+<td><code>energy-estimator</code></td>
+<td>PRE_REQUEST</td>
+<td>Estime l'énergie consommée par l'inférence à partir des tokens et de la taille du modèle</td>
+</tr>
+<tr>
+<td><code>budget-pressure</code></td>
+<td>PRE_REQUEST</td>
+<td>Mesure la part du budget de l'utilisateur déjà consommée</td>
 </tr>
 <tr>
 <td><code>fuzzy-evaluator</code></td>

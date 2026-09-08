@@ -1717,6 +1717,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../concepts/noeuds-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Nœuds de pipeline : intégrés et plugins
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../concepts/organisation-et-permissions/" class="md-nav__link">
         
   
@@ -2228,9 +2255,8 @@
 </ol>
 <h2 id="presentation-de-lediteur-de-pipeline">Présentation de l'éditeur de pipeline<a class="headerlink" href="#presentation-de-lediteur-de-pipeline" title="Permanent link">&para;</a></h2>
 <p><img alt="pipeline_editor" src=".././screenshots/image5.png" /></p>
-<p>Cet éditeur permet de configurer des traitements qui seront appliqués automatiquement aux requêtes et aux réponses du modèle.
-TODO UPDATE LISTE DES PLUGINS + DESCRIPTION DES PLUGINS</p>
-<p>La liste des plugins intégrés et le fonctionnement du pipeline sont détaillés dans le concept <a href="../../../../concepts/fournisseurs-modeles-pipeline/">Fournisseurs, modèles et pipelines</a>.</p>
+<p>Cet éditeur permet de configurer des traitements qui seront appliqués automatiquement aux requêtes et aux réponses du modèle.</p>
+<p>La palette de gauche liste d'abord les nœuds intégrés, puis les plugins chargés sur cette installation. Le panneau de droite configure le nœud sélectionné. Chaque nœud, ses ports et sa configuration sont décrits dans <a href="../../../../concepts/noeuds-pipeline/">Nœuds de pipeline</a> ; le fonctionnement général du pipeline dans <a href="../../../../concepts/fournisseurs-modeles-pipeline/">Fournisseurs, modèles et pipelines</a>.</p>
 <h2 id="exemple-configuration-du-plugin-system-prompt">Exemple : configuration du plugin <code>system-prompt</code><a class="headerlink" href="#exemple-configuration-du-plugin-system-prompt" title="Permanent link">&para;</a></h2>
 <p>Voici comment configurer le plugin <code>system-prompt</code> pour ajouter un prompt système personnalisé :</p>
 <ol>
@@ -2247,9 +2273,10 @@ TODO UPDATE LISTE DES PLUGINS + DESCRIPTION DES PLUGINS</p>
 <li>Ajoutez un nœud <code>model</code> depuis la palette, reliez-le, puis sélectionnez-le : renseignez le
    <strong>Modèle appelé</strong> dans son panneau de configuration
    <img alt="Modèle LLM" src=".././screenshots/image10.png" /></li>
-<li>Pour rendre ce nom dynamique, ajoutez un nœud <code>value</code> depuis la palette
+<li>Pour rendre ce nom dynamique, ajoutez un nœud <code>model_ref</code> depuis la palette. Un nœud <code>value</code> de
+   type <code>string</code> fonctionne aussi, mais il faut alors taper le nom sans se tromper
    <img alt="Valeur" src=".././screenshots/image11.png" /></li>
-<li>Saisissez le nom du modèle sous-jacent à utiliser, puis reliez la sortie du nœud <code>value</code> au
+<li>Choisissez le modèle sous-jacent dans la liste, puis reliez la sortie <code>model_name</code> du nœud au
    port <code>model_name</code> du nœud <code>model</code>
    <img alt="modele" src=".././screenshots/image12.png" /></li>
 <li>Le bandeau bas indique <strong>Graphe valide</strong> lorsque tous les ports requis sont connectés. Cliquez
