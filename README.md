@@ -62,6 +62,39 @@ make versions DOC_LANG=en
 make delete DOC_LANG=en VERSION=0.55.0 PUSH=true
 ```
 
+## Trouver un expert
+
+La page « Trouver un expert » liste les entreprises qui accompagnent Xolo. Les
+fiches vivent dans `xolo-gateway/org`, sous `experts/`, à raison d'un YAML par
+entreprise ; leur format est documenté dans le README de ce dossier.
+
+`scripts/prepare-experts.sh` clone ce dépôt à chaque build et
+`scripts/render-experts.py` en tire `content/<lang>/experts.md`, dans les trois
+langues. Les libellés de la page (titre, chapeau, pastille) sont dans
+`[project.extra.experts]` de chaque `zensical.<lang>.toml`.
+
+Les sponsors passent devant, puis le poids croissant, puis le nom. Une fiche
+`disabled: true` reste dans le dépôt sans apparaître sur le site, et n'est pas
+relue : elle peut être incomplète.
+
+`xolo-gateway/org` étant privé, les workflows lui passent le secret
+`EXPERTS_TOKEN` : un PAT fine-grained ou un token de GitHub App avec
+`Contents: read` sur ce dépôt. Sans jeton, la page est absente du build au lieu
+de le casser, sauf en publication où `EXPERTS_REQUIRED=true` la rend
+obligatoire.
+
+En local, `make serve` régénère la page à chaque démarrage à partir du clone
+d'`org` posé à côté de celui-ci (`../xolo-org/experts`), sans jeton ni accès
+réseau. `EXPERTS_SOURCE` pointe ailleurs si votre clone est autre part :
+
+```bash
+make serve                                              # utilise ../xolo-org/experts
+make serve EXPERTS_SOURCE=/chemin/vers/experts
+```
+
+Sans ce voisin, la page est absente du rendu local : le reste du site se
+construit normalement.
+
 ## Habillage
 
 Le thème `modern` de Zensical est surchargé depuis `overrides/`, sans réécrire
@@ -82,6 +115,9 @@ ses gabarits :
   s'arrête avec `prefers-reduced-motion`.
 - `partials/logo.html` et `partials/alternate.html` remplacent le logo et le
   sélecteur de langue du thème.
+
+Les cartes de la page « Trouver un expert » sont stylées dans le même fichier,
+sous `.xolo-expert`.
 
 Les liens des parcours d'accueil sont écrits à la main dans les `.toml` et
 `make check` ne les vérifie pas. À contrôler après un remaniement de `docs/`

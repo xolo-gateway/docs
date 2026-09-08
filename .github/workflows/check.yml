@@ -33,6 +33,7 @@ jobs:
       - name: Prepare documentation from Xolo main
         env:
           XOLO_REF: main
+          EXPERTS_TOKEN: ${{ secrets.EXPERTS_TOKEN }}
           XOLO_REPOSITORY: https://github.com/xolo-gateway/xolo.git
         run: make prepare
 

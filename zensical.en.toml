@@ -58,6 +58,22 @@ alias = true
 # Home page (board 1a of "Refonte doc Xolo"): hero, three entry points, quick
 # start and sovereignty panel. The overrides/main.html template renders this
 # section instead of the body of content/en/index.md as soon as
+# "Find an expert" page, built from the YAML files in xolo-gateway/org
+# (experts/ directory): see scripts/prepare-experts.sh.
+[project.extra.experts]
+title = "Find an expert"
+intro = """
+These companies know Xolo and offer support: installation, hosting, \
+training, plugin development. The project lists them, it does not \
+mandate them and takes no cut of the work.\
+"""
+sponsor = "Sponsor"
+empty = "No company is listed yet."
+outro = """
+To appear on this page, open a request on \
+[the project repository](https://github.com/xolo-gateway/xolo/issues).\
+"""
+
 # [project.extra.home] is defined — removing this block restores the plain
 # Markdown rendering.
 [project.extra.home]

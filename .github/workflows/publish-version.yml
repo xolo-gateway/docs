@@ -112,6 +112,8 @@ jobs:
         env:
           XOLO_REF: ${{ steps.metadata.outputs.xolo_ref }}
           XOLO_REPOSITORY: https://github.com/xolo-gateway/xolo.git
+          EXPERTS_TOKEN: ${{ secrets.EXPERTS_TOKEN }}
+          EXPERTS_REQUIRED: "true"
         run: make prepare
 
       - name: Verify checked-out commit

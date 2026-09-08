@@ -58,6 +58,22 @@ alias = true
 # Página de inicio (lámina 1a de «Refonte doc Xolo»): hero, tres puertas de
 # entrada, inicio rápido y panel de soberanía. La plantilla
 # overrides/main.html renderiza esta sección en lugar del cuerpo de
+# Página «Encontrar un experto», generada a partir de las fichas YAML de
+# xolo-gateway/org (carpeta experts/): véase scripts/prepare-experts.sh.
+[project.extra.experts]
+title = "Encontrar un experto"
+intro = """
+Estas empresas conocen Xolo y ofrecen acompañamiento: instalación, \
+alojamiento, formación, desarrollo de plugins. El proyecto las \
+referencia, no las manda y no cobra nada por sus servicios.\
+"""
+sponsor = "Sponsor"
+empty = "Todavía no hay ninguna empresa referenciada."
+outro = """
+Para aparecer en esta página, abra una solicitud en \
+[el repositorio del proyecto](https://github.com/xolo-gateway/xolo/issues).\
+"""
+
 # content/es/index.md en cuanto [project.extra.home] está definido — basta con
 # eliminar este bloque para volver al renderizado Markdown clásico.
 [project.extra.home]

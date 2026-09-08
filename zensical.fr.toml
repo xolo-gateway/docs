@@ -62,6 +62,23 @@ alias = true
 # Page d'accueil (planche 1a de « Refonte doc Xolo ») : hero, trois portes
 # d'entrée, démarrage rapide et encart souveraineté. Le gabarit
 # overrides/main.html rend cette section à la place du corps de content/fr/
+# Page « Trouver un expert », alimentée par les fiches YAML de
+# xolo-gateway/org (dossier experts/) : voir scripts/prepare-experts.sh.
+[project.extra.experts]
+title = "Trouver un expert"
+intro = """
+Ces entreprises connaissent Xolo et proposent de l'accompagnement : \
+installation, hébergement, formation, développement de plugins. \
+Le projet les référence, il ne les mandate pas et ne prend rien sur \
+les prestations.\
+"""
+sponsor = "Sponsor"
+empty = "Aucune entreprise n'est référencée pour le moment."
+outro = """
+Pour figurer sur cette page, ouvrez une demande sur \
+[le dépôt du projet](https://github.com/xolo-gateway/xolo/issues).\
+"""
+
 # index.md dès que [project.extra.home] est défini — retirer ce bloc suffit à
 # revenir au rendu Markdown classique.
 [project.extra.home]

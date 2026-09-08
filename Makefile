@@ -13,6 +13,17 @@ export PATH := $(BIN_DIR):$(PATH)
 
 XOLO_REPOSITORY ?= https://github.com/xolo-gateway/xolo.git
 XOLO_REF ?= main
+
+# Fiches d'experts : dépôt privé xolo-gateway/org, lu avec EXPERTS_TOKEN.
+# EXPERTS_SOURCE court-circuite le clone et pointe un dossier local, ce qui
+# évite d'avoir besoin d'un jeton pour une préversion.
+EXPERTS_REPOSITORY ?= https://github.com/xolo-gateway/org.git
+EXPERTS_REF ?= main
+EXPERTS_REQUIRED ?= false
+# Un clone d'org à côté de celui-ci sert de source : « make serve » affiche
+# alors la page sans jeton ni accès réseau. La CI n'a pas ce voisin et retombe
+# sur le clone distant.
+EXPERTS_SOURCE ?= $(wildcard $(CURDIR)/../xolo-org/experts)
 VERSION ?=
 ALIASES ?=
 PUSH ?= false
@@ -43,7 +54,9 @@ help:
 		"  make tools-lock                 Génère tools/requirements.lock" \
 		"  make tools-sync                 Installe depuis tools/requirements.lock" \
 		"  make tools-clean                Supprime l'environnement Python local" \
-		"  make prepare XOLO_REF=...       Récupère docs/{fr,en,es}/ depuis Xolo" \
+		"  make prepare XOLO_REF=...       Récupère les sources : Xolo et experts" \
+		"  make prepare-experts            Régénère la seule page « Trouver un expert »" \
+		"  make prepare-experts EXPERTS_SOURCE=...  Depuis un dossier local" \
 		"  make build DOC_LANG=...             Construit une langue" \
 		"  make check DOC_LANG=...             Construit une langue en mode strict" \
 		"  make check-all                  Construit les 3 langues en mode strict" \
@@ -84,10 +97,21 @@ tools-clean:
 	rm -rf "$(VENV_DIR)"
 
 .PHONY: prepare
-prepare:
+prepare: prepare-source prepare-experts
+
+.PHONY: prepare-source
+prepare-source:
 	XOLO_REPOSITORY="$(XOLO_REPOSITORY)" \
 	XOLO_REF="$(XOLO_REF)" \
 		./scripts/prepare-source.sh
+
+.PHONY: prepare-experts
+prepare-experts:
+	EXPERTS_REPOSITORY="$(EXPERTS_REPOSITORY)" \
+	EXPERTS_REF="$(EXPERTS_REF)" \
+	EXPERTS_SOURCE="$(EXPERTS_SOURCE)" \
+	EXPERTS_REQUIRED="$(EXPERTS_REQUIRED)" \
+		./scripts/prepare-experts.sh
 
 .PHONY: build
 build: tools
@@ -104,12 +128,14 @@ check-all: tools
 		"$(ZENSICAL)" build --clean --strict --config-file "zensical.$$lang.toml" || exit 1; \
 	done
 
+# La page des experts est régénérée à chaque démarrage : elle vient d'un autre
+# dépôt, Zensical ne sait pas la reconstruire tout seul.
 .PHONY: serve
-serve: tools
+serve: tools prepare-experts
 	"$(ZENSICAL)" serve --config-file "$(CONFIG)"
 
 .PHONY: preview
-preview: prepare serve
+preview: prepare-source serve
 
 .PHONY: require-version
 require-version:
