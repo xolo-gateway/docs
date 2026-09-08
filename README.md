@@ -73,7 +73,8 @@ entreprise ; leur format est documenté dans le README de ce dossier.
 langues. Les libellés de la page (titre, chapeau, pastille) sont dans
 `[project.extra.experts]` de chaque `zensical.<lang>.toml`.
 
-Les sponsors passent devant, puis le poids croissant, puis le nom. Une fiche
+Les sponsors passent devant, puis le poids croissant, puis le nom. Leur lien
+sort en `rel="noopener"` ; les autres gardent `nofollow`. Une fiche
 `disabled: true` reste dans le dépôt sans apparaître sur le site, et n'est pas
 relue : elle peut être incomplète.
 

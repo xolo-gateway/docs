@@ -162,9 +162,13 @@ def render_card(expert: Expert, labels: dict[str, str]) -> str:
     parts.append(f'  <p class="xolo-expert__description">{html.escape(expert.description)}</p>')
 
     host = urlparse(expert.url).netloc.removeprefix("www.")
+    # Les sponsors soutiennent le projet : leur lien transmet la référence.
+    # Les autres entrées restent en nofollow, le référencement n'étant pas la
+    # contrepartie d'une présence sur cette page.
+    rel = "noopener" if expert.sponsor else "noopener nofollow"
     parts.append(
         f'  <p class="xolo-expert__link"><a href="{html.escape(expert.url)}"'
-        f' rel="noopener nofollow">{html.escape(host)} →</a></p>'
+        f' rel="{rel}">{html.escape(host)} →</a></p>'
     )
     parts.append("</article>")
     return "\n".join(parts)
