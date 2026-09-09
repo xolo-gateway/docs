@@ -2366,6 +2366,32 @@ pipeline editor (strings, numbers, booleans, enums, arrays of flat objects).</p>
 <code>plugins/internal/complexity/data/corpus.jsonl</code>; run
 <code>go run ./plugins/internal/cmd/train-classifier</code> to cross-validate and
 regenerate <code>model.json</code>.</p>
+<p><strong>Prompt-guard rules and corpus:</strong> the default rules are
+<code>plugins/internal/promptguard/rules.yaml</code> (patterns run on a lower-cased,
+NFKC-normalised text; every rule needs <code>triggers</code>, literal substrings that
+gate its regexps). The labelled corpus is generated, not hand-written:
+<code>plugins/internal/promptguard/synth/data/templates/&lt;lang&gt;/*.tmpl</code> are
+skeletons with <code>{{slots}}</code> filled from <code>synth/data/lexicons/&lt;lang&gt;.yaml</code>, and
+the label of a sample is a property of its template. <code>go run
+./plugins/internal/cmd/prompt-guard-corpus render</code> writes
+<code>plugins/internal/promptguard/data/corpus.jsonl</code>; <code>... eval</code> scores it with
+the rules and lists false positives and negatives per family; <code>... inspect
+-name &lt;template&gt;</code> prints a few renderings; <code>... author -lang fr -count 6</code> asks
+the model configured by <code>GENAI_CHAT_COMPLETION_*</code> in <code>.env</code> to write new
+skeletons, which are parsed, checked against the lexicon and the existing
+templates, repaired once or twice through the model, and only then saved. A
+rule tuned on this corpus is tuned on templates you can read: the number that
+matters is measured on templates the rules have never seen, hence the split
+by family and the <code>author</code> command. <code>synth/data/templates-sealed/</code> holds
+twenty templates reserved for that measurement; <code>SEALED.md</code> there states the
+rules and logs every opening. <code>corpus.jsonl</code> is git-ignored like every JSONL
+file: <code>render</code> regenerates it deterministically from the templates and
+lexicons, which are the source. <code>... train -fit train</code> fits the logistic
+regression on the training families and reports precision and recall on the
+families it has not seen; <code>... train -fit all</code> fits the shipped model on
+everything and writes <code>plugins/internal/promptguard/data/model.json</code>, which
+the plugin embeds. <code>... eval -no-model</code> and <code>eval -model &lt;file&gt;</code> compare the
+rules alone with rules plus a given model.</p>
 <p><strong>Example — reading the requester's quota (budget-pressure):</strong> <code>in.Quota</code> is set by
 the host when the user has at least one budget; it carries the total and the
 remaining amount for the day, month and year (see <code>QuotaInfo</code>). It is <code>nil</code>
@@ -2962,6 +2988,11 @@ host. Fakes can implement <code>HostClient</code> (including a no-op <code>EmitE
 <td>Thematic category of a request (lexical rules + Naive Bayes, no LLM call)</td>
 </tr>
 <tr>
+<td><code>prompt-guard</code></td>
+<td>PRE_REQUEST, POST_RESPONSE, TOOL_RESULT_INSPECTOR</td>
+<td>Prompt injection risk (rules + structural signals + embedded model, no LLM call); inspects request, tool results and the answer; optional block/redact</td>
+</tr>
+<tr>
 <td><code>llm-classifier</code></td>
 <td>PRE_REQUEST</td>
 <td>Category chosen by an org model called through the gateway (<code>HostService.ChatCompletion</code>)</td>
@@ -3062,6 +3093,21 @@ host. Fakes can implement <code>HostClient</code> (including a no-op <code>EmitE
 </span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="p">)</span>
 </span></code></pre></div>
 <p><strong>Never block the request on non-critical errors</strong> — always return <code>Allowed: true</code> and log the problem rather than denying access due to a monitoring failure.</p>
+<h3 id="tool_result_inspector">TOOL_RESULT_INSPECTOR<a class="headerlink" href="#tool_result_inspector" title="Permanent link">&para;</a></h3>
+<p>A plugin that declares <code>TOOL_RESULT_INSPECTOR</code> implements <code>InspectToolResult</code>.
+When the gateway runs a tool loop itself (a <code>TOOL_PROVIDER</code> node such as
+<code>mcp-bridge</code>), it fetches tool results inside the model loop, after the
+<code>PRE_REQUEST</code> pass has already run: those results never reach <code>PreRequest</code>,
+which is the indirect-injection surface OWASP LLM01 flags for MCP output. Each
+inspector node registers itself for the execution, and <code>ToolLoopClient</code> calls
+every registered inspector on each fetched tool result before feeding it back
+to the model. An inspector may block, which aborts the request with its reason;
+an inspector that errors fails open, so a broken inspector never takes the
+gateway down. The result text is passed to the plugin but must not be logged
+by it. <code>prompt-guard</code> implements this, scoring the result as a tool segment
+and reusing the same node config (<code>block_above</code>, <code>event_above</code>, <code>extra_rules</code>)
+as its <code>PreRequest</code> path, so one node governs both entry points and emits a
+second <code>security.prompt_injection</code> event carrying the tool name.</p>
 <h2 id="capability-summary">Capability Summary<a class="headerlink" href="#capability-summary" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3091,6 +3137,16 @@ host. Fakes can implement <code>HostClient</code> (including a no-op <code>EmitE
 <td><code>LIST_MODELS</code></td>
 <td>Model list</td>
 <td>Dynamic model activation</td>
+</tr>
+<tr>
+<td><code>TOOL_PROVIDER</code></td>
+<td>Tool loop</td>
+<td>Exposing MCP or built-in tools to the model</td>
+</tr>
+<tr>
+<td><code>TOOL_RESULT_INSPECTOR</code></td>
+<td>Each gateway-fetched tool result</td>
+<td>Scanning tool/MCP output for indirect injection, before it reaches the model</td>
 </tr>
 </tbody>
 </table>
