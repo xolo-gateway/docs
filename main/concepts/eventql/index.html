@@ -2835,7 +2835,31 @@ par <code>plugin.&lt;nom&gt;.</code> (voir le tutoriel plugin, section <em>Emitt
 <td><code>plugin.pseudonymizer.sensitive-data.detected</code></td>
 <td><code>warning</code></td>
 <td>Le plugin <code>pseudonymizer</code> détecte/pseudonymise des données sensibles</td>
-<td><code>entities</code>, <code>types</code> (ex. <code>EMAIL:2,PERSON:1</code>), <code>removed_attachments</code></td>
+<td><code>entities</code>, <code>types</code> (ex. <code>EMAIL:2,PER:1</code>), <code>removed_attachments</code>, <code>language</code></td>
+</tr>
+<tr>
+<td><code>plugin.pseudonymizer.sensitive-data.leak</code></td>
+<td><code>error</code></td>
+<td>Le mode strict du plugin <code>pseudonymizer</code> détecte une fuite résiduelle après anonymisation</td>
+<td><code>leak_count</code>, <code>leak_&lt;type&gt;</code></td>
+</tr>
+<tr>
+<td><code>plugin.pseudonymizer.attachment.blocked</code></td>
+<td><code>warning</code></td>
+<td>Le plugin <code>pseudonymizer</code> refuse une requête portant une pièce jointe non pseudonymisable</td>
+<td><code>attachments</code>, <code>reasons</code></td>
+</tr>
+<tr>
+<td><code>plugin.pseudonymizer.request.blocked</code></td>
+<td><code>error</code></td>
+<td>Le plugin <code>pseudonymizer</code> refuse une requête en stratégie <code>hash</code> faute de clé HMAC exploitable sur le nœud (fail-closed)</td>
+<td><code>reason</code>, <code>error</code>, <code>strategy</code></td>
+</tr>
+<tr>
+<td><code>plugin.pseudonymizer.passthrough</code></td>
+<td><code>error</code></td>
+<td>Le plugin <code>pseudonymizer</code> laisse passer une requête <strong>sans</strong> la pseudonymiser : configuration invalide, modèle NER indisponible (hors-ligne, cache vide), échec d'anonymisation d'un contenu</td>
+<td><code>reason</code>, <code>error</code>, <code>contents</code></td>
 </tr>
 <tr>
 <td><code>plugin.time-restriction.request.blocked</code></td>
