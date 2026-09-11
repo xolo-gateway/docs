@@ -10,6 +10,9 @@
         <loc>https://xolo-gateway.org/main/administration/</loc>
       </url>
       <url>
+        <loc>https://xolo-gateway.org/main/administration/hebergement-agpl/</loc>
+      </url>
+      <url>
         <loc>https://xolo-gateway.org/main/administration/installation/</loc>
       </url>
       <url>
@@ -71,6 +74,21 @@
       </url>
       <url>
         <loc>https://xolo-gateway.org/main/concepts/organisation-et-permissions/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/projet/communaute/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/projet/contribuer/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/projet/gouvernance/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/projet/marque/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/projet/securite/</loc>
       </url>
       <url>
         <loc>https://xolo-gateway.org/main/utilisation/</loc>
