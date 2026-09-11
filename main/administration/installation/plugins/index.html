@@ -3209,7 +3209,7 @@ host. Fakes can implement <code>HostClient</code> (including a no-op <code>EmitE
 <tr>
 <td><code>prompt-guard</code></td>
 <td>PRE_REQUEST, POST_RESPONSE, TOOL_RESULT_INSPECTOR</td>
-<td>Prompt injection risk (rules + structural signals + embedded model, no LLM call); inspects request, tool results and the answer; optional block/redact</td>
+<td>Prompt injection risk without an LLM call (rules, structural signals, embedded model), pressure accumulated over the turns of a conversation, inspection of tool results and of the answer with planted canaries, optional block and redaction</td>
 </tr>
 <tr>
 <td><code>llm-classifier</code></td>
