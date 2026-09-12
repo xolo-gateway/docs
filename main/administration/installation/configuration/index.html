@@ -659,6 +659,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multi-tenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Multi-tenant
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-tenant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consequences-sur-la-configuration-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Conséquences sur la configuration HTTP
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taux-de-change-et-taches-de-fond" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2482,6 +2510,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multi-tenant" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Multi-tenant
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multi-tenant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consequences-sur-la-configuration-http" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Conséquences sur la configuration HTTP
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#taux-de-change-et-taches-de-fond" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2701,6 +2757,7 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">XOLO_HTTP_AUTHN_OIDC_PROVIDER_KEYCLOAK_LABEL</span><span class="o">=</span><span class="s2">&quot;Mon SSO&quot;</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nv">XOLO_HTTP_AUTHN_OIDC_PROVIDER_KEYCLOAK_SCOPES</span><span class="o">=</span>openid,profile,email
 </span></code></pre></div>
+<p>L'URL de découverte est obligatoire. Xolo télécharge le document au démarrage, avec un délai maximal de 10 secondes. Si le document est inaccessible ou incomplet, le serveur refuse de démarrer, en mode mono-tenant comme en multi-tenant. Le document doit contenir <code>issuer</code>, <code>authorization_endpoint</code>, <code>token_endpoint</code> et <code>jwks_uri</code>. Chacun de ces champs, ainsi que <code>userinfo_endpoint</code>, <code>introspection_endpoint</code> et <code>end_session_endpoint</code> quand ils sont présents, doit être une URL absolue en <code>http</code> ou <code>https</code>.</p>
 <p>Pour valider des jetons d'accès opaques côté API (introspection RFC 7662, ou UserInfo à défaut) plutôt que des ID Tokens OIDC autoportés, activez <code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_ENABLED=true</code>.</p>
 <h2 id="stockage">Stockage<a class="headerlink" href="#stockage" title="Permanent link">&para;</a></h2>
 <table>
@@ -2863,6 +2920,42 @@
 </tr>
 </tbody>
 </table>
+<h2 id="multi-tenant">Multi-tenant<a class="headerlink" href="#multi-tenant" title="Permanent link">&para;</a></h2>
+<p>Désactivé par défaut : l'instance possède un unique tenant <code>default</code>, créé par la migration et jamais exposé à ses utilisateurs — pas de sous-domaine, pas de changement d'URL. Une fois activé, le tenant est identifié par l'hôte de la requête, et un hôte ne correspondant à aucun tenant répond 404 : un sous-domaine inconnu ne doit pas révéler que l'instance existe.</p>
+<p>Les tenants se créent exclusivement par l'<a href="../../provisioning/provisioning/">API de provisioning</a> ; <code>POST /v1/tenants</code> répond 409 tant que <code>XOLO_MULTITENANCY_ENABLED</code> vaut <code>false</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_MULTITENANCY_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Active la résolution du tenant par nom d'hôte.</td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_HOST_PATTERN</code></td>
+<td><em>(requis si activé)</em></td>
+<td>Gabarit d'hôte contenant exactement une fois le marqueur <code>{tenant}</code>, par exemple <code>{tenant}.xolo.example.com</code>. Il peut porter un port, ignoré lors de la comparaison. Le serveur refuse de démarrer s'il est absent ou mal formé.</td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_DEFAULT_TENANT_SLUG</code></td>
+<td><code>default</code></td>
+<td>Tenant servi lorsque le multi-tenant est désactivé.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="consequences-sur-la-configuration-http">Conséquences sur la configuration HTTP<a class="headerlink" href="#consequences-sur-la-configuration-http" title="Permanent link">&para;</a></h3>
+<p><code>XOLO_HTTP_BASE_URL</code> doit alors être <strong>absolue</strong> — schéma et hôte — sous peine de refus de démarrage. Elle n'est plus l'URL de l'instance mais le gabarit dont chaque tenant dérive la sienne : son schéma et son chemin sont conservés, son hôte est remplacé par celui de la requête. Liens, redirections et URL de rappel OAuth restent ainsi sur l'hôte du tenant, ce qui est nécessaire : le cookie de session est propre à un hôte et la session porte le tenant sur lequel elle a été ouverte.</p>
+<p>L'URL de rappel à déclarer auprès du fournisseur d'identité varie donc par tenant :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>https://{tenant}.xolo.example.com/auth/oidc/providers/{fournisseur}/callback
+</span></code></pre></div>
+<p>Un fournisseur acceptant un <code>redirect_uri</code> à joker (Keycloak, Authentik…) couvre tous les tenants d'une seule déclaration. Une OAuth App GitHub n'accepte qu'une URL de rappel unique et Google n'accepte que des URI exactes : ces deux fournisseurs imposent une déclaration par sous-domaine, ce qui les rend impraticables au-delà de quelques tenants.</p>
+<p>Prévoyez enfin un DNS et un certificat TLS joker (<code>*.xolo.example.com</code>) sur le reverse proxy placé devant Xolo, et passez <code>XOLO_HTTP_SESSION_COOKIE_SECURE=true</code>.</p>
 <h2 id="taux-de-change-et-taches-de-fond">Taux de change et tâches de fond<a class="headerlink" href="#taux-de-change-et-taches-de-fond" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
