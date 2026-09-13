@@ -3209,6 +3209,11 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <td>Full LLM response text</td>
 </tr>
 <tr>
+<td><code>ResponseToolCallsJson</code></td>
+<td><code>string</code></td>
+<td>Tool calls emitted by the model, as a JSON array of <code>{"id","name","arguments"}</code>; empty when the response carries none</td>
+</tr>
+<tr>
 <td><code>NodeState</code></td>
 <td><code>[]byte</code></td>
 <td>Opaque blob returned by <code>PreRequest</code> for the same pipeline execution</td>
@@ -3230,8 +3235,16 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <td><code>string</code></td>
 <td>If non-empty, replaces the response sent to the client (e.g. de-anonymisation)</td>
 </tr>
+<tr>
+<td><code>ModifiedToolCallsJson</code></td>
+<td><code>string</code></td>
+<td>If non-empty, replaces the response tool calls. Same shape as the input; only <code>arguments</code> is read back, the id and the name of a call always come from the provider</td>
+</tr>
 </tbody>
 </table>
+<p>A plugin that rewrites the request must undo its rewriting on the tool calls too: a placeholder the model copied into a call reaches the client verbatim, which then runs the call against a value that does not exist.</p>
+<p>Return the array in the order it was received. The host restarts from the provider's calls and only takes the <code>arguments</code> back, matching them by position, so a plugin can never add a call, remove one, or change the order in which they run. Omitting an entry is legal and leaves that call as the provider sent it. Matching is positional rather than by id because an id is not always on the wire: two parallel calls to the same tool can both arrive without one, and keying on that would give them both the same arguments.</p>
+<p>The <code>arguments</code> of a call are themselves a JSON document. Restore the values inside the decoded document and re-encode it, rather than substituting text into the encoded form: a value carrying a backslash or a newline, a Windows path or a two-line postal address, would otherwise produce arguments the client can no longer parse.</p>
 <p><strong>Example — response transformation using node_state:</strong></p>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">Plugin</span><span class="p">)</span><span class="w"> </span><span class="nx">PreRequest</span><span class="p">(</span><span class="nx">_</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nx">mapping</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">buildPseudonymMap</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">GetMessagesJson</span><span class="p">())</span>
