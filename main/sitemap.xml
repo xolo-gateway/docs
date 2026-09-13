@@ -70,10 +70,55 @@
         <loc>https://xolo-gateway.org/main/concepts/fournisseurs-modeles-pipeline/</loc>
       </url>
       <url>
+        <loc>https://xolo-gateway.org/main/concepts/organisation-et-permissions/</loc>
+      </url>
+      <url>
         <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/organisation-et-permissions/</loc>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/noeuds-integres/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/budget-pressure/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/complexity-scorer/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/dummy-model/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/energy-estimator/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/fuzzy-evaluator/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/llm-classifier/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/mcp-bridge/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/prompt-guard/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/pseudonymizer/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/request-inspector/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/script-processor/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/system-prompt/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/text-classifier/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/time-restriction/</loc>
       </url>
       <url>
         <loc>https://xolo-gateway.org/main/projet/communaute/</loc>
