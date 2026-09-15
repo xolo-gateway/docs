@@ -3358,6 +3358,16 @@
 <td><code>5m</code></td>
 <td>Délai maximal accordé à un fournisseur. Pour une complétion non streamée ou un calcul d'embeddings, il borne l'appel complet, tentatives de retry comprises. Pour une complétion streamée, il borne l'attente du premier fragment puis le silence entre deux fragments, sans jamais couper une réponse longue qui continue d'arriver. À expiration le client reçoit une erreur 504 explicite au lieu d'une coupure opaque du reverse proxy. Le timeout du reverse proxy placé devant Xolo doit rester strictement supérieur à cette valeur. <code>0</code> désactive la borne.</td>
 </tr>
+<tr>
+<td><code>XOLO_PROXY_ACTIVE_USER_CACHE_TTL</code></td>
+<td><code>30s</code></td>
+<td>Durée de réutilisation du nombre d'utilisateurs actifs sur un forfait par abonnement, qui sert de dénominateur à la <a href="../../organisation/fournisseurs/fournisseurs/#repartition-entre-utilisateurs">répartition entre utilisateurs</a>. Ce comptage parcourt toute la fenêtre du forfait dans la table d'usage ; il est pris une fois par forfait et par fenêtre, partagé par tous ses utilisateurs, et une valeur expirée est servie telle quelle pendant qu'il est repris en arrière-plan. Une valeur ancienne peut manquer les utilisateurs qui ont consommé pour la première fois depuis qu'elle a été prise, ce qui élargit les parts dans la limite du budget du forfait. À augmenter quand la table d'usage est volumineuse. <code>0</code> recompte à chaque requête.</td>
+</tr>
+<tr>
+<td><code>XOLO_PROXY_ACTIVE_USER_COUNT_TIMEOUT</code></td>
+<td><code>10s</code></td>
+<td>Durée maximale d'un comptage d'utilisateurs actifs. Le comptage tourne indépendamment de la requête proxy qui l'a déclenché, et la première requête d'une fenêtre ne l'attend qu'une seconde avant de calculer sa part sur l'effectif complet. Au-delà de cette durée le comptage est abandonné, l'échec est mémorisé pour la durée du cache et la part de chaque utilisateur retombe sur l'effectif complet. Si le compteur <code>xolo_fair_share_degraded_shares_total</code> monte en continu, c'est ce délai qu'il faut relever, ou l'index de la table d'usage qu'il faut vérifier.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="evenements">Événements<a class="headerlink" href="#evenements" title="Permanent link">&para;</a></h2>

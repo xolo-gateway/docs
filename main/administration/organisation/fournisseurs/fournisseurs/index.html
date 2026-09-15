@@ -941,6 +941,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fournisseurs-en-abonnement-plan-et-repartition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fournisseurs en abonnement : plan et répartition
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fournisseurs en abonnement : plan et répartition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contraintes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Contraintes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repartition-entre-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Répartition entre utilisateurs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configurer-la-resilience" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3015,6 +3054,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#fournisseurs-en-abonnement-plan-et-repartition" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fournisseurs en abonnement : plan et répartition
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fournisseurs en abonnement : plan et répartition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#contraintes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Contraintes
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repartition-entre-utilisateurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Répartition entre utilisateurs
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configurer-la-resilience" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3399,6 +3477,117 @@
 <p>Adaptez l'hôte et le port à votre déploiement. Pour l'estimation énergétique, choisissez le niveau d'infrastructure <strong>Small Provider</strong> : c'est celui qui correspond le mieux à une machine que vous opérez vous-même. La même recette vaut pour tout serveur qui parle le format OpenAI (LM Studio, llama.cpp en mode serveur, LocalAI…).</p>
 <h2 id="tester-la-connexion">Tester la connexion<a class="headerlink" href="#tester-la-connexion" title="Permanent link">&para;</a></h2>
 <p>Après avoir créé un fournisseur, utilisez le bouton <strong>Tester la connexion</strong> pour vérifier que Xolo peut communiquer avec le fournisseur.</p>
+<h2 id="fournisseurs-en-abonnement-plan-et-repartition">Fournisseurs en abonnement : plan et répartition<a class="headerlink" href="#fournisseurs-en-abonnement-plan-et-repartition" title="Permanent link">&para;</a></h2>
+<p>Un fournisseur en mode <strong>Abonnement</strong> ne facture pas à l'usage : il vend un volume
+global (des tokens, ou une valeur exprimée dans la devise du fournisseur) pour
+toute l'organisation, sur une fenêtre qui se réinitialise. Le plan décrit ces
+limites sous forme de <strong>contraintes</strong>.</p>
+<h3 id="contraintes">Contraintes<a class="headerlink" href="#contraintes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Champs</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fenêtre glissante</strong></td>
+<td>Durée, budget tokens, budget valeur</td>
+<td>Volume consommable sur les N dernières heures</td>
+</tr>
+<tr>
+<td><strong>Fenêtre fixe</strong></td>
+<td>Idem + « Reset dans »</td>
+<td>Idem, mais alignée sur l'heure de réinitialisation du fournisseur</td>
+</tr>
+<tr>
+<td><strong>Concurrence</strong></td>
+<td>Nombre max de requêtes simultanées</td>
+<td>Requêtes en vol autorisées en même temps</td>
+</tr>
+</tbody>
+</table>
+<p>Le champ « Reset dans » se recopie depuis l'écran du fournisseur (par exemple
+<code>4h29m</code>) : Xolo le convertit en un ancrage absolu, de sorte que ses fenêtres
+coïncident avec les réinitialisations réelles du forfait.</p>
+<h3 id="repartition-entre-utilisateurs">Répartition entre utilisateurs<a class="headerlink" href="#repartition-entre-utilisateurs" title="Permanent link">&para;</a></h3>
+<p>Le budget est commun, mais un utilisateur ne peut pas le consommer en entier. Sa
+part se compose de deux termes :</p>
+<ul>
+<li>un <strong>plancher garanti</strong>, réparti à parts égales entre tous les membres de
+  l'organisation, qu'ils consomment ou non : c'est ce qui protège un utilisateur
+  occasionnel de ceux qui consomment beaucoup. C'est une réservation, non une
+  simple part : la portion commune est plafonnée par ce qui reste réellement
+  distribuable une fois les planchers des absents mis de côté, de sorte qu'un
+  membre arrivant tard dans la fenêtre y retrouve bien sa part. Ce plancher vaut,
+  par défaut, 30 % de l'ancienne part fixe <code>budget / membres</code> : il est plus bas
+  que ce que l'ancienne règle garantissait, en échange d'une part nominale bien
+  plus large dès que des membres restent inactifs. Relever la réserve remonte le
+  plancher, mais reprend directement sur la portion commune ;</li>
+<li>le <strong>reste du budget</strong>, réparti entre les seuls utilisateurs <strong>actifs dans la
+  fenêtre</strong>. Sur une organisation de vingt personnes dont trois utilisent
+  réellement le forfait, chacune de ces trois dispose ainsi d'environ un quart du
+  plan, au lieu d'un vingtième.</li>
+</ul>
+<p>Deux mécanismes complètent cette répartition :</p>
+<ul>
+<li>le <strong>rythme</strong> : tant que la consommation globale reste en phase avec
+  l'écoulement de la fenêtre, la part commune est pleinement ouverte ; si le
+  forfait se consomme plus vite que la fenêtre ne s'écoule, les parts se
+  resserrent progressivement vers le plancher garanti, puis se rouvrent quand la
+  consommation rejoint son rythme ;</li>
+<li>l'<strong>ouverture de fin de fenêtre</strong> : dans les derniers instants avant la
+  réinitialisation, le reliquat serait détruit ; il est alors réparti entre les
+  utilisateurs actifs plutôt que réservé aux membres absents. Cette ouverture ne
+  peut qu'élargir une part : si la répartition du reliquat donnait moins que la
+  part courante, c'est la part courante qui s'applique.</li>
+</ul>
+<p>Ces quatre réglages sont facultatifs et se trouvent sous « Répartition entre
+utilisateurs » dans le formulaire de la contrainte. Laissés vides, ils prennent
+leurs valeurs par défaut.</p>
+<table>
+<thead>
+<tr>
+<th>Réglage</th>
+<th>Défaut</th>
+<th>Effet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Réserve garantie</strong></td>
+<td>30 %</td>
+<td>Part du budget réservée à parts égales entre tous les membres</td>
+</tr>
+<tr>
+<td><strong>Tolérance de rythme</strong></td>
+<td>15 %</td>
+<td>Avance de consommation tolérée avant que les parts ne se resserrent</td>
+</tr>
+<tr>
+<td><strong>Ouverture de fin de fenêtre</strong></td>
+<td>90 %</td>
+<td>Fraction de la fenêtre au-delà de laquelle le reliquat est réparti entre les actifs ; 100 désactive</td>
+</tr>
+<tr>
+<td><strong>Avance maximale de l'ouverture</strong></td>
+<td>5 % de la fenêtre, entre 30 min et 4 h</td>
+<td>Borne absolue de cette ouverture : 30 min avant le reset d'une fenêtre de 5 h, 4 h avant celui d'une fenêtre hebdomadaire</td>
+</tr>
+</tbody>
+</table>
+<p>Une valeur illisible ou hors bornes est refusée à l'enregistrement, avec un
+message nommant la contrainte concernée : un réglage affiché doit être celui que
+le moteur applique. L'ouverture de fin de fenêtre doit être strictement
+supérieure à 0. C'est 100 qui la désactive.</p>
+<p>La part d'un utilisateur dépend du nombre d'utilisateurs actifs au moment de la
+requête : elle peut donc varier au cours d'une même fenêtre, à la hausse comme à
+la baisse. Le tableau de bord affiche, sous chaque jauge d'abonnement, le nombre
+d'utilisateurs actifs sur lequel la part a été calculée, ainsi qu'une mention
+lorsque le rythme resserre la part, lorsque le forfait déjà consommé par les
+autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 <h2 id="configurer-la-resilience">Configurer la résilience<a class="headerlink" href="#configurer-la-resilience" title="Permanent link">&para;</a></h2>
 <p>Dans les paramètres avancés du fournisseur :</p>
 <h3 id="retry-nouvelles-tentatives">Retry (nouvelles tentatives)<a class="headerlink" href="#retry-nouvelles-tentatives" title="Permanent link">&para;</a></h3>
