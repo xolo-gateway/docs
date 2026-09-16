@@ -930,6 +930,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#anthropic-utilisez-le-type-anthropic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Anthropic : utilisez le type <code>anthropic</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3043,6 +3054,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#anthropic-utilisez-le-type-anthropic" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Anthropic : utilisez le type <code>anthropic</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3419,7 +3441,7 @@
 </tr>
 <tr>
 <td><strong>Type</strong></td>
-<td>Type de connexion : <code>openai</code>, <code>mistral</code>, <code>openrouter</code>, <code>yzma</code></td>
+<td>Type de connexion : <code>openai</code>, <code>anthropic</code>, <code>mistral</code>, <code>openrouter</code></td>
 </tr>
 <tr>
 <td><strong>URL de base</strong></td>
@@ -3475,6 +3497,34 @@
 </tbody>
 </table>
 <p>Adaptez l'hôte et le port à votre déploiement. Pour l'estimation énergétique, choisissez le niveau d'infrastructure <strong>Small Provider</strong> : c'est celui qui correspond le mieux à une machine que vous opérez vous-même. La même recette vaut pour tout serveur qui parle le format OpenAI (LM Studio, llama.cpp en mode serveur, LocalAI…).</p>
+<h2 id="anthropic-utilisez-le-type-anthropic">Anthropic : utilisez le type <code>anthropic</code><a class="headerlink" href="#anthropic-utilisez-le-type-anthropic" title="Permanent link">&para;</a></h2>
+<p>Le type <code>anthropic</code> parle l'API Messages native d'Anthropic (<code>https://api.anthropic.com</code>), via le SDK officiel. C'est le type à choisir pour un compte Anthropic direct : il transmet les points de cache (<code>cache_control</code>) posés par les clients, rejoue les blocs de réflexion signés d'un tour à l'autre et remonte séparément les tokens lus et écrits dans le cache.</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Anthropic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type</strong></td>
+<td><code>anthropic</code></td>
+</tr>
+<tr>
+<td><strong>URL de base</strong></td>
+<td><code>https://api.anthropic.com</code> (un suffixe <code>/v1</code> est toléré)</td>
+</tr>
+<tr>
+<td><strong>Clé API</strong></td>
+<td>votre clé <code>sk-ant-…</code></td>
+</tr>
+</tbody>
+</table>
+<p>Un fournisseur Anthropic déclaré avec le type <code>openai</code> sur l'endpoint compatible OpenAI continue de fonctionner, mais ce chemin ne transmet pas <code>cache_control</code> : les préfixes de prompt ne sont jamais mis en cache et sont facturés au tarif plein à chaque appel. Aucune migration automatique n'est faite ; modifiez le type du fournisseur à la main.</p>
+<p>Pensez à renseigner le <strong>coût du prompt en cache</strong> sur les modèles concernés (chez Anthropic, environ 10 % du tarif d'entrée). Laissé vide, ce champ vaut le tarif plein : le coût affiché surestime alors la facture dès que le cache est actif. Les écritures de cache, facturées plus cher que le tarif d'entrée par Anthropic, sont comptées au tarif plein.</p>
+<p>Le type <code>anthropic</code> envoie <code>max_tokens</code> à chaque requête, l'API l'exigeant : la valeur est celle du client, sinon la <strong>fenêtre de sortie</strong> du modèle telle que déclarée dans Xolo, plafonnée à 16 384 tokens. Ce plafond existe parce que, sur cette API, <code>max_tokens</code> dimensionne aussi le budget de réflexion (une fraction de <code>max_tokens</code> quand le client demande un niveau d'effort) et compte dans la fenêtre de contexte avec l'entrée. Un client qui veut davantage fixe lui-même <code>max_tokens</code>, et un client dont le prompt approche la fenêtre de contexte doit le faire aussi : sur cette API, entrée et <code>max_tokens</code> doivent tenir ensemble dans la fenêtre. Fenêtre de sortie non renseignée, le provider retombe sur 4096 tokens.</p>
+<p>Vérifiez aussi l'<strong>extra_body</strong> des modèles migrés : ses entrées partent en champs de premier niveau de la requête, et l'API Messages n'accepte que les siens. Une clé propre au format OpenAI comme <code>reasoning_effort</code> fait échouer toutes les requêtes du modèle.</p>
 <h2 id="tester-la-connexion">Tester la connexion<a class="headerlink" href="#tester-la-connexion" title="Permanent link">&para;</a></h2>
 <p>Après avoir créé un fournisseur, utilisez le bouton <strong>Tester la connexion</strong> pour vérifier que Xolo peut communiquer avec le fournisseur.</p>
 <h2 id="fournisseurs-en-abonnement-plan-et-repartition">Fournisseurs en abonnement : plan et répartition<a class="headerlink" href="#fournisseurs-en-abonnement-plan-et-repartition" title="Permanent link">&para;</a></h2>
