@@ -3309,6 +3309,21 @@
 <td>—</td>
 <td>Taille et TTL des caches en mémoire pour les utilisateurs et fournisseurs (activés par défaut, 25 entrées, 60 min).</td>
 </tr>
+<tr>
+<td><code>XOLO_STORAGE_DATABASE_CACHE_QUOTA_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Réutilise les totaux de dépense lus à chaque requête proxy pour la vérification des budgets, au lieu de les relire à chaque fois. Les totaux eux-mêmes viennent de compteurs journaliers tenus à l'enregistrement de l'usage, pas d'une agrégation de l'historique.</td>
+</tr>
+<tr>
+<td><code>XOLO_STORAGE_DATABASE_CACHE_QUOTA_SIZE</code></td>
+<td><code>4096</code></td>
+<td>Nombre maximal de totaux conservés. Chaque organisation active en occupe trois (jour, mois, année), plus trois par utilisateur actif.</td>
+</tr>
+<tr>
+<td><code>XOLO_STORAGE_DATABASE_CACHE_QUOTA_TTL</code></td>
+<td><code>10s</code></td>
+<td>Durée de réutilisation d'un total. Les dépenses sont appliquées aux totaux en cache au fil des enregistrements, donc une instance seule reste exacte pendant toute la durée ; avec plusieurs instances, c'est le délai pendant lequel l'une peut ignorer la dépense d'une autre. <code>0</code> relit les compteurs à chaque vérification.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="choisir-entre-sqlite-et-postgresql">Choisir entre SQLite et PostgreSQL<a class="headerlink" href="#choisir-entre-sqlite-et-postgresql" title="Permanent link">&para;</a></h3>
