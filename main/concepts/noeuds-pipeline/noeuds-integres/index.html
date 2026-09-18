@@ -1915,6 +1915,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#block" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        block
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#note" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2984,6 +2995,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#block" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        block
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#note" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3144,6 +3166,12 @@
 <p>Les valeurs apparaissent dans les attributs de l'événement sous <code>port.&lt;nom&gt;</code>. Nommez les ports d'après ce qu'ils reçoivent, <code>complexity</code>, <code>model_name</code>, <code>selected</code>, et l'événement se lit sans consulter le graphe. On les retrouve dans la page Événements et on peut écrire une <a href="../../eventql/">alerte eventql</a> dessus.</p>
 <p>Posez-en un après le scorer quand un routage vous surprend. C'est le seul moyen de savoir ce que les nœuds ont produit en production sans le deviner.</p>
 <p><img alt="Ports déclarés dans la configuration du nœud trace" src=".././screenshots/inspector-trace.png" /></p>
+<h2 id="block">block<a class="headerlink" href="#block" title="Permanent link">&para;</a></h2>
+<p>Refuse la requête quand <code>condition</code> est vrai. L'appelant reçoit un 403 avec le message configuré, aucun modèle n'est appelé, et un événement <code>request.blocked</code> est enregistré avec l'identifiant du nœud, son libellé et le message. Quand la condition est fausse, le nœud ne fait rien.</p>
+<p>Une condition non connectée, ou qui n'est ni un booléen ni un nombre, ne laisse pas passer la requête : le pipeline échoue avec une erreur 500 tant que le graphe n'est pas réparé, comme pour <code>select</code> et <code>compare</code>.</p>
+<p>Ports : <code>condition</code> (boolean, requis) en entrée, aucune sortie. Configuration : le message renvoyé à l'appelant, plus le libellé commun à tous les nœuds. Sans message, un texte générique est renvoyé.</p>
+<p>Les plugins qui refusent le font chacun derrière leur propre seuil. <code>block</code> déplace la décision dans le graphe : <code>prompt-guard</code> fournit <code>risk</code>, <code>compare</code> pose le seuil, <code>block</code> refuse, et la politique se lit d'un coup d'œil. On combine ensuite les signaux comme on veut, un <code>math</code> en <code>max</code> de <code>risk</code> et de <code>pressure</code>, un <code>compare</code> sur <code>context.hour</code>, sans attendre que chaque plugin sache bloquer.</p>
+<p>Le nœud s'exécute avant tout nœud modèle quelle que soit sa position sur le canevas, comme les autres nœuds sans port de sortie. Il n'a pas besoin d'être placé sur le chemin de la requête. Sa condition doit en revanche venir de nœuds situés en amont du modèle : un <code>block</code> alimenté, même indirectement, par la sortie <code>response</code> d'un nœud <code>model</code> ne pourrait jamais s'exécuter, et Xolo refuse ce graphe à la première requête plutôt que de servir la réponse avec une politique silencieusement inactive.</p>
 <h2 id="note">note<a class="headerlink" href="#note" title="Permanent link">&para;</a></h2>
 <p>Un bloc de texte sur le canevas. Aucun port, aucun effet à l'exécution. Écrivez-y pourquoi le seuil vaut 0,6 et pas 0,5. La personne qui relira le graphe dans six mois vous remerciera, et ce sera peut-être vous.</p>
 

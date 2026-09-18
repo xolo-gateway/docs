@@ -3109,6 +3109,10 @@
 <td>Enregistre des valeurs dans un événement</td>
 </tr>
 <tr>
+<td><a href="./noeuds-integres/#block"><code>block</code></a></td>
+<td>Refuse la requête quand un booléen est vrai</td>
+</tr>
+<tr>
 <td><a href="./noeuds-integres/#note"><code>note</code></a></td>
 <td>Bloc de texte sur le canevas, sans effet</td>
 </tr>
@@ -3220,6 +3224,7 @@
 </tbody>
 </table>
 <h2 id="quatre-assemblages-types">Quatre assemblages types<a class="headerlink" href="#quatre-assemblages-types" title="Permanent link">&para;</a></h2>
+<p>Politique de refus composée. <code>prompt-guard.risk</code> entre dans <code>compare</code> avec le seuil 0,6, <code>result</code> entre dans <code>block</code>. Le plugin mesure, le graphe décide, et le seuil se lit sur le canevas au lieu d'être enfoui dans la configuration du plugin. Un <code>math</code> en <code>max</code> entre plusieurs signaux, <code>risk</code> et <code>pressure</code> par exemple, refuse dès que l'un d'eux dépasse.</p>
 <p>Garde-fou sans blocage. <code>prompt-guard.suspicious</code> va dans <code>select</code>, avec en <code>when_true</code> un <code>model_ref</code> vers un modèle virtuel dépourvu d'outils et en <code>when_false</code> le modèle habituel. Une requête douteuse est servie, mais sans pouvoir agir. Un <code>trace</code> branché sur <code>risk</code> et <code>top_rule</code> garde la trace de ce qui a déclenché.</p>
 <p>Routage par capacité. <code>request-inspector.has_vision</code> va dans <code>select</code>, avec un <code>model_ref</code> vision en <code>when_true</code> et le modèle habituel en <code>when_false</code>. La sortie alimente <code>model.model_name</code>.</p>
 <p>Routage horaire avec repli. <code>context.hour</code> entre dans <code>compare</code> avec le seuil 19 et l'opérateur <code>gte</code>, <code>select</code> bascule sur le modèle léger le soir, et <code>model_fallback</code> garde un second fournisseur en réserve.</p>

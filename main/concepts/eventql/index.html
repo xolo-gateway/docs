@@ -3481,6 +3481,20 @@ duplication de code dans les handlers.</p>
 <td>Une connexion échoue (ex. compte déjà existant avec un autre fournisseur)</td>
 <td><code>email</code>, <code>provider</code>, <code>reason</code></td>
 </tr>
+<tr>
+<td><code>pipeline.trace</code></td>
+<td><code>info</code> (configurable)</td>
+<td>utilisateur</td>
+<td>Un nœud <code>trace</code> d'un pipeline s'exécute</td>
+<td><code>node_id</code>, <code>label</code>, <code>port.&lt;nom&gt;</code> pour chaque port connecté</td>
+</tr>
+<tr>
+<td><code>request.blocked</code></td>
+<td><code>warning</code></td>
+<td>utilisateur</td>
+<td>Un nœud <code>block</code> d'un pipeline refuse la requête</td>
+<td><code>node_id</code>, <code>label</code>, <code>reason</code></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Configuration (CRUD)</strong> — tous globaux à l'organisation (<code>user</code> vide), avec les
