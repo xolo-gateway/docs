@@ -2826,6 +2826,143 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tutoriels
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Tutoriels
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_1" id="__nav_6_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent garde
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Agent garde
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilisation/tutoriels/agent-garde/agent-garde/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tutoriel : construire un agent support gardé
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3139,7 +3276,8 @@
 <p>Sert à alimenter un port qu'on veut fixer sans le calculer. Dans le pipeline « auto » fourni en exemple, la sensibilité énergétique est un <code>value</code> à 0,6 branché sur le <code>fuzzy-evaluator</code>.</p>
 <h2 id="compare">compare<a class="headerlink" href="#compare" title="Permanent link">&para;</a></h2>
 <p>Compare <code>value</code> à un seuil et émet <code>result</code>, un booléen.</p>
-<p>Ports : <code>value</code> (number, requis), <code>threshold</code> (number) en entrée, <code>result</code> (boolean) en sortie. Configuration : l'opérateur (<code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>, <code>eq</code>, <code>ne</code>) et le seuil, utilisé quand le port <code>threshold</code> n'est pas connecté.</p>
+<p>Ports : <code>value</code> (number), <code>threshold</code> (number) et <code>text</code> (string) en entrée, <code>result</code> (boolean) en sortie. Configuration : l'opérateur (<code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>, <code>eq</code>, <code>ne</code>), le seuil, utilisé quand le port <code>threshold</code> n'est pas connecté, et la chaîne attendue.</p>
+<p>Il faut connecter <code>value</code> ou <code>text</code>, pas les deux. Avec <code>text</code>, la chaîne reçue est comparée à la chaîne attendue, sans tenir compte de la casse ni des espaces autour. Seuls <code>eq</code> et <code>ne</code> s'appliquent, et la chaîne attendue est obligatoire : un opérateur d'ordre ou une chaîne vide font échouer la requête plutôt que de produire un booléen constant. Le bandeau de l'éditeur signale ces trois cas avant l'enregistrement. C'est ainsi qu'une catégorie émise par <code>llm-classifier</code> ou <code>text-classifier</code> devient un booléen pour un <code>select</code> ou un <code>block</code>, sans script.</p>
 <p><img alt="Configuration du nœud compare" src=".././screenshots/inspector-cmp.png" /></p>
 <h2 id="select">select<a class="headerlink" href="#select" title="Permanent link">&para;</a></h2>
 <p>Émet <code>when_true</code> ou <code>when_false</code> selon <code>condition</code>.</p>

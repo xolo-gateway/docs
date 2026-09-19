@@ -2777,6 +2777,143 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tutoriels
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Tutoriels
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_4_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_4_1" id="__nav_6_4_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Agent garde
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_6_4_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Agent garde
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/tutoriels/agent-garde/agent-garde/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tutoriel : construire un agent support gardé
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3224,6 +3361,7 @@
 </tbody>
 </table>
 <h2 id="quatre-assemblages-types">Quatre assemblages types<a class="headerlink" href="#quatre-assemblages-types" title="Permanent link">&para;</a></h2>
+<p>Le <a href="../../utilisation/tutoriels/agent-garde/agent-garde/">tutoriel de l'agent support gardé</a> assemble plusieurs de ces briques pas à pas, captures d'écran à l'appui.</p>
 <p>Politique de refus composée. <code>prompt-guard.risk</code> entre dans <code>compare</code> avec le seuil 0,6, <code>result</code> entre dans <code>block</code>. Le plugin mesure, le graphe décide, et le seuil se lit sur le canevas au lieu d'être enfoui dans la configuration du plugin. Un <code>math</code> en <code>max</code> entre plusieurs signaux, <code>risk</code> et <code>pressure</code> par exemple, refuse dès que l'un d'eux dépasse.</p>
 <p>Garde-fou sans blocage. <code>prompt-guard.suspicious</code> va dans <code>select</code>, avec en <code>when_true</code> un <code>model_ref</code> vers un modèle virtuel dépourvu d'outils et en <code>when_false</code> le modèle habituel. Une requête douteuse est servie, mais sans pouvoir agir. Un <code>trace</code> branché sur <code>risk</code> et <code>top_rule</code> garde la trace de ce qui a déclenché.</p>
 <p>Routage par capacité. <code>request-inspector.has_vision</code> va dans <code>select</code>, avec un <code>model_ref</code> vision en <code>when_true</code> et le modèle habituel en <code>when_false</code>. La sortie alimente <code>model.model_name</code>.</p>
