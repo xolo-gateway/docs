@@ -581,6 +581,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fournisseur-gitea" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fournisseur Gitea
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3084,6 +3095,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fournisseur-gitea" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fournisseur Gitea
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3394,8 +3416,8 @@
 <td>Fournisseur GitHub OAuth2.</td>
 </tr>
 <tr>
-<td><code>XOLO_HTTP_AUTHN_PROVIDERS_GITEA_KEY</code> / <code>_SECRET</code> / <code>_AUTH_URL</code> / <code>_TOKEN_URL</code> / <code>_PROFILE_URL</code></td>
-<td>Fournisseur Gitea auto-hébergé.</td>
+<td><code>XOLO_HTTP_AUTHN_PROVIDERS_GITEA_KEY</code> / <code>_SECRET</code> / <code>_AUTH_URL</code> / <code>_TOKEN_URL</code> / <code>_PROFILE_URL</code> / <code>_DISCOVERY_URL</code></td>
+<td>Fournisseur Gitea auto-hébergé. <code>DISCOVERY_URL</code> est optionnel : sans lui, le fournisseur démarre avec un avertissement et le login interactif retombe sur <code>AUTH_URL</code> / <code>TOKEN_URL</code> ; avec lui, sa politique de validation est celle des <a href="#fournisseurs-oidc-nommes">fournisseurs OIDC nommés</a>. <code>DISCOVERY_URL</code> seul, ou <code>AUTH_URL</code> + <code>TOKEN_URL</code> (avec éventuellement <code>PROFILE_URL</code>), doivent être renseignés : un fournisseur configuré avec uniquement <code>KEY</code> et <code>SECRET</code> est refusé au démarrage.</td>
 </tr>
 </tbody>
 </table>
@@ -3409,8 +3431,20 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nv">XOLO_HTTP_AUTHN_OIDC_PROVIDER_KEYCLOAK_LABEL</span><span class="o">=</span><span class="s2">&quot;Mon SSO&quot;</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="nv">XOLO_HTTP_AUTHN_OIDC_PROVIDER_KEYCLOAK_SCOPES</span><span class="o">=</span>openid,profile,email
 </span></code></pre></div>
-<p>L'URL de découverte est obligatoire. Xolo télécharge le document au démarrage, avec un délai maximal de 10 secondes. Si le document est inaccessible ou incomplet, le serveur refuse de démarrer, en mode mono-tenant comme en multi-tenant. Le document doit contenir <code>issuer</code>, <code>authorization_endpoint</code>, <code>token_endpoint</code> et <code>jwks_uri</code>. Chacun de ces champs, ainsi que <code>userinfo_endpoint</code>, <code>introspection_endpoint</code> et <code>end_session_endpoint</code> quand ils sont présents, doit être une URL absolue en <code>http</code> ou <code>https</code>.</p>
+<p>L'URL de découverte est obligatoire. Xolo télécharge le document au démarrage, avec un délai maximal de 10 secondes. Si le document est inaccessible ou incomplet, le serveur refuse de démarrer, en mode mono-tenant comme en multi-tenant. Le document doit contenir <code>issuer</code>, <code>authorization_endpoint</code> et <code>token_endpoint</code>. Chacun de ces champs, ainsi que <code>userinfo_endpoint</code>, <code>introspection_endpoint</code> et <code>end_session_endpoint</code> quand ils sont présents, doit être une URL absolue en <code>http</code> ou <code>https</code>.</p>
+<p>Le champ <code>jwks_uri</code> n'est pas obligatoire : un IdP non conforme peut démarrer sans bloquer l'instance. Dans ce cas, Xolo émet un avertissement au démarrage qui cite le fournisseur concerné et indique que la <strong>validation JWT des ID Tokens</strong> est désactivée pour ce fournisseur. La validation d'introspection et de UserInfo reste active : le fournisseur reste enregistré dans la liste interne avec un <code>JWKSURL</code> vide, <code>oidctoken</code> ignore ce fournisseur (<code>errInvalidToken</code>, que la boucle d'authentification passe), tandis que <code>oauth2token</code> valide les jetons opaques via l'<code>introspection_endpoint</code> ou, à défaut, l'<code>userinfo_endpoint</code> documenté. C'est le cas type d'un IdP qui émet des jetons opaques validés par introspection — voir l'issue #27.</p>
 <p>Pour valider des jetons d'accès opaques côté API (introspection RFC 7662, ou UserInfo à défaut) plutôt que des ID Tokens OIDC autoportés, activez <code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_ENABLED=true</code>.</p>
+<h3 id="fournisseur-gitea">Fournisseur Gitea<a class="headerlink" href="#fournisseur-gitea" title="Permanent link">&para;</a></h3>
+<p>Le fournisseur Gitea est aligné sur les fournisseurs OIDC nommés dès que <code>XOLO_HTTP_AUTHN_PROVIDERS_GITEA_DISCOVERY_URL</code> est configuré : le document téléchargé doit alors contenir <code>issuer</code>, <code>authorization_endpoint</code> et <code>token_endpoint</code>. Si le document est inaccessible, mal formé ou incomplet, le serveur refuse de démarrer.</p>
+<p><code>XOLO_HTTP_AUTHN_PROVIDERS_GITEA_DISCOVERY_URL</code> est cependant <strong>optionnel</strong> : sans lui, Xolo démarre avec un avertissement de démarrage, et le login interactif utilise directement les champs <code>AUTH_URL</code> / <code>TOKEN_URL</code> / <code>PROFILE_URL</code> configurés. Lorsque <code>DISCOVERY_URL</code> est configuré et que le document est validé, ses <code>authorization_endpoint</code> et <code>token_endpoint</code> priment toujours sur la configuration statique : <code>validateOIDCDiscovery</code> exige que ces deux champs soient présents et absolus, donc la branche statique n'est consultée que sur le chemin <code>DISCOVERY_URL</code> vide (que la validation préalable refuse si <code>AUTH_URL</code> ou <code>TOKEN_URL</code> manquent). Pour <code>PROFILE_URL</code>, le document de découverte tient lieu de repli lorsqu'il publie un <code>userinfo_endpoint</code> et que le champ statique est vide ; avec <code>DISCOVERY_URL</code>, si <code>PROFILE_URL</code> est vide et que le document ne publie pas <code>userinfo_endpoint</code>, le fournisseur refuse de démarrer avec un message explicite plutôt que d'échouer à la première connexion.</p>
+<p>Sur le chemin statique (<code>DISCOVERY_URL</code> vide), <code>PROFILE_URL</code> est également <strong>obligatoire</strong> : sans lui, aucun <code>userinfo_endpoint</code> n'est disponible en repli et la première connexion échouerait avec une erreur goth opaque. Le serveur refuse alors de démarrer avec le message <code>gitea provider requires PROFILE_URL or a discovery document that publishes userinfo_endpoint</code>, aligné sur le comportement de la branche découverte.</p>
+<p>Qu'il passe par la découverte ou par la configuration statique, un fournisseur Gitea a besoin d'au moins <strong>un</strong> de ces deux chemins :</p>
+<ul>
+<li><code>DISCOVERY_URL</code> renseigné et résolu (avec un document complet),</li>
+<li><code>AUTH_URL</code> <strong>et</strong> <code>TOKEN_URL</code> renseignés (avec éventuellement <code>PROFILE_URL</code>).</li>
+</ul>
+<p>Un fournisseur configuré avec uniquement <code>KEY</code> / <code>SECRET</code> est refusé au démarrage avec l'erreur <code>gitea provider requires either DISCOVERY_URL or both AUTH_URL and TOKEN_URL</code>. C'est un changement de comportement par rapport aux versions précédentes, qui acceptaient ce mode et échouaient à la première connexion ; l'erreur explicite permet aujourd'hui de repérer la mauvaise configuration dès le boot.</p>
+<p>Comme pour les fournisseurs OIDC nommés, <code>jwks_uri</code> est optionnel : en son absence, ou lorsqu'il est présent mais mal formé (URL relative, scheme non <code>http(s)</code>), un avertissement est émis au démarrage et la validation JWT des ID Tokens est désactivée pour ce fournisseur — l'introspection reste active si le document la publie.</p>
 <h2 id="stockage">Stockage<a class="headerlink" href="#stockage" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
