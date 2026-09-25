@@ -3323,7 +3323,7 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <tr>
 <td><code>Model</code></td>
 <td><code>string</code></td>
-<td>Model that was called</td>
+<td>Modèle qui a effectivement répondu. Sur une chaîne <code>ModelFallback</code>, c'est le candidat retenu (pas forcément le primaire résolu en amont). Si aucun candidat n'a répondu, retombe sur le modèle résolu par le forward pass.</td>
 </tr>
 <tr>
 <td><code>PromptTokens</code></td>
