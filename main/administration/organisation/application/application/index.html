@@ -905,6 +905,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#portee-dun-token-et-endpoint-get-apiv1models" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Portée d'un token et endpoint <code>GET /api/v1/models</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3303,6 +3314,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#portee-dun-token-et-endpoint-get-apiv1models" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Portée d'un token et endpoint <code>GET /api/v1/models</code>
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3651,6 +3673,27 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="s1">    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s1">  }&#39;</span>
 </span></code></pre></div>
+<h3 id="portee-dun-token-et-endpoint-get-apiv1models">Portée d'un token et endpoint <code>GET /api/v1/models</code><a class="headerlink" href="#portee-dun-token-et-endpoint-get-apiv1models" title="Permanent link">&para;</a></h3>
+<p>Un token (application ou utilisateur) est rattaché à <strong>une seule organisation</strong> :
+celle dans laquelle il a été émis. Cette portée s'applique de la même
+manière à toutes les requêtes authentifiées par ce token, y compris
+<code>GET /api/v1/models</code>, qui renvoie uniquement les modèles activés de cette
+organisation.</p>
+<p>Concrètement :</p>
+<ul>
+<li><strong>Jeton d'application</strong> : <code>GET /api/v1/models</code> renvoie les modèles activés de l'organisation de l'application.</li>
+<li><strong>Jeton d'utilisateur multi-organisations</strong> : <code>GET /api/v1/models</code> ne renvoie que les modèles activés de l'organisation du jeton (les autres appartenances de l'utilisateur sont ignorées, comme pour le proxy). Les modèles virtuels personnels (<code>~/...</code>) suivent une règle distincte : ils sont inclus dès lors que l'utilisateur dispose de la permission <code>personal-vm:create</code> (ou du rôle owner) dans <strong>au moins une</strong> des organisations retenues par le scope ci-dessus. La liste n'est cependant pas filtrée par organisation : le modèle de données (<code>internal/core/model/personal_virtual_model.go</code>) rattache chaque modèle virtuel personnel à son <code>user_id</code> sans colonne <code>OrgID</code>, donc tous les <code>~/...</code> appartenant à cet utilisateur sont renvoyés.</li>
+<li><strong>Session OIDC (utilisateur humain)</strong> : <code>GET /api/v1/models</code> renvoie l'union des modèles activés de toutes les organisations dont l'utilisateur est membre.</li>
+<li><strong>Session issue de <code>POST /auth/token/login</code></strong> : la session est créée à partir d'un jeton Xolo (utilisateur ou application) et <code>authn.User.OrgID</code> est rempli avec l'organisation du jeton (<code>internal/http/middleware/authn/token/login.go</code>). <code>GET /api/v1/models</code> ne renvoie alors que les modèles activés de cette organisation, comme pour le cas « Jeton » correspondant (les autres appartenances de l'utilisateur sont ignorées ; pour une application, c'est précisément l'organisation de l'application). Ce cas se distingue du précédent uniquement par le canal d'authentification (cookie de session au lieu de header <code>Authorization</code>).</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong> : Avant la correction du bug <a href="https://github.com/xolo-gateway/xolo/issues/48">#48</a>,
+un jeton d'application renvoyait une liste vide sur <code>GET /api/v1/models</code>
+parce que l'utilisateur « fantôme » associé à l'application n'a
+aucune appartenance organisationnelle. Ce comportement est désormais
+corrigé : l'application voit les modèles de son organisation, comme
+le proxy le faisait déjà.</p>
+</blockquote>
 <h2 id="integration-avec-openwebui">Intégration avec OpenWebUI<a class="headerlink" href="#integration-avec-openwebui" title="Permanent link">&para;</a></h2>
 <p>OpenWebUI peut être configuré pour utiliser Xolo comme backend LLM.</p>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
