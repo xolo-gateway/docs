@@ -1095,6 +1095,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#acceptation-et-refus" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Acceptation et refus
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparer-la-mise-a-jour-inv-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Préparer la mise à jour INV-01
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3125,6 +3147,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#acceptation-et-refus" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Acceptation et refus
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparer-la-mise-a-jour-inv-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Préparer la mise à jour INV-01
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3381,6 +3425,39 @@
 </tr>
 </tbody>
 </table>
+<h2 id="acceptation-et-refus">Acceptation et refus<a class="headerlink" href="#acceptation-et-refus" title="Permanent link">&para;</a></h2>
+<p>Une invitation est utilisable uniquement dans le tenant de son organisation,
+par un compte actif. Une invitation ciblée exige exactement l'adresse e-mail
+indiquée, y compris sa casse ; ses détails sont masqués avant connexion. Elle
+est à usage unique et disparaît après acceptation ou refus par son destinataire.
+Le refus d'un lien ouvert le masque localement pendant un jour sans le supprimer.</p>
+<p>Un membre déjà présent conserve ses rôles et ne consomme pas d'utilisation.
+L'adhésion, l'attribution du rôle et la consommation du lien sont atomiques.
+Le rôle choisi doit toujours exister dans l'organisation. Une date d'expiration
+correspond à <strong>minuit UTC au début de la date choisie</strong> et doit être future.
+Une limite doit être un entier strictement positif ; seul un champ vide signifie
+« sans limite ». Pour une invitation ciblée, la limite enregistrée reste un.</p>
+<h2 id="preparer-la-mise-a-jour-inv-01">Préparer la mise à jour INV-01<a class="headerlink" href="#preparer-la-mise-a-jour-inv-01" title="Permanent link">&para;</a></h2>
+<p>Avant le déploiement, sauvegardez la base et suspendez les écritures pendant
+les migrations. Contrôlez les doublons d'appartenance sur SQLite ou PostgreSQL :</p>
+<div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">org_id</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">membership_count</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">memberships</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">org_id</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></div>
+<p>Si cette requête retourne des lignes, examinez les appartenances correspondantes
+et leurs entrées <code>membership_roles</code>. Décidez explicitement quelles appartenances
+et quels rôles conserver. La migration <code>202609300001</code> s'arrête avec les identifiants
+des groupes en conflit (20 au maximum dans le diagnostic) ; elle ne fusionne ni
+ne supprime aucune donnée. Après correction manuelle, relancez le démarrage pour
+créer l'index unique <code>(user_id, org_id)</code>.</p>
+<p>La migration <code>202609300002</code> révoque les anciens liens XID encore utilisables.
+Ils restent visibles et supprimables dans l'administration, mais ne permettent
+plus de rejoindre l'organisation. <strong>Recréez et redistribuez tous les anciens
+liens encore nécessaires après la mise à jour.</strong> Les nouvelles invitations
+utilisent des jetons de 256 bits générés avec <code>crypto/rand</code>, encodés en base64 URL
+sans remplissage. Les routes restent identiques. La révocation n'est pas annulée
+par un redémarrage et ne dispose pas de migration inverse.</p>
 
 
 

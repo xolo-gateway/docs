@@ -3550,7 +3550,17 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <tr>
 <td><code>OrgId</code></td>
 <td><code>string</code></td>
-<td>Organisation ID</td>
+<td>Organisation used for model resolution, quotas and events</td>
+</tr>
+<tr>
+<td><code>SecretScopeId</code></td>
+<td><code>string</code></td>
+<td>Graph owner: organisation ID or <code>~:&lt;userID&gt;</code> for a personal graph</td>
+</tr>
+<tr>
+<td><code>NodeId</code></td>
+<td><code>string</code></td>
+<td>Plugin node placement ID</td>
 </tr>
 <tr>
 <td><code>UserId</code></td>
@@ -3714,6 +3724,43 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="isolation-des-secrets-et-mise-a-niveau">Isolation des secrets et mise à niveau<a class="headerlink" href="#isolation-des-secrets-et-mise-a-niveau" title="Permanent link">&para;</a></h2>
+<p>Les RPC <code>GetSecret</code>, <code>SetSecret</code> et <code>DeleteSecret</code> prennent <code>scope_id</code>,
+<code>plugin_name</code>, <code>node_id</code> et <code>key</code>. Leur clé d'isolation est le quadruplet complet ;
+aucune lecture ne cherche dans un autre périmètre. Les identifiants vides ou
+composés uniquement d'espaces sont refusés (<code>InvalidArgument</code>), sans normalisation.
+Une valeur secrète vide reste autorisée.</p>
+<p>Pour la configuration d'un nœud, utiliser <code>RequestContext.SecretScopeId</code>, qui suit
+le propriétaire du graphe lors des appels imbriqués, et <code>RequestContext.NodeId</code>.
+<code>OrgId</code> reste le contexte de résolution des modèles, des quotas et des événements.
+Les interfaces de plugins reçoivent le périmètre dans l'en-tête
+<code>X-Xolo-Secret-Scope-Id</code>, injecté par le serveur. Les jetons OAuth de <code>mcp-bridge</code>
+appartiennent toujours au profil <code>~:&lt;userID&gt;</code>, sous la clé <code>oauth:&lt;userID&gt;</code>, même
+lorsque le modèle exécuté appartient à une organisation. Supprimer un graphe
+d'organisation ne révoque donc pas les autorisations OAuth personnelles.</p>
+<p>Avant cette mise à niveau :</p>
+<ol>
+<li>Arrêter toutes les instances qui écrivent dans la base, puis sauvegarder la
+   base et conserver la clé de chiffrement existante.</li>
+<li>Reconstruire et livrer ensemble le serveur, le SDK et tous les plugins. Cette
+   évolution utilise le protocole de plugin version 2 ; les anciens binaires sont
+   refusés au démarrage.</li>
+<li>Démarrer une seule instance pour appliquer la migration <code>202609300003</code>, avant
+   de réouvrir les écritures. La migration vérifie les identifiants invalides et
+   les doublons, crée l'unicité <code>(org_id, plugin_name, node_id, key)</code>, puis supprime
+   l'ancien index <code>(node_id, key)</code> dans une transaction. La colonne SQL <code>org_id</code>
+   conserve son nom et contient aussi les périmètres personnels.</li>
+<li>Si les contrôles échouent, examiner les lignes identifiées dans le diagnostic
+   et résoudre manuellement l'incohérence avant de redémarrer. La migration ne
+   fusionne ni ne réattribue les lignes ; elle conserve leurs identifiants,
+   propriétaires, dates et contenus chiffrés. Son rollback automatique est refusé,
+   car l'ancienne unicité peut ne plus être rétablie sans perte de données.</li>
+</ol>
+<p>Les secrets historiquement écrasés ne sont pas récupérables par cette migration.
+Les autorisations OAuth qui avaient été enregistrées sous un périmètre
+d'organisation doivent être renouvelées depuis le profil : aucun repli de lecture
+ne les récupère. Les plugins installés restent des composants de confiance ; ce
+correctif ne constitue pas une autorisation des RPC face à un binaire malveillant.</p>
 <h2 id="emitting-events">Emitting Events<a class="headerlink" href="#emitting-events" title="Permanent link">&para;</a></h2>
 <p>Plugins can push events into Xolo's <a href="../../../concepts/eventql/">event system</a> so their
 activity shows up in the events explorer and can trigger alerts — for example a
