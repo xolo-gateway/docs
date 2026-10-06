@@ -1443,6 +1443,23 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Provisioning API
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="././" class="md-nav__link md-nav__link--active">
         
   
@@ -1458,6 +1475,170 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Authentication
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Configuration
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Endpoints
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-tenant-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Single-tenant instances
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Errors
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Identity model
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Identity model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#provisioning-ahead-of-the-first-sign-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Provisioning ahead of the first sign-in
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Invariants
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Reconciliation
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transactions-audit-and-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Transactions, audit and correlation
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-pki" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Development PKI
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-current-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Out of current scope
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1963,6 +2144,11 @@
                       
                     
                     
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -1974,6 +2160,158 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Authentication
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Configuration
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Endpoints
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-tenant-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Single-tenant instances
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Errors
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Identity model
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Identity model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#provisioning-ahead-of-the-first-sign-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Provisioning ahead of the first sign-in
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Invariants
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Reconciliation
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transactions-audit-and-correlation" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Transactions, audit and correlation
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development-pki" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Development PKI
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#out-of-current-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Out of current scope
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2069,7 +2407,457 @@
 
 
 <h1 id="provisioning-api">Provisioning API<a class="headerlink" href="#provisioning-api" title="Permanent link">&para;</a></h1>
-<p>This page has not been translated yet. See the <a href="https://xolo-gateway.org/latest/">French version</a> for the full content.</p>
+<p>The dedicated provisioning listener administers tenants, organizations, users,
+memberships and roles using mutual TLS. It is disabled by default and separate
+from the public HTTP listener.</p>
+<h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
+<p>Mutual TLS, and nothing else. There is no OIDC, no session, no cookie and no
+user API token on this port, and no Provisionning API endpoint is ever mounted on the
+public HTTP port. There is no anonymous fallback.</p>
+<p>The listener requires <strong>TLS 1.3</strong>, a client certificate verified against the configured
+CA, and <strong>exactly one URI SAN</strong> matching <code>XOLO_PROVISIONNING_API_AUTHORIZED_URIS</code>
+exactly. The Common Name never authorizes a client. These checks run during the
+TLS handshake and in middleware around every route, including health, permissions,
+unknown routes and refused methods. HTTP rejections use <code>403</code> and
+<code>client_certificate_rejected</code> in the existing JSON error envelope.</p>
+<p>An authorized URI administers the whole instance, with tenant and organization
+parent checks. There are no permissions per certificate. Renewing a certificate
+with the same authorized URI retains its identity and rate budget.</p>
+<p><strong>Upgrade requirement:</strong> installations already enabling this listener must reissue
+client certificates with one URI SAN and configure the allowlist before restarting.
+An empty list, duplicate or invalid URI prevents startup. Clients must support TLS 1.3.
+Routes, request bodies and response schemas are unchanged.</p>
+<p>TLS material is loaded at startup, before the listener opens: a missing or
+inconsistent certificate, key or CA bundle is a startup failure, never a
+first-request failure.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Opens the administration listener</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ADDRESS</code></td>
+<td><code>:3003</code></td>
+<td>Listen address</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CERT_FILE</code></td>
+<td>—</td>
+<td>Server certificate (PEM), required when enabled</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_KEY_FILE</code></td>
+<td>—</td>
+<td>Server private key (PEM), required when enabled</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</code></td>
+<td>—</td>
+<td>Authority verifying client certificates, required when enabled</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_AUTHORIZED_URIS</code></td>
+<td>—</td>
+<td>Required comma-separated list of distinct absolute client URIs</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_RATE_LIMIT</code></td>
+<td><code>10</code></td>
+<td>Requests/second per authorized URI, per process</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_RATE_BURST</code></td>
+<td><code>20</code></td>
+<td>Burst allowance per URI</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_SHUTDOWN_TIMEOUT</code></td>
+<td><code>10s</code></td>
+<td>Graceful shutdown budget</td>
+</tr>
+</tbody>
+</table>
+<p>The rate and burst apply to each process: with N replicas, a given URI gets N times the configured values.</p>
+<p>Multi-tenancy is configured on the instance, not on this API:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_MULTITENANCY_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Allows more than one tenant</td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_HOST_PATTERN</code></td>
+<td>—</td>
+<td>Hostname template, e.g. <code>{tenant}.xolo.example.com</code>, required when enabled</td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_DEFAULT_TENANT_SLUG</code></td>
+<td><code>default</code></td>
+<td>The tenant served when multi-tenancy is disabled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="endpoints">Endpoints<a class="headerlink" href="#endpoints" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/healthz</code></td>
+<td>Behind mutual TLS as well</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/permissions</code></td>
+<td>The RBAC catalog: the only source of valid permission codes</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants</code></td>
+<td><code>?slug=</code> for an exact lookup, otherwise <code>?page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/tenants</code></td>
+<td><strong>Refused with <code>409</code> on a single-tenant instance</strong></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><code>/v1/tenants/{tenantID}</code></td>
+<td><code>name</code>, <code>description</code>, <code>active</code>. The slug is immutable</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}</code></td>
+<td>Removes everything the tenant owns</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations</code></td>
+<td><code>?slug=</code> for an exact lookup, otherwise <code>?page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations</code></td>
+<td>Creates the organization, its builtin roles and, optionally, its initial owner</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td><code>name</code>, <code>description</code>, <code>active</code>, <code>currency</code>, <code>shareQuotaEqually</code>. The slug is immutable</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members</code></td>
+<td>Paginated</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members</code></td>
+<td><code>userId</code> <strong>or</strong> <code>user{provider,subject,…}</code>, plus <code>roleIds[]</code> and/or <code>builtinRoles[]</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{membershipID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{membershipID}/roles</code></td>
+<td>Full replacement of the role set</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{membershipID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/roles</code></td>
+<td>Builtin and custom roles</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/roles</code></td>
+<td>Custom role</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
+<td>Custom roles only</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
+<td>Custom roles only</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/users</code></td>
+<td><code>?provider=&amp;subject=</code> for an exact lookup, otherwise <code>?search=&amp;active=&amp;page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/users</code></td>
+<td>Idempotent upsert on <code>(provider, subject)</code>: <code>201</code> when created, <code>200</code> otherwise</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}/users/{userID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><code>/v1/tenants/{tenantID}/users/{userID}</code></td>
+<td><code>email</code>, <code>displayName</code>, <code>active</code></td>
+</tr>
+</tbody>
+</table>
+<p>Users hang from the tenant because <code>(provider, subject)</code> is only unique within
+one: the same person signing in on two tenants owns two distinct accounts.</p>
+<h3 id="single-tenant-instances">Single-tenant instances<a class="headerlink" href="#single-tenant-instances" title="Permanent link">&para;</a></h3>
+<p>A default installation owns exactly one tenant, <code>default</code>, created by the schema
+migration. It is not visible to end users — no subdomain, no change of URL — but
+it is the <code>{tenantID}</code> every route above needs. A control plane discovers it
+with <code>GET /v1/tenants?slug=default</code>, then uses that identifier throughout.</p>
+<p>Creating a second tenant is refused with <code>409</code> while
+<code>XOLO_MULTITENANCY_ENABLED</code> is false: no hostname would resolve to it, so its
+organizations would be unreachable.</p>
+<p>Payloads are JSON in camelCase, timestamps are RFC 3339, and collections are
+returned as <code>{"items": […], "page": 1, "limit": 50, "total": 123}</code>. Unknown
+fields are rejected so a misspelled field is reported instead of ignored.</p>
+<h3 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h3>
+<p>Every error uses the same envelope:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;conflict&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;organization with slug \&quot;acme\&quot; already exists in this tenant (id: c9m2…)&quot;</span><span class="p">}}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>HTTP</th>
+<th>Cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>invalid_request</code></td>
+<td>400</td>
+<td>Malformed body, unknown field, invalid query parameter</td>
+</tr>
+<tr>
+<td><code>client_certificate_rejected</code></td>
+<td>403</td>
+<td>Client certificate or URI is not authorized</td>
+</tr>
+<tr>
+<td><code>rate_limited</code></td>
+<td>429</td>
+<td>Per-URI budget exceeded; retry after the <code>Retry-After</code> seconds</td>
+</tr>
+<tr>
+<td><code>not_found</code></td>
+<td>404</td>
+<td>Unknown resource, or a resource belonging to another tenant or organization</td>
+</tr>
+<tr>
+<td><code>method_not_allowed</code></td>
+<td>405</td>
+<td>Known resource, wrong method</td>
+</tr>
+<tr>
+<td><code>conflict</code></td>
+<td>409</td>
+<td>Existing resource, or a business invariant that refuses the change</td>
+</tr>
+<tr>
+<td><code>unprocessable</code></td>
+<td>422</td>
+<td>Well-formed value refused by the domain</td>
+</tr>
+<tr>
+<td><code>internal_error</code></td>
+<td>500</td>
+<td>Unexpected failure</td>
+</tr>
+</tbody>
+</table>
+<p>Messages are always built explicitly. Stack traces, SQL errors, file paths, TLS
+details and secrets never reach the client: the full detail is logged
+server-side.</p>
+<h2 id="identity-model">Identity model<a class="headerlink" href="#identity-model" title="Permanent link">&para;</a></h2>
+<p>A user is identified by its <code>provider</code> + <code>subject</code> tuple <strong>within its tenant</strong>,
+the same key interactive authentication uses, so a provisioned user can log in
+afterwards. The API deliberately offers no email-based identity: <code>email</code> is a
+profile field, never an identifier.</p>
+<h3 id="provisioning-ahead-of-the-first-sign-in">Provisioning ahead of the first sign-in<a class="headerlink" href="#provisioning-ahead-of-the-first-sign-in" title="Permanent link">&para;</a></h3>
+<p><code>POST /v1/tenants/{tenantID}/organizations</code> creates its owner before that person
+ever signs in, so the account already exists when they do. That requires the caller to know their
+<code>subject</code> — the identifier the identity provider assigns them — in advance. It
+works when the control plane also owns the identity provider, or derives the
+subject deterministically.</p>
+<p>When the subject cannot be known ahead of time, do not disable
+<code>XOLO_HTTP_AUTHN_AUTO_CREATE_USERS</code>: it would lock those people out. Use
+<code>XOLO_HTTP_AUTHN_ACTIVE_BY_DEFAULT=false</code> instead. The account is then created
+on first sign-in but stays inactive and grants nothing. The control plane picks
+it up with <code>GET /v1/tenants/{tenantID}/users?active=false</code>, attaches it to an
+organization with <code>POST /v1/tenants/{tenantID}/organizations/{orgID}/members</code>,
+and enables it with
+<code>PATCH /v1/tenants/{tenantID}/users/{userID} {"active": true}</code>.</p>
+<h2 id="invariants">Invariants<a class="headerlink" href="#invariants" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Provisioning an organization administrator <strong>never</strong> grants platform-wide privileges.
+  A user created through this API receives exactly the <code>user</code> platform role, and
+  the platform roles of an existing user are never modified.</li>
+<li>The addresses listed in <code>XOLO_HTTP_AUTHN_DEFAULT_ADMINS</code> are reserved: writing
+  one of them on a user is refused with <code>422</code>. The authentication bridge grants
+  the platform admin role to whoever signs in with such an address, so accepting
+  it here would be an indirect privilege escalation.</li>
+<li>An organization always keeps at least one owner: removing or downgrading its
+  last one is refused with <code>409</code>.</li>
+<li>A role can only be assigned to a membership of the organization it belongs to.
+  Anything else is <code>422</code>, and no role is modified.</li>
+<li>A membership or role belonging to another organization is reported as <code>404</code>,
+  and so is an organization or a user belonging to another tenant.</li>
+<li>A user is always resolved inside the organization's own tenant, which is what
+  makes cross-tenant membership impossible.</li>
+<li>The <code>default</code> tenant can neither be deleted nor deactivated: it is the tenant
+  every single-tenant instance resolves to.</li>
+<li>Builtin roles cannot be modified nor deleted.</li>
+<li>Only permission codes present in the RBAC catalog are accepted.</li>
+</ul>
+<h2 id="reconciliation">Reconciliation<a class="headerlink" href="#reconciliation" title="Permanent link">&para;</a></h2>
+<p>Identifiers are stable, <code>PUT /v1/tenants/{tenantID}/users</code> is idempotent,
+creating a tenant or an organization on an existing slug answers <code>409</code> while
+including the existing identifier, and the lookup endpoints allow the current
+state to be read back in full. The single side effect of
+<code>POST /v1/tenants/{tenantID}/organizations</code> is documented: it creates the
+builtin roles of the organization.</p>
+<h2 id="transactions-audit-and-correlation">Transactions, audit and correlation<a class="headerlink" href="#transactions-audit-and-correlation" title="Permanent link">&para;</a></h2>
+<p>Every provisioning mutation validates parents and performs its writes in one
+transaction. A failure rolls back the whole operation, including changes to an
+existing user, role assignments and the audit itself. PostgreSQL uses <code>SERIALIZABLE</code>;
+SQLite writer conflicts and PostgreSQL serialization failures replay the whole
+operation with bounded, cancelable backoff. There is no instance-wide publication lock.</p>
+<p><code>mutation_audits</code> records one before/after pair per resource actually changed
+(tenants, organizations, users, memberships and roles), including role associations
+and cascading deletion. Repeated changes to a resource coalesce within the
+transaction; a no-op produces no audit. States exclude secrets and technical
+timestamps. Audits retain the tenant/organization scope after resource deletion.
+UUID audit identifiers do not imply commit order. This audit covers provisioning
+mutations only; reads and ordinary web UI operations do not write it.</p>
+<p>Send <code>X-Request-ID</code> as a single value of exactly 32 lowercase hexadecimal characters.
+Invalid, repeated or missing values are replaced. The retained value is returned in
+the response and used in logs, audit and local events, unchanged across retries.
+The actor URI comes only from the authorized certificate. Internal calls use
+<code>urn:xolo:operator:local</code> and a generated correlation ID when no actor is supplied.</p>
+<p>Existing local member and role events retain their types and messages, including
+separate member-added and role-assigned events. They are emitted only after commit
+through the existing asynchronous mechanism; they are not a durable outbox. The
+audit is persisted atomically. Transactional reads bypass the shared user cache;
+affected user entries, secondary keys and cascading token entries are invalidated
+after commit.</p>
+<p>Rate budgets are local to each process, allocated only for configured URIs and
+shared by certificates bearing the same URI. Exceeding the budget returns <code>429</code>
+with <code>Retry-After</code> (seconds), <code>rate_limited</code>, and the retained request ID.</p>
+<p>Migration <code>202610060001</code> follows the UUID migration and adds the audit table on
+upgrades and fresh installations. Its rollback refuses to erase audit history.
+With <code>XOLO_STORAGE_AUTO_MIGRATE=false</code>, stop all writers, back up the database, then run
+<code>bin/migrate apply -writers-stopped</code> before starting the server. The UUID migration and recovery artifacts remain unchanged.</p>
+<h2 id="development-pki">Development PKI<a class="headerlink" href="#development-pki" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Certificate authority</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Server certificate</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Client certificate</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>bin/server
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># Refused: no client certificate</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/permissions
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Accepted</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>curl<span class="w"> </span>-s<span class="w"> </span>--cacert<span class="w"> </span>dev-pki/ca.crt<span class="w"> </span>--cert<span class="w"> </span>dev-pki/client.crt<span class="w"> </span>--key<span class="w"> </span>dev-pki/client.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">  </span><span class="s2">&quot;https://localhost:3003/v1/tenants?slug=default&quot;</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="c1"># Then, with the identifier it returned:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>curl<span class="w"> </span>-s<span class="w"> </span>--cacert<span class="w"> </span>dev-pki/ca.crt<span class="w"> </span>--cert<span class="w"> </span>dev-pki/client.crt<span class="w"> </span>--key<span class="w"> </span>dev-pki/client.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">  </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;owner&quot;:{&quot;provider&quot;:&quot;openid-connect&quot;,&quot;subject&quot;:&quot;sub-123&quot;,&quot;email&quot;:&quot;owner@acme.tld&quot;,&quot;displayName&quot;:&quot;Owner&quot;}}&#39;</span>
+</span></code></pre></div>
+<p>In production, use a managed certificate authority (Vault, cert-manager, internal PKI) and rotate client certificates.</p>
+<h2 id="out-of-current-scope">Out of current scope<a class="headerlink" href="#out-of-current-scope" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Providers, LLM models, virtual models, middlewares, applications and their tokens, quotas, alerts and event settings: they remain managed through the web UI.</li>
+<li>Per-certificate scopes: any authorized URI administers the whole instance.</li>
+<li>Pre-provisioning by email: the <a href="../../organisation/invitation/invitation/">invitation</a> mechanism remains the email-based path, through the web UI.</li>
+<li>No OpenAPI specification is generated yet.</li>
+</ul>
 
 
 
