@@ -460,6 +460,23 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Configuración
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="././" class="md-nav__link md-nav__link--active">
         
   
@@ -475,6 +492,37 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#xolo_storage_auto_migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        XOLO_STORAGE_AUTO_MIGRATE
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -496,6 +544,33 @@
     
   
   Desarrollo de plugins (Go)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uuid-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Actualización a UUID y migraciones sin conexión
 
     
   </span>
@@ -1909,6 +1984,11 @@
                       
                     
                     
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -1920,6 +2000,25 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#xolo_storage_auto_migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        XOLO_STORAGE_AUTO_MIGRATE
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2016,6 +2115,8 @@
 
 <h1 id="configuracion">Configuración<a class="headerlink" href="#configuracion" title="Permanent link">&para;</a></h1>
 <p>Esta pagina aun no ha sido traducida. Consulte la <a href="https://xolo-gateway.org/latest/">version en frances</a> para el contenido completo.</p>
+<h2 id="xolo_storage_auto_migrate">XOLO_STORAGE_AUTO_MIGRATE<a class="headerlink" href="#xolo_storage_auto_migrate" title="Permanent link">&para;</a></h2>
+<p>Aplica migraciones al arrancar (por defecto: <code>true</code>). Con <code>false</code>, comprueba el esquema sin migrarlo. Consulte el <a href=".././uuid-migration/">procedimiento UUID</a>; detenga todas las réplicas antiguas.</p>
 
 
 
