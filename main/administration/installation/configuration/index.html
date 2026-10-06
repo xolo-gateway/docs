@@ -755,6 +755,33 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../uuid-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Passage aux UUID et migrations hors ligne
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3455,6 +3482,11 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>XOLO_STORAGE_AUTO_MIGRATE</code></td>
+<td><code>true</code></td>
+<td>Applique les migrations au démarrage. Avec <code>false</code>, vérifie seulement le schéma et refuse les migrations en attente. Voir la <a href=".././uuid-migration/">procédure UUID</a>, qui impose l’arrêt de tous les anciens réplicas.</td>
+</tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_DSN</code></td>
 <td><code>data.sqlite</code></td>

@@ -627,6 +627,33 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="./uuid-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Passage aux UUID et migrations hors ligne
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3073,6 +3100,7 @@
 
 
 <h1 id="installation-deploiement">Installation &amp; déploiement<a class="headerlink" href="#installation-deploiement" title="Permanent link">&para;</a></h1>
+<p>Avant de mettre à niveau une base existante, suivez la <a href="./uuid-migration/">procédure de migration UUID</a>. Tous les anciens réplicas et workers doivent être arrêtés.</p>
 <p>Xolo est un binaire Go unique (<code>xolo-server</code>) qui embarque le serveur HTTP, l'interface web d'administration et le proxy LLM. Les plugins sont des binaires séparés, découverts au démarrage dans un répertoire dédié.</p>
 <h2 id="prerequis">Prérequis<a class="headerlink" href="#prerequis" title="Permanent link">&para;</a></h2>
 <ul>
@@ -3107,7 +3135,7 @@
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>make<span class="w"> </span>build<span class="w">          </span><span class="c1"># compile bin/server et les plugins dans bin/plugins/</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>make<span class="w"> </span><span class="nv">CMD</span><span class="o">=</span><span class="s1">&#39;bin/server&#39;</span><span class="w"> </span>run-with-env
 </span></code></pre></div>
-<p><code>make build</code> enchaîne <code>build-server</code>, <code>build-frontend</code> et la compilation de tous les plugins présents sous <code>plugins/</code>. Si vous modifiez des fichiers <code>.templ</code> ou le CSS Tailwind, lancez <code>make generate</code> avant <code>make build</code>.</p>
+<p><code>make build</code> enchaîne <code>build-server</code>, <code>build-migrate</code>, <code>build-frontend</code> et la compilation de tous les plugins présents sous <code>plugins/</code>. Si vous modifiez des fichiers <code>.templ</code> ou le CSS Tailwind, lancez <code>make generate</code> avant <code>make build</code>.</p>
 <p>Pour un rechargement à chaud en développement, <code>make watch</code> (nécessite <code>.env</code> et l'outil <code>modd</code>, récupéré automatiquement dans <code>tools/</code>).</p>
 <h2 id="premier-demarrage">Premier démarrage<a class="headerlink" href="#premier-demarrage" title="Permanent link">&para;</a></h2>
 <ol>
