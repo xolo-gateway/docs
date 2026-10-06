@@ -938,6 +938,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Anthropic : utilisez le type anthropic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relais-des-requetes-messages-en-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Relais des requêtes Messages en streaming
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3199,6 +3216,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Anthropic : utilisez le type anthropic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relais-des-requetes-messages-en-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Relais des requêtes Messages en streaming
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3662,6 +3696,15 @@
 <p>Pensez à renseigner le <strong>coût du prompt en cache</strong> sur les modèles concernés (chez Anthropic, environ 10 % du tarif d'entrée). Laissé vide, ce champ vaut le tarif plein : le coût affiché surestime alors la facture dès que le cache est actif. Les écritures de cache, facturées plus cher que le tarif d'entrée par Anthropic, sont comptées au tarif plein.</p>
 <p>Le type <code>anthropic</code> envoie <code>max_tokens</code> à chaque requête, l'API l'exigeant : la valeur est celle du client, sinon la <strong>fenêtre de sortie</strong> du modèle telle que déclarée dans Xolo, plafonnée à 16 384 tokens. Ce plafond existe parce que, sur cette API, <code>max_tokens</code> dimensionne aussi le budget de réflexion (une fraction de <code>max_tokens</code> quand le client demande un niveau d'effort) et compte dans la fenêtre de contexte avec l'entrée. Un client qui veut davantage fixe lui-même <code>max_tokens</code>, et un client dont le prompt approche la fenêtre de contexte doit le faire aussi : sur cette API, entrée et <code>max_tokens</code> doivent tenir ensemble dans la fenêtre. Fenêtre de sortie non renseignée, le provider retombe sur 4096 tokens.</p>
 <p>Vérifiez aussi l'<strong>extra_body</strong> des modèles migrés : ses entrées partent en champs de premier niveau de la requête, et l'API Messages n'accepte que les siens. Une clé propre au format OpenAI comme <code>reasoning_effort</code> fait échouer toutes les requêtes du modèle.</p>
+<h3 id="relais-des-requetes-messages-en-streaming">Relais des requêtes Messages en streaming<a class="headerlink" href="#relais-des-requetes-messages-en-streaming" title="Permanent link">&para;</a></h3>
+<p>Une requête <code>POST /api/v1/messages</code> avec <code>"stream": true</code> vers un modèle de type <code>anthropic</code> est <strong>relayée</strong> telle quelle au lieu d'être traduite : Xolo ne réécrit que le modèle, la clé et les champs <strong>extra_body</strong>, transmet les en-têtes <code>anthropic-*</code> du client (<code>anthropic-beta</code> compris) et renvoie les événements de l'amont sans les reconstruire. Les champs que Xolo ne connaît pas passent donc aussi, dans les deux sens. Un client peut ainsi activer toute fonctionnalité de l'API sur la clé du fournisseur, outils serveur compris (recherche web, serveurs MCP distants). Xolo ne comptabilise que les tokens : les frais facturés à la requête par Anthropic, comme la recherche web, n'apparaissent ni dans l'usage ni dans les quotas. C'est ce que demande Claude Code pour la vérification côté serveur du mode auto : sans le champ <code>safeguards</code> à l'aller et <code>safeguard_results</code> au retour, il refait lui-même cette vérification et la facture en tokens.</p>
+<p>Authentification, quotas, suivi de l'usage et pseudonymisation s'appliquent comme sur une requête traduite. Les instructions système qu'un nœud ajoute en tête de conversation (pseudonymiseur, <code>system-prompt</code>) rejoignent le champ <code>system</code>, après celles du client. Le jeton Xolo du client n'est jamais transmis à l'amont. Un rejet de l'amont (statut, en-têtes comme <code>retry-after</code>, corps) revient au client sans modification.</p>
+<p>La requête repasse par la traduction dans ces cas :</p>
+<ul>
+<li>requête sans <code>"stream": true</code> ;</li>
+<li>modèle virtuel dont le nœud terminal combine plusieurs modèles, comme un repli entre modèles ;</li>
+<li>modèle avec une <strong>limite de tokens</strong> : le limiteur de tokens ne sait pas compter une réponse relayée.</li>
+</ul>
 <h2 id="tester-la-connexion">Tester la connexion<a class="headerlink" href="#tester-la-connexion" title="Permanent link">&para;</a></h2>
 <p>Après avoir créé un fournisseur, utilisez le bouton <strong>Tester la connexion</strong> pour vérifier que Xolo peut communiquer avec le fournisseur.</p>
 <h2 id="fournisseurs-en-abonnement-plan-et-repartition">Fournisseurs en abonnement : plan et répartition<a class="headerlink" href="#fournisseurs-en-abonnement-plan-et-repartition" title="Permanent link">&para;</a></h2>
