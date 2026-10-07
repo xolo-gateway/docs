@@ -1659,6 +1659,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#webhooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Webhooks
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abonnements" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Abonnements
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livraison" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Livraison
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Destinations
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etats-et-reprise" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        États et reprise
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Supervision
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#extensions-xolo" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3304,6 +3376,78 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#webhooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Webhooks
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abonnements" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Abonnements
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livraison" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Livraison
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Destinations
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etats-et-reprise" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        États et reprise
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Supervision
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#extensions-xolo" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3594,6 +3738,7 @@ Les clients doivent prendre en charge TLS 1.3.</p>
 </tr>
 </tbody>
 </table>
+<p>Les webhooks ont leurs propres variables, voir <a href="#webhooks">Webhooks</a>.</p>
 <p>N'exposez pas ce port sur un réseau public : réservez-le au réseau d'administration ou au maillage de services interne.</p>
 <h2 id="contrat-commun">Contrat commun<a class="headerlink" href="#contrat-commun" title="Permanent link">&para;</a></h2>
 <table>
@@ -3860,6 +4005,260 @@ jamais les curseurs des autres consommateurs.</p>
   Les modifications de projections sont ainsi sérialisées le court instant de
   leur commit : un débit d'écriture moindre contre un flux sans trou.</li>
 </ul>
+<h2 id="webhooks">Webhooks<a class="headerlink" href="#webhooks" title="Permanent link">&para;</a></h2>
+<p>Les webhooks poussent les événements du
+<a href="#lectures-conditions-et-synchronisation">flux</a> vers des récepteurs HTTPS, au
+fil des commits. Ce sont des notifications, pas une source de vérité : un
+consommateur conserve son propre point de reprise dans le flux, interroge
+<code>/v1/events</code> au démarrage, après une reconnexion et périodiquement, et ne fait
+jamais avancer ce point de reprise à cause d'un webhook. Un webhook perdu ne
+fait donc jamais perdre de modification.</p>
+<p>Les webhooks sont désactivés par défaut. Le worker de livraison tourne dans
+chaque processus où <code>XOLO_WEBHOOKS_ENABLED=true</code>, que l'écouteur de
+provisioning y soit activé ou non ; les abonnements se gèrent par l'écouteur.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Défaut</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_WEBHOOKS_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Exécute la préparation, la livraison et le nettoyage des webhooks, et annonce <code>webhooks</code> dans le manifeste.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_ALLOWED_ORIGINS</code></td>
+<td><em>(requis si activé)</em></td>
+<td>Origines HTTPS séparées par des virgules (<code>https://hôte[:port]</code>, sans chemin) qu'un abonnement peut viser.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_ALLOW_PRIVATE_NETWORKS</code></td>
+<td><code>false</code></td>
+<td>Autorise aussi les adresses de loopback et privées.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_TLS_CA_FILE</code></td>
+<td>—</td>
+<td>Autorités de confiance supplémentaires (PEM) ; celles du système restent reconnues.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_WORKERS</code></td>
+<td><code>2</code></td>
+<td>Livraisons simultanées par processus, de 1 à 16.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_POLL_INTERVAL</code></td>
+<td><code>1s</code></td>
+<td>Intervalle de préparation et d'interrogation, de 100 ms à 1 minute.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_QUEUE_CAPACITY</code></td>
+<td><code>10000</code></td>
+<td>Livraisons en attente ou en cours sur l'instance.</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_SUBSCRIPTION_CAPACITY</code></td>
+<td><code>1000</code></td>
+<td>Livraisons en attente ou en cours pour un abonnement, au plus la capacité de la file.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="abonnements">Abonnements<a class="headerlink" href="#abonnements" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Méthode</th>
+<th>Route</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks</code></td>
+<td><code>{"items":[…]}</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>L'abonnement</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>Le crée ou le remplace : <code>200</code> et l'abonnement</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>Le supprime avec ses livraisons : <code>204</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}/reset</code></td>
+<td><code>{"acknowledgeLoss":true}</code> : abandonne ses livraisons et reprend à la fin du flux, <code>204</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}/deliveries</code></td>
+<td>Les 100 dernières livraisons, sans l'événement ni la réponse</td>
+</tr>
+</tbody>
+</table>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="s2">&quot;https://hooks.example.com/xolo&quot;</span><span class="p">,</span><span class="nt">&quot;events&quot;</span><span class="p">:[</span><span class="s2">&quot;organization.updated.v1&quot;</span><span class="p">,</span><span class="s2">&quot;organization.deleted.v1&quot;</span><span class="p">],</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w"> </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="nt">&quot;secrets&quot;</span><span class="p">:[</span><span class="s2">&quot;whsec_…&quot;</span><span class="p">]}</span>
+</span></code></pre></div>
+<ul>
+<li>Un abonnement livre les événements de <strong>son seul tenant</strong>. Son identifiant
+  est un UUID choisi par le client et unique sur l'instance : il ne passe
+  jamais à un autre tenant (<code>409 conflict</code>), et l'abonnement d'un autre tenant
+  répond <code>404 not_found</code>. Un tenant compte au plus 10 abonnements
+  (<code>409 webhook_capacity</code>).</li>
+<li><code>events</code> vaut <code>["*"]</code> ou une liste d'au plus 20 types d'événements distincts
+  du flux. <code>destination</code> doit appartenir à une origine autorisée.</li>
+<li><code>secrets</code> contient un secret, ou deux secrets distincts pendant une
+  rotation : du base64, éventuellement préfixé par <code>whsec_</code>, de 32 à 64 octets
+  aléatoires générés par le client. Ils sont obligatoires à la création ; les
+  omettre lors d'un <code>PUT</code> ultérieur conserve ceux enregistrés. Ils ne sont
+  jamais renvoyés : l'abonnement n'expose que <code>secretCount</code>. Ils sont chiffrés
+  avec <code>XOLO_SECRET_KEY</code> et liés à leur tenant et à leur abonnement :
+  sauvegardez cette clé avec la base.</li>
+<li>Un nouvel abonnement démarre à la fin du flux : reconstruisez d'abord l'état
+  du consommateur, puis appuyez-vous sur les notifications.</li>
+<li><code>enabled: false</code> met l'abonnement en pause sans perdre sa position. Les
+  changements de destination et de secrets s'appliquent aux livraisons déjà en
+  file.</li>
+<li>Chaque écriture d'un abonnement est auditée avec l'appelant et le
+  <code>X-Request-ID</code>, jamais avec ses secrets.</li>
+</ul>
+<h3 id="livraison">Livraison<a class="headerlink" href="#livraison" title="Permanent link">&para;</a></h3>
+<p>Chaque tentative est un <code>POST</code> HTTPS de l'événement exact du flux, selon
+<a href="https://www.standardwebhooks.com">Standard Webhooks</a> :</p>
+<table>
+<thead>
+<tr>
+<th>En-tête</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>application/cloudevents+json</code></td>
+</tr>
+<tr>
+<td><code>webhook-id</code></td>
+<td>L'<code>id</code> de l'événement, identique à chaque tentative</td>
+</tr>
+<tr>
+<td><code>webhook-timestamp</code></td>
+<td>Secondes Unix de cette tentative</td>
+</tr>
+<tr>
+<td><code>webhook-signature</code></td>
+<td><code>v1,&lt;HMAC-SHA256 en base64 de "&lt;id&gt;.&lt;timestamp&gt;.&lt;corps&gt;"&gt;</code> pour chaque secret, séparées par des espaces</td>
+</tr>
+</tbody>
+</table>
+<p>Un récepteur vérifie l'une des signatures sur le corps brut avant de le
+décoder, refuse un horodatage éloigné de plus de cinq minutes, dédoublonne sur
+<code>(source, id)</code> et répond <code>2xx</code> une fois l'événement accepté de façon durable.</p>
+<ul>
+<li><strong>Au moins une fois, sans ordre garanti.</strong> Une nouvelle tentative, un arrêt
+  après la réponse du récepteur ou deux réplicas peuvent répéter un événement ;
+  utilisez <code>sequence</code> pour ordonner et le <code>GET</code> unitaire pour lire l'état
+  courant.</li>
+<li>Un <code>2xx</code> acquitte la livraison ; son corps est lu jusqu'à 64 Kio puis
+  ignoré. Les redirections ne sont pas suivies. Tout le reste est retenté après
+  5, 10, 20… secondes, au plus une heure d'écart, pendant au plus 12 tentatives
+  ou 24 heures ; la livraison passe alors <code>failed</code>. Réconciliez par le flux.</li>
+<li>Une livraison est réservée pour 30 secondes : un worker qui s'arrête en cours
+  de tentative, sur n'importe quel réplica, la laisse à un autre une fois la
+  réservation expirée. Un résultat tardif n'écrase jamais une tentative plus
+  récente.</li>
+<li>Les livraisons sont des copies de leur événement : la rétention du flux ne
+  supprime jamais une livraison en file. Les livraisons terminées sont
+  conservées sept jours pour le diagnostic.</li>
+<li>Les workers ne prennent jamais le verrou du flux : ils ne lisent que le flux
+  de leur tenant, et le chemin des requêtes ne les attend jamais.</li>
+</ul>
+<h3 id="destinations">Destinations<a class="headerlink" href="#destinations" title="Permanent link">&para;</a></h3>
+<p>Seules les origines autorisées sont joignables. Chaque adresse résolue pour le
+nom est vérifiée à la connexion, et c'est l'adresse vérifiée qui est composée :
+le nom ne peut pas être redirigé entre-temps. Les adresses link-local — points
+de métadonnées cloud compris —, multicast, non spécifiées, partagées et à usage
+spécial sont toujours refusées ; le loopback et les adresses privées seulement
+avec <code>XOLO_WEBHOOKS_ALLOW_PRIVATE_NETWORKS=true</code>. Les proxys de
+l'environnement sont ignorés et les certificats toujours vérifiés. Restreignez
+aussi le trafic sortant du processus par un pare-feu.</p>
+<h3 id="etats-et-reprise">États et reprise<a class="headerlink" href="#etats-et-reprise" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><code>state</code></th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ready</code></td>
+<td>À jour, ou en rattrapage.</td>
+</tr>
+<tr>
+<td><code>backpressure</code></td>
+<td>La capacité de la file est atteinte : la préparation s'arrête à sa position et reprend quand des livraisons se terminent. Seules les livraisons en attente et en cours comptent, et un abonnement ne peut remplir que sa propre part.</td>
+</tr>
+<tr>
+<td><code>history_lost</code></td>
+<td>La <a href="#retention">rétention</a> a supprimé des événements que l'abonnement n'avait pas encore préparés, typiquement après une longue pause. Ils ne sont jamais sautés en silence : reconstruisez le consommateur, puis réinitialisez l'abonnement.</td>
+</tr>
+</tbody>
+</table>
+<p>Un tenant suspendu ne reçoit rien : ses abonnements se mettent en pause et
+reprennent à la réactivation, suspension comprise. Une pause — abonnement
+désactivé ou tenant suspendu — plus longue que la rétention aboutit à
+<code>history_lost</code>, car les événements purgés ne peuvent plus être distingués. Supprimer un tenant
+supprime ses abonnements et ses livraisons. Seule la rétention de l'ensemble du
+flux peut faire passer un abonnement en <code>history_lost</code>.</p>
+<h3 id="supervision">Supervision<a class="headerlink" href="#supervision" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Métrique</th>
+<th>Signification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xolo_webhook_attempts_total</code></td>
+<td>Tentatives de ce processus</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_failures_total{reason}</code></td>
+<td>Échecs de ce processus, par diagnostic</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_queue{state}</code></td>
+<td>Livraisons de la base, par état</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_lag_seconds{stage}</code></td>
+<td>Âge du plus ancien événement pas encore préparé (<code>materialization</code>) ou livré (<code>delivery</code>)</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_history_lost</code>, <code>xolo_webhook_backpressure</code></td>
+<td>Abonnements dans cet état</td>
+</tr>
+</tbody>
+</table>
+<p>Les jauges décrivent toute la base et sont relevées par chaque processus :
+prenez leur maximum entre réplicas, pas leur somme. Aucun label ne porte de
+tenant, de destination ni d'événement. Alertez sur un retard durable, sur les
+échecs et sur tout <code>history_lost</code>.</p>
 <h2 id="extensions-xolo">Extensions Xolo<a class="headerlink" href="#extensions-xolo" title="Permanent link">&para;</a></h2>
 <p>Les opérations propres à Xolo sont sous <code>/v1/xolo</code>. Leurs corps sont en JSON
 camelCase, les horodatages en RFC 3339, les collections au format
@@ -3973,7 +4372,7 @@ sont refusés.</p>
 </table>
 <h2 id="erreurs">Erreurs<a class="headerlink" href="#erreurs" title="Permanent link">&para;</a></h2>
 <p>Toutes les erreurs partagent la même enveloppe :</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;last_owner&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;…&quot;</span><span class="p">}}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;last_owner&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;…&quot;</span><span class="p">}}</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -4058,6 +4457,11 @@ sont refusés.</p>
 <td><code>platform_admin_protected</code></td>
 <td>409</td>
 <td>La modification vise un administrateur de plateforme.</td>
+</tr>
+<tr>
+<td><code>webhook_capacity</code></td>
+<td>409</td>
+<td>Le tenant compte déjà le nombre maximal d'abonnements webhook.</td>
 </tr>
 <tr>
 <td><code>cursor_expired</code></td>
@@ -4243,49 +4647,49 @@ dépassement renvoie <code>429</code>, <code>rate_limited</code>, <code>Retry-Af
 <p>La migration <code>202610060001</code>, après celle des UUID, crée l'audit sur une installation
 neuve comme sur une mise à niveau. Son rollback refuse d'effacer l'historique.</p>
 <h2 id="mise-en-place-dune-pki-de-developpement">Mise en place d'une PKI de développement<a class="headerlink" href="#mise-en-place-dune-pki-de-developpement" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Autorité de certification</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Certificat serveur</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Certificat client</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Autorité de certification</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Certificat serveur</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># Certificat client</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
 </span></code></pre></div>
 <p>Démarrage du serveur avec l'API activée :</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>bin/server
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>bin/server
 </span></code></pre></div>
 <p>Premiers appels :</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Refusé : aucun certificat client</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Accepté : on récupère d&#39;abord l&#39;identifiant du tenant</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="nv">TENANT</span><span class="o">=</span>…<span class="w">  </span><span class="c1"># l&#39;identifiant lu ci-dessus</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="c1"># Puis on crée une organisation avec un identifiant choisi</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Refusé : aucun certificat client</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Accepté : on récupère d&#39;abord l&#39;identifiant du tenant</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="nv">TENANT</span><span class="o">=</span>…<span class="w">  </span><span class="c1"># l&#39;identifiant lu ci-dessus</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># Puis on crée une organisation avec un identifiant choisi</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
 </span></code></pre></div>
 <p>En production, utilisez une autorité de certification gérée (Vault, cert-manager, PKI interne) et faites tourner les certificats clients.</p>
 <h2 id="hors-perimetre-actuel">Hors périmètre actuel<a class="headerlink" href="#hors-perimetre-actuel" title="Permanent link">&para;</a></h2>
@@ -4294,7 +4698,6 @@ neuve comme sur une mise à niveau. Son rollback refuse d'effacer l'historique.<
 <li>Les portées par certificat : tout URI autorisé administre l'instance entière.</li>
 <li>La création d'un membre avant sa première connexion : un membre se provisionne une fois connecté. Le mécanisme d'<a href="../../organisation/invitation/invitation/">invitation</a> reste la voie par email, via l'interface web.</li>
 <li>La suppression de tenants, domaines, organisations ou adhésions : suspendez-les.</li>
-<li>Les webhooks : le flux d'événements s'interroge.</li>
 <li>Aucune spécification OpenAPI n'est générée à ce jour.</li>
 </ul>
 
