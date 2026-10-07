@@ -3435,6 +3435,10 @@
 <td>Si <code>true</code>, les nouveaux comptes sont actifs sans validation manuelle.</td>
 </tr>
 <tr>
+<td><code>XOLO_HTTP_AUTHN_AUTO_CREATE_USERS</code></td>
+<td>Si <code>true</code> (défaut), une identité inconnue obtient un compte à sa première connexion. Si <code>false</code>, seules les identités pré-provisionnées peuvent se connecter — à trois exceptions près : les adresses de <code>DEFAULT_ADMINS</code>, les applications, et <strong>les adresses destinataires d'une invitation ciblée en attente</strong>.</td>
+</tr>
+<tr>
 <td><code>XOLO_HTTP_AUTHN_PROVIDERS_GOOGLE_KEY</code> / <code>_SECRET</code></td>
 <td>Fournisseur Google OAuth2.</td>
 </tr>
