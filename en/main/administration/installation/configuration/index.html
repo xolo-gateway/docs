@@ -547,6 +547,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#oidc-sessions-and-back-channel-logout" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        OIDC sessions and back-channel logout
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2045,6 +2056,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#oidc-sessions-and-back-channel-logout" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        OIDC sessions and back-channel logout
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2144,6 +2166,17 @@
 <p>This page has not been translated yet. See the <a href="https://xolo-gateway.org/latest/">French version</a> for the full content.</p>
 <h2 id="xolo_storage_auto_migrate">XOLO_STORAGE_AUTO_MIGRATE<a class="headerlink" href="#xolo_storage_auto_migrate" title="Permanent link">&para;</a></h2>
 <p>Apply migrations at startup (default: <code>true</code>). With <code>false</code>, schema compatibility is checked without migration. See the <a href=".././uuid-migration/">UUID upgrade procedure</a>; all old replicas must be stopped.</p>
+<h2 id="oidc-sessions-and-back-channel-logout">OIDC sessions and back-channel logout<a class="headerlink" href="#oidc-sessions-and-back-channel-logout" title="Permanent link">&para;</a></h2>
+<p>An interactive sign-in through an OAuth2/OIDC provider opens a session stored in the database; the cookie only carries its identifier. A copied cookie does not survive the logout, and a session stays valid across restarts and replicas as long as they all share <code>XOLO_HTTP_SESSION_KEYS</code>. A session expires after <code>XOLO_HTTP_SESSION_COOKIE_MAX_AGE</code> (default: <code>24h</code>), which must be positive or the server refuses to start. Every replica removes the expired entries every 10 minutes.</p>
+<p>A sign-in must start at Xolo (<code>/auth/oidc/providers/{provider}</code>) and come back to the same browser within 15 minutes. A sign-in initiated by the identity provider, or a callback without the cookie set at the start, fails with <code>sign-in start missing</code> in the log: the user signs in again from Xolo.</p>
+<p>An OIDC provider can revoke sessions through <a href="https://openid.net/specs/openid-connect-backchannel-1_0.html">OpenID Connect Back-Channel Logout</a> at <code>https://{host}/auth/oidc/providers/{provider}/backchannel-logout</code>:</p>
+<ul>
+<li>only providers proving their issuer, with a client ID and a valid <code>jwks_uri</code>, accept it (named OIDC providers, Gitea with <code>DISCOVERY_URL</code>, Google); the others answer 404;</li>
+<li>the <code>logout_token</code> must be signed (RS256, RS384 or RS512) by the issuer, for the client ID, and carry <code>sub</code> and <code>jti</code>. Revocation is <strong>by subject</strong>: every session of that issuer and subject is closed, in every tenant, and a sign-in started before it is refused. A token carrying only <code>sid</code> is refused (400);</li>
+<li>a token is only accepted within 5 minutes of its issuance; a token already processed answers 200 without effect. Replica and provider clocks must agree within 5 minutes;</li>
+<li>in multi-tenant mode any active domain works. The route is not rate limited per IP: each request is authenticated by its signed token.</li>
+</ul>
+<p>Durable logout only covers these interactive sessions. An OIDC ID token presented to the API (<code>oidctoken</code>) stays valid until <code>exp</code> plus <code>XOLO_HTTP_AUTHN_OIDCTOKEN_EXPIRY_LEEWAY</code>; an opaque access token (<code>oauth2token</code>) until its validation cache entry expires (<code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_CACHE_TTL</code>, 60s); a <code>/auth/token/login</code> session for the lifetime of its cookie. A local logout does not end the session at the identity provider. See the <a href="https://xolo-gateway.org/latest/">French version</a> for details.</p>
 
 
 
