@@ -592,6 +592,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sessions-oidc-et-deconnexion-back-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sessions OIDC et déconnexion back-channel
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3133,6 +3144,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#sessions-oidc-et-deconnexion-back-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sessions OIDC et déconnexion back-channel
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3375,7 +3397,12 @@
 <tr>
 <td><code>XOLO_HTTP_SESSION_KEYS</code></td>
 <td><em>(vide)</em></td>
-<td>Liste de clés séparées par des virgules, utilisées pour signer/chiffrer les cookies de session.</td>
+<td>Liste de clés séparées par des virgules, utilisées pour signer/chiffrer les cookies de session. Vide, chaque processus tire une clé aléatoire : les sessions ne survivent alors ni à un redémarrage ni au passage d'un réplica à l'autre.</td>
+</tr>
+<tr>
+<td><code>XOLO_HTTP_SESSION_COOKIE_MAX_AGE</code></td>
+<td><code>24h</code></td>
+<td>Durée de vie d'un cookie de session, et de la <a href="#sessions-oidc-et-deconnexion-back-channel">session OIDC</a> qu'il désigne. Doit être strictement positive : le serveur refuse de démarrer sinon.</td>
 </tr>
 </tbody>
 </table>
@@ -3476,6 +3503,43 @@
 </ul>
 <p>Un fournisseur configuré avec uniquement <code>KEY</code> / <code>SECRET</code> est refusé au démarrage avec l'erreur <code>gitea provider requires either DISCOVERY_URL or both AUTH_URL and TOKEN_URL</code>. C'est un changement de comportement par rapport aux versions précédentes, qui acceptaient ce mode et échouaient à la première connexion ; l'erreur explicite permet aujourd'hui de repérer la mauvaise configuration dès le boot.</p>
 <p>Comme pour les fournisseurs OIDC nommés, <code>jwks_uri</code> est optionnel : en son absence, ou lorsqu'il est présent mais mal formé (URL relative, scheme non <code>http(s)</code>), un avertissement est émis au démarrage et la validation JWT des ID Tokens est désactivée pour ce fournisseur — l'introspection reste active si le document la publie.</p>
+<h3 id="sessions-oidc-et-deconnexion-back-channel">Sessions OIDC et déconnexion back-channel<a class="headerlink" href="#sessions-oidc-et-deconnexion-back-channel" title="Permanent link">&para;</a></h3>
+<p>Une connexion interactive par un fournisseur OAuth2/OIDC ouvre une session enregistrée en base ; le cookie ne porte que son identifiant. Chaque requête vérifie la session par une simple lecture : un cookie copié ne survit pas à la déconnexion, et une session reste valide après un redémarrage et d'un réplica à l'autre, pourvu que tous partagent <code>XOLO_HTTP_SESSION_KEYS</code>. Une session expire au bout de <code>XOLO_HTTP_SESSION_COOKIE_MAX_AGE</code>. Les sessions expirées et les entrées devenues inutiles sont supprimées toutes les 10 minutes par chaque réplica.</p>
+<p>Une connexion doit commencer chez Xolo (<code>/auth/oidc/providers/{fournisseur}</code>) et revenir sur le même navigateur dans les 15 minutes. Une connexion initiée par le fournisseur d'identité, ou un retour sans le cookie posé au départ, échoue avec <code>sign-in start missing</code> dans le journal ; l'utilisateur doit relancer la connexion depuis Xolo.</p>
+<p>Un fournisseur OIDC peut en outre révoquer les sessions par <a href="https://openid.net/specs/openid-connect-backchannel-1_0.html">OpenID Connect Back-Channel Logout</a>. Déclarez auprès de lui l'URL :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>https://{hôte}/auth/oidc/providers/{fournisseur}/backchannel-logout
+</span></code></pre></div>
+<ul>
+<li>Seuls les fournisseurs dont l'émetteur est prouvé, avec un identifiant client et un <code>jwks_uri</code> valide, l'acceptent : <a href="#fournisseurs-oidc-nommes">fournisseurs OIDC nommés</a>, Gitea avec <code>DISCOVERY_URL</code> et Google. Les autres répondent 404.</li>
+<li>Le <code>logout_token</code> doit être signé (RS256, RS384 ou RS512) par l'émetteur, destiné à l'identifiant client, et contenir <code>sub</code> et <code>jti</code>. La révocation porte sur le <strong>sujet</strong> : toutes les sessions de cet émetteur et de ce sujet sont fermées, dans tous les tenants, et une connexion commencée avant la révocation est refusée. Un jeton ne portant qu'un <code>sid</code> est refusé (400).</li>
+<li>Un jeton n'est accepté que dans les 5 minutes qui suivent son émission. Un jeton déjà traité répond 200 sans effet, ce qui permet au fournisseur de réessayer. Les horloges des réplicas et du fournisseur doivent concorder à 5 minutes près.</li>
+<li>En multi-tenant, n'importe quel domaine actif convient : la révocation vaut pour tous les tenants. La route n'est pas soumise à la limitation de débit par IP, chaque requête étant authentifiée par son jeton signé.</li>
+<li>Le compteur <code>xolo_oidc_backchannel_logouts_total</code> suit les résultats (<code>revoked</code>, <code>replayed</code>, <code>invalid</code>, <code>unavailable</code>).</li>
+</ul>
+<p>La déconnexion durable ne couvre que ces sessions interactives. Les autres modes d'authentification gardent leur propre mécanisme :</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Fin de validité</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID Token OIDC présenté à l'API (<code>oidctoken</code>)</td>
+<td>Son <code>exp</code>, prolongé de <code>XOLO_HTTP_AUTHN_OIDCTOKEN_EXPIRY_LEEWAY</code>. Une déconnexion ne le révoque pas.</td>
+</tr>
+<tr>
+<td>Jeton d'accès opaque (<code>oauth2token</code>)</td>
+<td>Révoqué chez le fournisseur, il reste accepté jusqu'à l'expiration du cache de validation (<code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_CACHE_TTL</code>, 60 s par défaut).</td>
+</tr>
+<tr>
+<td>Session ouverte par <code>/auth/token/login</code></td>
+<td>Son cookie, pendant <code>XOLO_HTTP_SESSION_COOKIE_MAX_AGE</code>. Le jeton API n'est pas revérifié pendant la session.</td>
+</tr>
+</tbody>
+</table>
+<p>La déconnexion locale (<code>/auth/oidc/logout</code>) ferme la session Xolo ; elle ne ferme pas la session ouverte chez le fournisseur d'identité.</p>
 <h2 id="stockage">Stockage<a class="headerlink" href="#stockage" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3535,7 +3599,7 @@
 </table>
 <h3 id="choisir-entre-sqlite-et-postgresql">Choisir entre SQLite et PostgreSQL<a class="headerlink" href="#choisir-entre-sqlite-et-postgresql" title="Permanent link">&para;</a></h3>
 <p>SQLite reste le défaut : aucune dépendance externe, idéal pour une instance unique. PostgreSQL est recommandé dès que plusieurs instances de Xolo partagent le même stockage, ou lorsque le volume d'événements et d'enregistrements d'usage devient important.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span><span class="s2">&quot;postgres://xolo:motdepasse@postgres:5432/xolo?sslmode=disable&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span><span class="s2">&quot;postgres://xolo:motdepasse@postgres:5432/xolo?sslmode=disable&quot;</span>
 </span></code></pre></div>
 <p>Le schéma est créé et migré automatiquement au démarrage. Il n'existe pas de migration automatique des données d'une base SQLite existante vers PostgreSQL : la bascule suppose une base neuve.</p>
 <h2 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h2>
@@ -3699,7 +3763,7 @@
 <h3 id="consequences-sur-la-configuration-http">Conséquences sur la configuration HTTP<a class="headerlink" href="#consequences-sur-la-configuration-http" title="Permanent link">&para;</a></h3>
 <p><code>XOLO_HTTP_BASE_URL</code> doit alors être <strong>absolue</strong> — schéma et hôte — sous peine de refus de démarrage. Elle n'est plus l'URL de l'instance mais le gabarit dont chaque domaine dérive la sienne : son schéma, son port et son chemin sont conservés, son hôte est remplacé par le domaine de la requête. Liens, redirections et URL de rappel OAuth restent ainsi sur le domaine du tenant, ce qui est nécessaire : le cookie de session est propre à un hôte et la session porte le tenant sur lequel elle a été ouverte.</p>
 <p>L'URL de rappel à déclarer auprès du fournisseur d'identité varie donc par domaine :</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>https://{domaine}/auth/oidc/providers/{fournisseur}/callback
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>https://{domaine}/auth/oidc/providers/{fournisseur}/callback
 </span></code></pre></div>
 <p>Un fournisseur acceptant un <code>redirect_uri</code> à joker (Keycloak, Authentik…) couvre tous les tenants d'une seule déclaration. Une OAuth App GitHub n'accepte qu'une URL de rappel unique et Google n'accepte que des URI exactes : ces deux fournisseurs imposent une déclaration par domaine, ce qui les rend impraticables au-delà de quelques tenants.</p>
 <p>Prévoyez enfin le DNS et les certificats TLS de chaque domaine — un joker (<code>*.xolo.example.com</code>) si les domaines partagent un suffixe — sur le reverse proxy placé devant Xolo, et passez <code>XOLO_HTTP_SESSION_COOKIE_SECURE=true</code>.</p>
