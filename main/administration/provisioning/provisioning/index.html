@@ -1753,6 +1753,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ressources-metier" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ressources métier
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#autorite-decriture-adoption-et-detachement" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3542,6 +3553,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ressources-metier" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ressources métier
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#autorite-decriture-adoption-et-detachement" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3928,7 +3950,9 @@ Les clients doivent prendre en charge TLS 1.3.</p>
 </table>
 <p>Chacune de ces ressources peut aussi être lue, listée et suivie via le flux
 d'événements : voir <a href="#lectures-conditions-et-synchronisation">Lectures, conditions et synchronisation</a>.
-<code>capabilities</code> liste <code>conditional_writes</code>, <code>events</code>, <code>identity</code> et <code>reads</code>.</p>
+<code>capabilities</code> liste <code>adoption</code>, <code>business_resources</code>, <code>conditional_writes</code>,
+<code>events</code>, <code>identity</code>, <code>ownership</code> et <code>reads</code>, plus <code>webhooks</code> lorsqu'ils sont activés.
+Traitez-la comme un ensemble : son ordre n'est pas significatif.</p>
 <ul>
 <li><strong>Les identifiants</strong> sont des UUID canoniques en minuscules choisis par le
   client. Toute autre valeur est refusée avec <code>400 invalid_parameter</code>. Un membre
@@ -4166,8 +4190,10 @@ sans représentation ni donnée personnelle :</p>
 </span></code></pre></div>
 <ul>
 <li><code>type</code> vaut <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> ou <code>.deleted.v1</code>, où
-  <code>resource_type</code> est <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code> ou
-  <code>organization_membership</code>. Une suppression ne porte pas d'<code>etag</code>.</li>
+  <code>resource_type</code> est <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
+  <code>organization_membership</code> ou l'une des familles métier <code>provider</code>,
+  <code>custom_role</code>, <code>application</code>, <code>quota</code> et <code>alert</code>. Une suppression ne porte
+  pas d'<code>etag</code>.</li>
 <li><strong>Un événement par ressource et par commit.</strong> Un no-op ou une transaction
   annulée ne publie rien. Dans un commit, les suppressions viennent d'abord,
   des enfants vers les parents, puis les créations et modifications, des
@@ -4545,29 +4571,14 @@ sont refusés.</p>
 <td>Remplacement complet des rôles.</td>
 </tr>
 <tr>
-<td><code>GET</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles</code></td>
-<td>Rôles intégrés et personnalisés.</td>
-</tr>
-<tr>
-<td><code>POST</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles</code></td>
-<td>Rôle personnalisé.</td>
+<td><code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles[/{key}]</code></td>
+<td>Rôles personnalisés : voir <em>Ressources métier</em>.</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>PUT</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
-<td>Rôles personnalisés uniquement.</td>
-</tr>
-<tr>
-<td><code>DELETE</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/{roleID}</code></td>
-<td>Rôles personnalisés uniquement.</td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/builtin</code></td>
+<td>Rôles intégrés.</td>
 </tr>
 <tr>
 <td><code>GET</code></td>
@@ -4596,6 +4607,127 @@ sont refusés.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="ressources-metier">Ressources métier<a class="headerlink" href="#ressources-metier" title="Permanent link">&para;</a></h2>
+<p>Cinq familles propres à Xolo suivent le même contrat que les familles
+communes : lecture unitaire avec <code>ETag</code>, listes paginées, <code>PUT</code> conditionnels
+et événements. Le manifeste annonce <code>business_resources</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Méthode</th>
+<th>Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/applications[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/alerts[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/providers[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/quotas[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles</code> — crée un rôle personnalisé sous une clé choisie par le serveur ; répond <code>201</code> avec <code>{key, representation, etag}</code></td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/{key}</code> — supprime un rôle personnalisé (<code>204</code>)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/builtin</code> — les rôles intégrés, <code>{"items":[{"id","builtin_kind","name"}]}</code>, pour <code>PUT …/members/{membershipID}/roles</code></td>
+</tr>
+</tbody>
+</table>
+<p>Les représentations sont en snake_case et complètes : chaque champ est requis,
+<code>null</code> seulement là où c'est indiqué.</p>
+<table>
+<thead>
+<tr>
+<th>Famille</th>
+<th>Représentation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom_role</code></td>
+<td><code>{"name","description","permissions":[…],"model_grants":[{"model_id","kind"}]}</code></td>
+</tr>
+<tr>
+<td><code>application</code></td>
+<td><code>{"name","description","active","role_ids":[…]}</code></td>
+</tr>
+<tr>
+<td><code>quota</code></td>
+<td><code>{"scope","scope_id","currency","daily_budget","monthly_budget","yearly_budget"}</code>, budgets en microcents ou <code>null</code></td>
+</tr>
+<tr>
+<td><code>alert</code></td>
+<td><code>{"name","description","scope","owner_id","query","aggregation","window_seconds","comparator","threshold","for_seconds","enabled"}</code></td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, les trois derniers <code>null</code> ou objets, plus <code>"api_key"</code> en écriture seule</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Clés.</strong> Une nouvelle ressource est créée sous un UUID canonique choisi par
+  le client. Une ressource créée depuis l'interface web garde son identifiant
+  local, accepté en lecture et en mise à jour, jamais en création. Les
+  événements et les éléments de liste portent la clé dans <code>key.resource_id</code>,
+  avec <code>key.organization_id</code> sauf pour les quotas.</li>
+<li><strong>Parents.</strong> Chaque référence est vérifiée dans la transaction de
+  l'écriture. Un grant désigne un modèle de l'organisation (et, pour un modèle
+  LLM, un provider de l'organisation) ; <code>role_ids</code> désigne des rôles de
+  l'organisation ; un quota plafonne une organisation du tenant, un membre du
+  tenant ou une application d'une de ses organisations ; le propriétaire d'une
+  alerte est un membre actif de l'organisation, obligatoire pour une alerte
+  <code>personal</code>. Un parent absent ou étranger répond <code>404 parent_not_found</code> ; une
+  ressource d'une autre organisation ou d'un autre tenant répond
+  <code>404 not_found</code>, comme une ressource absente.</li>
+<li><strong>Champs immuables.</strong> Le <code>scope</code> et le <code>scope_id</code> d'un quota, le <code>scope</code> et
+  l'<code>owner_id</code> d'une alerte ne changent jamais (<code>409 conflict</code>). Une portée
+  porte un seul quota : une autre clé sur la même portée répond <code>409 conflict</code>.</li>
+<li><strong>Normalisation.</strong> Permissions, grants et identifiants de rôles sont triés
+  et dédoublonnés : un rejeu dans un autre ordre est un no-op.</li>
+<li><strong>L'état d'exécution reste hors du contrat.</strong> Un <code>PUT</code> de quota conserve la
+  consommation déjà enregistrée. L'état d'évaluation d'une alerte n'est ni
+  renvoyé ni publié ; une modification de l'alerte la fait repartir de <code>ok</code>,
+  comme une modification dans l'interface web. Les rôles intégrés ne font pas
+  partie de la collection : en écrire un répond <code>409 conflict</code>.</li>
+<li><strong>Les clés d'API des providers sont en écriture seule.</strong> <code>api_key</code> est
+  obligatoire à la création et conservée lorsqu'elle est omise. Elle est
+  chiffrée avec <code>XOLO_SECRET_KEY</code> et n'apparaît jamais dans une réponse, une
+  projection, un événement, ni en clair dans l'audit : une rotation ne change
+  aucun <code>ETag</code> et ne publie aucun événement, mais l'audit enregistre le
+  changement d'une empreinte du chiffré.</li>
+<li><strong>Pas de suppression via le contrat</strong>, hormis les rôles personnalisés : les
+  suppressions arriveront avec le cycle de vie des ressources. Les jetons
+  d'application restent gérés localement.</li>
+<li>Les écritures de l'interface web publient aussi leurs événements. La
+  migration <code>202610120001</code> projette les ressources métier existantes sans
+  publier d'événement ; comme les précédentes, elle exige l'arrêt de tous les
+  serveurs.</li>
+</ul>
+<p>Limite connue : le cache de chaque processus garde valides les jetons d'une
+application désactivée jusqu'à l'expiration de ses entrées
+(<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>) : une écriture via cet écouteur ne
+vide que le cache de son propre processus.</p>
 <h2 id="autorite-decriture-adoption-et-detachement">Autorité d'écriture, adoption et détachement<a class="headerlink" href="#autorite-decriture-adoption-et-detachement" title="Permanent link">&para;</a></h2>
 <p>Chaque famille du contrat commun, ainsi que les abonnements webhook, a une
 <strong>autorité d'écriture</strong> : l'instance locale (interface web, connexion,
@@ -4612,7 +4744,7 @@ invitations), le système de pilotage (cet écouteur), ou les deux.</p>
 <tr>
 <td><code>XOLO_OWNERSHIP</code></td>
 <td>—</td>
-<td>Paires <code>famille=autorité</code> séparées par des virgules. Familles : <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>subscription</code>. Autorités : <code>shared</code>, <code>local</code>, <code>control_plane</code>. Les familles omises valent <code>shared</code> ; une famille ou une autorité inconnue empêche le démarrage.</td>
+<td>Paires <code>famille=autorité</code> séparées par des virgules. Familles : <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>subscription</code>, et les familles métier <code>provider</code>, <code>custom_role</code>, <code>application</code>, <code>quota</code>, <code>alert</code>. Autorités : <code>shared</code>, <code>local</code>, <code>control_plane</code>. Les familles omises valent <code>shared</code> ; une famille ou une autorité inconnue empêche le démarrage.</td>
 </tr>
 </tbody>
 </table>
@@ -4633,8 +4765,7 @@ projection que l'écriture modifie, cascades comprises : supprimer un tenant
 dont les membres relèvent d'une autre autorité est refusé en bloc, sans rien
 supprimer ni publier. Les champs hors contrat restent locaux quelle que soit la
 politique : rôles de plateforme, devise et partage de quota d'une organisation,
-rôles personnalisés et ressources métier (fournisseurs, modèles, quotas,
-alertes…). Les comptes d'application et les jetons d'API restent utilisables,
+modèles, modèles virtuels, middlewares et jetons d'application. Les comptes d'application et les jetons d'API restent utilisables,
 et les lectures gardent leurs permissions. <code>GET /v1/xolo/ownership</code> renvoie la
 politique effective, et le manifeste annonce <code>ownership</code>.</p>
 <p>Une autorité d'écriture n'accorde jamais de privilège : les administrateurs de
@@ -4663,11 +4794,11 @@ par le système de pilotage :</p>
 </ul>
 <h3 id="export-dadoption">Export d'adoption<a class="headerlink" href="#export-dadoption" title="Permanent link">&para;</a></h3>
 <p><code>GET /v1/xolo/adoption/export</code>, comme <code>xolo-adoption export</code>, diffuse en flux
-l'inventaire de l'instance : chaque projection des cinq familles de tous les
-tenants, ressources suspendues comprises, lues sur un même instantané cohérent
+l'inventaire de l'instance : chaque projection des familles communes et métier
+de tous les tenants, ressources suspendues comprises, lues sur un même instantané cohérent
 sans prendre de verrou. Le format, <code>xolo-adoption/1</code>, est du NDJSON
 (<code>application/x-ndjson</code>) :</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.1&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;]}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.1&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>…
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
@@ -4685,7 +4816,8 @@ sans prendre de verrou. Le format, <code>xolo-adoption/1</code>, est du NDJSON
 <li>Un export interrompu n'a pas de dernière ligne, et la vérification le rejette.</li>
 <li>L'export contient des emails de contact et des identités déclarées :
   protégez-le comme la base. Il ne contient aucun lien de connexion non déclaré,
-  session, jeton, secret, entrée d'audit ni ressource métier.</li>
+  session, jeton, secret ni entrée d'audit. <code>verify</code> accepte aussi un export ne
+  listant que les cinq familles communes, produit avant les familles métier.</li>
 </ul>
 <p><code>xolo-adoption verify -in &lt;fichier&gt;</code> (<code>-in -</code> lit l'entrée standard) vérifie la
 somme de contrôle, le nombre d'enregistrements, la version et le contrat de
@@ -4960,7 +5092,23 @@ actuel.</p>
 </tr>
 <tr>
 <td><code>…/organizations/{orgID}/roles[/{roleID}]</code> (toutes méthodes)</td>
-<td><code>/v1/xolo/…/organizations/{orgID}/roles[/{roleID}]</code> (mêmes corps)</td>
+<td><code>/v1/xolo/…/organizations/{orgID}/roles[/{key}]</code>, avec les changements ci-dessous</td>
+</tr>
+<tr>
+<td><code>GET /v1/xolo/…/roles</code> (intégrés et personnalisés, <code>roleDTO</code> en camelCase)</td>
+<td><code>GET /v1/xolo/…/roles</code> liste les rôles personnalisés en page de projections ; les rôles intégrés via <code>GET /v1/xolo/…/roles/builtin</code></td>
+</tr>
+<tr>
+<td><code>GET /v1/xolo/…/roles/{roleID}</code> (<code>roleDTO</code> en camelCase)</td>
+<td>Même route : la représentation snake_case et son <code>ETag</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/xolo/…/roles</code> <code>{name, description?, permissions?, modelGrants?}</code></td>
+<td>Même route, la représentation snake_case complète <code>{name, description, permissions, model_grants}</code> ; <code>201</code> avec <code>{key, representation, etag}</code></td>
+</tr>
+<tr>
+<td><code>PUT /v1/xolo/…/roles/{roleID}</code> partiel <code>{name?, description?, permissions?, modelGrants?}</code></td>
+<td>Même route, la représentation complète, <code>If-Match</code> optionnel ; crée le rôle sous un UUID de votre choix</td>
 </tr>
 <tr>
 <td><code>GET</code>, <code>PUT /v1/tenants/{tenantID}/users</code></td>
@@ -5074,9 +5222,9 @@ neuve comme sur une mise à niveau. Son rollback refuse d'effacer l'historique.<
 <p>En production, utilisez une autorité de certification gérée (Vault, cert-manager, PKI interne) et faites tourner les certificats clients.</p>
 <h2 id="hors-perimetre-actuel">Hors périmètre actuel<a class="headerlink" href="#hors-perimetre-actuel" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Les fournisseurs, modèles LLM, modèles virtuels, middlewares, applications et leurs jetons, quotas, alertes et paramètres d'événements : ils restent gérés par l'interface web.</li>
+<li>Les modèles LLM, modèles virtuels, middlewares, jetons d'application et paramètres d'événements : ils restent gérés par l'interface web.</li>
 <li>Les portées par certificat : tout URI autorisé administre l'instance entière.</li>
-<li>La suppression de tenants, domaines, organisations ou adhésions : suspendez-les.</li>
+<li>La suppression de tenants, domaines, organisations, adhésions ou ressources métier autres que les rôles personnalisés : suspendez-les ou désactivez-les.</li>
 <li>Aucune spécification OpenAPI n'est générée à ce jour.</li>
 </ul>
 
