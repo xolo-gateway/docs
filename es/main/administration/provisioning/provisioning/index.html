@@ -1726,6 +1726,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#autoridad-de-escritura-adopcion-y-desvinculacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autoridad de escritura, adopción y desvinculación
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoridad de escritura, adopción y desvinculación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#miembros-gestionados" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros gestionados
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportacion-de-adopcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exportación de adopción
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adoptar-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Adoptar una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desvincular-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Desvincular una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#errores" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2583,6 +2644,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#autoridad-de-escritura-adopcion-y-desvinculacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autoridad de escritura, adopción y desvinculación
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoridad de escritura, adopción y desvinculación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#miembros-gestionados" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros gestionados
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportacion-de-adopcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exportación de adopción
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adoptar-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Adoptar una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desvincular-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Desvincular una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#errores" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3029,7 +3151,8 @@ ninguna proyección ni publica ningún evento.</p>
 (<code>XOLO_HTTP_AUTHN_DEFAULT_ADMINS</code>) se reconocen por el email que devuelve el
 proveedor de identidad, verificado o no; y cada inicio de sesión sigue copiando
 en la cuenta el email y el nombre visible que devuelve el proveedor de
-identidad.</p>
+identidad, salvo cuando el plano de control gestiona los miembros (véase
+<em>Miembros gestionados</em>).</p>
 <h3 id="pertenencias">Pertenencias<a class="headerlink" href="#pertenencias" title="Permanent link">&para;</a></h3>
 <p><code>PUT …/organizations/{orgID}/members/{memberID}</code> añade el miembro a la
 organización o actualiza su pertenencia. <code>role</code> fija el rol integrado de la
@@ -3555,8 +3678,161 @@ se rechazan.</p>
 <td><code>/v1/xolo/tenants/{tenantID}/users/{userID}</code></td>
 <td></td>
 </tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/ownership</code></td>
+<td>Autoridad de escritura efectiva de cada familia</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/adoption/export</code></td>
+<td>Exportación de adopción, flujo NDJSON: véase <em>Autoridad de escritura, adopción y desvinculación</em></td>
+</tr>
 </tbody>
 </table>
+<h2 id="autoridad-de-escritura-adopcion-y-desvinculacion">Autoridad de escritura, adopción y desvinculación<a class="headerlink" href="#autoridad-de-escritura-adopcion-y-desvinculacion" title="Permanent link">&para;</a></h2>
+<p>Cada familia del contrato común, así como las suscripciones webhook, tiene una
+<strong>autoridad de escritura</strong>: la instancia local (interfaz web, inicio de sesión,
+invitaciones), el plano de control (este listener) o ambos.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_OWNERSHIP</code></td>
+<td>—</td>
+<td>Pares <code>familia=autoridad</code> separados por comas. Familias: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>subscription</code>. Autoridades: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Las familias omitidas valen <code>shared</code>; una familia o autoridad desconocida impide el arranque</td>
+</tr>
+</tbody>
+</table>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>XOLO_OWNERSHIP=tenant=control_plane,tenant_domain=control_plane,organization=control_plane,member=control_plane,organization_membership=control_plane,subscription=control_plane
+</span></code></pre></div>
+<ul>
+<li><code>shared</code>, el valor por defecto, conserva el comportamiento anterior: ambos
+  escriben.</li>
+<li><code>local</code> rechaza las escrituras de este listener con <code>403 ownership_denied</code>.</li>
+<li><code>control_plane</code> rechaza las escrituras locales: la interfaz web responde
+  <code>403</code>, tanto en páginas completas como en fragmentos htmx. Las invitaciones
+  producen pertenencias: crearlas, revocarlas o aceptarlas depende de
+  <code>organization_membership</code>.</li>
+</ul>
+<p>La política rige la <strong>representación pública</strong> de los recursos, la que
+devuelve <code>GET</code>. Se comprueba en la transacción de la escritura, en cada
+proyección que la escritura modifica, cascadas incluidas: eliminar un tenant
+cuyos miembros dependen de otra autoridad se rechaza en bloque, sin eliminar
+ni publicar nada. Los campos fuera del contrato siguen siendo locales sea cual
+sea la política: roles de plataforma, moneda y reparto de cuota de una
+organización, roles personalizados y recursos de negocio (proveedores,
+modelos, cuotas, alertas…). Las cuentas de aplicación y los tokens de API
+siguen siendo utilizables, y las lecturas conservan sus permisos.
+<code>GET /v1/xolo/ownership</code> devuelve la política efectiva, y el manifiesto anuncia
+<code>ownership</code>.</p>
+<p>Una autoridad de escritura nunca concede un privilegio: los administradores de
+plataforma siguen protegidos (<code>409 platform_admin_protected</code>) cuando el plano
+de control gestiona los miembros.</p>
+<p>La política se lee al arrancar; no se almacena en la base de datos. Detenga
+<strong>todos</strong> los servidores y workers antes de cambiarla, y reinicie cada réplica
+con el mismo valor: una réplica que aún ejecuta una política anterior sigue
+aceptando las escrituras que esta permite. Cada proceso registra su política
+efectiva al arrancar (<code>write authority policy</code>). Los comandos de operador fuera
+de línea (<code>xolo-migrate</code>, <code>xolo-adoption</code>) tienen la autoridad de la base de
+datos y no comprueban ninguna política.</p>
+<h3 id="miembros-gestionados">Miembros gestionados<a class="headerlink" href="#miembros-gestionados" title="Permanent link">&para;</a></h3>
+<p>Con <code>member=control_plane</code>, un inicio de sesión solo resuelve los miembros que
+el plano de control declaró:</p>
+<ul>
+<li>vincula la identidad probada a un miembro existente — su identidad
+  declarada y luego un email verificado — sin modificar su proyección;</li>
+<li>nunca copia el email ni el nombre visible del proveedor de identidad: se
+  conserva el perfil declarado;</li>
+<li>no crea ninguna cuenta, digan lo que digan
+  <code>XOLO_HTTP_AUTHN_AUTO_CREATE_USERS</code> o una invitación pendiente, salvo para los
+  administradores por defecto, que inicializan la instancia, y las cuentas de
+  aplicación. Cualquier otra identidad se rechaza con <code>403</code>.</li>
+</ul>
+<h3 id="exportacion-de-adopcion">Exportación de adopción<a class="headerlink" href="#exportacion-de-adopcion" title="Permanent link">&para;</a></h3>
+<p><code>GET /v1/xolo/adoption/export</code>, al igual que <code>xolo-adoption export</code>, transmite
+en flujo el inventario de la instancia: cada proyección de las cinco familias
+de todos los tenants, recursos suspendidos incluidos, leídas sobre una misma
+instantánea coherente sin tomar ningún bloqueo. El formato, <code>xolo-adoption/1</code>,
+es NDJSON (<code>application/x-ndjson</code>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.1&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;]}
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>…
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
+</span></code></pre></div>
+<ul>
+<li>Los registros siguen el orden de <code>families</code>, padres antes que hijos; <code>key</code>,
+  <code>representation</code> y <code>etag</code> son los que devuelve <code>GET</code>.</li>
+<li><code>c0</code> es un cursor de <code>/v1/events</code> tomado sobre la misma instantánea: los
+  eventos posteriores son exactamente los cambios ausentes de la exportación.</li>
+<li><code>sha256</code> es el SHA-256 hexadecimal en minúsculas de los bytes exactos de
+  todas las líneas anteriores a la última, saltos de línea incluidos. Detecta
+  la corrupción y el truncamiento, no un reemplazo deliberado: el transporte y
+  los permisos del archivo establecen su procedencia.</li>
+<li>Una exportación interrumpida carece de su última línea, y la verificación la
+  rechaza.</li>
+<li>La exportación contiene emails de contacto e identidades declaradas:
+  protéjala como la base de datos. No contiene ningún vínculo de inicio de
+  sesión no declarado, sesión, token, secreto, entrada de auditoría ni recurso
+  de negocio.</li>
+</ul>
+<p><code>xolo-adoption verify -in &lt;archivo&gt;</code> (<code>-in -</code> lee la entrada estándar)
+comprueba la suma de verificación, el número de registros, la versión y el
+contrato de la cabecera, la sintaxis de las claves, los estados, los
+duplicados y que cada padre preceda a sus hijos, conservando solo las claves en
+memoria. Muestra la fuente, <code>c0</code> y el número de registros de cada familia.</p>
+<h3 id="adoptar-una-instancia">Adoptar una instancia<a class="headerlink" href="#adoptar-una-instancia" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Pruebe un inicio de sesión real de administrador de plataforma y haga una
+   copia de seguridad de la base de datos. Deje todas las familias en
+   <code>shared</code>.</li>
+<li>Exporte (<code>xolo-adoption export -out /secure/inventory.ndjson</code> con
+   <code>XOLO_STORAGE_DATABASE_DSN</code>, o la ruta anterior), verifique el archivo y
+   prepárelo en el plano de control, conservando los UUID calificados por la
+   <code>source</code> del flujo. Resuelva las colisiones de slug, dominio y email en el
+   plano de control sin cambiar ningún identificador.</li>
+<li>Reproduzca <code>/v1/events</code> desde <code>c0</code> hasta ponerse al día. Un
+   <code>410 cursor_expired</code> obliga a empezar de nuevo desde una nueva exportación.</li>
+<li>Detenga todos los servidores y workers, ponga al día el flujo una última
+   vez, defina <code>XOLO_OWNERSHIP</code> y reinicie cada réplica. Compruebe
+   <code>GET /v1/xolo/ownership</code>, el rechazo de una escritura local y un inicio de
+   sesión de administrador. No se reescribe ningún recurso.</li>
+</ol>
+<h3 id="desvincular-una-instancia">Desvincular una instancia<a class="headerlink" href="#desvincular-una-instancia" title="Permanent link">&para;</a></h3>
+<p>La desvinculación devuelve la instancia a su administración local.</p>
+<ol>
+<li>Pruebe un inicio de sesión de administrador de plataforma que siga siendo
+   utilizable sin el plano de control y haga una copia de seguridad de la base
+   de datos.</li>
+<li>Detenga todos los servidores, workers y demás escritores de la base de
+   datos.</li>
+<li>Ejecute:</li>
+</ol>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span>…<span class="w"> </span>xolo-adoption<span class="w"> </span>detach<span class="w"> </span>-writers-stopped<span class="w"> </span>-operator-access-verified
+</span></code></pre></div>
+<ol>
+<li>Retire los valores <code>control_plane</code> de <code>XOLO_OWNERSHIP</code> y reinicie cada
+   réplica; después compruebe un inicio de sesión y una escritura local.</li>
+</ol>
+<p>El comando se niega a ejecutarse si ningún administrador de plataforma activo
+de un tenant activo tiene un vínculo de inicio de sesión. En una sola
+transacción, elimina cada suscripción webhook, sus secretos cifrados y sus
+entregas pendientes, registra una entrada de auditoría que nombra al operador
+(<code>urn:xolo:operator:&lt;uid&gt;</code>) e indica cuántas suscripciones y entregas eliminó.
+Recursos, UUID, identidades declaradas, vínculos de inicio de sesión,
+auditoría, flujo de eventos y su fuente permanecen intactos. Un webhook ya
+enviado no puede recuperarse. Las dos opciones dan fe de las comprobaciones
+anteriores: el comando no puede detener otros procesos.</p>
+<p><code>xolo-adoption</code> se distribuye junto a <code>xolo-server</code> en las releases y las
+imágenes de contenedor (<code>/usr/local/bin/xolo-adoption</code>). <code>export</code> y <code>verify</code>
+solo leen, y ninguna acción migra el esquema: utilice el binario de la versión
+que migró la base de datos.</p>
 <h2 id="errores">Errores<a class="headerlink" href="#errores" title="Permanent link">&para;</a></h2>
 <p>Todos los errores comparten el formato <code>{"error":{"code":"…","message":"…"}}</code>.</p>
 <table>
@@ -3607,6 +3883,11 @@ se rechazan.</p>
 <td><code>client_certificate_rejected</code></td>
 <td>403</td>
 <td>Certificado o URI de cliente no autorizado</td>
+</tr>
+<tr>
+<td><code>ownership_denied</code></td>
+<td>403</td>
+<td>La política de autoridad reserva la familia a la instancia local</td>
 </tr>
 <tr>
 <td><code>not_found</code></td>
@@ -3679,6 +3960,9 @@ se rechazan.</p>
 archivos, detalles TLS y secretos nunca llegan al cliente.</p>
 <h2 id="invariantes">Invariantes<a class="headerlink" href="#invariantes" title="Permanent link">&para;</a></h2>
 <ul>
+<li>Una autoridad de escritura nunca concede un privilegio: la política de
+  autoridad solo decide quién puede escribir una familia, y todas las demás
+  invariantes siguen aplicándose.</li>
 <li>El provisioning <strong>nunca</strong> concede ni modifica privilegios de plataforma. Un
   usuario creado mediante <code>PUT /v1/xolo/tenants/{tenantID}/users</code> o un <code>PUT</code> de
   miembro recibe exactamente el rol de plataforma <code>user</code>, los roles de
@@ -3834,47 +4118,47 @@ claves secundarias y los tokens eliminados en cascada en la caché compartida.</
 en instalaciones nuevas y actualizaciones. Su rollback rechaza borrar el historial.</p>
 <h2 id="pki-de-desarrollo-y-ejemplo">PKI de desarrollo y ejemplo<a class="headerlink" href="#pki-de-desarrollo-y-ejemplo" title="Permanent link">&para;</a></h2>
 <p>El certificado cliente debe incluir el URI que se configura en la lista autorizada:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Certificate authority</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Server certificate</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="c1"># Client certificate</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Certificate authority</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Server certificate</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="c1"># Client certificate</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>bin/server
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># Refused: no client certificate</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="c1"># Accepted: read the identifier of the default tenant</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="c1"># Create an organization with an identifier of your choice</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>bin/server
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Refused: no client certificate</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c1"># Accepted: read the identifier of the default tenant</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="c1"># Create an organization with an identifier of your choice</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
 </span></code></pre></div>
 <p>En producción, utilice una autoridad de certificación gestionada (Vault, cert-manager, PKI interna) y rote los certificados de cliente.</p>
 <h2 id="fuera-del-alcance-actual">Fuera del alcance actual<a class="headerlink" href="#fuera-del-alcance-actual" title="Permanent link">&para;</a></h2>
