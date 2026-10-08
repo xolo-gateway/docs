@@ -520,6 +520,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#sesiones-oidc-y-cierre-de-sesion-back-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sesiones OIDC y cierre de sesión back-channel
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2018,6 +2029,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#sesiones-oidc-y-cierre-de-sesion-back-channel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sesiones OIDC y cierre de sesión back-channel
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2117,6 +2139,17 @@
 <p>Esta pagina aun no ha sido traducida. Consulte la <a href="https://xolo-gateway.org/latest/">version en frances</a> para el contenido completo.</p>
 <h2 id="xolo_storage_auto_migrate">XOLO_STORAGE_AUTO_MIGRATE<a class="headerlink" href="#xolo_storage_auto_migrate" title="Permanent link">&para;</a></h2>
 <p>Aplica migraciones al arrancar (por defecto: <code>true</code>). Con <code>false</code>, comprueba el esquema sin migrarlo. Consulte el <a href=".././uuid-migration/">procedimiento UUID</a>; detenga todas las réplicas antiguas.</p>
+<h2 id="sesiones-oidc-y-cierre-de-sesion-back-channel">Sesiones OIDC y cierre de sesión back-channel<a class="headerlink" href="#sesiones-oidc-y-cierre-de-sesion-back-channel" title="Permanent link">&para;</a></h2>
+<p>Un inicio de sesión interactivo mediante un proveedor OAuth2/OIDC abre una sesión registrada en la base de datos; la cookie solo lleva su identificador. Una cookie copiada no sobrevive al cierre de sesión, y una sesión sigue siendo válida tras un reinicio y entre réplicas siempre que todas compartan <code>XOLO_HTTP_SESSION_KEYS</code>. Una sesión caduca tras <code>XOLO_HTTP_SESSION_COOKIE_MAX_AGE</code> (por defecto: <code>24h</code>), que debe ser positivo o el servidor no arranca. Cada réplica elimina las entradas caducadas cada 10 minutos.</p>
+<p>Un inicio de sesión debe comenzar en Xolo (<code>/auth/oidc/providers/{proveedor}</code>) y volver al mismo navegador en un plazo de 15 minutos. Un inicio de sesión iniciado por el proveedor de identidad, o un retorno sin la cookie fijada al principio, falla con <code>sign-in start missing</code> en el registro: el usuario debe volver a iniciar sesión desde Xolo.</p>
+<p>Un proveedor OIDC puede revocar sesiones mediante <a href="https://openid.net/specs/openid-connect-backchannel-1_0.html">OpenID Connect Back-Channel Logout</a> en <code>https://{host}/auth/oidc/providers/{proveedor}/backchannel-logout</code>:</p>
+<ul>
+<li>solo lo aceptan los proveedores que prueban su emisor, con un identificador de cliente y un <code>jwks_uri</code> válido (proveedores OIDC con nombre, Gitea con <code>DISCOVERY_URL</code>, Google); los demás responden 404;</li>
+<li>el <code>logout_token</code> debe estar firmado (RS256, RS384 o RS512) por el emisor, para el identificador de cliente, y contener <code>sub</code> y <code>jti</code>. La revocación es <strong>por sujeto</strong>: se cierran todas las sesiones de ese emisor y sujeto, en todos los tenants, y se rechaza un inicio de sesión comenzado antes. Un token que solo lleva <code>sid</code> se rechaza (400);</li>
+<li>un token solo se acepta dentro de los 5 minutos siguientes a su emisión; un token ya procesado responde 200 sin efecto. Los relojes de las réplicas y del proveedor deben coincidir con un margen de 5 minutos;</li>
+<li>en modo multi-tenant sirve cualquier dominio activo. La ruta no está sujeta a la limitación por IP: cada solicitud se autentica con su token firmado.</li>
+</ul>
+<p>El cierre de sesión duradero solo cubre estas sesiones interactivas. Un ID token OIDC presentado a la API (<code>oidctoken</code>) sigue siendo válido hasta su <code>exp</code> más <code>XOLO_HTTP_AUTHN_OIDCTOKEN_EXPIRY_LEEWAY</code>; un token de acceso opaco (<code>oauth2token</code>) hasta que caduca su entrada de caché (<code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_CACHE_TTL</code>, 60 s); una sesión <code>/auth/token/login</code> durante la vida de su cookie. Un cierre de sesión local no cierra la sesión en el proveedor de identidad. Consulte la <a href="https://xolo-gateway.org/latest/">versión en francés</a> para más detalles.</p>
 
 
 
