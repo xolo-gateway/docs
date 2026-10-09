@@ -3737,12 +3737,22 @@
 <tr>
 <td><code>XOLO_LIFECYCLE_ENABLED</code></td>
 <td><code>false</code></td>
-<td>Autorise l'enregistrement des suppressions et installe les protections des périmètres gelés. Voir <a href="../../provisioning/provisioning/#cycle-de-vie-des-ressources">Cycle de vie</a>.</td>
+<td>Autorise l'enregistrement des suppressions, installe les protections des périmètres gelés et lance le worker de purge. Voir <a href="../../provisioning/provisioning/#cycle-de-vie-des-ressources">Cycle de vie</a>.</td>
 </tr>
 <tr>
 <td><code>XOLO_LIFECYCLE_RETENTION</code></td>
 <td><code>720h</code></td>
-<td>Durée de gel d'une ressource supprimée avant sa purge.</td>
+<td>Durée de gel d'une ressource supprimée avant sa purge, de 1 s à 3650 jours.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_POLL_INTERVAL</code></td>
+<td><code>1m</code></td>
+<td>Fréquence de recherche des suppressions à purger, de 1 s à 1 h.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
+<td><code>1000</code></td>
+<td>Lignes supprimées par transaction de purge, de 1 à 100 000.</td>
 </tr>
 </tbody>
 </table>
