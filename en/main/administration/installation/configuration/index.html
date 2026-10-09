@@ -558,6 +558,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resource-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Resource lifecycle
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2067,6 +2078,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resource-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Resource lifecycle
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2177,6 +2199,39 @@
 <li>in multi-tenant mode any active domain works. The route is not rate limited per IP: each request is authenticated by its signed token.</li>
 </ul>
 <p>Durable logout only covers these interactive sessions. An OIDC ID token presented to the API (<code>oidctoken</code>) stays valid until <code>exp</code> plus <code>XOLO_HTTP_AUTHN_OIDCTOKEN_EXPIRY_LEEWAY</code>; an opaque access token (<code>oauth2token</code>) until its validation cache entry expires (<code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_CACHE_TTL</code>, 60s); a <code>/auth/token/login</code> session for the lifetime of its cookie. A local logout does not end the session at the identity provider. See the <a href="https://xolo-gateway.org/latest/">French version</a> for details.</p>
+<h2 id="resource-lifecycle">Resource lifecycle<a class="headerlink" href="#resource-lifecycle" title="Permanent link">&para;</a></h2>
+<p>Deferred deletion of tenants, organizations and members through the provisioning API. See <a href="../../provisioning/provisioning/#resource-lifecycle">Resource lifecycle</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_LIFECYCLE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Allows recording deletions, installs the guards of the frozen scopes and runs the purge worker.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>How long a deleted resource stays frozen before its purge, 1 s to 3650 days.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_POLL_INTERVAL</code></td>
+<td><code>1m</code></td>
+<td>How often the worker looks for deletions to purge, 1 s to 1 h.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
+<td><code>1000</code></td>
+<td>Rows removed by one purge transaction, 1 to 100 000.</td>
+</tr>
+</tbody>
+</table>
 
 
 
