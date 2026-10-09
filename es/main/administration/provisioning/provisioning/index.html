@@ -1798,6 +1798,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#errores" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2723,6 +2734,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
   
 </li>
       
@@ -3964,6 +3986,62 @@ anteriores: el comando no puede detener otros procesos.</p>
 imágenes de contenedor (<code>/usr/local/bin/xolo-adoption</code>). <code>export</code> y <code>verify</code>
 solo leen, y ninguna acción migra el esquema: utilice el binario de la versión
 que migró la base de datos.</p>
+<h2 id="ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos<a class="headerlink" href="#ciclo-de-vida-de-los-recursos" title="Permanent link">&para;</a></h2>
+<p>La base para eliminar tenants, organizaciones y miembros está lista; ninguna
+ruta la expone todavía. Eliminar un recurso así empieza por registrar su
+eliminación, que <strong>congela</strong> el recurso y todo lo que contiene hasta su purga.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_LIFECYCLE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Permite registrar eliminaciones e instala las protecciones en base de datos de los ámbitos congelados</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>Tiempo durante el que un recurso eliminado permanece congelado antes de poder purgarse, de 1 s a 3650 días</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Congelar</strong> un recurso lo desactiva, lo que lo publica como <code>suspended</code>
+  con un evento <code>updated</code>, y registra su eliminación en la misma transacción.
+  Comprueba la condición <code>If-Match</code> y la autoridad de escritura de cada
+  familia que contiene el ámbito. Rechaza el último propietario activo de un
+  tenant o de una organización viva (<code>409 last_owner</code>) y el tenant <code>default</code>.
+  Un tenant congelado pierde enseguida sus sesiones OIDC; un miembro congelado
+  las conserva, pero su cuenta desactivada se rechaza en cada petición.</li>
+<li><strong>Un ámbito congelado es de solo lectura.</strong> Toda escritura de una fila que
+  contiene se rechaza, sea quien sea su autor: API (<code>409 resource_deleted</code>),
+  interfaz web (<code>403</code>), workers y SQL directo. Abarca el tenant, sus dominios,
+  organizaciones y usuarios; una organización con sus roles, aplicaciones,
+  tokens, proveedores, modelos, cuotas, alertas, consumo, eventos, secretos e
+  invitaciones; un miembro con sus pertenencias, preferencias, secretos
+  personales, alertas, cuota y consumo. Un congelamiento es definitivo. Los
+  webhooks de un tenant congelado ya no se preparan ni se entregan, y sus
+  suscripciones ya no pueden cambiar; la desvinculación las conserva. La
+  evaluación de alertas y la expulsión de eventos ignoran los ámbitos
+  congelados.</li>
+<li><strong>Las protecciones</strong> son triggers, instalados al arrancar solo si el ciclo
+  de vida está activado. Desactivado, se retiran, salvo que haya una
+  eliminación registrada: una instancia que nunca congeló nada no paga nada, y
+  los congelamientos existentes siguen protegidos.</li>
+<li><strong>Ningún bloqueo global.</strong> Un congelamiento bloquea la fila que congela; una
+  escritura bloquea las filas de su tenant, organización y miembro, como lo
+  hace una clave foránea. Una escritura solo espera un congelamiento de su
+  propio ámbito y luego falla; una escritura confirmada antes se conserva.</li>
+</ul>
+<p>Una organización suspendida ya no concede nada: sus pertenencias, los permisos
+de sus aplicaciones y sus tokens se rechazan, y el proxy no sirve ninguno de
+sus modelos, administradores de plataforma incluidos.</p>
 <h2 id="errores">Errores<a class="headerlink" href="#errores" title="Permanent link">&para;</a></h2>
 <p>Todos los errores comparten el formato <code>{"error":{"code":"…","message":"…"}}</code>.</p>
 <table>
@@ -4019,6 +4097,16 @@ que migró la base de datos.</p>
 <td><code>ownership_denied</code></td>
 <td>403</td>
 <td>La política de autoridad reserva la familia a la instancia local</td>
+</tr>
+<tr>
+<td><code>resource_deleted</code></td>
+<td>409</td>
+<td>El recurso, o un recurso que lo contiene, está congelado por su eliminación</td>
+</tr>
+<tr>
+<td><code>lifecycle_disabled</code></td>
+<td>409</td>
+<td>Eliminación de un tenant, una organización o un miembro con <code>XOLO_LIFECYCLE_ENABLED</code> desactivado</td>
 </tr>
 <tr>
 <td><code>not_found</code></td>
