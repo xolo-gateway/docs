@@ -1825,6 +1825,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#resource-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Resource lifecycle
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#errors" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2750,6 +2761,17 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Resource lifecycle
+      </span>
+    </span>
+  </a>
   
 </li>
       
@@ -3959,6 +3981,60 @@ other processes.</p>
 images (<code>/usr/local/bin/xolo-adoption</code>). <code>export</code> and <code>verify</code> only read, and
 no action migrates the schema: run the binary of the version that migrated the
 database.</p>
+<h2 id="resource-lifecycle">Resource lifecycle<a class="headerlink" href="#resource-lifecycle" title="Permanent link">&para;</a></h2>
+<p>The groundwork for deleting tenants, organizations and members is in place;
+no route exposes it yet. Deleting such a resource first records its deletion,
+which <strong>freezes</strong> the resource and everything it holds until its purge.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_LIFECYCLE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Allows recording deletions, and installs the database guards of the frozen scopes</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>How long a deleted resource stays frozen before it may be purged, 1 s to 3650 days</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Freezing</strong> a resource deactivates it, which publishes it as <code>suspended</code>
+  with an <code>updated</code> event, and records its deletion in the same transaction.
+  It checks the <code>If-Match</code> condition and the write authority of every family
+  the scope holds. It refuses the last active owner of a tenant or of a live
+  organization (<code>409 last_owner</code>) and the <code>default</code> tenant. A frozen tenant
+  loses its OIDC sessions at once; a frozen member keeps them, but its
+  deactivated account is refused on every request.</li>
+<li><strong>A frozen scope is read-only.</strong> Every write to a row it holds is refused,
+  whoever makes it: API (<code>409 resource_deleted</code>), web UI (<code>403</code>), workers, and
+  raw SQL. That covers the tenant, its domains, organizations and users; an
+  organization with its roles, applications, tokens, providers, models,
+  quotas, alerts, usage, events, secrets and invitations; a member with its
+  memberships, preferences, personal secrets, alerts, quota and usage. A freeze
+  can not be undone. Webhooks of a frozen tenant are no longer prepared nor
+  delivered, and its subscriptions can not change; detaching keeps them.
+  Alert evaluation and event eviction skip the frozen scopes.</li>
+<li><strong>Guards</strong> are database triggers, installed at startup only when the
+  lifecycle is enabled. With the lifecycle disabled, they are removed, unless a
+  deletion is recorded: an instance that never froze anything pays nothing,
+  and the freezes already recorded stay protected.</li>
+<li><strong>No instance-wide lock.</strong> A freeze locks the row it freezes; a write locks
+  the rows of its tenant, organization and member like a foreign key check
+  does. A write waits only for a freeze of its own scope, then fails; a write
+  committed before the freeze stays.</li>
+</ul>
+<p>A suspended organization now grants nothing: its memberships, the
+permissions of its applications and their tokens are refused, and the proxy
+serves none of its models, platform administrators included.</p>
 <h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
 <p>Every error uses the same envelope:</p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;last_owner&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;…&quot;</span><span class="p">}}</span>
@@ -4016,6 +4092,16 @@ database.</p>
 <td><code>ownership_denied</code></td>
 <td>403</td>
 <td>The ownership policy reserves the family to the local instance</td>
+</tr>
+<tr>
+<td><code>resource_deleted</code></td>
+<td>409</td>
+<td>The resource, or a resource holding it, is frozen by its deletion</td>
+</tr>
+<tr>
+<td><code>lifecycle_disabled</code></td>
+<td>409</td>
+<td>Deleting a tenant, an organization or a member while <code>XOLO_LIFECYCLE_ENABLED</code> is off</td>
 </tr>
 <tr>
 <td><code>not_found</code></td>
