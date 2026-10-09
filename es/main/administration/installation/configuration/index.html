@@ -531,6 +531,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2040,6 +2051,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2150,6 +2172,39 @@
 <li>en modo multi-tenant sirve cualquier dominio activo. La ruta no está sujeta a la limitación por IP: cada solicitud se autentica con su token firmado.</li>
 </ul>
 <p>El cierre de sesión duradero solo cubre estas sesiones interactivas. Un ID token OIDC presentado a la API (<code>oidctoken</code>) sigue siendo válido hasta su <code>exp</code> más <code>XOLO_HTTP_AUTHN_OIDCTOKEN_EXPIRY_LEEWAY</code>; un token de acceso opaco (<code>oauth2token</code>) hasta que caduca su entrada de caché (<code>XOLO_HTTP_AUTHN_OAUTH2TOKEN_CACHE_TTL</code>, 60 s); una sesión <code>/auth/token/login</code> durante la vida de su cookie. Un cierre de sesión local no cierra la sesión en el proveedor de identidad. Consulte la <a href="https://xolo-gateway.org/latest/">versión en francés</a> para más detalles.</p>
+<h2 id="ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos<a class="headerlink" href="#ciclo-de-vida-de-los-recursos" title="Permanent link">&para;</a></h2>
+<p>Eliminación diferida de tenants, organizaciones y miembros mediante la API de provisioning. Consulte <a href="../../provisioning/provisioning/#ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_LIFECYCLE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Permite registrar eliminaciones, instala las protecciones de los ámbitos congelados y ejecuta el worker de purga.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>Tiempo durante el que un recurso eliminado permanece congelado antes de su purga, de 1 s a 3650 días.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_POLL_INTERVAL</code></td>
+<td><code>1m</code></td>
+<td>Frecuencia con la que el worker busca eliminaciones que purgar, de 1 s a 1 h.</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
+<td><code>1000</code></td>
+<td>Filas eliminadas por transacción de purga, de 1 a 100 000.</td>
+</tr>
+</tbody>
+</table>
 
 
 
