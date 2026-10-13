@@ -1642,6 +1642,23 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budgets and quotas
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="././" class="md-nav__link md-nav__link--active">
         
   
@@ -1657,6 +1674,92 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#budget-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Budget hierarchy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#effective-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Effective budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-the-budget-equally" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sharing the budget equally
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distribution-between-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Distribution between levels
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-your-own-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Reading your own budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Related permissions
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2043,6 +2146,11 @@
                       
                     
                     
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -2054,6 +2162,80 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#budget-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Budget hierarchy
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#effective-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Effective budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sharing-the-budget-equally" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sharing the budget equally
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distribution-between-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Distribution between levels
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-your-own-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Reading your own budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#related-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Related permissions
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2127,7 +2309,136 @@
 
 
 <h1 id="budgets-and-quotas">Budgets and quotas<a class="headerlink" href="#budgets-and-quotas" title="Permanent link">&para;</a></h1>
-<p>This page has not been translated yet. See the <a href="https://xolo-gateway.org/latest/">French version</a> for the full content.</p>
+<p>Budgets cap the spending of an organization, a team or a member. Once a cap is reached, new API requests are blocked.</p>
+<blockquote>
+<p>Budgets only apply to <strong>Pay-as-you-go</strong> providers. Subscription providers have their own plan limits.</p>
+</blockquote>
+<h2 id="budget-hierarchy">Budget hierarchy<a class="headerlink" href="#budget-hierarchy" title="Permanent link">&para;</a></h2>
+<p>Budgets work on several levels:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Organization</td>
+<td>Overall budget of the organization</td>
+</tr>
+<tr>
+<td>Member</td>
+<td>Individual budget of a member</td>
+</tr>
+<tr>
+<td>Team</td>
+<td>Envelope of a <a href="../../administration/organisation/equipes/equipes/">team</a>, all its members included</td>
+</tr>
+<tr>
+<td>Member in a team</td>
+<td>Budget of a member for the requests they send to a team</td>
+</tr>
+</tbody>
+</table>
+<p>A request attributed to a team is checked against every level on its path: the organization budget, the member's, the team's and the member's in the team. It is refused as soon as one of them is reached. A request attributed to the organization alone does not read the team levels.</p>
+<p>Each level can set a <strong>daily</strong>, <strong>monthly</strong> and/or <strong>yearly</strong> budget. A field left empty means "unlimited".</p>
+<h2 id="effective-budget">Effective budget<a class="headerlink" href="#effective-budget" title="Permanent link">&para;</a></h2>
+<p>For each period, Xolo takes the <strong>minimum</strong> of the budgets set:</p>
+<ul>
+<li>If the organization has a monthly budget of €100 and a member one of €50 → the member is limited to €50/month.</li>
+<li>If the member has no personal budget → they use the organization budget.</li>
+</ul>
+<h2 id="sharing-the-budget-equally">Sharing the budget equally<a class="headerlink" href="#sharing-the-budget-equally" title="Permanent link">&para;</a></h2>
+<p>The <strong>Partager le budget équitablement</strong> (Share the budget equally) option (in the organization <a href="../../administration/organisation/parametres/parametre/">Settings</a>) automatically divides the organization budget between all its members.</p>
+<p><strong>Example</strong>: an organization with €500/month and 5 members → each member has €100/month.</p>
+<p>This rule only applies <strong>to members without an individual quota</strong>:</p>
+<ol>
+<li>if a member has a personal quota → their quota is used;</li>
+<li>otherwise → the shared quota (org budget ÷ number of members) is used.</li>
+</ol>
+<blockquote>
+<p>The share is recomputed automatically whenever the number of members changes.</p>
+</blockquote>
+<p>A team has the same option, on its page: its envelope is then divided between its members without a budget of their own in the team.</p>
+<p>The division is an integer one, rounded down to the millionth of the currency unit: shared between 3 members, a €1 budget gives €0.333333 to each. The remainder cannot be spent.</p>
+<p>A team that shares its envelope but has no members left has nothing to divide: a request still attributed to it, by a bound application for instance, is bounded by the whole envelope.</p>
+<h2 id="distribution-between-levels">Distribution between levels<a class="headerlink" href="#distribution-between-levels" title="Permanent link">&para;</a></h2>
+<p>The budget of an organization constrains those of its teams, and the budget of a team those of its members, following the <strong>distribution</strong> rule chosen on the parent level. The rule applies when a budget is saved, a child's as well as the parent's:</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Libre</strong> (Free, default)</td>
+<td>No constraint: only the limits checked on each request apply.</td>
+</tr>
+<tr>
+<td><strong>Plafonnée</strong> (Capped)</td>
+<td>Each child budget is at most the parent's, period by period. Their sum may exceed it.</td>
+</tr>
+<tr>
+<td><strong>Partagée</strong> (Split)</td>
+<td>The sum of the child budgets does not exceed the parent's, period by period: the envelope is really shared.</td>
+</tr>
+</tbody>
+</table>
+<p>Lowering a parent budget is therefore refused if the child budgets already saved no longer fit in it: lower them first.</p>
+<p>A child without a budget of its own for a period is not constrained: it stays bounded by the parent on each request.</p>
+<h2 id="reading-your-own-budget">Reading your own budget<a class="headerlink" href="#reading-your-own-budget" title="Permanent link">&para;</a></h2>
+<p>A user reads their own budget in an organization with <code>GET /api/v1/quota?organization=&lt;orgID&gt;</code>. The route accepts the same authentications as the proxy: user token, OIDC ID token or session. An application can therefore show its users their consumption by relaying their ID token.</p>
+<p>The response covers the user level only, that is the budget checked against the user's own counter:</p>
+<ul>
+<li>their personal quota when they have one (<code>"source": "personal"</code>);</li>
+<li>otherwise their share of the organization budget, when the organization shares it equally (<code>"shared"</code>);</li>
+<li>otherwise no budget (<code>"none"</code>).</li>
+</ul>
+<p>Organization, team and team-member budgets have their own counters and are not returned. They may therefore block a request before the user's budget does.</p>
+<p>When the organization budget is lower than the user's, requests stop at the organization's figure: <code>remaining</code> is then only an upper bound, and the refusal can be reported at the user level (<code>User daily budget exceeded</code>, for instance), since the user's counter is checked against the lower of the two.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;organization_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-0000-0000-000000000102&quot;</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;personal&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EUR&quot;</span><span class="p">,</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">&quot;periods&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&quot;daily&quot;</span><span class="p">:</span><span class="w">   </span><span class="p">{</span><span class="nt">&quot;budget&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;spent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">120000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">880000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;resets_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-10-14T00:00:00+02:00&quot;</span><span class="p">},</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;budget&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;spent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2400000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;resets_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-11-01T00:00:00+01:00&quot;</span><span class="p">},</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="nt">&quot;yearly&quot;</span><span class="p">:</span><span class="w">  </span><span class="p">{</span><span class="nt">&quot;budget&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;spent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9800000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;remaining&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;resets_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2027-01-01T00:00:00+01:00&quot;</span><span class="p">}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Amounts are in millionths of the currency unit. <code>budget</code> and <code>remaining</code> are <code>null</code> when the period is unlimited, and <code>remaining</code> never goes below zero. <code>spent</code> counts the user's spending in the organization since the start of the period, excluding usage covered by a subscription. Periods follow the server's time zone.</p>
+<p>The organization is chosen in this order:</p>
+<ol>
+<li>the token's organization, for a token bound to one;</li>
+<li>otherwise the <code>organization</code> parameter;</li>
+<li>otherwise the user's only organization.</li>
+</ol>
+<p>Without the parameter, a user of several organizations gets <code>400</code>. An organization they are not an active member of, or one other than the token's, gives <code>404</code>. An application token gets <code>403</code>, since its budget is the application's. No permission is required: everyone reads only their own budget.</p>
+<p>Like <code>GET /api/v1/models</code>, this route is not subject to the per-IP rate limit. Applications often call it from a single address for all their users.</p>
+<h2 id="related-permissions">Related permissions<a class="headerlink" href="#related-permissions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Required permission</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>View budgets</td>
+<td><code>quota:read</code></td>
+</tr>
+<tr>
+<td>Edit budgets</td>
+<td><code>quota:write</code></td>
+</tr>
+</tbody>
+</table>
+<p>See the <a href="../../administration/organisation/budget/budget/">Budget</a> tutorial for the steps.</p>
 
 
 
