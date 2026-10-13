@@ -3650,17 +3650,17 @@
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_POOL_MAX_OPEN_CONNS</code></td>
 <td><code>25</code></td>
-<td>Connexions ouvertes maximum (PostgreSQL uniquement ; SQLite reste sur une seule connexion).</td>
+<td>Connexions ouvertes maximum. Sur SQLite, les écritures passent par une seule connexion et ce pool ne sert que les lectures.</td>
 </tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_POOL_MAX_IDLE_CONNS</code></td>
 <td><code>5</code></td>
-<td>Connexions inactives conservées dans le pool (PostgreSQL uniquement).</td>
+<td>Connexions inactives conservées dans le pool (le pool de lecture sur SQLite).</td>
 </tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_POOL_CONN_MAX_LIFETIME</code></td>
 <td><code>60m</code></td>
-<td>Durée de vie maximale d'une connexion (PostgreSQL uniquement).</td>
+<td>Durée de vie maximale d'une connexion (du pool de lecture sur SQLite).</td>
 </tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_CACHE_USERS_*</code> / <code>_PROVIDERS_*</code></td>
@@ -3685,7 +3685,7 @@
 </tbody>
 </table>
 <h3 id="choisir-entre-sqlite-et-postgresql">Choisir entre SQLite et PostgreSQL<a class="headerlink" href="#choisir-entre-sqlite-et-postgresql" title="Permanent link">&para;</a></h3>
-<p>SQLite reste le défaut : aucune dépendance externe, idéal pour une instance unique. PostgreSQL est recommandé dès que plusieurs instances de Xolo partagent le même stockage, ou lorsque le volume d'événements et d'enregistrements d'usage devient important.</p>
+<p>SQLite reste le défaut : aucune dépendance externe, idéal pour une instance unique. La base y passe en mode WAL : les écritures sont sérialisées sur une connexion, les lectures servies en parallèle par un pool de connexions en lecture seule, si bien qu'un rapport long ne bloque pas le proxy. Une base en mémoire (<code>:memory:</code>) n'a pas de pool de lecture. PostgreSQL est recommandé dès que plusieurs instances de Xolo partagent le même stockage, ou lorsque le volume d'événements et d'enregistrements d'usage devient important.</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span><span class="s2">&quot;postgres://xolo:motdepasse@postgres:5432/xolo?sslmode=disable&quot;</span>
 </span></code></pre></div>
 <p>Le schéma est créé et migré automatiquement au démarrage. Il n'existe pas de migration automatique des données d'une base SQLite existante vers PostgreSQL : la bascule suppose une base neuve.</p>
