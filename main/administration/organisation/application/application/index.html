@@ -943,6 +943,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#capacites-et-tarif-des-modeles-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Capacités et tarif des modèles listés
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3434,6 +3445,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#capacites-et-tarif-des-modeles-listes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Capacités et tarif des modèles listés
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3801,6 +3823,22 @@ organisation.</p>
 <li><strong>Équipes</strong> : un modèle accessible par une équipe est listé sous la forme <code>&lt;organisation&gt;/&lt;équipe&gt;/&lt;modèle&gt;</code>, une fois par équipe ; un modèle accessible par <code>model:use:org</code> l'est sous la forme <code>&lt;organisation&gt;/&lt;modèle&gt;</code>. Un jeton rattaché à une équipe ne voit que les noms de son équipe.</li>
 <li><strong>Session issue de <code>POST /auth/token/login</code></strong> : la session est créée à partir d'un jeton Xolo (utilisateur ou application) et <code>authn.User.OrgID</code> est rempli avec l'organisation du jeton (<code>internal/http/middleware/authn/token/login.go</code>). <code>GET /api/v1/models</code> ne renvoie alors que les modèles activés de cette organisation, comme pour le cas « Jeton » correspondant (les autres appartenances de l'utilisateur sont ignorées ; pour une application, c'est précisément l'organisation de l'application). Ce cas se distingue du précédent uniquement par le canal d'authentification (cookie de session au lieu de header <code>Authorization</code>).</li>
 </ul>
+<h3 id="capacites-et-tarif-des-modeles-listes">Capacités et tarif des modèles listés<a class="headerlink" href="#capacites-et-tarif-des-modeles-listes" title="Permanent link">&para;</a></h3>
+<p>Chaque modèle de <code>GET /api/v1/models</code> suit le format OpenRouter :</p>
+<ul>
+<li><code>description</code> ;</li>
+<li><code>context_length</code> ;</li>
+<li><code>architecture.input_modalities</code>, qui contient <code>image</code> quand le modèle lit les images ;</li>
+<li><code>supported_parameters</code>, qui contient <code>tools</code> et <code>reasoning</code> selon ses capacités ;</li>
+<li><code>pricing.prompt</code> et <code>pricing.completion</code>, exprimés en unités monétaires pour 1 000 tokens.</li>
+</ul>
+<p>Xolo y ajoute un objet <code>xolo</code> :</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">&quot;xolo&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;capabilities_declared&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;currency&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EUR&quot;</span><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><code>capabilities_declared</code> vaut <code>false</code> pour un modèle virtuel dont le pipeline ne permet pas de déduire les capacités et qui n'en déclare pas dans son catalogue. Sa fiche se lit alors comme un modèle texte seul, gratuit : ces valeurs nulles signifient « inconnu », pas « absent ».</li>
+<li><code>currency</code> est la devise du fournisseur du modèle. Elle est absente quand le prix n'est pas connu, par exemple pour un modèle virtuel non déduit, pour des candidats facturés dans des devises différentes, ou quand la liste des fournisseurs n'a pas pu être lue.</li>
+</ul>
 <blockquote>
 <p><strong>Note</strong> : Avant la correction du bug <a href="https://github.com/xolo-gateway/xolo/issues/48">#48</a>,
 un jeton d'application renvoyait une liste vide sur <code>GET /api/v1/models</code>
@@ -3813,19 +3851,19 @@ le proxy le faisait déjà.</p>
 <p>OpenWebUI peut être configuré pour utiliser Xolo comme backend LLM.</p>
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
 <p>Dans le fichier de configuration d'OpenWebUI (<code>openwebui.ini</code> ou variables d'environnement) :</p>
-<div class="language-ini highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># URL de base de Xolo</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="na">XOLO_BASE_URL</span><span class="o">=</span><span class="s">https://xolo.example.com</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Token API de l&#39;application Xolo</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="na">XOLO_API_TOKEN</span><span class="o">=</span><span class="s">xlo_votre_token_application</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Modèle par défaut (optionnel)</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="na">DEFAULT_MODEL</span><span class="o">=</span><span class="s">mon-org/gpt-4o</span>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># URL de base de Xolo</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="na">XOLO_BASE_URL</span><span class="o">=</span><span class="s">https://xolo.example.com</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Token API de l&#39;application Xolo</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="na">XOLO_API_TOKEN</span><span class="o">=</span><span class="s">xlo_votre_token_application</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Modèle par défaut (optionnel)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="na">DEFAULT_MODEL</span><span class="o">=</span><span class="s">mon-org/gpt-4o</span>
 </span></code></pre></div>
 <h3 id="variables-denvironnement">Variables d'environnement<a class="headerlink" href="#variables-denvironnement" title="Permanent link">&para;</a></h3>
 <p>Vous pouvez également utiliser des variables d'environnement :</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">XOLO_BASE_URL</span><span class="o">=</span>https://xolo.example.com
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">XOLO_API_TOKEN</span><span class="o">=</span>xlo_votre_token_application
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">XOLO_BASE_URL</span><span class="o">=</span>https://xolo.example.com
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">XOLO_API_TOKEN</span><span class="o">=</span>xlo_votre_token_application
 </span></code></pre></div>
 <h3 id="verification">Vérification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h3>
 <p>Après configuration, les modèles Xolo devraient apparaître dans la liste des modèles disponibles dans OpenWebUI.</p>
