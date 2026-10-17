@@ -969,6 +969,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#suspending-a-team-or-a-member" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suspending a team or a member
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#roles-in-the-team" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2280,6 +2291,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#suspending-a-team-or-a-member" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suspending a team or a member
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#roles-in-the-team" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2489,6 +2511,9 @@
 <p>The <strong>Middlewares de l'équipe</strong> (Team middlewares) section attaches middlewares to the team. A middleware attached to at least one team only applies to the requests of these teams. It runs after the organization middlewares, which carry the compliance rules and apply to every request. A middleware attached to this team alone cannot be unchecked: with no team left, it would apply to the whole organization. Attach it to another team first, or delete it.</p>
 <h2 id="managing-members">Managing members<a class="headerlink" href="#managing-members" title="Permanent link">&para;</a></h2>
 <p>The <strong>Membres</strong> (Members) section lists the members of the team. Choose a member of the organization and click <strong>Ajouter à l'équipe</strong> (Add to team). The remove icon removes a member from the team and deletes their budget in the team. They stay a member of the organization.</p>
+<h3 id="suspending-a-team-or-a-member">Suspending a team or a member<a class="headerlink" href="#suspending-a-team-or-a-member" title="Permanent link">&para;</a></h3>
+<p>A suspended team, or a member suspended in a team, keeps everything in place but grants nothing through the team: no model, no team role, no share of the team budget. Click <strong>Suspendre l'équipe</strong> (Suspend team) at the top of the team page, which requires <code>teams:write</code>, or the pause icon of a member, which requires <code>members:write</code> on the team. <strong>Réactiver</strong> (Reactivate) restores the access. A suspended team is marked <strong>suspendue</strong> in the list, a suspended member <strong>suspendu</strong>.</p>
+<p>Teams and their members can also be provisioned by a control plane through the <a href="../../../provisioning/provisioning/#teams">Provisioning API</a>.</p>
 <h3 id="roles-in-the-team">Roles in the team<a class="headerlink" href="#roles-in-the-team" title="Permanent link">&para;</a></h3>
 <p>A role assigned to a member from the team page only applies to that team. Only its permissions marked "team" in the role editor apply:</p>
 <table>
