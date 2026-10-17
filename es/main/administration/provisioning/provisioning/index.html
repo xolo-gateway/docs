@@ -1636,6 +1636,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#equipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Equipos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2576,6 +2587,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#equipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Equipos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3147,6 +3169,16 @@ límite, la respuesta es <code>429</code>, con <code>rate_limited</code> y <code
 <td><code>{"role","status"}</code></td>
 </tr>
 <tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}</code></td>
+<td><code>{"slug","name","status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}/members/{memberID}</code></td>
+<td><code>{"status"}</code></td>
+</tr>
+<tr>
 <td><code>DELETE</code></td>
 <td><code>/v1/tenants/{tenantID}/domains/{hostname}</code></td>
 <td>— eliminado de inmediato, <code>204</code></td>
@@ -3155,6 +3187,11 @@ límite, la respuesta es <code>429</code>, con <code>rate_limited</code> y <code
 <td><code>DELETE</code></td>
 <td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{memberID}</code></td>
 <td>— eliminada de inmediato, <code>204</code></td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}</code>, <code>…/teams/{teamID}/members/{memberID}</code></td>
+<td>— eliminado de inmediato, <code>204</code> (extensión Xolo)</td>
 </tr>
 <tr>
 <td><code>DELETE</code></td>
@@ -3306,6 +3343,31 @@ sus roles.</p>
 <p>Una organización conserva un propietario activo en cuanto tiene uno: degradar o
 suspender al último se rechaza con <code>409 last_owner</code>. Una organización o un
 miembro de otro tenant da <code>404 parent_not_found</code>.</p>
+<h3 id="equipos">Equipos<a class="headerlink" href="#equipos" title="Permanent link">&para;</a></h3>
+<p><code>PUT …/organizations/{orgID}/teams/{teamID}</code> crea un equipo de la
+organización o cambia su slug, su nombre o su estado. Los equipos son planos.
+El slug es único en la organización y forma el segmento de equipo de los
+nombres de modelos <code>&lt;org&gt;/&lt;equipo&gt;/&lt;modelo&gt;</code>: un slug nuevo o modificado se
+comprueba como el de un equipo nuevo (<code>409 conflict</code> cuando un nombre de
+modelo de la organización empieza por <code>&lt;slug&gt;/</code>), y los clientes que guardaron
+nombres de modelos con el slug anterior dejan de resolverlos. Un UUID de
+equipo es global: el de otra organización responde <code>409 conflict</code>. Un <code>PUT</code>
+nunca toca los ajustes del equipo, véase
+<a href="#recursos-de-negocio">Recursos de negocio</a>; un equipo nuevo no tiene.</p>
+<p><code>PUT …/teams/{teamID}/members/{memberID}</code> coloca a un miembro de la
+organización en el equipo, o cambia su estado. El miembro necesita una
+pertenencia a la organización, sea cual sea su estado, y el equipo debe
+pertenecer a la organización: si no, <code>404 parent_not_found</code>. Una pertenencia a
+un equipo no tiene rol en el contrato común: una nueva no tiene ningún rol de
+equipo, una existente conserva los suyos.</p>
+<p>Un equipo <code>suspended</code>, o un miembro de equipo <code>suspended</code>, no da nada a través
+del equipo: ningún modelo, ningún rol de equipo, ninguna parte del presupuesto
+del equipo. Miembros, roles y ajustes se conservan. La suspensión nunca se
+propaga. Retirar una pertenencia a la organización retira al miembro de sus
+equipos y publica <code>team_membership.deleted.v1</code>. El <code>DELETE</code> de un equipo o de
+una pertenencia es una extensión del contrato común: inmediato, idempotente,
+con un <code>If-Match</code> opcional. Un equipo con una aplicación vinculada, o que es el
+único en tener un middleware, no se elimina (<code>409 conflict</code>).</p>
 <h2 id="dominios-y-enrutamiento">Dominios y enrutamiento<a class="headerlink" href="#dominios-y-enrutamiento" title="Permanent link">&para;</a></h2>
 <p><code>PUT /v1/tenants/{tenantID}/domains/{hostname}</code> declara un nombre de host del
 tenant o cambia su estado. El nombre de host debe estar ya en minúsculas, sin
@@ -3341,12 +3403,12 @@ posición de un único <strong>flujo de eventos</strong> y publica un evento.</p
 <tbody>
 <tr>
 <td><code>GET</code></td>
-<td><code>/v1/tenants/{tenantID}</code>, <code>…/domains/{hostname}</code>, <code>…/organizations/{orgID}</code>, <code>…/members/{memberID}</code>, <code>…/organizations/{orgID}/members/{memberID}</code></td>
+<td><code>/v1/tenants/{tenantID}</code>, <code>…/domains/{hostname}</code>, <code>…/organizations/{orgID}</code>, <code>…/members/{memberID}</code>, <code>…/organizations/{orgID}/members/{memberID}</code>, <code>…/organizations/{orgID}/teams/{teamID}</code>, <code>…/teams/{teamID}/members/{memberID}</code></td>
 <td>La representación, con su cabecera <code>ETag</code></td>
 </tr>
 <tr>
 <td><code>GET</code></td>
-<td><code>/v1/tenants</code>, <code>…/domains</code>, <code>…/organizations</code>, <code>…/members</code>, <code>…/organizations/{orgID}/members</code></td>
+<td><code>/v1/tenants</code>, <code>…/domains</code>, <code>…/organizations</code>, <code>…/members</code>, <code>…/organizations/{orgID}/members</code>, <code>…/organizations/{orgID}/teams</code>, <code>…/teams/{teamID}/members</code></td>
 <td><code>{"items":[{"key","representation","etag"}],"next_cursor"}</code></td>
 </tr>
 <tr>
@@ -3409,9 +3471,10 @@ sin representación ni datos personales:</p>
 <ul>
 <li><code>type</code> es <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> o <code>.deleted.v1</code>, donde
   <code>resource_type</code> es <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
-  <code>organization_membership</code> o una de las familias de negocio <code>provider</code>,
-  <code>custom_role</code>, <code>team</code>, <code>application</code>, <code>quota</code> y <code>alert</code>. Una eliminación no lleva
-  <code>etag</code>.</li>
+  <code>organization_membership</code>, <code>team</code>, <code>team_membership</code> o una de las familias
+  de negocio <code>provider</code>, <code>custom_role</code>, <code>team_settings</code>, <code>application</code>, <code>quota</code>
+  y <code>alert</code>. La clave de un equipo es <code>{"tenant_id","organization_id","team_id"}</code>,
+  la de una pertenencia añade <code>member_id</code>. Una eliminación no lleva <code>etag</code>.</li>
 <li><strong>Un evento por recurso y por commit.</strong> Una operación sin cambios o una
   transacción revertida no publica nada. Dentro de un commit, las eliminaciones
   van primero, de los hijos a los padres, y luego las creaciones y
@@ -3838,8 +3901,8 @@ eventos. El manifiesto anuncia <code>business_resources</code>.</p>
 <td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles[/{key}]</code></td>
 </tr>
 <tr>
-<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
-<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/teams[/{key}]</code></td>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/team-settings[/{teamID}]</code></td>
 </tr>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
@@ -3882,8 +3945,8 @@ obligatorio, <code>null</code> solo donde se indica.</p>
 <td><code>{"name","description","permissions":[…]}</code></td>
 </tr>
 <tr>
-<td><code>team</code></td>
-<td><code>{"slug","name","description","share_quota_equally","model_grants":[{"model_id","kind"}],"middleware_ids":[…],"members":[{"user_id","role_ids":[…]}]}</code></td>
+<td><code>team_settings</code></td>
+<td><code>{"description","share_quota_equally","model_grants":[{"model_id","kind"}],"middleware_ids":[…],"member_roles":[{"user_id","role_ids":[…]}]}</code></td>
 </tr>
 <tr>
 <td><code>application</code></td>
@@ -3914,7 +3977,7 @@ obligatorio, <code>null</code> solo donde se indica.</p>
   LLM, un proveedor de la organización); <code>middleware_ids</code> designa middlewares
   de la organización, y un equipo no puede quitar, ni ser eliminado con, un
   middleware que solo él tiene (<code>409</code>), ya que entonces se aplicaría a toda la
-  organización; un miembro de equipo es un miembro de la organización, y
+  organización; un usuario de <code>member_roles</code> es un miembro del equipo, y
   sus <code>role_ids</code>, como los de una aplicación, designan roles de la
   organización, pero a diferencia de estos nunca un rol integrado (<code>422</code>); <code>team_id</code> designa un equipo de la organización; una cuota
   limita una organización del tenant, un miembro del tenant, una aplicación o
@@ -3925,11 +3988,13 @@ obligatorio, <code>null</code> solo donde se indica.</p>
   organización o de otro tenant responde <code>404 not_found</code>, como uno ausente.</li>
 <li><strong>Campos inmutables.</strong> El <code>scope</code> y el <code>scope_id</code> de una cuota, el <code>scope</code> y
   el <code>owner_id</code> de una alerta nunca cambian (<code>409 conflict</code>). Un ámbito tiene una sola cuota: otra clave sobre el mismo
-  ámbito responde <code>409 conflict</code>. El <code>slug</code> de un equipo, al crearlo como al
-  cambiarlo, sigue el formato de los slugs de organización, no lo tiene ningún
-  otro equipo y no puede ser el comienzo del nombre de un modelo de la
-  organización (<code>409 conflict</code>). Cambiarlo rompe los nombres de modelos que los
-  clientes guardaron con el anterior.</li>
+  ámbito responde <code>409 conflict</code>.</li>
+<li><strong>Los ajustes de un equipo</strong> existen exactamente cuando existe el equipo: el
+  contrato común crea y elimina el equipo, véase <a href="#equipos">Equipos</a>, un <code>PUT</code>
+  de ajustes sobre un equipo ausente responde <code>404 parent_not_found</code>, y la
+  colección no tiene <code>DELETE</code>. <code>member_roles</code> lista los miembros del equipo que
+  tienen roles en él; un miembro omitido, o listado sin rol, no tiene ninguno.
+  Su autoridad de escritura es la de la familia <code>team</code>.</li>
 <li><strong>Reparto de los presupuestos.</strong> El <code>cascade</code> de una cuota de organización o
   de equipo restringe las cuotas de sus equipos o de sus miembros al
   escribirlas: <code>capped</code>, cada una como máximo igual a la del padre, período por
@@ -3953,9 +4018,7 @@ obligatorio, <code>null</code> solo donde se indica.</p>
   un <code>If-Match</code> opcional, y publica <code>&lt;family&gt;.deleted.v1</code>. Eliminar un recurso
   ausente, o el de otra organización, no cambia nada, salvo que <code>If-Match</code>
   designe una revisión (<code>412</code>). Eliminar una aplicación retira sus roles, sus
-  tokens y su cuota; un proveedor, sus modelos; un equipo, sus miembros y sus
-  cuotas, y se rechaza (<code>409 conflict</code>) mientras tenga una aplicación
-  vinculada; una cuota conserva el consumo
+  tokens y su cuota; un proveedor, sus modelos; una cuota conserva el consumo
   registrado en su ámbito. Un rol integrado se rechaza (<code>409 conflict</code>). Un
   ámbito congelado las rechaza todas (<code>409 resource_deleted</code>). No dependen de
   <code>XOLO_LIFECYCLE_ENABLED</code>. Los tokens de aplicación siguen gestionándose
@@ -3968,6 +4031,15 @@ obligatorio, <code>null</code> solo donde se indica.</p>
   <code>team.created.v1</code>, y las representaciones de los roles (sin <code>model_grants</code>),
   de las aplicaciones (con <code>team_id</code>) y de las cuotas (con <code>cascade</code>) se
   publican de nuevo cuando cambian.</li>
+<li>La migración <code>202610200001</code> lleva los equipos al contrato común, también con
+  todos los servidores detenidos. Equipos y miembros de equipo reciben un
+  estado, <code>active</code>. Un equipo creado localmente con un xid recibe un UUID: lo
+  que tiene vinculado (grants, middlewares, miembros, roles, aplicaciones,
+  tokens, invitaciones, modelos personales, registros de uso, presupuestos) lo
+  sigue, y el flujo publica la eliminación de la clave anterior y la creación
+  de la nueva. Cada equipo se publica después como recursos <code>team</code>,
+  <code>team_settings</code> y <code>team_membership</code>; la antigua ruta <code>/v1/xolo/…/teams</code>, que
+  incluía los miembros, desaparece.</li>
 </ul>
 <p>Límite conocido: la caché de cada proceso mantiene válidos los tokens de una
 aplicación desactivada hasta que caducan sus entradas
@@ -3989,7 +4061,7 @@ invitaciones), el plano de control (este listener) o ambos.</p>
 <tr>
 <td><code>XOLO_OWNERSHIP</code></td>
 <td>—</td>
-<td>Pares <code>familia=autoridad</code> separados por comas. Familias: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>subscription</code>, y las familias de negocio <code>provider</code>, <code>custom_role</code>, <code>team</code>, <code>application</code>, <code>quota</code>, <code>alert</code>. Autoridades: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Las familias omitidas valen <code>shared</code>; una familia o autoridad desconocida impide el arranque</td>
+<td>Pares <code>familia=autoridad</code> separados por comas. Familias: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, y las familias de negocio <code>provider</code>, <code>custom_role</code>, <code>application</code>, <code>quota</code>, <code>alert</code>; <code>team</code> gobierna también los ajustes de equipo. Autoridades: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Las familias omitidas valen <code>shared</code>; una familia o autoridad desconocida impide el arranque</td>
 </tr>
 </tbody>
 </table>
@@ -4044,7 +4116,7 @@ en flujo el inventario de la instancia: cada proyección de las familias comunes
 negocio de todos los tenants, recursos suspendidos incluidos, leídas sobre una misma
 instantánea coherente sin tomar ningún bloqueo. El formato, <code>xolo-adoption/1</code>,
 es NDJSON (<code>application/x-ndjson</code>):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.1&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>…
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
@@ -4545,7 +4617,7 @@ identificadores no cambian: un recurso existente se direcciona con su UUID actua
 </tr>
 <tr>
 <td><code>POST /v1/xolo/…/roles</code> <code>{name, description?, permissions?, modelGrants?}</code></td>
-<td>Misma ruta, la representación snake_case completa <code>{name, description, permissions}</code>; <code>201</code> con <code>{key, representation, etag}</code>. El acceso a los modelos pasa por los equipos: <code>/v1/xolo/…/teams/{key}</code></td>
+<td>Misma ruta, la representación snake_case completa <code>{name, description, permissions}</code>; <code>201</code> con <code>{key, representation, etag}</code>. El acceso a los modelos pasa por los equipos: <code>/v1/xolo/…/team-settings/{teamID}</code></td>
 </tr>
 <tr>
 <td><code>PUT /v1/xolo/…/roles/{roleID}</code> parcial <code>{name?, description?, permissions?, modelGrants?}</code></td>
@@ -4554,6 +4626,10 @@ identificadores no cambian: un recurso existente se direcciona con su UUID actua
 <tr>
 <td><code>GET</code>, <code>PUT /v1/tenants/{tenantID}/users</code></td>
 <td><code>GET</code>, <code>PUT /v1/xolo/tenants/{tenantID}/users</code> (mismos cuerpos)</td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>PUT</code>, <code>DELETE /v1/xolo/…/organizations/{orgID}/teams[/{key}]</code> (miembros incluidos)</td>
+<td>El equipo por el contrato común, <code>/v1/tenants/{tenantID}/organizations/{orgID}/teams[/{teamID}]</code> <code>{slug, name, status}</code>, cada miembro por <code>…/teams/{teamID}/members/{memberID}</code> <code>{status}</code>, el resto por <code>/v1/xolo/…/team-settings/{teamID}</code></td>
 </tr>
 <tr>
 <td><code>GET /v1/tenants/{tenantID}/users/{userID}</code></td>
