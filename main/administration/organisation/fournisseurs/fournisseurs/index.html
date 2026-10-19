@@ -1101,6 +1101,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#limites-par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Limites par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repartition-entre-utilisateurs" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3379,6 +3390,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#limites-par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Limites par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#repartition-entre-utilisateurs" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3851,6 +3873,39 @@ limites sous forme de <strong>contraintes</strong>.</p>
 <p>Le champ « Reset dans » se recopie depuis l'écran du fournisseur (par exemple
 <code>4h29m</code>) : Xolo le convertit en un ancrage absolu, de sorte que ses fenêtres
 coïncident avec les réinitialisations réelles du forfait.</p>
+<h3 id="limites-par-modele">Limites par modèle<a class="headerlink" href="#limites-par-modele" title="Permanent link">&para;</a></h3>
+<p>Certains forfaits ne limitent pas le fournisseur dans son ensemble, mais chaque
+modèle séparément. C'est le cas d'OpenCode Go : chaque modèle dispose de son
+propre budget mensuel, dont 20 % sur 5 heures et 50 % sur une semaine. Cocher
+<strong>Décompter par modèle</strong> sur une fenêtre lui donne ce comportement : chaque
+modèle amont a sa propre fenêtre et ses propres budgets, et épuiser un modèle ne
+bloque pas les autres.</p>
+<p>Les budgets de la contrainte s'appliquent alors à chaque modèle. Le champ
+<strong>Budgets propres à certains modèles</strong> les remplace pour les modèles qu'il
+liste, un par ligne, sous leur nom amont (le « modèle réel ») :</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kimi-k3 = 3
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>deepseek-v4.1-flash = 16, 50000000 tokens
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>longcat-2.5-preview-free = illimité
+</span></code></pre></div>
+<p>Une valeur s'exprime dans la devise du fournisseur, un budget tokens porte le
+suffixe <code>tokens</code>, et <code>illimité</code> lève toute limite pour ce modèle. Un modèle listé
+remplace les deux budgets de la contrainte : <code>kimi-k3 = 3</code> ne garde pas le
+budget tokens de la contrainte pour <code>kimi-k3</code>.</p>
+<p>Deux modèles Xolo qui pointent vers le même modèle amont, par exemple deux noms
+publiés avec des réglages différents, sont décomptés ensemble, comme le fait le
+fournisseur. Xolo garde ce regroupement 30 secondes : un modèle créé ou modifié
+compte avec ses homonymes après ce délai. Si la liste des modèles ne peut pas
+être lue, la requête est décomptée sur le seul modèle demandé, et le compteur
+<code>xolo_plan_model_grouping_failures_total</code> s'incrémente. La répartition entre
+utilisateurs s'applique modèle par modèle : un
+utilisateur actif sur un modèle n'entame pas la part des autres modèles.</p>
+<p>Un plan peut mêler les deux portées : une fenêtre décomptée par modèle et une
+autre sur l'ensemble du fournisseur s'appliquent toutes les deux. Quand un plan
+décompte par modèle et que le fournisseur répond <code>429</code>, seul le modèle demandé
+est mis en pause, pour la durée indiquée par l'en-tête <code>Retry-After</code>, ou cinq
+minutes à défaut.</p>
+<p>Sur la page d'usage et le tableau de bord, une contrainte par modèle affiche une
+jauge par modèle consommé dans la fenêtre en cours.</p>
 <h3 id="repartition-entre-utilisateurs">Répartition entre utilisateurs<a class="headerlink" href="#repartition-entre-utilisateurs" title="Permanent link">&para;</a></h3>
 <p>Le budget est commun, mais un utilisateur ne peut pas le consommer en entier. Sa
 part se compose de deux termes :</p>
