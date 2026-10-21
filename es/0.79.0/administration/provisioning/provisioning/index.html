@@ -1,0 +1,4812 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentación oficial de Xolo — pasarela LLM soberana">
+      
+      
+        <meta name="author" content="Xolo Gateway">
+      
+      
+        <link rel="canonical" href="https://xolo-gateway.org/es/0.79.0/administration/provisioning/provisioning/">
+      
+      
+        <link rel="prev" href="../../organisation/virtual_model/virtual_model/">
+      
+      
+        <link rel="next" href="../../../concepts/">
+      
+      
+        
+          <link rel="alternate" href="/latest/" hreflang="fr">
+        
+          <link rel="alternate" href="/en/latest/" hreflang="en">
+        
+          <link rel="alternate" href="/es/latest/" hreflang="es">
+        
+      
+      
+      <link rel="icon" href="../../../logo.svg">
+      <meta name="generator" content="zensical-0.0.53">
+    
+    
+      
+        <title>API de provisioning - Xolo</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../../assets/stylesheets/modern/main.20815dad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,500,500i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navegación"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-de-provisioning" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-header__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navegación">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xolo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API de provisioning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    <button class="md-header__button md-icon xolo-lang" aria-label="Seleccionar idioma">
+      <span class="xolo-lang__code">es</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/latest/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/en/latest/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/es/latest/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Buscar">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Buscar">
+  <button type="button" class="md-search__button">
+    Buscar
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/xolo-gateway/xolo" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-nav__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    Xolo
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xolo-gateway/xolo" title="Ir al repositorio" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Bienvenida a Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../experts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Encontrar un experto
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administration
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Administration
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administración
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Installation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Instalación y despliegue
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Configuración
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Desarrollo de plugins (Go)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/uuid-migration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Actualización a UUID y migraciones sin conexión
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Organisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administración de la organización
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Application
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Application
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/application/application/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Aplicaciones
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budget
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Budget
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/budget/budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Presupuesto
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Equipes
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Equipes
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/equipes/equipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Equipos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Fournisseurs
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/fournisseurs/fournisseurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Proveedores
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_6" id="__nav_3_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Invitation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Invitation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/invitation/invitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Invitaciones
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_7" id="__nav_3_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Membre
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Membre
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/membre/membre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Miembros
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Middleware
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Middleware
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/middleware/middleware/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Middlewares
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_9" id="__nav_3_3_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Parametres
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Parametres
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/parametres/parametre/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Ajustes
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_10" id="__nav_3_3_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Roles
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Roles
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/roles/roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Roles y permisos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_11" id="__nav_3_3_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Virtual model
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Virtual model
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/virtual_model/virtual_model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Modelos virtuales
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Provisioning
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Provisioning
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  API de provisioning
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  API de provisioning
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacion-y-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autenticación y actualización
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Configuración
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contrato-comun" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Contrato común
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contrato común">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Tenants
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Organizaciones
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miembros" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identidad-declarada" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Identidad declarada
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pertenencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pertenencias
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Equipos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominios-y-enrutamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Dominios y enrutamiento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lecturas-condiciones-y-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Lecturas, condiciones y sincronización
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lecturas, condiciones y sincronización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etags-y-escrituras-condicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        ETags y escrituras condicionales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listas-y-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Listas y cursores
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Flujo de eventos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retencion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Retención
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#almacenamiento-y-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Almacenamiento y rendimiento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Webhooks
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suscripciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suscripciones
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrega" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Entrega
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destinos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Destinos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estados-y-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estados y recuperación
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Supervisión
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensiones-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Extensiones Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursos-de-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Recursos de negocio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoridad-de-escritura-adopcion-y-desvinculacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autoridad de escritura, adopción y desvinculación
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoridad de escritura, adopción y desvinculación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#miembros-gestionados" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros gestionados
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportacion-de-adopcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exportación de adopción
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adoptar-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Adoptar una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desvincular-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Desvincular una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Errores
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invariantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Invariantes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migracion-desde-las-rutas-anteriores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Migración desde las rutas anteriores
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transacciones-auditoria-y-correlacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Transacciones, auditoría y correlación
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pki-de-desarrollo-y-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        PKI de desarrollo y ejemplo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuera-del-alcance-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fuera del alcance actual
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Concepts
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Concepts
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Conceptos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/budgets-et-quotas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Presupuestos y cuotas
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/estimation-energetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Estimación energética y de carbono
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/eventql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Lenguaje de consulta eventql
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/fournisseurs-modeles-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Proveedores, modelos y pipelines
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../concepts/organisation-et-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organización, roles y permisos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Utilisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Utilisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Uso
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Dashboard
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Dashboard
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilisation/dashboard/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Panel de control
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Evenements
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Evenements
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../utilisation/evenements/evenement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Eventos
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#autenticacion-y-actualizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autenticación y actualización
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Configuración
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contrato-comun" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Contrato común
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Contrato común">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tenants" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Tenants
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organizaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Organizaciones
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#miembros" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identidad-declarada" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Identidad declarada
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pertenencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pertenencias
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#equipos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Equipos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dominios-y-enrutamiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Dominios y enrutamiento
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lecturas-condiciones-y-sincronizacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Lecturas, condiciones y sincronización
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lecturas, condiciones y sincronización">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etags-y-escrituras-condicionales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        ETags y escrituras condicionales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listas-y-cursores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Listas y cursores
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flujo-de-eventos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Flujo de eventos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retencion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Retención
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#almacenamiento-y-rendimiento" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Almacenamiento y rendimiento
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#webhooks" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Webhooks
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Webhooks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suscripciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suscripciones
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#entrega" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Entrega
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#destinos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Destinos
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estados-y-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Estados y recuperación
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supervision" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Supervisión
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extensiones-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Extensiones Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursos-de-negocio" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Recursos de negocio
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#autoridad-de-escritura-adopcion-y-desvinculacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Autoridad de escritura, adopción y desvinculación
+      </span>
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Autoridad de escritura, adopción y desvinculación">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#miembros-gestionados" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Miembros gestionados
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exportacion-de-adopcion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Exportación de adopción
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adoptar-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Adoptar una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#desvincular-una-instancia" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Desvincular una instancia
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ciclo-de-vida-de-los-recursos" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ciclo de vida de los recursos
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Errores
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#invariantes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Invariantes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migracion-desde-las-rutas-anteriores" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Migración desde las rutas anteriores
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transacciones-auditoria-y-correlacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Transacciones, auditoría y correlación
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pki-de-desarrollo-y-ejemplo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        PKI de desarrollo y ejemplo
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuera-del-alcance-actual" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Fuera del alcance actual
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  
+    
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegación" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    Bienvenida a Xolo
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    Administration
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="././" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    Provisioning
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+  
+
+
+<h1 id="api-de-provisioning">API de provisioning<a class="headerlink" href="#api-de-provisioning" title="Permanent link">&para;</a></h1>
+<p>La API administra tenants, sus dominios, organizaciones, miembros y roles en un
+listener dedicado. Está desactivada por defecto y separada de la API pública.</p>
+<p>Expone un <strong>contrato común</strong> — <code>PUT</code> idempotentes de tenants, dominios,
+organizaciones, miembros y pertenencias, identificados por UUID elegidos por el
+cliente — y, bajo <code>/v1/xolo</code>, las operaciones propias de Xolo. Este contrato
+sustituye a las rutas anteriores: véase
+<a href="#migracion-desde-las-rutas-anteriores">Migración desde las rutas anteriores</a>.</p>
+<h2 id="autenticacion-y-actualizacion">Autenticación y actualización<a class="headerlink" href="#autenticacion-y-actualizacion" title="Permanent link">&para;</a></h2>
+<p>Se exige <strong>TLS 1.3</strong>, un certificado cliente verificado por la CA configurada y
+<strong>exactamente un URI SAN</strong> que coincida de forma exacta con una entrada de
+<code>XOLO_PROVISIONNING_API_AUTHORIZED_URIS</code>. El Common Name nunca concede acceso.
+La verificación se realiza durante el handshake y en el middleware de todas las
+rutas, incluidas salud, permisos, rutas desconocidas y métodos rechazados.
+Un rechazo HTTP devuelve <code>403</code> con <code>client_certificate_rejected</code>.</p>
+<p>Cada URI autorizado administra toda la instancia, con comprobación de la cadena
+tenant/organización/recurso. No existen permisos por certificado. Renovar el
+certificado manteniendo el URI conserva la identidad y su presupuesto de solicitudes.</p>
+<p><strong>Instalaciones que ya usan este listener:</strong> antes de reiniciar, emita certificados
+con un único URI SAN y configure la lista autorizada. Una lista vacía, un URI inválido
+o duplicado impide el arranque. Los clientes deben admitir TLS 1.3.</p>
+<h2 id="configuracion">Configuración<a class="headerlink" href="#configuracion" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Valor por defecto</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Activa el listener</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_ADDRESS</code></td>
+<td><code>:3003</code></td>
+<td>Dirección de escucha</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CERT_FILE</code></td>
+<td>—</td>
+<td>Certificado del servidor, obligatorio</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_KEY_FILE</code></td>
+<td>—</td>
+<td>Clave privada del servidor, obligatoria</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</code></td>
+<td>—</td>
+<td>CA de clientes, obligatoria</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_AUTHORIZED_URIS</code></td>
+<td>—</td>
+<td>URI absolutos distintos, separados por comas; obligatorio</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_RATE_LIMIT</code></td>
+<td><code>10</code></td>
+<td>Solicitudes por segundo, por URI y proceso</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_RATE_BURST</code></td>
+<td><code>20</code></td>
+<td>Ráfaga permitida por URI</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_SHUTDOWN_TIMEOUT</code></td>
+<td><code>10s</code></td>
+<td>Plazo de cierre</td>
+</tr>
+<tr>
+<td><code>XOLO_PROVISIONNING_API_EVENT_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>Historial conservado en el flujo de eventos, <code>0</code> para ilimitado; se aplica aunque el listener esté desactivado</td>
+</tr>
+</tbody>
+</table>
+<p>La tasa y la ráfaga se aplican a cada proceso: con N réplicas, un mismo URI dispone de N veces los valores configurados.</p>
+<p>Los presupuestos son locales al proceso, se asignan únicamente a identidades
+configuradas y se comparten entre certificados con el mismo URI. Si se supera el
+límite, la respuesta es <code>429</code>, con <code>rate_limited</code> y <code>Retry-After</code> en segundos.</p>
+<p>El multi-tenant se configura en la instancia, no en esta API:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Valor por defecto</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_MULTITENANCY_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Permite más de un tenant y enruta las solicitudes por dominio</td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_HOST_PATTERN</code></td>
+<td>—</td>
+<td>Solo para la actualización: se expande una única vez en un dominio por tenant existente, véase <a href="#dominios-y-enrutamiento">Dominios y enrutamiento</a></td>
+</tr>
+<tr>
+<td><code>XOLO_MULTITENANCY_DEFAULT_TENANT_SLUG</code></td>
+<td><code>default</code></td>
+<td>Tenant servido cuando el multi-tenant está desactivado</td>
+</tr>
+</tbody>
+</table>
+<p>Los webhooks tienen sus propias variables, véase <a href="#webhooks">Webhooks</a>.</p>
+<h2 id="contrato-comun">Contrato común<a class="headerlink" href="#contrato-comun" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Cuerpo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/manifest</code></td>
+<td>— devuelve <code>{"name","version","contract_version","capabilities"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}</code></td>
+<td><code>{"slug","name","status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/domains/{hostname}</code></td>
+<td><code>{"status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td><code>{"slug","name","status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/members/{memberID}</code></td>
+<td><code>{"email","tenant_role","status"}</code>, <code>"display_name"</code> e <code>"identity"</code> opcionales</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{memberID}</code></td>
+<td><code>{"role","status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}</code></td>
+<td><code>{"slug","name","status"}</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}/members/{memberID}</code></td>
+<td><code>{"status"}</code></td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/domains/{hostname}</code></td>
+<td>— eliminado de inmediato, <code>204</code></td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/members/{memberID}</code></td>
+<td>— eliminada de inmediato, <code>204</code></td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}/organizations/{orgID}/teams/{teamID}</code>, <code>…/teams/{teamID}/members/{memberID}</code></td>
+<td>— eliminado de inmediato, <code>204</code> (extensión Xolo)</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/tenants/{tenantID}</code>, <code>…/organizations/{orgID}</code>, <code>…/members/{memberID}</code></td>
+<td>— eliminación registrada, purga diferida: véase <a href="#ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos</a></td>
+</tr>
+</tbody>
+</table>
+<p>Cada uno de estos recursos también puede leerse, listarse y seguirse mediante
+el flujo de eventos: consulte <a href="#lecturas-condiciones-y-sincronizacion">Lecturas, condiciones y sincronización</a>.
+<code>capabilities</code> enumera <code>adoption</code>, <code>business_resources</code>, <code>conditional_writes</code>,
+<code>events</code>, <code>identity</code>, <code>ownership</code> y <code>reads</code>, más <code>webhooks</code> y <code>lifecycle</code> cuando
+están activados.
+Trátela como un conjunto: su orden no es significativo.</p>
+<ul>
+<li><strong>Los identificadores</strong> son UUID canónicos en minúsculas elegidos por el
+  cliente. Cualquier otro valor se rechaza con <code>400 invalid_parameter</code>. Un
+  miembro es un usuario: <code>memberID</code> es el identificador del usuario.</li>
+<li><strong>Cada <code>PUT</code> responde <code>200</code></strong>, creación incluida, con la representación
+  almacenada y su <code>ETag</code>. Un <code>PUT</code> idéntico al estado almacenado no cambia nada,
+  no escribe auditoría y conserva su <code>ETag</code>: un cliente puede repetir todo su
+  estado deseado.</li>
+<li><strong>Un <code>PUT</code> reemplaza la representación.</strong> Un <code>display_name</code> omitido queda
+  vacío. Una <code>identity</code> omitida se conserva, consulte
+  <a href="#identidad-declarada">Identidad declarada</a>. Los campos fuera del contrato —
+  descripciones, monedas, vínculos de inicio de sesión, roles de plataforma,
+  roles personalizados — nunca se modifican.</li>
+<li><strong>Valores:</strong> <code>status</code> es <code>active</code> o <code>suspended</code>; <code>tenant_role</code> es <code>owner</code> o
+  <code>member</code>; el <code>role</code> de una organización es <code>owner</code>, <code>admin</code> o <code>member</code>. Los
+  slugs se pasan a minúsculas; los nombres tienen de 1 a 200 caracteres, sin
+  caracteres de control.</li>
+<li><strong>Los cuerpos</strong> son un objeto JSON de cadenas (salvo la <code>identity</code> de un miembro) con
+  <code>Content-Type: application/json</code> (si no, <code>415 unsupported_media_type</code>), de
+  1 MiB como máximo. Un campo desconocido, un valor que no es cadena o Unicode
+  inválido da <code>400 invalid_json</code>; un campo obligatorio ausente o <code>null</code> da
+  <code>400 invalid_representation</code>. Los <code>PUT</code> no aceptan parámetros de consulta
+  (<code>400 invalid_parameter</code>).</li>
+</ul>
+<h3 id="tenants">Tenants<a class="headerlink" href="#tenants" title="Permanent link">&para;</a></h3>
+<p><code>PUT /v1/tenants/{tenantID}</code> crea el tenant o lo renombra: slug y nombre cambian
+libremente y los dominios siguen asociados. Crear un segundo tenant se rechaza
+con <code>409</code> mientras <code>XOLO_MULTITENANCY_ENABLED</code> sea <code>false</code>. El tenant <code>default</code>
+conserva su slug y sigue <code>active</code>: es el que resuelve toda instancia
+mono-tenant. Su identificador se obtiene con <code>GET /v1/xolo/tenants?slug=default</code>.</p>
+<p>Un tenant <code>suspended</code> responde <code>404</code> en todos sus dominios.</p>
+<h3 id="organizaciones">Organizaciones<a class="headerlink" href="#organizaciones" title="Permanent link">&para;</a></h3>
+<p><code>PUT …/organizations/{orgID}</code> crea la organización con sus roles integrados, o
+actualiza su slug, su nombre y su estado. Un identificador de organización ya
+usado por otro tenant da <code>409</code>.</p>
+<h3 id="miembros">Miembros<a class="headerlink" href="#miembros" title="Permanent link">&para;</a></h3>
+<p><code>PUT …/members/{memberID}</code> crea el miembro o lo actualiza: email, nombre visible,
+rol de tenant, estado e identidad declarada. <code>suspended</code> desactiva la cuenta.
+Los roles de plataforma nunca se modifican.</p>
+<p><strong>Un miembro puede aprovisionarse antes de su primer inicio de sesión.</strong> Un <code>PUT</code>
+sobre un identificador desconocido crea la cuenta con el rol de plataforma
+<code>user</code>, sin vínculo con ningún inicio de sesión: su primer inicio de sesión la
+vincula, por su identidad declarada o por un email verificado (ver más abajo).
+Un email que otra cuenta del tenant ya tiene, sea cual sea su capitalización, se
+rechaza con <code>409 conflict</code>. Un token de API sigue designando a su propietario,
+vinculado o no.</p>
+<p><code>tenant_role</code> declara los propietarios del tenant; no concede ningún privilegio
+de plataforma. Un tenant conserva un propietario activo en cuanto tiene uno:
+degradar o suspender al último se rechaza con <code>409 last_owner</code>.</p>
+<p><strong>Los administradores de plataforma están protegidos.</strong> Todo <code>PUT</code> que
+modificaría una cuenta con el rol de plataforma <code>admin</code> — email, nombre visible,
+estado, rol de tenant o identidad — se rechaza con <code>409 platform_admin_protected</code>;
+un <code>PUT</code> idéntico sigue respondiendo <code>200</code>. La misma protección se aplica a
+<code>PUT /v1/xolo/tenants/{tenantID}/users</code>. Un inicio de sesión tampoco vincula
+nunca a un administrador de plataforma con una nueva identidad, ni por
+declaración ni por email. El provisioning nunca actúa sobre privilegios de
+plataforma.</p>
+<h3 id="identidad-declarada">Identidad declarada<a class="headerlink" href="#identidad-declarada" title="Permanent link">&para;</a></h3>
+<p>El campo opcional <code>identity</code> designa el inicio de sesión de un miembro:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="s2">&quot;jane@corp.tld&quot;</span><span class="p">,</span><span class="nt">&quot;tenant_role&quot;</span><span class="p">:</span><span class="s2">&quot;member&quot;</span><span class="p">,</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w"> </span><span class="nt">&quot;identity&quot;</span><span class="p">:{</span><span class="nt">&quot;issuer&quot;</span><span class="p">:</span><span class="s2">&quot;https://id.corp.tld/realms/main&quot;</span><span class="p">,</span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="s2">&quot;6f0c2a1e&quot;</span><span class="p">}}</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th><code>identity</code></th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ausente</td>
+<td>La identidad declarada y el vínculo de inicio de sesión se conservan: un cliente que ignora el campo nunca desvincula a nadie.</td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td>La identidad declarada se retira y el vínculo de inicio de sesión se suelta. El miembro solo vuelve a iniciar sesión mediante una nueva declaración o un email verificado.</td>
+</tr>
+<tr>
+<td>objeto</td>
+<td>La identidad se declara. Un miembro ya vinculado a otro inicio de sesión se rechaza con <code>409 conflict</code>: para pasar una cuenta a otro proveedor u otra identidad, envíe <code>null</code> y luego la nueva identidad.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>issuer</code> es una URL HTTPS exacta de 2048 bytes como máximo, con host y sin
+  userinfo, consulta, fragmento, espacios en los extremos ni caracteres de
+  control. <code>subject</code> es una cadena UTF-8 exacta de 1 a 255 bytes sin caracteres
+  de control. No se normaliza nada: mayúsculas, espacios y la barra final
+  cuentan. Cualquier otro valor — <code>{}</code>, un campo ausente, vacío o de más, un
+  valor que no es cadena — da <code>400 invalid_representation</code>. Xolo no llama a
+  ningún emisor.</li>
+<li>Una identidad designa como máximo un miembro <strong>por tenant</strong>, declarada o ya
+  vinculada: declarar una identidad que tiene otro miembro da <code>409 conflict</code>. La
+  misma identidad puede tener un miembro distinto en cada tenant.</li>
+<li><code>GET</code>, listas y <code>ETag</code> incluyen la identidad declarada. Los eventos solo llevan
+  claves y ETags, nunca la identidad.</li>
+</ul>
+<p><strong>Al iniciar sesión</strong>, Xolo resuelve la cuenta en este orden:</p>
+<ol>
+<li>la cuenta ya vinculada a ese inicio de sesión;</li>
+<li>el miembro cuya identidad declarada es el emisor y el sujeto que probó el
+   proveedor de identidad;</li>
+<li>la única cuenta del tenant con ese email, comparado sin distinguir
+   mayúsculas, cuando el proveedor de identidad lo afirma verificado
+   (<code>email_verified</code>, o <code>verified_email</code> para Google) y la cuenta no está
+   vinculada a ningún inicio de sesión ni declara identidad;</li>
+<li>si no, una cuenta nueva, según <code>XOLO_HTTP_AUTHN_AUTO_CREATE_USERS</code>, los
+   administradores por defecto y las invitaciones pendientes, como antes.</li>
+</ol>
+<p>Un inicio de sesión solo corresponde a una identidad declarada si su proveedor
+prueba el emisor: proveedores OIDC con nombre y Gitea con documento de
+descubrimiento (el <code>issuer</code> descubierto), Google (<code>https://accounts.google.com</code>),
+y los autenticadores de tokens de esos proveedores. GitHub OAuth y un Gitea sin
+descubrimiento no prueban ninguno: sus miembros inician sesión mediante un email
+verificado.</p>
+<p>Nunca se fusiona ni se reasigna nada. Varias cuentas cuyos emails solo difieren
+en mayúsculas rechazan la vinculación y quedan como están; una identidad en
+conflicto nunca recurre al email. Un inicio de sesión rechazado responde <code>409</code> y
+registra un evento <code>auth.login.failed</code>. Una petición de una cuenta ya vinculada
+solo la lee: sin transacción ni bloqueo. Vincular un inicio de sesión no cambia
+ninguna proyección ni publica ningún evento.</p>
+<p>Límites conocidos: los administradores por defecto
+(<code>XOLO_HTTP_AUTHN_DEFAULT_ADMINS</code>) se reconocen por el email que devuelve el
+proveedor de identidad, verificado o no; y cada inicio de sesión sigue copiando
+en la cuenta el email y el nombre visible que devuelve el proveedor de
+identidad, salvo cuando el plano de control gestiona los miembros (véase
+<em>Miembros gestionados</em>).</p>
+<h3 id="pertenencias">Pertenencias<a class="headerlink" href="#pertenencias" title="Permanent link">&para;</a></h3>
+<p><code>PUT …/organizations/{orgID}/members/{memberID}</code> añade el miembro a la
+organización o actualiza su pertenencia. <code>role</code> fija el rol integrado de la
+pertenencia; los roles personalizados asignados mediante <code>/v1/xolo</code> se
+conservan. Una pertenencia <code>suspended</code> no da acceso a la organización y conserva
+sus roles.</p>
+<p>Una organización conserva un propietario activo en cuanto tiene uno: degradar o
+suspender al último se rechaza con <code>409 last_owner</code>. Una organización o un
+miembro de otro tenant da <code>404 parent_not_found</code>.</p>
+<h3 id="equipos">Equipos<a class="headerlink" href="#equipos" title="Permanent link">&para;</a></h3>
+<p><code>PUT …/organizations/{orgID}/teams/{teamID}</code> crea un equipo de la
+organización o cambia su slug, su nombre o su estado. Los equipos son planos.
+El slug es único en la organización y forma el segmento de equipo de los
+nombres de modelos <code>&lt;org&gt;/&lt;equipo&gt;/&lt;modelo&gt;</code>: un slug nuevo o modificado se
+comprueba como el de un equipo nuevo (<code>409 conflict</code> cuando un nombre de
+modelo de la organización empieza por <code>&lt;slug&gt;/</code>), y los clientes que guardaron
+nombres de modelos con el slug anterior dejan de resolverlos. Un UUID de
+equipo es global: el de otra organización responde <code>409 conflict</code>. Un <code>PUT</code>
+nunca toca los ajustes del equipo, véase
+<a href="#recursos-de-negocio">Recursos de negocio</a>; un equipo nuevo no tiene.</p>
+<p><code>PUT …/teams/{teamID}/members/{memberID}</code> coloca a un miembro de la
+organización en el equipo, o cambia su estado. El miembro necesita una
+pertenencia a la organización, sea cual sea su estado, y el equipo debe
+pertenecer a la organización: si no, <code>404 parent_not_found</code>. Una pertenencia a
+un equipo no tiene rol en el contrato común: una nueva no tiene ningún rol de
+equipo, una existente conserva los suyos.</p>
+<p>Un equipo <code>suspended</code>, o un miembro de equipo <code>suspended</code>, no da nada a través
+del equipo: ningún modelo, ningún rol de equipo, ninguna parte del presupuesto
+del equipo. Miembros, roles y ajustes se conservan. La suspensión nunca se
+propaga. Retirar una pertenencia a la organización retira al miembro de sus
+equipos y publica <code>team_membership.deleted.v1</code>. El <code>DELETE</code> de un equipo o de
+una pertenencia es una extensión del contrato común: inmediato, idempotente,
+con un <code>If-Match</code> opcional. Un equipo con una aplicación vinculada, o que es el
+único en tener un middleware, no se elimina (<code>409 conflict</code>).</p>
+<h2 id="dominios-y-enrutamiento">Dominios y enrutamiento<a class="headerlink" href="#dominios-y-enrutamiento" title="Permanent link">&para;</a></h2>
+<p><code>PUT /v1/tenants/{tenantID}/domains/{hostname}</code> declara un nombre de host del
+tenant o cambia su estado. El nombre de host debe estar ya en minúsculas, sin
+puerto ni dirección IP (si no, <code>400 invalid_hostname</code>), y pertenece a un solo
+tenant (si no, <code>409</code>). Un tenant puede tener varios dominios.</p>
+<p>Con <code>XOLO_MULTITENANCY_ENABLED=true</code>, el servidor público enruta cada solicitud
+por estos dominios: el host de la solicitud debe ser un dominio <code>active</code> de un
+tenant <code>active</code>; si no, la solicitud responde <code>404</code>. Enlaces, redirecciones y
+callbacks OAuth conservan el esquema, el puerto y la ruta de <code>XOLO_HTTP_BASE_URL</code>
+y toman el dominio como host. En una instancia mono-tenant los dominios se
+guardan pero no se usan para enrutar.</p>
+<p>En el primer arranque multi-tenant de una instancia actualizada,
+<code>XOLO_MULTITENANCY_HOST_PATTERN</code>, si está definido, se expande una única vez en
+un dominio <code>active</code> por tenant existente, de modo que cada tenant sigue
+accesible en su nombre de host anterior. La expansión no vuelve a ejecutarse:
+los tenants creados después deben declarar sus dominios mediante la API, y la
+variable puede eliminarse. Un nombre de host ya declarado se conserva y se
+registra en los logs, nunca se reasigna.</p>
+<h2 id="lecturas-condiciones-y-sincronizacion">Lecturas, condiciones y sincronización<a class="headerlink" href="#lecturas-condiciones-y-sincronizacion" title="Permanent link">&para;</a></h2>
+<p>Cada recurso del contrato común tiene una <strong>proyección</strong>: la representación que
+devuelve su <code>PUT</code>, mantenida en la misma transacción que el recurso. Todo cambio
+de una proyección, sea cual sea su origen — esta API, la interfaz web, un inicio
+de sesión, una invitación aceptada, una eliminación — recibe la siguiente
+posición de un único <strong>flujo de eventos</strong> y publica un evento.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants/{tenantID}</code>, <code>…/domains/{hostname}</code>, <code>…/organizations/{orgID}</code>, <code>…/members/{memberID}</code>, <code>…/organizations/{orgID}/members/{memberID}</code>, <code>…/organizations/{orgID}/teams/{teamID}</code>, <code>…/teams/{teamID}/members/{memberID}</code></td>
+<td>La representación, con su cabecera <code>ETag</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/tenants</code>, <code>…/domains</code>, <code>…/organizations</code>, <code>…/members</code>, <code>…/organizations/{orgID}/members</code>, <code>…/organizations/{orgID}/teams</code>, <code>…/teams/{teamID}/members</code></td>
+<td><code>{"items":[{"key","representation","etag"}],"next_cursor"}</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/events/cursor</code></td>
+<td><code>{"cursor"}</code>: el final actual del flujo</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/events?cursor=</code></td>
+<td><code>{"items":[…],"next_cursor","has_more"}</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="etags-y-escrituras-condicionales">ETags y escrituras condicionales<a class="headerlink" href="#etags-y-escrituras-condicionales" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>El ETag es una revisión</strong>, <code>W/"&lt;n&gt;"</code>: la posición del flujo del último
+  cambio de la representación. Las revisiones se persisten y crecen
+  estrictamente en toda la instancia; no dependen de ningún reloj: ni un salto
+  de reloj, ni un desfase entre réplicas, ni eliminar y volver a crear un
+  recurso hacen reaparecer un ETag. Los recursos existentes recibieron su propia
+  revisión al actualizar. Los ETags son validadores opacos: compárelos, no los
+  calcule.</li>
+<li>Un <code>PUT</code> devuelve la proyección escrita por su propia transacción y su
+  <code>ETag</code>. Un <code>PUT</code> que no cambia nada conserva la revisión.</li>
+<li><strong><code>If-Match</code></strong> en un <code>PUT</code> se comprueba dentro de la transacción de mutación,
+  antes de cualquier escritura: <code>*</code> o una lista de ETags separados por comas,
+  comparados de forma débil. Una condición obsoleta responde
+  <code>412 precondition_failed</code>, incluso con un cuerpo idéntico al estado
+  almacenado; <code>*</code> sobre un recurso inexistente también da <code>412</code>. Sin
+  <code>If-Match</code>, la escritura es incondicional. De dos escritores con el mismo
+  ETag, solo uno tiene éxito. Una condición mal formada, o cualquier
+  <code>If-None-Match</code>, da <code>400 invalid_precondition</code>.</li>
+</ul>
+<h3 id="listas-y-cursores">Listas y cursores<a class="headerlink" href="#listas-y-cursores" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Una colección es la ruta de su recurso unitario sin el último segmento. Las
+  listas solo aceptan <code>limit</code> (de 1 a 1000, 100 por defecto) y <code>cursor</code>, una
+  vez cada uno (si no, <code>400 invalid_parameter</code>); las lecturas unitarias,
+  <code>/v1/manifest</code> y <code>/v1/events/cursor</code> no aceptan parámetros de consulta.</li>
+<li>Los elementos se ordenan según el orden binario de su clave. Una página no es
+  una instantánea de la colección: los cambios confirmados durante una
+  enumeración se recuperan con el flujo. No hay total.</li>
+<li><code>next_cursor</code> es <code>null</code> en la última página. Los cursores se firman con un
+  secreto de la instancia y están ligados a la colección, a sus padres y al
+  límite: un cursor alterado, o usado para otra colección, otro límite o el
+  flujo, responde <code>400 invalid_cursor</code>. Un cursor de lista caduca 24 horas
+  después de la primera página, sin renovación (<code>410 cursor_expired</code>). Los
+  cursores son opacos pero no están cifrados.</li>
+<li>Un padre desconocido responde <code>404 parent_not_found</code> en una lista y
+  <code>404 not_found</code> en una lectura unitaria.</li>
+</ul>
+<h3 id="flujo-de-eventos">Flujo de eventos<a class="headerlink" href="#flujo-de-eventos" title="Permanent link">&para;</a></h3>
+<p>Los eventos siguen un perfil cerrado de <a href="https://cloudevents.io">CloudEvents 1.0</a>,
+sin representación ni datos personales:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span><span class="nt">&quot;specversion&quot;</span><span class="p">:</span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="s2">&quot;urn:uuid:…&quot;</span><span class="p">,</span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;organization.updated.v1&quot;</span><span class="p">,</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w"> </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;datacontenttype&quot;</span><span class="p">:</span><span class="s2">&quot;application/json&quot;</span><span class="p">,</span><span class="nt">&quot;sequence&quot;</span><span class="p">:</span><span class="s2">&quot;42&quot;</span><span class="p">,</span><span class="nt">&quot;requestid&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w"> </span><span class="nt">&quot;data&quot;</span><span class="p">:{</span><span class="nt">&quot;resource_type&quot;</span><span class="p">:</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="nt">&quot;key&quot;</span><span class="p">:{</span><span class="nt">&quot;tenant_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;organization_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">},</span><span class="nt">&quot;etag&quot;</span><span class="p">:</span><span class="s2">&quot;W/\&quot;42\&quot;&quot;</span><span class="p">}}</span>
+</span></code></pre></div>
+<ul>
+<li><code>type</code> es <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> o <code>.deleted.v1</code>, donde
+  <code>resource_type</code> es <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
+  <code>organization_membership</code>, <code>team</code>, <code>team_membership</code> o una de las familias
+  de negocio <code>provider</code>, <code>custom_role</code>, <code>team_settings</code>, <code>application</code>, <code>quota</code>
+  y <code>alert</code>. La clave de un equipo es <code>{"tenant_id","organization_id","team_id"}</code>,
+  la de una pertenencia añade <code>member_id</code>. Una eliminación no lleva <code>etag</code>.</li>
+<li><strong>Un evento por recurso y por commit.</strong> Una operación sin cambios o una
+  transacción revertida no publica nada. Dentro de un commit, las eliminaciones
+  van primero, de los hijos a los padres, y luego las creaciones y
+  modificaciones, de los padres a los hijos.</li>
+<li><code>sequence</code> ordena los eventos <strong>en el orden de los commits</strong>: una posición
+  solo es visible cuando cada posición inferior es visible o ha sido revertida;
+  un consumidor que reanuda tras la última posición leída nunca se salta un
+  evento. Las posiciones tienen huecos. <code>time</code> es solo informativo.
+  <code>requestid</code> es el <code>X-Request-ID</code> de la petición de provisioning, o una
+  correlación generada para los demás cambios.</li>
+<li><code>has_more=false</code> significa que la página alcanzó el final del flujo; su
+  <code>next_cursor</code> reanuda desde ahí. Los cursores de eventos nunca caducan por sí
+  mismos.</li>
+<li>Los usuarios técnicos de las aplicaciones no son miembros: no se proyectan ni
+  pueden modificarse mediante <code>PUT …/members/{memberID}</code>.</li>
+</ul>
+<p><strong>Algoritmo del consumidor.</strong></p>
+<ol>
+<li>Capture un cursor con <code>GET /v1/events/cursor</code>, <strong>antes</strong> del inventario.</li>
+<li>Enumere <code>/v1/tenants</code> y luego los dominios, organizaciones, miembros y
+   pertenencias de cada tenant.</li>
+<li>Consulte <code>GET /v1/events?cursor=</code>; para cada evento, vuelva a leer el
+   recurso y aplique su representación actual (<code>404</code> significa que ha
+   desaparecido). Deduplique los eventos por <code>(source, id)</code>; no permita nunca
+   que una lectura anterior sobrescriba el resultado de una posterior.</li>
+<li>Persista el estado aplicado y <strong>después</strong> el <code>next_cursor</code>. Una caída entre
+   ambos pasos repite eventos, sin consecuencias.</li>
+<li>Ante <code>410 cursor_expired</code>, reconstruya una nueva generación desde el paso 1
+   y cambie a ella solo cuando esté completa.</li>
+</ol>
+<h3 id="retencion">Retención<a class="headerlink" href="#retencion" title="Permanent link">&para;</a></h3>
+<p><code>XOLO_PROVISIONNING_API_EVENT_RETENTION</code> (<code>720h</code> por defecto, <code>0</code> conserva todos
+los eventos) elimina cada hora los eventos más antiguos creados antes del
+periodo de retención. La eliminación se detiene en el primer evento conservado:
+un retroceso del reloj nunca elimina un evento que sigue a uno conservado. Un
+cursor anterior a los eventos eliminados responde <code>410 cursor_expired</code>. La
+retención se ejecuta aunque el listener esté desactivado, ya que los cambios se
+publican en cualquier caso. Solo esta retención elimina eventos: eliminar
+recursos nunca invalida los cursores de otros consumidores.</p>
+<h3 id="almacenamiento-y-rendimiento">Almacenamiento y rendimiento<a class="headerlink" href="#almacenamiento-y-rendimiento" title="Permanent link">&para;</a></h3>
+<ul>
+<li>La fuente del flujo y el secreto que firma los cursores se guardan en la base
+  de datos: inclúyalos en sus copias de seguridad. Restaurar otra base invalida
+  los cursores (<code>400 invalid_cursor</code>) y cambia la <code>source</code>: los consumidores
+  reconstruyen.</li>
+<li>Una transacción solo toma el <strong>bloqueo del flujo</strong> cuando modifica una
+  proyección, al final, y lo mantiene hasta el commit; en PostgreSQL es un
+  bloqueo consultivo junto a una secuencia. Las lecturas, las operaciones sin
+  cambios, los inicios de sesión que no cambian nada y el proxy LLM nunca lo
+  toman. Los cambios de proyecciones se serializan así durante el breve tiempo
+  de su commit: menos rendimiento de escritura a cambio de un flujo sin huecos.</li>
+</ul>
+<h2 id="webhooks">Webhooks<a class="headerlink" href="#webhooks" title="Permanent link">&para;</a></h2>
+<p>Los webhooks envían los eventos del <a href="#flujo-de-eventos">flujo</a> a receptores
+HTTPS, a medida que se confirman. Son notificaciones, no una fuente de verdad:
+un consumidor conserva su propio punto de reanudación en el flujo, consulta
+<code>/v1/events</code> al arrancar, tras una reconexión y periódicamente, y nunca avanza
+ese punto por un webhook. Un webhook perdido nunca hace perder un cambio.</p>
+<p>Los webhooks están desactivados por defecto. El worker de entrega se ejecuta en
+cada proceso con <code>XOLO_WEBHOOKS_ENABLED=true</code>, esté o no activado allí el
+listener de aprovisionamiento; las suscripciones se gestionan a través del
+listener.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Valor por defecto</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_WEBHOOKS_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Ejecuta la preparación, la entrega y la limpieza de los webhooks, y anuncia <code>webhooks</code> en el manifiesto</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_ALLOWED_ORIGINS</code></td>
+<td>—</td>
+<td>Orígenes HTTPS separados por comas (<code>https://host[:puerto]</code>, sin ruta) a los que puede apuntar una suscripción; obligatorio</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_ALLOW_PRIVATE_NETWORKS</code></td>
+<td><code>false</code></td>
+<td>Permite también las direcciones de loopback y privadas</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_TLS_CA_FILE</code></td>
+<td>—</td>
+<td>Autoridades de confianza adicionales (PEM); las del sistema siguen siendo de confianza</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_WORKERS</code></td>
+<td><code>2</code></td>
+<td>Entregas simultáneas por proceso, de 1 a 16</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_POLL_INTERVAL</code></td>
+<td><code>1s</code></td>
+<td>Intervalo de preparación y de consulta, de 100 ms a 1 minuto</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_QUEUE_CAPACITY</code></td>
+<td><code>10000</code></td>
+<td>Entregas en espera o en curso en la instancia</td>
+</tr>
+<tr>
+<td><code>XOLO_WEBHOOKS_SUBSCRIPTION_CAPACITY</code></td>
+<td><code>1000</code></td>
+<td>Entregas en espera o en curso de una suscripción, como máximo la capacidad de la cola</td>
+</tr>
+</tbody>
+</table>
+<h3 id="suscripciones">Suscripciones<a class="headerlink" href="#suscripciones" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks</code></td>
+<td><code>{"items":[…]}</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>La suscripción</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>La crea o la sustituye: <code>200</code> y la suscripción</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}</code></td>
+<td>La elimina con sus entregas: <code>204</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}/reset</code></td>
+<td><code>{"acknowledgeLoss":true}</code>: descarta sus entregas y continúa al final del flujo, <code>204</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/webhooks/{subscriptionID}/deliveries</code></td>
+<td>Las 100 últimas entregas, sin el evento ni la respuesta</td>
+</tr>
+</tbody>
+</table>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">&quot;destination&quot;</span><span class="p">:</span><span class="s2">&quot;https://hooks.example.com/xolo&quot;</span><span class="p">,</span><span class="nt">&quot;events&quot;</span><span class="p">:[</span><span class="s2">&quot;organization.updated.v1&quot;</span><span class="p">,</span><span class="s2">&quot;organization.deleted.v1&quot;</span><span class="p">],</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w"> </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span><span class="nt">&quot;secrets&quot;</span><span class="p">:[</span><span class="s2">&quot;whsec_…&quot;</span><span class="p">]}</span>
+</span></code></pre></div>
+<ul>
+<li>Una suscripción entrega los eventos de <strong>su tenant únicamente</strong>. Su
+  identificador es un UUID elegido por el cliente y único en la instancia:
+  nunca pasa a otro tenant (<code>409 conflict</code>), y la suscripción de otro tenant
+  responde <code>404 not_found</code>. Un tenant tiene como máximo 10 suscripciones
+  (<code>409 webhook_capacity</code>).</li>
+<li><code>events</code> es <code>["*"]</code> o una lista de hasta 20 tipos de eventos distintos del
+  flujo. <code>destination</code> debe pertenecer a un origen permitido.</li>
+<li><code>secrets</code> contiene un secreto, o dos distintos durante una rotación: base64,
+  con el prefijo opcional <code>whsec_</code>, de 32 a 64 bytes aleatorios generados por
+  el cliente. Son obligatorios al crearla; omitirlos en un <code>PUT</code> posterior
+  conserva los guardados. Nunca se devuelven: la suscripción solo muestra
+  <code>secretCount</code>. Se cifran con <code>XOLO_SECRET_KEY</code> y quedan ligados a su tenant y
+  a su suscripción: guarde esa clave con la base de datos.</li>
+<li>Una suscripción nueva empieza al final del flujo: reconstruya primero el
+  estado del consumidor y después apóyese en las notificaciones.</li>
+<li><code>enabled: false</code> pausa la suscripción sin perder su posición. Los cambios de
+  destino y de secretos se aplican a las entregas ya en cola.</li>
+<li>Cada escritura de una suscripción se audita con el llamante y el
+  <code>X-Request-ID</code>, nunca con sus secretos.</li>
+</ul>
+<h3 id="entrega">Entrega<a class="headerlink" href="#entrega" title="Permanent link">&para;</a></h3>
+<p>Cada intento es un <code>POST</code> HTTPS del evento exacto del flujo, según
+<a href="https://www.standardwebhooks.com">Standard Webhooks</a>:</p>
+<table>
+<thead>
+<tr>
+<th>Cabecera</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Content-Type</code></td>
+<td><code>application/cloudevents+json</code></td>
+</tr>
+<tr>
+<td><code>webhook-id</code></td>
+<td>El <code>id</code> del evento, el mismo en cada intento</td>
+</tr>
+<tr>
+<td><code>webhook-timestamp</code></td>
+<td>Segundos Unix de este intento</td>
+</tr>
+<tr>
+<td><code>webhook-signature</code></td>
+<td><code>v1,&lt;HMAC-SHA256 en base64 de "&lt;id&gt;.&lt;timestamp&gt;.&lt;cuerpo&gt;"&gt;</code> por cada secreto, separadas por espacios</td>
+</tr>
+</tbody>
+</table>
+<p>Un receptor verifica una de las firmas sobre el cuerpo bruto antes de
+decodificarlo, rechaza una marca de tiempo alejada más de cinco minutos,
+deduplica por <code>(source, id)</code> y responde <code>2xx</code> una vez aceptado el evento de
+forma duradera.</p>
+<ul>
+<li><strong>Al menos una vez, sin orden garantizado.</strong> Un reintento, una caída tras la
+  respuesta del receptor o dos réplicas pueden repetir un evento; use
+  <code>sequence</code> para ordenar y el <code>GET</code> unitario para leer el estado actual.</li>
+<li>Un <code>2xx</code> confirma la entrega; su cuerpo se lee hasta 64 KiB y se descarta.
+  Las redirecciones no se siguen. Todo lo demás se reintenta tras 5, 10, 20…
+  segundos, con una hora como máximo entre intentos, durante 12 intentos o 24
+  horas como máximo; la entrega pasa entonces a <code>failed</code>. Reconcilie mediante
+  el flujo.</li>
+<li>Una entrega se reserva durante 30 segundos: un worker que se detiene a mitad
+  de un intento, en cualquier réplica, la deja a otro cuando expira la reserva.
+  Un resultado tardío nunca sobrescribe un intento más reciente.</li>
+<li>Las entregas son copias de su evento: la retención del flujo nunca elimina
+  una entrega en cola. Las entregas terminadas se conservan siete días para el
+  diagnóstico.</li>
+<li>Los workers nunca toman el bloqueo del flujo: solo leen el flujo de su
+  tenant, y la ruta de las solicitudes nunca los espera.</li>
+</ul>
+<h3 id="destinos">Destinos<a class="headerlink" href="#destinos" title="Permanent link">&para;</a></h3>
+<p>Solo los orígenes permitidos son accesibles. Cada dirección a la que resuelve
+el nombre se comprueba al conectar, y la dirección comprobada es la que se
+marca, de modo que el nombre no puede redirigirse entretanto. Las direcciones
+link-local —incluidos los puntos de metadatos de la nube—, multicast, no
+especificadas, compartidas y de uso especial se rechazan siempre; el loopback y
+las direcciones privadas solo con <code>XOLO_WEBHOOKS_ALLOW_PRIVATE_NETWORKS=true</code>.
+Los proxies del entorno se ignoran y los certificados se verifican siempre.
+Restrinja también el tráfico saliente del proceso con un cortafuegos.</p>
+<h3 id="estados-y-recuperacion">Estados y recuperación<a class="headerlink" href="#estados-y-recuperacion" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><code>state</code></th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ready</code></td>
+<td>Al día, o poniéndose al día</td>
+</tr>
+<tr>
+<td><code>backpressure</code></td>
+<td>Se alcanzó la capacidad de la cola: la preparación se detiene en su posición y continúa cuando terminan entregas. Solo cuentan las entregas en espera y en curso, y una suscripción solo puede llenar su propia parte</td>
+</tr>
+<tr>
+<td><code>history_lost</code></td>
+<td>La <a href="#retencion">retención</a> eliminó eventos que la suscripción aún no había preparado, típicamente tras una pausa larga. Nunca se saltan en silencio: reconstruya el consumidor y después reinicie la suscripción</td>
+</tr>
+</tbody>
+</table>
+<p>Un tenant suspendido no recibe nada: sus suscripciones se pausan y continúan al
+reactivarse, suspensión incluida. Una pausa —suscripción desactivada o tenant
+suspendido— más larga que la retención termina en <code>history_lost</code>, ya que los
+eventos purgados ya no pueden distinguirse. Eliminar un tenant elimina sus suscripciones
+y sus entregas. Solo la retención del flujo completo puede llevar una
+suscripción a <code>history_lost</code>.</p>
+<h3 id="supervision">Supervisión<a class="headerlink" href="#supervision" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Métrica</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xolo_webhook_attempts_total</code></td>
+<td>Intentos de este proceso</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_failures_total{reason}</code></td>
+<td>Fallos de este proceso, por diagnóstico</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_queue{state}</code></td>
+<td>Entregas de la base de datos, por estado</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_lag_seconds{stage}</code></td>
+<td>Antigüedad del evento más antiguo aún no preparado (<code>materialization</code>) o entregado (<code>delivery</code>)</td>
+</tr>
+<tr>
+<td><code>xolo_webhook_history_lost</code>, <code>xolo_webhook_backpressure</code></td>
+<td>Suscripciones en ese estado</td>
+</tr>
+</tbody>
+</table>
+<p>Los indicadores describen toda la base de datos y los muestrea cada proceso:
+tome su máximo entre réplicas, no su suma. Ninguna etiqueta lleva un tenant, un
+destino ni un evento. Alerte ante un retraso sostenido, ante los fallos y ante
+cualquier <code>history_lost</code>.</p>
+<h2 id="extensiones-xolo">Extensiones Xolo<a class="headerlink" href="#extensiones-xolo" title="Permanent link">&para;</a></h2>
+<p>Las operaciones propias de Xolo están bajo <code>/v1/xolo</code>. Sus cuerpos son JSON en
+camelCase, las marcas de tiempo RFC 3339, las colecciones tienen el formato
+<code>{"items": […], "page": 1, "limit": 50, "total": 123}</code> y los campos desconocidos
+se rechazan.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/healthz</code></td>
+<td>También detrás de mTLS</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/permissions</code></td>
+<td>El catálogo RBAC: única fuente de códigos de permiso válidos</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants</code></td>
+<td><code>?slug=</code> para una búsqueda exacta; si no, <code>?page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}</code></td>
+<td><code>name</code>, <code>description</code>, <code>active</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations</code></td>
+<td><code>?slug=</code> para una búsqueda exacta; si no, <code>?page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PATCH</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td><code>name</code>, <code>description</code>, <code>active</code>, <code>currency</code>, <code>shareQuotaEqually</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/members</code></td>
+<td>Paginado</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/members/{membershipID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/members/{membershipID}/roles</code></td>
+<td>Reemplazo completo de los roles</td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles[/{key}]</code></td>
+<td>Roles personalizados: véase <em>Recursos de negocio</em></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/builtin</code></td>
+<td>Roles integrados</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/users</code></td>
+<td><code>?provider=&amp;subject=</code> para una búsqueda exacta; si no, <code>?search=&amp;active=&amp;page=&amp;limit=</code></td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/users</code></td>
+<td>Upsert idempotente sobre <code>(provider, subject)</code>: <code>201</code> al crear, <code>200</code> si no</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/users/{userID}</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/ownership</code></td>
+<td>Autoridad de escritura efectiva de cada familia</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/adoption/export</code></td>
+<td>Exportación de adopción, flujo NDJSON: véase <em>Autoridad de escritura, adopción y desvinculación</em></td>
+</tr>
+</tbody>
+</table>
+<h2 id="recursos-de-negocio">Recursos de negocio<a class="headerlink" href="#recursos-de-negocio" title="Permanent link">&para;</a></h2>
+<p>Seis familias propias de Xolo siguen el mismo contrato que las familias
+comunes: lectura unitaria con <code>ETag</code>, listas paginadas, <code>PUT</code> condicionales y
+eventos. El manifiesto anuncia <code>business_resources</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/team-settings[/{teamID}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/applications[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/alerts[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/providers[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/quotas[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles</code> — crea un rol personalizado con una clave elegida por el servidor; responde <code>201</code> con <code>{key, representation, etag}</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/roles/builtin</code> — los roles integrados, <code>{"items":[{"id","builtin_kind","name"}]}</code>, para <code>PUT …/members/{membershipID}/roles</code></td>
+</tr>
+</tbody>
+</table>
+<p>Las representaciones están en snake_case y son completas: cada campo es
+obligatorio, <code>null</code> solo donde se indica.</p>
+<table>
+<thead>
+<tr>
+<th>Familia</th>
+<th>Representación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom_role</code></td>
+<td><code>{"name","description","permissions":[…]}</code></td>
+</tr>
+<tr>
+<td><code>team_settings</code></td>
+<td><code>{"description","share_quota_equally","model_grants":[{"model_id","kind"}],"middleware_ids":[…],"member_roles":[{"user_id","role_ids":[…]}]}</code></td>
+</tr>
+<tr>
+<td><code>application</code></td>
+<td><code>{"name","description","active","role_ids":[…]}</code>, más un <code>"team_id"</code> opcional (vacío para ningún equipo)</td>
+</tr>
+<tr>
+<td><code>quota</code></td>
+<td><code>{"scope","scope_id","currency","daily_budget","monthly_budget","yearly_budget"}</code>, presupuestos en microcéntimos o <code>null</code>, más un <code>"cascade"</code> opcional (<code>free</code> por defecto, <code>capped</code> o <code>split</code>)</td>
+</tr>
+<tr>
+<td><code>alert</code></td>
+<td><code>{"name","description","scope","owner_id","query","aggregation","window_seconds","comparator","threshold","for_seconds","enabled"}</code></td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, los tres últimos <code>null</code> u objetos, más <code>"api_key"</code> de solo escritura y <code>"request_headers"</code> opcional: <code>null</code> o <code>{"headers":{"Nombre":"valor"},"session_header":"x-opencode-session"}</code>, las cabeceras que exige una pasarela (se rechazan los valores vacíos y las cabeceras de autenticación, de cookies, de transporte y de reenvío)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Claves.</strong> Un recurso nuevo se crea con un UUID canónico elegido por el
+  cliente. Un recurso creado desde la interfaz web conserva su identificador
+  local, aceptado en lectura y actualización, nunca en creación. Los eventos y
+  los elementos de lista llevan la clave en <code>key.resource_id</code>, con
+  <code>key.organization_id</code> salvo para las cuotas.</li>
+<li><strong>Padres.</strong> Cada referencia se comprueba en la transacción de la escritura.
+  Un grant de equipo designa un modelo de la organización (y, para un modelo
+  LLM, un proveedor de la organización); <code>middleware_ids</code> designa middlewares
+  de la organización, y un equipo no puede quitar, ni ser eliminado con, un
+  middleware que solo él tiene (<code>409</code>), ya que entonces se aplicaría a toda la
+  organización; un usuario de <code>member_roles</code> es un miembro del equipo, y
+  sus <code>role_ids</code>, como los de una aplicación, designan roles de la
+  organización, pero a diferencia de estos nunca un rol integrado (<code>422</code>); <code>team_id</code> designa un equipo de la organización; una cuota
+  limita una organización del tenant, un miembro del tenant, una aplicación o
+  un equipo de una de sus organizaciones, o un miembro de un equipo (ámbito
+  <code>team_member</code>, <code>scope_id</code> <code>&lt;team_id&gt;:&lt;user_id&gt;</code>); el propietario de una alerta es un
+  miembro activo de la organización, obligatorio para una alerta <code>personal</code>.
+  Un padre ausente o ajeno responde <code>404 parent_not_found</code>; un recurso de otra
+  organización o de otro tenant responde <code>404 not_found</code>, como uno ausente.</li>
+<li><strong>Campos inmutables.</strong> El <code>scope</code> y el <code>scope_id</code> de una cuota, el <code>scope</code> y
+  el <code>owner_id</code> de una alerta nunca cambian (<code>409 conflict</code>). Un ámbito tiene una sola cuota: otra clave sobre el mismo
+  ámbito responde <code>409 conflict</code>.</li>
+<li><strong>Los ajustes de un equipo</strong> existen exactamente cuando existe el equipo: el
+  contrato común crea y elimina el equipo, véase <a href="#equipos">Equipos</a>, un <code>PUT</code>
+  de ajustes sobre un equipo ausente responde <code>404 parent_not_found</code>, y la
+  colección no tiene <code>DELETE</code>. <code>member_roles</code> lista los miembros del equipo que
+  tienen roles en él; un miembro omitido, o listado sin rol, no tiene ninguno.
+  Su autoridad de escritura es la de la familia <code>team</code>.</li>
+<li><strong>Reparto de los presupuestos.</strong> El <code>cascade</code> de una cuota de organización o
+  de equipo restringe las cuotas de sus equipos o de sus miembros al
+  escribirlas: <code>capped</code>, cada una como máximo igual a la del padre, período por
+  período; <code>split</code>, su suma como máximo igual a la del padre. Una cuota que la
+  incumple, hija o padre, responde <code>422</code>. Solo las cuotas <code>org</code> y <code>team</code> llevan
+  un valor distinto de <code>free</code>.</li>
+<li><strong>Normalización.</strong> Permisos, grants e identificadores de roles se ordenan y
+  deduplican: una repetición en otro orden no cambia nada.</li>
+<li><strong>El estado de ejecución queda fuera del contrato.</strong> Un <code>PUT</code> de cuota
+  conserva el consumo ya registrado. El estado de evaluación de una alerta no
+  se devuelve ni se publica; un cambio de la alerta la reinicia desde <code>ok</code>,
+  como una edición en la interfaz web. Los roles integrados no forman parte de
+  la colección: escribir uno responde <code>409 conflict</code>.</li>
+<li><strong>Las claves de API de los proveedores son de solo escritura.</strong> <code>api_key</code> es
+  obligatoria al crear y se conserva cuando se omite. Se cifra con
+  <code>XOLO_SECRET_KEY</code> y nunca aparece en una respuesta, una proyección, un evento
+  ni en claro en la auditoría: una rotación no cambia ningún <code>ETag</code> ni publica
+  ningún evento, pero la auditoría registra el cambio de una huella del
+  cifrado.</li>
+<li><strong>Las eliminaciones son inmediatas</strong>: <code>DELETE …/{key}</code> responde <code>204</code>, con
+  un <code>If-Match</code> opcional, y publica <code>&lt;family&gt;.deleted.v1</code>. Eliminar un recurso
+  ausente, o el de otra organización, no cambia nada, salvo que <code>If-Match</code>
+  designe una revisión (<code>412</code>). Eliminar una aplicación retira sus roles, sus
+  tokens y su cuota; un proveedor, sus modelos; una cuota conserva el consumo
+  registrado en su ámbito. Un rol integrado se rechaza (<code>409 conflict</code>). Un
+  ámbito congelado las rechaza todas (<code>409 resource_deleted</code>). No dependen de
+  <code>XOLO_LIFECYCLE_ENABLED</code>. Los tokens de aplicación siguen gestionándose
+  localmente.</li>
+<li>Las escrituras de la interfaz web también publican sus eventos. La migración
+  <code>202610120001</code> proyecta los recursos de negocio existentes sin publicar
+  eventos; como las anteriores, exige detener todos los servidores.</li>
+<li>La migración <code>202610150002</code> introduce los equipos: cada rol personalizado que
+  autorizaba modelos se convierte en un equipo, publicado con
+  <code>team.created.v1</code>, y las representaciones de los roles (sin <code>model_grants</code>),
+  de las aplicaciones (con <code>team_id</code>) y de las cuotas (con <code>cascade</code>) se
+  publican de nuevo cuando cambian.</li>
+<li>La migración <code>202610200001</code> lleva los equipos al contrato común, también con
+  todos los servidores detenidos. Equipos y miembros de equipo reciben un
+  estado, <code>active</code>. Un equipo creado localmente con un xid recibe un UUID: lo
+  que tiene vinculado (grants, middlewares, miembros, roles, aplicaciones,
+  tokens, invitaciones, modelos personales, registros de uso, presupuestos) lo
+  sigue, y el flujo publica la eliminación de la clave anterior y la creación
+  de la nueva. Cada equipo se publica después como recursos <code>team</code>,
+  <code>team_settings</code> y <code>team_membership</code>; la antigua ruta <code>/v1/xolo/…/teams</code>, que
+  incluía los miembros, desaparece.</li>
+</ul>
+<p>Límite conocido: la caché de cada proceso mantiene válidos los tokens de una
+aplicación desactivada hasta que caducan sus entradas
+(<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>): una escritura mediante este
+listener solo vacía la caché de su propio proceso.</p>
+<h2 id="autoridad-de-escritura-adopcion-y-desvinculacion">Autoridad de escritura, adopción y desvinculación<a class="headerlink" href="#autoridad-de-escritura-adopcion-y-desvinculacion" title="Permanent link">&para;</a></h2>
+<p>Cada familia del contrato común, así como las suscripciones webhook, tiene una
+<strong>autoridad de escritura</strong>: la instancia local (interfaz web, inicio de sesión,
+invitaciones), el plano de control (este listener) o ambos.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_OWNERSHIP</code></td>
+<td>—</td>
+<td>Pares <code>familia=autoridad</code> separados por comas. Familias: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, y las familias de negocio <code>provider</code>, <code>custom_role</code>, <code>application</code>, <code>quota</code>, <code>alert</code>; <code>team</code> gobierna también los ajustes de equipo. Autoridades: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Las familias omitidas valen <code>shared</code>; una familia o autoridad desconocida impide el arranque</td>
+</tr>
+</tbody>
+</table>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>XOLO_OWNERSHIP=tenant=control_plane,tenant_domain=control_plane,organization=control_plane,member=control_plane,organization_membership=control_plane,subscription=control_plane
+</span></code></pre></div>
+<ul>
+<li><code>shared</code>, el valor por defecto, conserva el comportamiento anterior: ambos
+  escriben.</li>
+<li><code>local</code> rechaza las escrituras de este listener con <code>403 ownership_denied</code>.</li>
+<li><code>control_plane</code> rechaza las escrituras locales: la interfaz web responde
+  <code>403</code>, tanto en páginas completas como en fragmentos htmx. Las invitaciones
+  producen pertenencias: crearlas, revocarlas o aceptarlas depende de
+  <code>organization_membership</code>.</li>
+</ul>
+<p>La política rige la <strong>representación pública</strong> de los recursos, la que
+devuelve <code>GET</code>. Se comprueba en la transacción de la escritura, en cada
+proyección que la escritura modifica, cascadas incluidas: eliminar un tenant
+cuyos miembros dependen de otra autoridad se rechaza en bloque, sin eliminar
+ni publicar nada. Los campos fuera del contrato siguen siendo locales sea cual
+sea la política: roles de plataforma, moneda y reparto de cuota de una
+organización, modelos, modelos virtuales, middlewares y tokens de
+aplicación. Las cuentas de aplicación y los tokens de API
+siguen siendo utilizables, y las lecturas conservan sus permisos.
+<code>GET /v1/xolo/ownership</code> devuelve la política efectiva, y el manifiesto anuncia
+<code>ownership</code>.</p>
+<p>Una autoridad de escritura nunca concede un privilegio: los administradores de
+plataforma siguen protegidos (<code>409 platform_admin_protected</code>) cuando el plano
+de control gestiona los miembros.</p>
+<p>La política se lee al arrancar; no se almacena en la base de datos. Detenga
+<strong>todos</strong> los servidores y workers antes de cambiarla, y reinicie cada réplica
+con el mismo valor: una réplica que aún ejecuta una política anterior sigue
+aceptando las escrituras que esta permite. Cada proceso registra su política
+efectiva al arrancar (<code>write authority policy</code>). Los comandos de operador fuera
+de línea (<code>xolo-migrate</code>, <code>xolo-adoption</code>) tienen la autoridad de la base de
+datos y no comprueban ninguna política.</p>
+<h3 id="miembros-gestionados">Miembros gestionados<a class="headerlink" href="#miembros-gestionados" title="Permanent link">&para;</a></h3>
+<p>Con <code>member=control_plane</code>, un inicio de sesión solo resuelve los miembros que
+el plano de control declaró:</p>
+<ul>
+<li>vincula la identidad probada a un miembro existente — su identidad
+  declarada y luego un email verificado — sin modificar su proyección;</li>
+<li>nunca copia el email ni el nombre visible del proveedor de identidad: se
+  conserva el perfil declarado;</li>
+<li>no crea ninguna cuenta, digan lo que digan
+  <code>XOLO_HTTP_AUTHN_AUTO_CREATE_USERS</code> o una invitación pendiente, salvo para los
+  administradores por defecto, que inicializan la instancia, y las cuentas de
+  aplicación. Cualquier otra identidad se rechaza con <code>403</code>.</li>
+</ul>
+<h3 id="exportacion-de-adopcion">Exportación de adopción<a class="headerlink" href="#exportacion-de-adopcion" title="Permanent link">&para;</a></h3>
+<p><code>GET /v1/xolo/adoption/export</code>, al igual que <code>xolo-adoption export</code>, transmite
+en flujo el inventario de la instancia: cada proyección de las familias comunes y de
+negocio de todos los tenants, recursos suspendidos incluidos, leídas sobre una misma
+instantánea coherente sin tomar ningún bloqueo. El formato, <code>xolo-adoption/1</code>,
+es NDJSON (<code>application/x-ndjson</code>):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>…
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
+</span></code></pre></div>
+<ul>
+<li>Los registros siguen el orden de <code>families</code>, padres antes que hijos; <code>key</code>,
+  <code>representation</code> y <code>etag</code> son los que devuelve <code>GET</code>.</li>
+<li><code>c0</code> es un cursor de <code>/v1/events</code> tomado sobre la misma instantánea: los
+  eventos posteriores son exactamente los cambios ausentes de la exportación.</li>
+<li><code>sha256</code> es el SHA-256 hexadecimal en minúsculas de los bytes exactos de
+  todas las líneas anteriores a la última, saltos de línea incluidos. Detecta
+  la corrupción y el truncamiento, no un reemplazo deliberado: el transporte y
+  los permisos del archivo establecen su procedencia.</li>
+<li>Una exportación interrumpida carece de su última línea, y la verificación la
+  rechaza.</li>
+<li>La exportación contiene emails de contacto e identidades declaradas:
+  protéjala como la base de datos. No contiene ningún vínculo de inicio de
+  sesión no declarado, sesión, token, secreto ni entrada de auditoría.
+  <code>verify</code> también acepta una exportación que solo enumera las cinco familias
+  comunes, producida antes de las familias de negocio.</li>
+</ul>
+<p><code>xolo-adoption verify -in &lt;archivo&gt;</code> (<code>-in -</code> lee la entrada estándar)
+comprueba la suma de verificación, el número de registros, la versión y el
+contrato de la cabecera, la sintaxis de las claves, los estados, los
+duplicados y que cada padre preceda a sus hijos, conservando solo las claves en
+memoria. Muestra la fuente, <code>c0</code> y el número de registros de cada familia.</p>
+<h3 id="adoptar-una-instancia">Adoptar una instancia<a class="headerlink" href="#adoptar-una-instancia" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Pruebe un inicio de sesión real de administrador de plataforma y haga una
+   copia de seguridad de la base de datos. Deje todas las familias en
+   <code>shared</code>.</li>
+<li>Exporte (<code>xolo-adoption export -out /secure/inventory.ndjson</code> con
+   <code>XOLO_STORAGE_DATABASE_DSN</code>, o la ruta anterior), verifique el archivo y
+   prepárelo en el plano de control, conservando los UUID calificados por la
+   <code>source</code> del flujo. Resuelva las colisiones de slug, dominio y email en el
+   plano de control sin cambiar ningún identificador.</li>
+<li>Reproduzca <code>/v1/events</code> desde <code>c0</code> hasta ponerse al día. Un
+   <code>410 cursor_expired</code> obliga a empezar de nuevo desde una nueva exportación.</li>
+<li>Detenga todos los servidores y workers, ponga al día el flujo una última
+   vez, defina <code>XOLO_OWNERSHIP</code> y reinicie cada réplica. Compruebe
+   <code>GET /v1/xolo/ownership</code>, el rechazo de una escritura local y un inicio de
+   sesión de administrador. No se reescribe ningún recurso.</li>
+</ol>
+<h3 id="desvincular-una-instancia">Desvincular una instancia<a class="headerlink" href="#desvincular-una-instancia" title="Permanent link">&para;</a></h3>
+<p>La desvinculación devuelve la instancia a su administración local.</p>
+<ol>
+<li>Pruebe un inicio de sesión de administrador de plataforma que siga siendo
+   utilizable sin el plano de control y haga una copia de seguridad de la base
+   de datos.</li>
+<li>Detenga todos los servidores, workers y demás escritores de la base de
+   datos.</li>
+<li>Ejecute:</li>
+</ol>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span>…<span class="w"> </span>xolo-adoption<span class="w"> </span>detach<span class="w"> </span>-writers-stopped<span class="w"> </span>-operator-access-verified
+</span></code></pre></div>
+<ol>
+<li>Retire los valores <code>control_plane</code> de <code>XOLO_OWNERSHIP</code> y reinicie cada
+   réplica; después compruebe un inicio de sesión y una escritura local.</li>
+</ol>
+<p>El comando se niega a ejecutarse si ningún administrador de plataforma activo
+de un tenant activo tiene un vínculo de inicio de sesión. En una sola
+transacción, elimina cada suscripción webhook, sus secretos cifrados y sus
+entregas pendientes, registra una entrada de auditoría que nombra al operador
+(<code>urn:xolo:operator:&lt;uid&gt;</code>) e indica cuántas suscripciones y entregas eliminó.
+Recursos, UUID, identidades declaradas, vínculos de inicio de sesión,
+auditoría, flujo de eventos y su fuente permanecen intactos. Un webhook ya
+enviado no puede recuperarse. Las dos opciones dan fe de las comprobaciones
+anteriores: el comando no puede detener otros procesos.</p>
+<p><code>xolo-adoption</code> se distribuye junto a <code>xolo-server</code> en las releases y las
+imágenes de contenedor (<code>/usr/local/bin/xolo-adoption</code>). <code>export</code> y <code>verify</code>
+solo leen, y ninguna acción migra el esquema: utilice el binario de la versión
+que migró la base de datos.</p>
+<h2 id="ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos<a class="headerlink" href="#ciclo-de-vida-de-los-recursos" title="Permanent link">&para;</a></h2>
+<p>Los dominios, las pertenencias y los recursos de negocio se eliminan de
+inmediato. Un tenant, una organización o un miembro contiene datos que un
+cliente puede necesitar conservar: su eliminación es diferida. <code>DELETE</code> la
+registra, lo que <strong>congela</strong> el recurso y todo lo que contiene; el cliente
+exporta el ámbito, confirma la exportación con su resumen, y la instancia
+purga el ámbito una vez transcurrida la retención.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Por defecto</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_LIFECYCLE_ENABLED</code></td>
+<td><code>false</code></td>
+<td>Permite registrar eliminaciones, instala las protecciones en base de datos de los ámbitos congelados y ejecuta el worker de purga</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_RETENTION</code></td>
+<td><code>720h</code></td>
+<td>Tiempo durante el que un recurso eliminado permanece congelado antes de poder purgarse, de 1 s a 3650 días</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_POLL_INTERVAL</code></td>
+<td><code>1m</code></td>
+<td>Frecuencia con la que el worker de purga busca eliminaciones vencidas, de 1 s a 1 h</td>
+</tr>
+<tr>
+<td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
+<td><code>1000</code></td>
+<td>Filas eliminadas por una transacción de purga, de 1 a 100 000</td>
+</tr>
+</tbody>
+</table>
+<p>Con <code>P</code> una de las rutas <code>/v1/tenants/{tenantID}</code>,
+<code>/v1/tenants/{tenantID}/organizations/{orgID}</code> y
+<code>/v1/tenants/{tenantID}/members/{memberID}</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Respuesta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>P</code>, <code>If-Match</code> opcional</td>
+<td><code>202</code> con la eliminación y el <code>ETag</code> del recurso congelado; un <code>DELETE</code> repetido devuelve la misma eliminación</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>P/deletion</code></td>
+<td><code>200</code> con la eliminación y su <code>ETag</code></td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>P/deletion/export</code></td>
+<td><code>200</code>, la exportación del ámbito como flujo NDJSON</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>P/purge-confirmation</code>, <code>If-Match</code> obligatorio, <code>{"export_sha256": "…"}</code></td>
+<td><code>200</code> con la eliminación confirmada</td>
+</tr>
+</tbody>
+</table>
+<p>Una eliminación se lee así:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="nt">&quot;resource_type&quot;</span><span class="p">:</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="nt">&quot;tenant_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;resource_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w"> </span><span class="nt">&quot;deleted_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purge_after&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;etag&quot;</span><span class="p">:</span><span class="s2">&quot;W/\&quot;42\&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w"> </span><span class="nt">&quot;export_sha256&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;confirmed_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purged_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;attempts&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;diagnostic&quot;</span><span class="p">:</span><span class="s2">&quot;purged&quot;</span><span class="p">}</span>
+</span></code></pre></div>
+<p><code>etag</code> está presente hasta la purga; <code>export_sha256</code> y <code>confirmed_at</code> una vez
+confirmada la exportación; <code>purged_at</code>, y <code>purged_with</code> para un recurso
+purgado con su tenant, una vez hecha la purga. <code>diagnostic</code> vale
+<code>purge_failed</code> tras un intento fallido, que el worker repite.</p>
+<ul>
+<li><strong>Congelar</strong> un recurso lo desactiva, lo que lo publica como <code>suspended</code>
+  con un evento <code>updated</code>, y registra su eliminación en la misma transacción.
+  Comprueba la condición <code>If-Match</code> y la autoridad de escritura de cada
+  familia que contiene el ámbito. Rechaza el último propietario activo de un
+  tenant o de una organización viva (<code>409 last_owner</code>), el tenant <code>default</code>,
+  y un administrador de plataforma o un tenant que lo contenga
+  (<code>409 platform_admin_protected</code>). Un tenant congelado pierde enseguida sus
+  sesiones OIDC; un miembro congelado las conserva, pero su cuenta desactivada
+  se rechaza en cada petición. El <code>ETag</code> de la eliminación es la revisión del
+  recurso congelado: ya no cambia.</li>
+<li><strong>Un ámbito congelado es de solo lectura.</strong> Toda escritura de una fila que
+  contiene se rechaza, sea quien sea su autor: API (<code>409 resource_deleted</code>),
+  interfaz web (<code>403</code>), workers y SQL directo. Abarca el tenant, sus dominios,
+  organizaciones y usuarios; una organización con sus roles, aplicaciones,
+  tokens, proveedores, modelos, cuotas, alertas, consumo, eventos, secretos e
+  invitaciones; un miembro con sus pertenencias, preferencias, secretos
+  personales, alertas, cuota y consumo. Un congelamiento es definitivo. Los
+  webhooks de un tenant congelado ya no se preparan ni se entregan, y sus
+  suscripciones ya no pueden cambiar; la desvinculación las conserva. La
+  evaluación de alertas y la expulsión de eventos ignoran los ámbitos
+  congelados.</li>
+<li><strong>La exportación</strong> (<code>xolo-deletion/1</code>) contiene cada fila del ámbito, tabla
+  por tabla, y las auditorías de sus recursos, leídas en una sola instantánea
+  y transmitidas fila a fila. Los secretos quedan fuera: claves de los
+  proveedores, valores de los tokens, secretos de los plugins y de los
+  webhooks, sesiones OIDC y entregas en cola.</li>
+</ul>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>{&quot;format&quot;:&quot;xolo-deletion/1&quot;,&quot;source&quot;:…,&quot;deletion&quot;:{…,&quot;etag&quot;:…}}
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>{&quot;table&quot;:&quot;organizations&quot;,&quot;row&quot;:{…}}          (una por fila)
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>{&quot;count&quot;:…,&quot;complete&quot;:true,&quot;sha256&quot;:…}
+</span></code></pre></div>
+<p>El SHA-256 del trailer cubre todas las líneas anteriores, saltos de línea
+  incluidos; una exportación sin trailer fue interrumpida. Nada en ella
+  depende del momento en que se produce: dos exportaciones de la misma
+  eliminación dan los mismos bytes.
+- <strong>La confirmación</strong> lleva el <code>sha256</code> del trailer, bajo un <code>If-Match</code>
+  explícito sobre la eliminación (<code>*</code> o su ausencia dan
+  <code>428 precondition_required</code>). El servidor vuelve a exportar el ámbito y
+  compara: un resumen distinto da <code>409 export_mismatch</code>. Ocurre cuando la
+  purga de otra eliminación ha retirado entretanto filas de este ámbito, por
+  ejemplo un miembro de una organización eliminada purgado primero: vuelva a
+  exportar y confirme el nuevo resumen. Una confirmación repetida con el mismo
+  resumen devuelve la eliminación; otro resumen, una vez confirmada, da
+  <code>409 export_mismatch</code>.
+- <strong>La purga</strong> se ejecuta en cada réplica, cada
+  <code>XOLO_LIFECYCLE_POLL_INTERVAL</code>, sobre las eliminaciones confirmadas cuyo
+  <code>purge_after</code> ha pasado. Cambiar <code>XOLO_LIFECYCLE_RETENTION</code> nunca acorta una
+  eliminación ya registrada. Un tenant se lleva las eliminaciones de sus
+  organizaciones y miembros. La purga retira, en transacciones cortas que
+  reanuda tras una caída:
+  1. las proyecciones del ámbito, los eventos que las conciernen y las
+     entregas webhook en cola para esos eventos, y luego publica
+     <code>&lt;family&gt;.deleted.v1</code>: un tenant solo para sí mismo, una organización
+     para sí y las cuotas que tenía, un miembro para sí, sus pertenencias, su
+     cuota y sus alertas personales;
+  2. cada fila del ámbito, primero los hijos, por lotes de
+     <code>XOLO_LIFECYCLE_PURGE_BATCH</code>;
+  3. las auditorías de sus recursos. Las auditorías de las operaciones de un
+     miembro purgado se conservan, con un actor anonimizado; las alertas
+     compartidas de las que era propietario pierden su propietario
+     (<code>alert.updated.v1</code>).
+- <strong>El suelo del flujo nunca se mueve.</strong> Los eventos retirados dejan un hueco
+  en la secuencia, que ningún consumidor necesita: el evento <code>deleted</code> final
+  da el resultado. Ninguna otra suscripción pierde su historial ni sus
+  entregas en cola.
+- <strong>Los identificadores se retiran.</strong> Una eliminación purgada sigue
+  registrada, junto con las de las organizaciones y miembros de un tenant
+  purgado: sus UUID se rechazan para siempre (<code>409 resource_deleted</code>), para
+  que ningún cliente confunda un recurso nuevo con el purgado. No se conserva
+  nada más: ni email, ni identidad.
+- <strong>Las protecciones</strong> son triggers, instalados al arrancar solo si el ciclo
+  de vida está activado. Desactivado, se retiran, salvo que haya una
+  eliminación registrada: una instancia que nunca congeló nada no paga nada, y
+  los congelamientos existentes siguen protegidos. Desactivado, las rutas
+  responden <code>409 lifecycle_disabled</code> y no se purga nada.
+- <strong>Ningún bloqueo global.</strong> Un congelamiento bloquea la fila que congela; una
+  escritura bloquea las filas de su tenant, organización y miembro, como lo
+  hace una clave foránea. Una escritura solo espera un congelamiento de su
+  propio ámbito y luego falla; una escritura confirmada antes se conserva. Una
+  transacción de purga bloquea su eliminación y las de su tenant, cuyas
+  protecciones solo ella omite hasta confirmarse; la purga de un tenant nunca
+  espera a otro tenant.</p>
+<p>Una organización suspendida ya no concede nada: sus pertenencias, los permisos
+de sus aplicaciones y sus tokens se rechazan, y el proxy no sirve ninguno de
+sus modelos, administradores de plataforma incluidos.</p>
+<p>La interfaz web sigue eliminando tenants, organizaciones y miembros de
+inmediato, sin exportación.</p>
+<h2 id="errores">Errores<a class="headerlink" href="#errores" title="Permanent link">&para;</a></h2>
+<p>Todos los errores comparten el formato <code>{"error":{"code":"…","message":"…"}}</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Código</th>
+<th>HTTP</th>
+<th>Causa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>invalid_parameter</code></td>
+<td>400</td>
+<td>Identificador que no es un UUID canónico, o parámetro de consulta que una ruta común no define</td>
+</tr>
+<tr>
+<td><code>invalid_cursor</code></td>
+<td>400</td>
+<td>Cursor alterado, vacío o emitido para otra colección, otro límite o el flujo</td>
+</tr>
+<tr>
+<td><code>invalid_precondition</code></td>
+<td>400</td>
+<td><code>If-Match</code> mal formado, o <code>If-None-Match</code></td>
+</tr>
+<tr>
+<td><code>invalid_json</code></td>
+<td>400</td>
+<td>Ruta común: JSON mal formado, campo desconocido, valor que no es cadena, Unicode inválido</td>
+</tr>
+<tr>
+<td><code>invalid_representation</code></td>
+<td>400</td>
+<td>Ruta común: campo obligatorio ausente, <code>null</code> o <code>identity</code> de miembro inválida</td>
+</tr>
+<tr>
+<td><code>invalid_hostname</code></td>
+<td>400</td>
+<td>Nombre de host no en minúsculas, con puerto, dirección IP o etiqueta inválida</td>
+</tr>
+<tr>
+<td><code>invalid_request</code></td>
+<td>400</td>
+<td><code>/v1/xolo</code>: cuerpo mal formado, campo desconocido, parámetro de consulta inválido</td>
+</tr>
+<tr>
+<td><code>client_certificate_rejected</code></td>
+<td>403</td>
+<td>Certificado o URI de cliente no autorizado</td>
+</tr>
+<tr>
+<td><code>ownership_denied</code></td>
+<td>403</td>
+<td>La política de autoridad reserva la familia a la instancia local</td>
+</tr>
+<tr>
+<td><code>resource_deleted</code></td>
+<td>409</td>
+<td>El recurso, o un recurso que lo contiene, está congelado por su eliminación</td>
+</tr>
+<tr>
+<td><code>lifecycle_disabled</code></td>
+<td>409</td>
+<td>Eliminación de un tenant, una organización o un miembro con <code>XOLO_LIFECYCLE_ENABLED</code> desactivado</td>
+</tr>
+<tr>
+<td><code>export_mismatch</code></td>
+<td>409</td>
+<td>El resumen confirmado no es el de la exportación actual, u otro resumen ya está confirmado</td>
+</tr>
+<tr>
+<td><code>purge_not_ready</code></td>
+<td>409</td>
+<td>La eliminación no está confirmada, o su retención no ha transcurrido</td>
+</tr>
+<tr>
+<td><code>not_found</code></td>
+<td>404</td>
+<td>Recurso o ruta desconocidos, o recurso de otro tenant u otra organización</td>
+</tr>
+<tr>
+<td><code>parent_not_found</code></td>
+<td>404</td>
+<td>El tenant, la organización o el miembro del que depende el recurso no existe en ese ámbito</td>
+</tr>
+<tr>
+<td><code>method_not_allowed</code></td>
+<td>405</td>
+<td>Recurso conocido, método incorrecto</td>
+</tr>
+<tr>
+<td><code>unsupported_media_type</code></td>
+<td>415</td>
+<td>Ruta común sin <code>Content-Type: application/json</code></td>
+</tr>
+<tr>
+<td><code>conflict</code></td>
+<td>409</td>
+<td>Identificador o nombre de host de otro tenant, slug ya usado, identidad o email de otro miembro o invariante de negocio</td>
+</tr>
+<tr>
+<td><code>last_owner</code></td>
+<td>409</td>
+<td>El cambio dejaría un tenant o una organización sin propietario activo</td>
+</tr>
+<tr>
+<td><code>platform_admin_protected</code></td>
+<td>409</td>
+<td>El cambio afecta a un administrador de plataforma</td>
+</tr>
+<tr>
+<td><code>webhook_capacity</code></td>
+<td>409</td>
+<td>El tenant ya tiene el número máximo de suscripciones webhook</td>
+</tr>
+<tr>
+<td><code>cursor_expired</code></td>
+<td>410</td>
+<td>Cursor de lista de más de 24 horas, o cursor de eventos anterior a los eventos conservados: reconstruya</td>
+</tr>
+<tr>
+<td><code>precondition_failed</code></td>
+<td>412</td>
+<td><code>If-Match</code> no designa la revisión actual</td>
+</tr>
+<tr>
+<td><code>precondition_required</code></td>
+<td>428</td>
+<td>Confirmación de purga sin <code>If-Match</code> explícito</td>
+</tr>
+<tr>
+<td><code>unprocessable</code></td>
+<td>422</td>
+<td>Valor bien formado pero rechazado por el dominio</td>
+</tr>
+<tr>
+<td><code>rate_limited</code></td>
+<td>429</td>
+<td>Presupuesto por URI superado; reintente tras los segundos de <code>Retry-After</code></td>
+</tr>
+<tr>
+<td><code>internal_error</code></td>
+<td>500</td>
+<td>Error inesperado</td>
+</tr>
+</tbody>
+</table>
+<p>Los mensajes siempre se construyen explícitamente: trazas, errores SQL, rutas de
+archivos, detalles TLS y secretos nunca llegan al cliente.</p>
+<h2 id="invariantes">Invariantes<a class="headerlink" href="#invariantes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Una autoridad de escritura nunca concede un privilegio: la política de
+  autoridad solo decide quién puede escribir una familia, y todas las demás
+  invariantes siguen aplicándose.</li>
+<li>El provisioning <strong>nunca</strong> concede ni modifica privilegios de plataforma. Un
+  usuario creado mediante <code>PUT /v1/xolo/tenants/{tenantID}/users</code> o un <code>PUT</code> de
+  miembro recibe exactamente el rol de plataforma <code>user</code>, los roles de
+  plataforma nunca se modifican y un administrador de plataforma no se modifica
+  en absoluto.</li>
+<li>Una identidad designa como máximo una cuenta por tenant. Un inicio de sesión
+  nunca fusiona cuentas, nunca vuelve a vincular una cuenta ya vinculada y nunca
+  vincula a un administrador de plataforma.</li>
+<li>Las direcciones de <code>XOLO_HTTP_AUTHN_DEFAULT_ADMINS</code> están reservadas:
+  escribirlas en un usuario se rechaza con <code>422</code>.</li>
+<li>Un tenant o una organización conserva al menos un propietario activo en cuanto
+  tiene uno.</li>
+<li>Una pertenencia suspendida no concede nada; un dominio o un tenant suspendido
+  no enruta nada.</li>
+<li>Un rol solo puede asignarse a una pertenencia de su organización; si no, <code>422</code>.</li>
+<li>Una pertenencia o un rol de otra organización da <code>404</code>, igual que una
+  organización o un usuario de otro tenant.</li>
+<li>El tenant <code>default</code> conserva su slug y sigue activo.</li>
+<li>Los roles integrados no se pueden modificar ni eliminar.</li>
+<li>El identificador de un tenant, una organización o un miembro purgado nunca se
+  reutiliza.</li>
+<li>Solo se aceptan los códigos de permiso del catálogo RBAC.</li>
+</ul>
+<h2 id="migracion-desde-las-rutas-anteriores">Migración desde las rutas anteriores<a class="headerlink" href="#migracion-desde-las-rutas-anteriores" title="Permanent link">&para;</a></h2>
+<p>Todas las rutas anteriores se han movido o sustituido, sin alias. Los
+identificadores no cambian: un recurso existente se direcciona con su UUID actual.</p>
+<table>
+<thead>
+<tr>
+<th>Antes</th>
+<th>Ahora</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /v1/healthz</code>, <code>GET /v1/permissions</code></td>
+<td><code>GET /v1/xolo/healthz</code>, <code>GET /v1/xolo/permissions</code></td>
+</tr>
+<tr>
+<td><code>GET /v1/tenants</code></td>
+<td><code>GET /v1/xolo/tenants</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/tenants</code> <code>{slug, name, description, active}</code></td>
+<td><code>PUT /v1/tenants/{tenantID}</code> <code>{slug, name, status}</code> con un UUID elegido por usted; <code>description</code> mediante <code>PATCH /v1/xolo/tenants/{tenantID}</code></td>
+</tr>
+<tr>
+<td><code>GET /v1/tenants/{tenantID}</code></td>
+<td><code>GET /v1/xolo/tenants/{tenantID}</code></td>
+</tr>
+<tr>
+<td><code>PATCH /v1/tenants/{tenantID}</code> <code>{name, description, active}</code></td>
+<td><code>PATCH /v1/xolo/tenants/{tenantID}</code> (mismo cuerpo), o <code>PUT /v1/tenants/{tenantID}</code> <code>{slug, name, status}</code></td>
+</tr>
+<tr>
+<td><code>DELETE /v1/tenants/{tenantID}</code></td>
+<td>Misma ruta, ahora diferida: <code>202</code>, luego exportación, confirmación y purga, véase <a href="#ciclo-de-vida-de-los-recursos">Ciclo de vida de los recursos</a>; <code>PUT /v1/tenants/{tenantID}</code> con <code>"status": "suspended"</code> para solo suspender</td>
+</tr>
+<tr>
+<td><code>GET /v1/tenants/{tenantID}/organizations[/{orgID}]</code></td>
+<td><code>GET /v1/xolo/tenants/{tenantID}/organizations[/{orgID}]</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/tenants/{tenantID}/organizations</code> <code>{slug, name, description, currency, active, owner}</code></td>
+<td><code>PUT /v1/tenants/{tenantID}/organizations/{orgID}</code> <code>{slug, name, status}</code>; <code>description</code> y <code>currency</code> mediante <code>PATCH /v1/xolo/…/organizations/{orgID}</code>; el propietario mediante <code>PUT …/organizations/{orgID}/members/{userID}</code> <code>{"role": "owner", "status": "active"}</code>, una vez declarado con <code>PUT …/members/{userID}</code></td>
+</tr>
+<tr>
+<td><code>PATCH /v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td><code>PATCH /v1/xolo/tenants/{tenantID}/organizations/{orgID}</code> (mismo cuerpo)</td>
+</tr>
+<tr>
+<td><code>DELETE /v1/tenants/{tenantID}/organizations/{orgID}</code></td>
+<td>Misma ruta, ahora diferida como un tenant; <code>PUT …/organizations/{orgID}</code> con <code>"status": "suspended"</code> para solo suspender</td>
+</tr>
+<tr>
+<td><code>GET …/organizations/{orgID}/members[/{membershipID}]</code></td>
+<td><code>GET /v1/xolo/…/organizations/{orgID}/members[/{membershipID}]</code></td>
+</tr>
+<tr>
+<td><code>POST …/organizations/{orgID}/members</code> <code>{userId \| user, roleIds, builtinRoles}</code></td>
+<td><code>PUT /v1/tenants/{tenantID}/organizations/{orgID}/members/{userID}</code> <code>{role, status}</code>; roles personalizados mediante <code>PUT /v1/xolo/…/members/{membershipID}/roles</code></td>
+</tr>
+<tr>
+<td><code>PUT …/members/{membershipID}/roles</code></td>
+<td><code>PUT /v1/xolo/…/members/{membershipID}/roles</code> (mismo cuerpo)</td>
+</tr>
+<tr>
+<td><code>DELETE …/members/{membershipID}</code></td>
+<td><code>DELETE /v1/tenants/{tenantID}/organizations/{orgID}/members/{userID}</code>, por el UUID del miembro: <code>204</code>; <code>PUT …</code> con <code>"status": "suspended"</code> para solo suspender</td>
+</tr>
+<tr>
+<td><code>…/organizations/{orgID}/roles[/{roleID}]</code> (todos los métodos)</td>
+<td><code>/v1/xolo/…/organizations/{orgID}/roles[/{key}]</code>, con los cambios siguientes</td>
+</tr>
+<tr>
+<td><code>GET /v1/xolo/…/roles</code> (integrados y personalizados, <code>roleDTO</code> en camelCase)</td>
+<td><code>GET /v1/xolo/…/roles</code> enumera los roles personalizados como página de proyecciones; los roles integrados mediante <code>GET /v1/xolo/…/roles/builtin</code></td>
+</tr>
+<tr>
+<td><code>GET /v1/xolo/…/roles/{roleID}</code> (<code>roleDTO</code> en camelCase)</td>
+<td>Misma ruta: la representación snake_case y su <code>ETag</code></td>
+</tr>
+<tr>
+<td><code>POST /v1/xolo/…/roles</code> <code>{name, description?, permissions?, modelGrants?}</code></td>
+<td>Misma ruta, la representación snake_case completa <code>{name, description, permissions}</code>; <code>201</code> con <code>{key, representation, etag}</code>. El acceso a los modelos pasa por los equipos: <code>/v1/xolo/…/team-settings/{teamID}</code></td>
+</tr>
+<tr>
+<td><code>PUT /v1/xolo/…/roles/{roleID}</code> parcial <code>{name?, description?, permissions?, modelGrants?}</code></td>
+<td>Misma ruta, la representación completa, <code>If-Match</code> opcional; crea el rol con un UUID de su elección</td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>PUT /v1/tenants/{tenantID}/users</code></td>
+<td><code>GET</code>, <code>PUT /v1/xolo/tenants/{tenantID}/users</code> (mismos cuerpos)</td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>PUT</code>, <code>DELETE /v1/xolo/…/organizations/{orgID}/teams[/{key}]</code> (miembros incluidos)</td>
+<td>El equipo por el contrato común, <code>/v1/tenants/{tenantID}/organizations/{orgID}/teams[/{teamID}]</code> <code>{slug, name, status}</code>, cada miembro por <code>…/teams/{teamID}/members/{memberID}</code> <code>{status}</code>, el resto por <code>/v1/xolo/…/team-settings/{teamID}</code></td>
+</tr>
+<tr>
+<td><code>GET /v1/tenants/{tenantID}/users/{userID}</code></td>
+<td><code>GET /v1/xolo/tenants/{tenantID}/users/{userID}</code></td>
+</tr>
+<tr>
+<td><code>PATCH /v1/tenants/{tenantID}/users/{userID}</code> <code>{email, displayName, active}</code></td>
+<td><code>PUT /v1/tenants/{tenantID}/members/{userID}</code> <code>{email, display_name, tenant_role, status}</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Detenga todos los servidores antes de actualizar.</strong> La migración
+<code>202610070001</code> añade los dominios, los roles de tenant y los estados de
+pertenencia. Un servidor antiguo aún activo seguiría enrutando según el patrón
+de host y daría acceso mediante pertenencias suspendidas. La migración no se
+puede revertir. Con <code>XOLO_STORAGE_AUTO_MIGRATE=false</code>, detenga todos los
+escritores, haga una copia de seguridad y ejecute
+<code>bin/migrate apply -writers-stopped</code> antes de arrancar. El servidor realiza la
+expansión de <code>XOLO_MULTITENANCY_HOST_PATTERN</code> en dominios al arrancar, en ambos
+modos.</p>
+<p><strong>La migración <code>202610080001</code> también exige detener todos los servidores.</strong> Crea
+las proyecciones y el flujo de eventos, y da a cada recurso existente su propia
+revisión sin publicar eventos: los consumidores empiezan con un inventario. Un
+servidor antiguo aún activo escribiría sin publicar, y las proyecciones, los
+ETags y el flujo divergirían sin aviso. La migración no se puede revertir.</p>
+<h2 id="transacciones-auditoria-y-correlacion">Transacciones, auditoría y correlación<a class="headerlink" href="#transacciones-auditoria-y-correlacion" title="Permanent link">&para;</a></h2>
+<p>Cada mutación vuelve a comprobar los padres y realiza todas las escrituras en una
+sola transacción. Cualquier error revierte también los cambios de usuarios existentes,
+las asignaciones de roles y la auditoría. PostgreSQL usa <code>SERIALIZABLE</code>; los conflictos
+de escritura SQLite y de serialización PostgreSQL repiten toda la operación con
+esperas limitadas y cancelables. Solo una transacción que modifica una proyección
+toma el bloqueo del flujo, al final (consulte <a href="#almacenamiento-y-rendimiento">Almacenamiento y rendimiento</a>).</p>
+<p><code>mutation_audits</code> guarda un estado anterior y posterior por recurso realmente
+modificado: tenant, dominio, organización, usuario, pertenencia o rol, incluidas asociaciones
+de roles y eliminaciones en cascada. Los cambios sucesivos se agrupan; una operación
+sin cambios no genera auditoría. Los estados excluyen secretos y marcas de tiempo
+técnicas. El historial y su ámbito sobreviven a la eliminación del recurso. Los
+UUID de auditoría no indican el orden de commit. Esta auditoría cubre las
+mutaciones de provisioning y los inicios de sesión que crean, vinculan o
+actualizan una cuenta, con esa cuenta como actor; no las lecturas ni las
+operaciones habituales de la interfaz web. El estado de un usuario incluye su
+identidad declarada: a diferencia de los eventos, la tabla de auditoría la
+contiene.</p>
+<p><code>X-Request-ID</code> debe contener un único valor de 32 caracteres hexadecimales en
+minúsculas. Si falta, se repite o es inválido, se genera otro. El valor seleccionado
+se devuelve en la respuesta y se usa en logs, auditoría y eventos, sin cambiar en
+los reintentos. El URI del actor procede exclusivamente del certificado autorizado.
+Las llamadas internas sin actor HTTP usan <code>urn:xolo:operator:local</code> y una correlación
+generada al inicio de la operación.</p>
+<p>Los eventos locales de miembros y roles mantienen sus tipos y mensajes, incluidos
+los eventos distintos de alta del miembro y asignación de roles. Se emiten solo
+tras el commit mediante el mecanismo asíncrono existente; no son una outbox durable.
+La auditoría, las proyecciones y el flujo de eventos se persisten de forma
+atómica con el cambio. Las lecturas transaccionales acceden
+a la base directamente. Tras el commit se invalidan los usuarios afectados, sus
+claves secundarias y los tokens eliminados en cascada en la caché compartida.</p>
+<p>La migración <code>202610060001</code> sigue a la migración UUID e incluye la tabla de auditoría
+en instalaciones nuevas y actualizaciones. Su rollback rechaza borrar el historial.</p>
+<h2 id="pki-de-desarrollo-y-ejemplo">PKI de desarrollo y ejemplo<a class="headerlink" href="#pki-de-desarrollo-y-ejemplo" title="Permanent link">&para;</a></h2>
+<p>El certificado cliente debe incluir el URI que se configura en la lista autorizada:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Certificate authority</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Server certificate</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># Client certificate</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>bin/server
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># Refused: no client certificate</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># Accepted: read the identifier of the default tenant</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1"># Create an organization with an identifier of your choice</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
+</span></code></pre></div>
+<p>En producción, utilice una autoridad de certificación gestionada (Vault, cert-manager, PKI interna) y rote los certificados de cliente.</p>
+<h2 id="fuera-del-alcance-actual">Fuera del alcance actual<a class="headerlink" href="#fuera-del-alcance-actual" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Los modelos LLM, modelos virtuales, middlewares, tokens de aplicación y parámetros de eventos: siguen gestionándose desde la interfaz web.</li>
+<li>Los alcances por certificado: cualquier URI autorizado administra la instancia completa.</li>
+<li>Todavía no se genera ninguna especificación OpenAPI.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+  
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © Xolo Gateway
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../../..","features":["navigation.sections","navigation.path","navigation.top","navigation.tracking","toc.follow","content.code.copy","search.highlight"],"search":"../../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copiado al portapapeles","clipboard.copy":"Copiar al portapapeles","search.result.more.one":"1 más en esta página","search.result.more.other":"# más en esta página","search.result.none":"No se encontraron documentos","search.result.one":"1 documento encontrado","search.result.other":"# documentos encontrados","search.result.placeholder":"Teclee para comenzar búsqueda","search.result.term.missing":"Falta","select.version":"Seleccionar versión"},"version":{"alias":true,"default":"latest","provider":"mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.69c251d7.min.js"></script>
+      
+    
+  </body>
+</html>
