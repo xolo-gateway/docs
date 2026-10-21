@@ -3971,7 +3971,7 @@ only where shown.</p>
 </tr>
 <tr>
 <td><code>provider</code></td>
-<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, the last three <code>null</code> or objects, plus the write-only <code>"api_key"</code></td>
+<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, the last three <code>null</code> or objects, plus the write-only <code>"api_key"</code> and the optional <code>"request_headers"</code>: <code>null</code> or <code>{"headers":{"Name":"value"},"session_header":"x-opencode-session"}</code>, the headers a gateway requires (empty values and credential, cookie, framing and forwarding headers are refused)</td>
 </tr>
 </tbody>
 </table>
