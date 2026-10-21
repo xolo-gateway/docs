@@ -1167,6 +1167,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#en-tetes-de-requete" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        En-têtes de requête
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gestion-des-modeles" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3478,6 +3489,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#en-tetes-de-requete" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        En-têtes de requête
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gestion-des-modeles" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3787,7 +3809,7 @@
 </tr>
 <tr>
 <td><strong>Type</strong></td>
-<td>Type de connexion : <code>openai</code>, <code>anthropic</code>, <code>mistral</code>, <code>openrouter</code></td>
+<td>Type de connexion : <code>openai</code>, <code>openai-responses</code>, <code>anthropic</code>, <code>gemini</code>, <code>mistral</code>, <code>openrouter</code></td>
 </tr>
 <tr>
 <td><strong>URL de base</strong></td>
@@ -4040,6 +4062,13 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 <li><strong>Intervalle minimum</strong> : temps minimal entre deux requêtes</li>
 <li><strong>Capacité de burst</strong> : nombre max de requêtes simultanées autorisées</li>
 </ul>
+<h2 id="en-tetes-de-requete">En-têtes de requête<a class="headerlink" href="#en-tetes-de-requete" title="Permanent link">&para;</a></h2>
+<p>Certaines passerelles exigent des en-têtes que les SDK n'envoient pas. La section <strong>En-têtes de requête</strong> du formulaire du fournisseur, à la création comme à la modification, les configure :</p>
+<ul>
+<li><strong>En-tête de session</strong> : nom de l'en-tête qui porte l'identifiant de la conversation. Xolo y place l'identifiant envoyé par le client : <code>X-Session-Id</code>, ou l'en-tête de Claude Code, de Codex ou d'OpenCode. À défaut, il calcule une empreinte de l'appelant (utilisateur, organisation, jeton) et du premier message de la conversation : elle reste la même d'un tour à l'autre et change d'une conversation à l'autre. Vide, aucun en-tête de session n'est envoyé.</li>
+<li><strong>En-têtes fixes</strong> : ajoutés à chaque requête, ils remplacent ceux du client HTTP, <code>User-Agent</code> compris. Ce ne sont pas des secrets : seule la clé API est chiffrée. Une valeur vide est refusée, comme les en-têtes d'authentification (<code>Authorization</code>, <code>X-Api-Key</code>, <code>X-Goog-Api-Key</code>, <code>Cookie</code>), de transport (<code>Host</code>, <code>Content-Type</code>, <code>Content-Length</code>…) et de transfert (<code>Forwarded</code>, <code>X-Forwarded-For</code>…).</li>
+</ul>
+<p>Ces en-têtes valent pour tous les modèles du fournisseur, quel que soit leur type d'API.</p>
 <h2 id="gestion-des-modeles">Gestion des modèles<a class="headerlink" href="#gestion-des-modeles" title="Permanent link">&para;</a></h2>
 <p>Chaque fournisseur peut exposer un ou plusieurs modèles.</p>
 <h3 id="acceder-aux-modeles">Accéder aux modèles<a class="headerlink" href="#acceder-aux-modeles" title="Permanent link">&para;</a></h3>
@@ -4177,7 +4206,7 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 </tbody>
 </table>
 <p>L'URL de base suit les mêmes règles que celle du fournisseur : URL <code>http</code> ou <code>https</code> absolue, sans identifiants, paramètres (<code>?…</code>) ni fragment (<code>#…</code>).</p>
-<p>Ces deux champs servent aux fournisseurs qui exposent leurs modèles par plusieurs API. OpenCode Go en est un exemple : la plupart de ses modèles passent par l'API OpenAI, mais Qwen, MiniMax et Claude passent par l'API Messages d'Anthropic, sur une autre URL. Déclarez le fournisseur en <code>openai</code> avec l'URL <code>https://opencode.ai/inference/go/openai/v1</code>, puis réglez ces modèles ainsi :</p>
+<p>Ces deux champs servent aux fournisseurs qui exposent leurs modèles par plusieurs API. OpenCode Go en est un exemple : la plupart de ses modèles passent par l'API OpenAI, mais Qwen, MiniMax et Claude passent par l'API Messages d'Anthropic, sur une autre URL. Déclarez le fournisseur en <code>openai</code> avec l'URL <code>https://opencode.ai/inference/go/v1</code>. Elle sert aussi la liste des modèles (<code>/models</code>) dont l'import a besoin, contrairement à <code>https://opencode.ai/inference/go/openai/v1</code>. Réglez ensuite ces modèles ainsi :</p>
 <table>
 <thead>
 <tr>
@@ -4197,12 +4226,31 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 </tbody>
 </table>
 <p>Le reste du fournisseur s'applique au modèle sans changement : clé API, devise, plan d'abonnement, retry et rate limit. Ce que la page dit du type <code>anthropic</code> (<code>max_tokens</code>, <code>extra_body</code>, relais en streaming) vaut pour un tel modèle comme pour un fournisseur de ce type.</p>
-<p>Xolo ne parle pas encore l'API Responses d'OpenAI ni l'API de Google. Les modèles qu'OpenCode Go ne sert que par ces API restent hors de portée pour l'instant. Le catalogue models.dev indique l'API de chaque modèle.</p>
+<p>Les modèles qu'OpenCode Go ne sert que par l'API Responses d'OpenAI (GPT, Grok) prennent le type <code>openai-responses</code>, sur l'URL du fournisseur. Ceux qu'il sert par l'API de Google (Gemini) prennent le type <code>gemini</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Type d'API</strong></td>
+<td><code>gemini</code></td>
+</tr>
+<tr>
+<td><strong>URL de base</strong></td>
+<td><code>https://opencode.ai/inference/go/google/v1beta</code></td>
+</tr>
+</tbody>
+</table>
+<p>OpenCode Go refuse toute requête sans en-tête <code>x-opencode-session</code> et demande aux clients de s'identifier par leur <code>User-Agent</code>. Dans la section <strong>En-têtes de requête</strong> du fournisseur, renseignez <code>x-opencode-session</code> comme <strong>En-tête de session</strong> et ajoutez un en-tête fixe <code>User-Agent</code>, par exemple <code>xolo/1.0</code>. Les modèles marqués <code>contributor</code>, comme Gemini, exigent en plus d'accepter l'entraînement sur les requêtes dans les réglages de confidentialité du compte OpenCode.</p>
 <blockquote>
 <p><strong>Astuce</strong> : Cliquez sur <strong>Pré-remplir depuis models.dev</strong> pour importer automatiquement les informations d'un modèle depuis le catalogue.</p>
 </blockquote>
 <h3 id="importer-les-modeles-du-fournisseur">Importer les modèles du fournisseur<a class="headerlink" href="#importer-les-modeles-du-fournisseur" title="Permanent link">&para;</a></h3>
-<p>Plutôt que de déclarer les modèles un par un, cliquez sur <strong>Importer depuis le fournisseur</strong> sur la page des modèles. Xolo interroge la liste des modèles du fournisseur avec sa clé API : <code>GET &lt;URL de base&gt;/models</code> pour les types <code>openai</code>, <code>mistral</code> et <code>openrouter</code>, <code>GET /v1/models</code> pour le type <code>anthropic</code>. Les autres types n'ont pas de liste à interroger. La page affiche chaque modèle avec une case à cocher. Un modèle que le fournisseur sert déjà sous un autre nom proxy est grisé.</p>
+<p>Plutôt que de déclarer les modèles un par un, cliquez sur <strong>Importer depuis le fournisseur</strong> sur la page des modèles. Xolo interroge la liste des modèles du fournisseur avec sa clé API : <code>GET &lt;URL de base&gt;/models</code> pour les types <code>openai</code>, <code>openai-responses</code>, <code>gemini</code>, <code>mistral</code> et <code>openrouter</code>, <code>GET /v1/models</code> pour le type <code>anthropic</code>. La page affiche chaque modèle avec une case à cocher. Un modèle que le fournisseur sert déjà sous un autre nom proxy est grisé.</p>
 <p>Le champ <strong>Préfixe du nom proxy</strong> est facultatif et ne peut pas contenir de <code>/</code>. Chaque modèle importé prend le nom <code>&lt;préfixe&gt;&lt;identifiant&gt;</code> : avec le préfixe <code>go-</code>, le modèle <code>glm-5.3</code> s'appelle <code>{org-slug}/go-glm-5.3</code>. Un préfixe évite les conflits avec les modèles d'autres fournisseurs. La colonne <strong>Nom proxy</strong> suit le préfixe pendant la saisie et signale un nom déjà pris dans l'organisation, par un modèle ou par un modèle virtuel, ou lu comme le nom d'une équipe.</p>
 <p>Les modèles importés :</p>
 <ul>

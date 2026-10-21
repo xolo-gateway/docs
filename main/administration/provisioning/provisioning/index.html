@@ -4870,7 +4870,7 @@ et événements. Le manifeste annonce <code>business_resources</code>.</p>
 </tr>
 <tr>
 <td><code>provider</code></td>
-<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, les trois derniers <code>null</code> ou objets, plus <code>"api_key"</code> en écriture seule</td>
+<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, les trois derniers <code>null</code> ou objets, plus <code>"api_key"</code> en écriture seule et <code>"request_headers"</code> facultatif : <code>null</code> ou <code>{"headers":{"Nom":"valeur"},"session_header":"x-opencode-session"}</code>, les en-têtes qu'exige une passerelle (les valeurs vides et les en-têtes d'authentification, de cookies, de transport et de transfert sont refusés)</td>
 </tr>
 </tbody>
 </table>
