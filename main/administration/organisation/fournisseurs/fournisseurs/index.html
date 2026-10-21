@@ -1262,6 +1262,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importer-les-modeles-du-fournisseur" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Importer les modèles du fournisseur
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#activer-ou-desactiver-un-modele" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3562,6 +3573,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importer-les-modeles-du-fournisseur" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Importer les modèles du fournisseur
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#activer-ou-desactiver-un-modele" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -4179,6 +4201,17 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 <blockquote>
 <p><strong>Astuce</strong> : Cliquez sur <strong>Pré-remplir depuis models.dev</strong> pour importer automatiquement les informations d'un modèle depuis le catalogue.</p>
 </blockquote>
+<h3 id="importer-les-modeles-du-fournisseur">Importer les modèles du fournisseur<a class="headerlink" href="#importer-les-modeles-du-fournisseur" title="Permanent link">&para;</a></h3>
+<p>Plutôt que de déclarer les modèles un par un, cliquez sur <strong>Importer depuis le fournisseur</strong> sur la page des modèles. Xolo interroge la liste des modèles du fournisseur avec sa clé API : <code>GET &lt;URL de base&gt;/models</code> pour les types <code>openai</code>, <code>mistral</code> et <code>openrouter</code>, <code>GET /v1/models</code> pour le type <code>anthropic</code>. Les autres types n'ont pas de liste à interroger. La page affiche chaque modèle avec une case à cocher. Un modèle que le fournisseur sert déjà sous un autre nom proxy est grisé.</p>
+<p>Le champ <strong>Préfixe du nom proxy</strong> est facultatif et ne peut pas contenir de <code>/</code>. Chaque modèle importé prend le nom <code>&lt;préfixe&gt;&lt;identifiant&gt;</code> : avec le préfixe <code>go-</code>, le modèle <code>glm-5.3</code> s'appelle <code>{org-slug}/go-glm-5.3</code>. Un préfixe évite les conflits avec les modèles d'autres fournisseurs. La colonne <strong>Nom proxy</strong> suit le préfixe pendant la saisie et signale un nom déjà pris dans l'organisation, par un modèle ou par un modèle virtuel, ou lu comme le nom d'une équipe.</p>
+<p>Les modèles importés :</p>
+<ul>
+<li>sont créés désactivés : saisissez leurs coûts avant de les activer, un modèle sans coût n'étant ni valorisé ni limité par les quotas ;</li>
+<li>ont un coût à zéro, la liste du fournisseur ne donnant pas de prix ;</li>
+<li>reprennent la fenêtre de contexte et la sortie maximale quand le fournisseur les indique (Anthropic, OpenRouter) ;</li>
+<li>utilisent le type d'API et l'URL du fournisseur. Un modèle servi par une autre API, comme Qwen chez OpenCode Go, se règle ensuite dans son formulaire (voir <a href="#acces-a-lapi">Accès à l'API</a>).</li>
+</ul>
+<p>Xolo relit la liste du fournisseur au moment de l'import. Un modèle qu'il ne liste plus, ou dont le nom proxy est déjà pris dans l'organisation (modèles désactivés et modèles virtuels compris), est laissé de côté, et la page indique pourquoi, comme pour un modèle que l'enregistrement n'a pas pu créer.</p>
 <h3 id="activer-ou-desactiver-un-modele">Activer ou désactiver un modèle<a class="headerlink" href="#activer-ou-desactiver-un-modele" title="Permanent link">&para;</a></h3>
 <p>Lors de l'édition d'un modèle, utilisez le commutateur <strong>Activé</strong> pour rendre le modèle accessible ou indisponible sans le supprimer.</p>
 <h3 id="supprimer-un-modele">Supprimer un modèle<a class="headerlink" href="#supprimer-un-modele" title="Permanent link">&para;</a></h3>
