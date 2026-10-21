@@ -3962,7 +3962,7 @@ obligatorio, <code>null</code> solo donde se indica.</p>
 </tr>
 <tr>
 <td><code>provider</code></td>
-<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, los tres últimos <code>null</code> u objetos, más <code>"api_key"</code> de solo escritura</td>
+<td><code>{"name","type","base_url","active","currency","cloud_tier","billing_mode","subscription_plan","retry_config","rate_limit_config"}</code>, los tres últimos <code>null</code> u objetos, más <code>"api_key"</code> de solo escritura y <code>"request_headers"</code> opcional: <code>null</code> o <code>{"headers":{"Nombre":"valor"},"session_header":"x-opencode-session"}</code>, las cabeceras que exige una pasarela (se rechazan los valores vacíos y las cabeceras de autenticación, de cookies, de transporte y de reenvío)</td>
 </tr>
 </tbody>
 </table>
