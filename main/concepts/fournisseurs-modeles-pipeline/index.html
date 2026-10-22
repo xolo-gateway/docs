@@ -3142,7 +3142,8 @@
 <p>Un fournisseur expose un ou plusieurs <strong>modèles</strong>. Chaque modèle est décrit par :</p>
 <ul>
 <li>son identité (nom proxy exposé aux utilisateurs, nom réel côté fournisseur, taille de contexte) ;</li>
-<li>ses capacités (outils, vision, raisonnement, audio, embeddings) ;</li>
+<li>sa nature, qui fixe les routes auxquelles il répond : complétion (<code>/chat/completions</code>, <code>/messages</code>), embeddings (<code>/embeddings</code>) ou décision (<code>/decisions</code>) ;</li>
+<li>ses capacités (outils, vision, raisonnement, audio) ;</li>
 <li>sa tarification (coût par million de tokens, en prompt, en cache, en complétion) ;</li>
 <li>ses caractéristiques physiques (paramètres actifs, débit min/max) utilisées pour l'estimation énergétique.</li>
 </ul>

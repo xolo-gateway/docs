@@ -1067,6 +1067,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modeles-de-decision-typesafe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles de décision : TypeSafe
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -1217,6 +1228,17 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Champs d'identité
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nature-du-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nature du modèle
       </span>
     </span>
   </a>
@@ -3389,6 +3411,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modeles-de-decision-typesafe" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles de décision : TypeSafe
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tester-la-connexion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3539,6 +3572,17 @@
     <span class="md-ellipsis">
       <span class="md-typeset">
         Champs d'identité
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nature-du-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Nature du modèle
       </span>
     </span>
   </a>
@@ -3809,7 +3853,7 @@
 </tr>
 <tr>
 <td><strong>Type</strong></td>
-<td>Type de connexion : <code>openai</code>, <code>openai-responses</code>, <code>anthropic</code>, <code>gemini</code>, <code>mistral</code>, <code>openrouter</code></td>
+<td>Type de connexion : <code>openai</code>, <code>openai-responses</code>, <code>anthropic</code>, <code>gemini</code>, <code>mistral</code>, <code>openrouter</code>, <code>typesafe</code></td>
 </tr>
 <tr>
 <td><strong>URL de base</strong></td>
@@ -3902,6 +3946,30 @@
 <li>modèle virtuel dont le nœud terminal combine plusieurs modèles, comme un repli entre modèles ;</li>
 <li>modèle avec une <strong>limite de tokens</strong> : le limiteur de tokens ne sait pas compter une réponse relayée.</li>
 </ul>
+<h2 id="modeles-de-decision-typesafe">Modèles de décision : TypeSafe<a class="headerlink" href="#modeles-de-decision-typesafe" title="Permanent link">&para;</a></h2>
+<p>Un modèle de décision ne génère pas de texte. Il évalue un <strong>état</strong> (un texte, un objet JSON) au regard de <strong>questions typées</strong> et renvoie des probabilités calibrées :</p>
+<ul>
+<li><code>noul</code> : une question fermée, dont la réponse est la probabilité du oui ;</li>
+<li><code>choice</code> : un choix parmi les options que la question définit, avec la probabilité de chacune ;</li>
+<li><code>score</code> : une position sur une échelle ordonnée de 2 à 10 niveaux.</li>
+</ul>
+<p>Les modèles Jev de TypeSafe sont de ce genre. Déclarez-les avec le type <code>typesafe</code> et l'URL <code>https://api.typesafe.ai/v1</code>, ou par OpenRouter (type <code>openrouter</code>, modèle réel <code>~typesafe/jev-latest</code>), puis créez le modèle avec la nature <strong>Décision</strong>.</p>
+<p>Les clients l'appellent sur <code>POST /api/v1/decisions</code>, au format de TypeSafe et du endpoint de décisions d'OpenRouter. Un client de l'un ou l'autre garde son format et pointe son URL d'endpoint vers cette route : le corps est le même, le chemin non.</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">&quot;model&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{org-slug}/jev&quot;</span><span class="p">,</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mes virements échouent depuis trois jours.&quot;</span><span class="p">,</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">&quot;questions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">&quot;is_urgent&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;noul&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;instructions&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ce ticket est-il urgent ?&quot;</span><span class="w"> </span><span class="p">},</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&quot;team&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;choice&quot;</span><span class="p">,</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">&quot;instructions&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Quelle équipe doit le traiter ?&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">&quot;criteria&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;paiements&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;recherche&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Recherche et catalogue&quot;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>La réponse porte une réponse par question, sous le même identifiant, et l'usage en tokens (<code>input_tokens</code>, <code>output_tokens</code>). Xolo facture une décision comme une complétion : les tokens d'entrée au coût du prompt, ceux de sortie au coût de complétion, ou le coût que rapporte OpenRouter. Les quotas, l'abonnement, la limitation de débit et les nouvelles tentatives du fournisseur s'y appliquent aussi. L'<strong>extra_body</strong> et la limite de tokens d'un modèle ne visent que la complétion : sur un modèle de décision, ils sont ignorés.</p>
+<p>Ni modèle virtuel ni middleware ne s'appliquent à une décision (voir <a href="#nature-du-modele">Nature du modèle</a>).</p>
 <h2 id="tester-la-connexion">Tester la connexion<a class="headerlink" href="#tester-la-connexion" title="Permanent link">&para;</a></h2>
 <p>Après avoir créé un fournisseur, utilisez le bouton <strong>Tester la connexion</strong> pour vérifier que Xolo peut communiquer avec le fournisseur.</p>
 <h2 id="fournisseurs-en-abonnement-plan-et-repartition">Fournisseurs en abonnement : plan et répartition<a class="headerlink" href="#fournisseurs-en-abonnement-plan-et-repartition" title="Permanent link">&para;</a></h2>
@@ -3949,9 +4017,9 @@ bloque pas les autres.</p>
 <p>Les budgets de la contrainte s'appliquent alors à chaque modèle. Le champ
 <strong>Budgets propres à certains modèles</strong> les remplace pour les modèles qu'il
 liste, un par ligne, sous leur nom amont (le « modèle réel ») :</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kimi-k3 = 3
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>deepseek-v4.1-flash = 16, 50000000 tokens
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>longcat-2.5-preview-free = illimité
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kimi-k3 = 3
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>deepseek-v4.1-flash = 16, 50000000 tokens
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>longcat-2.5-preview-free = illimité
 </span></code></pre></div>
 <p>Une valeur s'exprime dans la devise du fournisseur, un budget tokens porte le
 suffixe <code>tokens</code>, et <code>illimité</code> lève toute limite pour ce modèle. Un modèle listé
@@ -4104,6 +4172,10 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 <td>Description optionnelle</td>
 </tr>
 <tr>
+<td><strong>Nature</strong></td>
+<td>Ce que le modèle sert : complétion, embeddings ou décision</td>
+</tr>
+<tr>
 <td><strong>Contexte</strong></td>
 <td>Taille de la fenêtre de contexte en tokens</td>
 </tr>
@@ -4113,6 +4185,37 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 </tr>
 </tbody>
 </table>
+<h4 id="nature-du-modele">Nature du modèle<a class="headerlink" href="#nature-du-modele" title="Permanent link">&para;</a></h4>
+<p>Un modèle ne répond qu'aux routes de sa nature. Appelé sur une autre route, il répond <code>400</code> en indiquant la bonne.</p>
+<table>
+<thead>
+<tr>
+<th>Nature</th>
+<th>Routes</th>
+<th>Types d'API qui la servent</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Complétion</strong></td>
+<td><code>/chat/completions</code>, <code>/messages</code></td>
+<td>tous sauf <code>typesafe</code></td>
+</tr>
+<tr>
+<td><strong>Embeddings</strong></td>
+<td><code>/embeddings</code></td>
+<td><code>openai</code>, <code>openai-responses</code>, <code>mistral</code>, <code>openrouter</code></td>
+</tr>
+<tr>
+<td><strong>Décision</strong></td>
+<td><code>/decisions</code></td>
+<td><code>typesafe</code>, <code>openrouter</code></td>
+</tr>
+</tbody>
+</table>
+<p>Le formulaire refuse une nature que le type d'API du modèle ne sert pas. Un nouveau modèle est par défaut un modèle de complétion, sauf sur <code>typesafe</code>, qui ne sert que la décision.</p>
+<p>Les modèles virtuels et les middlewares ne servent pour l'instant que la complétion. Un middleware « appliqué à tous les modèles » ne couvre que les modèles de complétion. Une requête d'embeddings ou de décision n'en traverse donc aucun, et son contenu n'est ni pseudonymisé ni filtré. Les sélecteurs de modèles des pipelines ne proposent que des modèles de complétion, et les plugins ne reçoivent que ceux-là dans leur liste de modèles. Un pipeline qui désigne malgré tout un modèle d'une autre nature répond <code>400</code> (code <code>model_kind_mismatch</code>) en nommant ce modèle.</p>
+<p>Jusqu'à cette version, les embeddings étaient une capacité cochée sur un modèle de complétion. La mise à jour donne la nature embeddings à chaque modèle qui l'avait, si son type d'API sert les embeddings, puis retire la capacité. Sur un autre type d'API (<code>anthropic</code>, <code>gemini</code>), la capacité n'avait aucun effet : le modèle reste un modèle de complétion. Un modèle converti ne répond plus à <code>/chat/completions</code>, ni aux pipelines et plugins qui l'appelaient. S'il servait aussi la complétion, déclarez-le une seconde fois, sous un autre nom proxy, avec la nature complétion, et faites pointer ces pipelines vers ce nom. Les nœuds des pipelines existants ne sont pas migrés : un nœud <code>model_fallback</code> dont le premier candidat est devenu un modèle d'embeddings répond <code>400</code> sans essayer les suivants. Les modèles d'une organisation en attente de purge ne sont pas convertis : ils restent des modèles de complétion.</p>
 <h4 id="champs-de-capacites">Champs de capacités<a class="headerlink" href="#champs-de-capacites" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -4137,10 +4240,6 @@ autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
 <tr>
 <td><strong>Audio</strong></td>
 <td>Le modèle supporte l'audio</td>
-</tr>
-<tr>
-<td><strong>Embeddings</strong></td>
-<td>Le modèle peut produire des embeddings</td>
 </tr>
 </tbody>
 </table>
