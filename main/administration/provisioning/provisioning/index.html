@@ -1854,6 +1854,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Ressources métier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modeles-virtuels-et-middlewares" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles virtuels et middlewares
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3676,6 +3693,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Ressources métier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modeles-virtuels-et-middlewares" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles virtuels et middlewares
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4375,8 +4409,8 @@ sans représentation ni donnée personnelle :</p>
 <li><code>type</code> vaut <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> ou <code>.deleted.v1</code>, où
   <code>resource_type</code> est <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
   <code>organization_membership</code>, <code>team</code>, <code>team_membership</code> ou l'une des familles
-  métier <code>provider</code>, <code>custom_role</code>, <code>team_settings</code>, <code>application</code>, <code>quota</code> et
-  <code>alert</code>. La clé d'une équipe est <code>{"tenant_id","organization_id","team_id"}</code>,
+  métier <code>provider</code>, <code>custom_role</code>, <code>virtual_model</code>, <code>middleware</code>,
+  <code>team_settings</code>, <code>application</code>, <code>quota</code> et <code>alert</code>. La clé d'une équipe est <code>{"tenant_id","organization_id","team_id"}</code>,
   celle d'une appartenance y ajoute <code>member_id</code>. Une suppression ne porte pas
   d'<code>etag</code>.</li>
 <li><strong>Un événement par ressource et par commit.</strong> Un no-op ou une transaction
@@ -4793,7 +4827,7 @@ sont refusés.</p>
 </tbody>
 </table>
 <h2 id="ressources-metier">Ressources métier<a class="headerlink" href="#ressources-metier" title="Permanent link">&para;</a></h2>
-<p>Six familles propres à Xolo suivent le même contrat que les familles
+<p>Huit familles propres à Xolo suivent le même contrat que les familles
 communes : lecture unitaire avec <code>ETag</code>, listes paginées, <code>PUT</code> conditionnels
 et événements. Le manifeste annonce <code>business_resources</code>.</p>
 <table>
@@ -4823,6 +4857,18 @@ et événements. Le manifeste annonce <code>business_resources</code>.</p>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
 <td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/providers[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/virtual-models[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/middlewares[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>…/virtual-models/{key}/nodes[/{nodeID}]</code>, <code>…/middlewares/{key}/nodes[/{nodeID}]</code>, voir <a href="#modeles-virtuels-et-middlewares">Modèles virtuels et middlewares</a></td>
 </tr>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
@@ -4867,6 +4913,14 @@ et événements. Le manifeste annonce <code>business_resources</code>.</p>
 <tr>
 <td><code>alert</code></td>
 <td><code>{"name","description","scope","owner_id","query","aggregation","window_seconds","comparator","threshold","for_seconds","enabled"}</code></td>
+</tr>
+<tr>
+<td><code>virtual_model</code></td>
+<td><code>{"name","description","catalog_overrides","graph"}</code>, <code>catalog_overrides</code> à <code>null</code> ou <code>{"contextWindow","maxOutputTokens","capabilities"}</code>, comme dans l'interface web</td>
+</tr>
+<tr>
+<td><code>middleware</code></td>
+<td><code>{"name","description","enabled","priority","applies_to_all","targets":[{"kind","id"}],"graph"}</code></td>
 </tr>
 <tr>
 <td><code>provider</code></td>
@@ -4955,6 +5009,96 @@ et événements. Le manifeste annonce <code>business_resources</code>.</p>
 application désactivée jusqu'à l'expiration de ses entrées
 (<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>) : une écriture via cet écouteur ne
 vide que le cache de son propre processus.</p>
+<h3 id="modeles-virtuels-et-middlewares">Modèles virtuels et middlewares<a class="headerlink" href="#modeles-virtuels-et-middlewares" title="Permanent link">&para;</a></h3>
+<p>Les modèles virtuels et les middlewares portent un graphe de pipeline, écrit
+en entier par leur <code>PUT</code> ou nœud par nœud :</p>
+<table>
+<thead>
+<tr>
+<th>Méthode</th>
+<th>Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>…/virtual-models/{key}/nodes</code>, <code>…/middlewares/{key}/nodes</code> — <code>{"items":[{"id","type","data","secret_keys":[…]}]}</code>, triés par identifiant</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>…/virtual-models/{key}/nodes/{nodeID}</code>, <code>…/middlewares/{key}/nodes/{nodeID}</code> — un nœud</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>…/virtual-models/{key}/nodes/{nodeID}</code>, <code>…/middlewares/{key}/nodes/{nodeID}</code> — <code>{"data":{…},"secrets":{"nom":"valeur"}}</code>, <code>secrets</code> facultatif</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Graphe.</strong> <code>graph</code> vaut <code>{"nodes":[{"id","type","position":{"x","y"},"data"}],"edges":[{"id","source","source_port","target","target_port"}]}</code>.
+  <code>type</code> est l'un de <code>generator</code>, <code>sink</code>, <code>model</code>, <code>value</code>, <code>model_ref</code>,
+  <code>compare</code>, <code>select</code>, <code>math</code>, <code>sample</code>, <code>context</code>, <code>trace</code>, <code>note</code>,
+  <code>model_fallback</code>, <code>block</code> et <code>plugin</code>. <code>data</code> est la configuration du type,
+  telle que l'éditeur web l'écrit, en camelCase : <code>{"pluginName":"…","config":{…}}</code>
+  pour un nœud plugin, <code>{"proxyName":"…"}</code> ou <code>{"passthrough":true}</code> pour un
+  nœud modèle. <code>position</code> ne sert qu'à l'éditeur et vaut l'origine par défaut.
+  Nœuds et arêtes sont triés par identifiant, un <code>data</code> absent se lit <code>{}</code> et
+  les clés de <code>data</code> sont triées (nombres gardés tels qu'écrits, <code>100</code> et
+  <code>1E2</code> diffèrent) : un rejeu dans un autre ordre ou une autre mise en forme
+  est un no-op. Un graphe sans nœud est un
+  pipeline non configuré.</li>
+<li><strong>La validation</strong>, la même que celle de l'interface web, répond <code>422</code> : au
+  plus 500 nœuds et 2000 arêtes ; des identifiants de nœuds et d'arêtes non
+  vides, uniques, sans espace autour, d'au plus 200 caractères ; un type
+  connu ; un <code>data</code> qui est un objet JSON ; un nœud plugin qui nomme son
+  plugin ; des arêtes entre nœuds existants ; aucune référence de modèle
+  qualifiée par une équipe. Un générateur et une sortie connectée ne sont pas
+  exigés pendant la construction du graphe : le moteur refuse un pipeline
+  incomplet quand il l'exécute. Les noms de plugins ne sont pas confrontés aux
+  plugins chargés par l'instance.</li>
+<li><strong>Les noms</strong> sont uniques par organisation et par famille (<code>409 conflict</code>) ;
+  un nom de modèle virtuel dont le premier segment avant <code>/</code> est le slug d'une
+  équipe est refusé (<code>409</code>).</li>
+<li><strong>Nœuds plugin.</strong> Leurs secrets sont rangés par organisation, plugin et
+  identifiant de nœud : deux pipelines d'une organisation ne peuvent pas
+  porter un nœud plugin de même plugin et de même identifiant
+  (<code>409 conflict</code>). Un <code>PUT</code> qui retire un nœud plugin, ou en change le
+  plugin, supprime ses secrets ; supprimer le pipeline les supprime tous.</li>
+<li><strong>Les cibles</strong> d'un middleware sont des <code>{"kind":"llm"|"virtual","id"}</code>,
+  modèles ou modèles virtuels de l'organisation (<code>404 parent_not_found</code>),
+  triées et dédoublonnées ; elles sont conservées, mais ignorées, quand
+  <code>applies_to_all</code> est vrai.</li>
+<li><strong>Un nœud n'a pas de révision propre.</strong> Les routes de nœuds renvoient
+  l'<code>ETag</code> du pipeline, et un <code>PUT</code> de nœud se conditionne sur lui : une
+  modification de nœud et une réécriture concurrente du graphe, par cette API
+  ou par l'interface web, se heurtent en <code>412</code> au lieu de s'écraser.</li>
+<li><strong>Un <code>PUT</code> de nœud ne remplace que <code>data</code>.</strong> Le type, les arêtes et la
+  position s'écrivent par le pipeline. Un nœud absent répond <code>404 not_found</code>,
+  un changement de plugin <code>409 conflict</code>. Les nœuds se créent et se retirent
+  par le <code>PUT</code> du pipeline.</li>
+<li><strong>Les secrets de nœud sont en écriture seule</strong>, comme une clé de provider :
+  une valeur pose la clé, <code>null</code> la supprime, une clé omise est conservée.
+  Seul un nœud plugin porte des secrets (<code>422</code> sinon) ; au plus 50 par nœud,
+  des noms d'au plus 200 caractères, des valeurs d'au plus 16384 octets. Ils
+  sont chiffrés avec <code>XOLO_SECRET_KEY</code> dans le stockage que le plugin lit par
+  <code>GetSecret</code>, et jamais renvoyés : les lectures listent leurs noms dans
+  <code>secret_keys</code>, ce qui indique à un client ce qui reste à renseigner sur une
+  autre instance. Un changement de secret seul ne change aucun <code>ETag</code> et ne
+  publie aucun événement ; l'audit enregistre une empreinte des chiffrés. Une
+  valeur égale à celle enregistrée n'écrit rien. Il reste soumis à l'autorité
+  d'écriture de la famille (<code>XOLO_OWNERSHIP</code>, <code>403</code>).</li>
+<li><strong>Événements.</strong> Les nœuds ne sont pas un type de ressource du flux : une
+  modification de nœud publie <code>virtual_model.updated.v1</code> ou
+  <code>middleware.updated.v1</code> avec le nouvel <code>ETag</code> du pipeline, un événement par
+  commit quel que soit le nombre de nœuds modifiés. Un consommateur relit le
+  pipeline, ou ses nœuds, pour savoir ce qui a changé.</li>
+<li>La migration <code>202610220003</code> projette les modèles virtuels et middlewares
+  existants sans publier d'événement ; comme les précédentes, elle exige
+  l'arrêt de tous les serveurs.</li>
+<li>Limites connues : supprimer un modèle virtuel ou un middleware, ici comme
+  dans l'interface web, laisse en place les grants et rattachements d'équipe
+  qui le désignent ; les modèles virtuels personnels restent hors de cette API.</li>
+</ul>
 <h2 id="autorite-decriture-adoption-et-detachement">Autorité d'écriture, adoption et détachement<a class="headerlink" href="#autorite-decriture-adoption-et-detachement" title="Permanent link">&para;</a></h2>
 <p>Chaque famille du contrat commun, ainsi que les abonnements webhook, a une
 <strong>autorité d'écriture</strong> : l'instance locale (interface web, connexion,
@@ -4971,7 +5115,7 @@ invitations), le système de pilotage (cet écouteur), ou les deux.</p>
 <tr>
 <td><code>XOLO_OWNERSHIP</code></td>
 <td>—</td>
-<td>Paires <code>famille=autorité</code> séparées par des virgules. Familles : <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, et les familles métier <code>provider</code>, <code>custom_role</code>, <code>application</code>, <code>quota</code>, <code>alert</code> ; <code>team</code> gouverne aussi les réglages d'équipe. Autorités : <code>shared</code>, <code>local</code>, <code>control_plane</code>. Les familles omises valent <code>shared</code> ; une famille ou une autorité inconnue empêche le démarrage.</td>
+<td>Paires <code>famille=autorité</code> séparées par des virgules. Familles : <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, et les familles métier <code>provider</code>, <code>custom_role</code>, <code>virtual_model</code>, <code>middleware</code>, <code>application</code>, <code>quota</code>, <code>alert</code> ; <code>team</code> gouverne aussi les réglages d'équipe. Autorités : <code>shared</code>, <code>local</code>, <code>control_plane</code>. Les familles omises valent <code>shared</code> ; une famille ou une autorité inconnue empêche le démarrage.</td>
 </tr>
 </tbody>
 </table>
@@ -5648,7 +5792,7 @@ neuve comme sur une mise à niveau. Son rollback refuse d'effacer l'historique.<
 <p>En production, utilisez une autorité de certification gérée (Vault, cert-manager, PKI interne) et faites tourner les certificats clients.</p>
 <h2 id="hors-perimetre-actuel">Hors périmètre actuel<a class="headerlink" href="#hors-perimetre-actuel" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Les modèles LLM, modèles virtuels, middlewares, jetons d'application et paramètres d'événements : ils restent gérés par l'interface web.</li>
+<li>Les modèles LLM, modèles virtuels personnels, jetons d'application et paramètres d'événements : ils restent gérés par l'interface web.</li>
 <li>Les portées par certificat : tout URI autorisé administre l'instance entière.</li>
 <li>Aucune spécification OpenAPI n'est générée à ce jour.</li>
 </ul>
