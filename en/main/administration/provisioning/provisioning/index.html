@@ -1854,6 +1854,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Business resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#virtual-models-and-middlewares" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Virtual models and middlewares
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2805,6 +2822,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Business resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#virtual-models-and-middlewares" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Virtual models and middlewares
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3489,8 +3523,8 @@ carry no representation and no personal data:</p>
 <li><code>type</code> is <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> or <code>.deleted.v1</code>, with
   <code>resource_type</code> one of <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
   <code>organization_membership</code>, <code>team</code>, <code>team_membership</code> and the business
-  families <code>provider</code>, <code>custom_role</code>, <code>team_settings</code>, <code>application</code>, <code>quota</code>
-  and <code>alert</code>. A team key is <code>{"tenant_id","organization_id","team_id"}</code>, a
+  families <code>provider</code>, <code>custom_role</code>, <code>virtual_model</code>, <code>middleware</code>,
+  <code>team_settings</code>, <code>application</code>, <code>quota</code> and <code>alert</code>. A team key is <code>{"tenant_id","organization_id","team_id"}</code>, a
   team membership key adds <code>member_id</code>. A deletion carries no <code>etag</code>.</li>
 <li><strong>One event per resource and per commit.</strong> A no-op or a rolled back
   transaction publishes nothing. Within a commit, deletions come first, from
@@ -3894,7 +3928,7 @@ rejected.</p>
 <p>Users hang from the tenant because <code>(provider, subject)</code> is only unique within
 one: the same person signing in on two tenants owns two distinct accounts.</p>
 <h2 id="business-resources">Business resources<a class="headerlink" href="#business-resources" title="Permanent link">&para;</a></h2>
-<p>Six families specific to Xolo follow the same contract as the common
+<p>Eight families specific to Xolo follow the same contract as the common
 families: unit reads with an <code>ETag</code>, paginated lists, conditional <code>PUT</code>s and
 events. The manifest announces <code>business_resources</code>.</p>
 <table>
@@ -3924,6 +3958,18 @@ events. The manifest announces <code>business_resources</code>.</p>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
 <td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/providers[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/virtual-models[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/middlewares[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code>, <code>PUT</code></td>
+<td><code>…/virtual-models/{key}/nodes[/{nodeID}]</code>, <code>…/middlewares/{key}/nodes[/{nodeID}]</code>, see <a href="#virtual-models-and-middlewares">Virtual models and middlewares</a></td>
 </tr>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
@@ -3968,6 +4014,14 @@ only where shown.</p>
 <tr>
 <td><code>alert</code></td>
 <td><code>{"name","description","scope","owner_id","query","aggregation","window_seconds","comparator","threshold","for_seconds","enabled"}</code></td>
+</tr>
+<tr>
+<td><code>virtual_model</code></td>
+<td><code>{"name","description","catalog_overrides","graph"}</code>, <code>catalog_overrides</code> <code>null</code> or <code>{"contextWindow","maxOutputTokens","capabilities"}</code>, as in the web UI</td>
+</tr>
+<tr>
+<td><code>middleware</code></td>
+<td><code>{"name","description","enabled","priority","applies_to_all","targets":[{"kind","id"}],"graph"}</code></td>
 </tr>
 <tr>
 <td><code>provider</code></td>
@@ -4046,6 +4100,90 @@ only where shown.</p>
 <p>Known limit: the cache of each process keeps a deactivated application's
 tokens valid until its entries expire (<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>):
 a write through this listener clears the cache of its own process only.</p>
+<h3 id="virtual-models-and-middlewares">Virtual models and middlewares<a class="headerlink" href="#virtual-models-and-middlewares" title="Permanent link">&para;</a></h3>
+<p>Virtual models and middlewares carry a pipeline graph, edited as a whole by
+their <code>PUT</code> or node by node:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>…/virtual-models/{key}/nodes</code>, <code>…/middlewares/{key}/nodes</code> — <code>{"items":[{"id","type","data","secret_keys":[…]}]}</code>, sorted by ID</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>…/virtual-models/{key}/nodes/{nodeID}</code>, <code>…/middlewares/{key}/nodes/{nodeID}</code> — one node</td>
+</tr>
+<tr>
+<td><code>PUT</code></td>
+<td><code>…/virtual-models/{key}/nodes/{nodeID}</code>, <code>…/middlewares/{key}/nodes/{nodeID}</code> — <code>{"data":{…},"secrets":{"name":"value"}}</code>, <code>secrets</code> optional</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Graph.</strong> <code>graph</code> is <code>{"nodes":[{"id","type","position":{"x","y"},"data"}],"edges":[{"id","source","source_port","target","target_port"}]}</code>.
+  <code>type</code> is one of <code>generator</code>, <code>sink</code>, <code>model</code>, <code>value</code>, <code>model_ref</code>,
+  <code>compare</code>, <code>select</code>, <code>math</code>, <code>sample</code>, <code>context</code>, <code>trace</code>, <code>note</code>,
+  <code>model_fallback</code>, <code>block</code> and <code>plugin</code>. <code>data</code> is the configuration of the
+  type, as the web editor writes it, in camelCase: <code>{"pluginName":"…","config":{…}}</code>
+  for a plugin node, <code>{"proxyName":"…"}</code> or <code>{"passthrough":true}</code> for a model
+  node. <code>position</code> only serves the editor and defaults to the origin. Nodes and
+  edges are sorted by ID, a missing <code>data</code> reads <code>{}</code> and the keys of <code>data</code>
+  are sorted (numbers kept as written, <code>100</code> and <code>1E2</code> differ): a replay in
+  another order or another formatting is a no-op. A graph without nodes is an unconfigured pipeline.</li>
+<li><strong>Validation</strong>, the same as the web UI's, answers <code>422</code>: at most 500 nodes
+  and 2000 edges; node and edge IDs non-empty, unique, without surrounding
+  spaces, at most 200 characters; a known type; a <code>data</code> that is a JSON object;
+  a plugin node naming its plugin; edges between existing nodes; no model
+  reference qualified with a team. A generator and a connected sink are not
+  required while the graph is being built: the engine refuses an incomplete
+  pipeline when it runs it. Plugin names are not checked against the plugins
+  loaded by the instance.</li>
+<li><strong>Names</strong> are unique per organization and family (<code>409 conflict</code>); a
+  virtual model name whose first <code>/</code> segment is the slug of a team is refused
+  (<code>409</code>).</li>
+<li><strong>Plugin nodes.</strong> Their secrets are stored per organization, plugin and node
+  ID: two pipelines of an organization can not hold a plugin node with the
+  same plugin and ID (<code>409 conflict</code>). A <code>PUT</code> that removes a plugin node, or
+  changes its plugin, removes its secrets; deleting the pipeline removes all
+  of them.</li>
+<li><strong>Targets</strong> of a middleware are <code>{"kind":"llm"|"virtual","id"}</code>, models or
+  virtual models of the organization (<code>404 parent_not_found</code>), sorted and
+  deduplicated; they are kept, but ignored, when <code>applies_to_all</code> is set.</li>
+<li><strong>Nodes have no revision of their own.</strong> The node routes return the <code>ETag</code>
+  of the pipeline, and a node <code>PUT</code> is conditioned by it: a node edit and a
+  concurrent rewrite of the graph, through this API or the web UI, conflict
+  with <code>412</code> instead of overwriting each other.</li>
+<li><strong>A node <code>PUT</code> replaces <code>data</code> only.</strong> The type, the edges and the position
+  are written through the pipeline. A missing node is <code>404 not_found</code>, a change
+  of plugin <code>409 conflict</code>. Nodes are created and removed through the <code>PUT</code> of
+  the pipeline.</li>
+<li><strong>Node secrets are write-only</strong>, like a provider key: a value sets the key,
+  <code>null</code> deletes it, a key left out is kept. Only a plugin node holds secrets
+  (<code>422</code> otherwise); at most 50 per node, names of at most 200 characters,
+  values of at most 16384 bytes. They are encrypted with <code>XOLO_SECRET_KEY</code> in
+  the store the plugin reads through <code>GetSecret</code>, and never returned: reads
+  list their names in <code>secret_keys</code>, which tells a client what remains to fill
+  in on another instance. A change of secret alone changes no <code>ETag</code> and
+  publishes no event; the audit records a fingerprint of the ciphertexts. A
+  value equal to the stored one writes nothing. It still obeys the write
+  authority of the family (<code>XOLO_OWNERSHIP</code>, <code>403</code>).</li>
+<li><strong>Events.</strong> Nodes are not a resource type of the feed: a node edit
+  publishes <code>virtual_model.updated.v1</code> or <code>middleware.updated.v1</code> with the new
+  <code>ETag</code> of the pipeline, one event per commit however many nodes changed. A
+  consumer reads the pipeline, or its nodes, again to learn what changed.</li>
+<li>Migration <code>202610220003</code> projects the existing virtual models and
+  middlewares without publishing any event; like the previous ones, it
+  requires every server to be stopped.</li>
+<li>Known limits: deleting a virtual model or a middleware, here as in the web
+  UI, leaves the team grants and attachments that designate it; personal
+  virtual models stay out of this API.</li>
+</ul>
 <h2 id="write-authority-adoption-and-detachment">Write authority, adoption and detachment<a class="headerlink" href="#write-authority-adoption-and-detachment" title="Permanent link">&para;</a></h2>
 <p>Each family of the common contract, and the webhook subscriptions, has a
 <strong>write authority</strong>: the local instance (web UI, sign-in, invitations), the
@@ -4062,7 +4200,7 @@ control plane (this listener), or both.</p>
 <tr>
 <td><code>XOLO_OWNERSHIP</code></td>
 <td>—</td>
-<td>Comma-separated <code>family=owner</code> pairs. Families: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, and the business families <code>provider</code>, <code>custom_role</code>, <code>application</code>, <code>quota</code>, <code>alert</code>; <code>team</code> also governs the team settings. Owners: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Omitted families are <code>shared</code>; an unknown family or owner prevents startup</td>
+<td>Comma-separated <code>family=owner</code> pairs. Families: <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>, <code>organization_membership</code>, <code>team</code>, <code>team_membership</code>, <code>subscription</code>, and the business families <code>provider</code>, <code>custom_role</code>, <code>virtual_model</code>, <code>middleware</code>, <code>application</code>, <code>quota</code>, <code>alert</code>; <code>team</code> also governs the team settings. Owners: <code>shared</code>, <code>local</code>, <code>control_plane</code>. Omitted families are <code>shared</code>; an unknown family or owner prevents startup</td>
 </tr>
 </tbody>
 </table>
@@ -4713,7 +4851,7 @@ upgrades and fresh installations. Its rollback refuses to erase audit history.</
 <p>In production, use a managed certificate authority (Vault, cert-manager, internal PKI) and rotate client certificates.</p>
 <h2 id="out-of-current-scope">Out of current scope<a class="headerlink" href="#out-of-current-scope" title="Permanent link">&para;</a></h2>
 <ul>
-<li>LLM models, virtual models, middlewares, application tokens and event settings: they remain managed through the web UI.</li>
+<li>LLM models, personal virtual models, application tokens and event settings: they remain managed through the web UI.</li>
 <li>Per-certificate scopes: any authorized URI administers the whole instance.</li>
 <li>No OpenAPI specification is generated yet.</li>
 </ul>
