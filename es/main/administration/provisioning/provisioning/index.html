@@ -1841,6 +1841,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#modelos-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelos LLM
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-personales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelos personales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2809,6 +2831,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#modelos-llm" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelos LLM
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modelos-personales" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modelos personales
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3506,8 +3550,9 @@ sin representación ni datos personales:</p>
 <li><code>type</code> es <code>&lt;resource_type&gt;.created.v1</code>, <code>.updated.v1</code> o <code>.deleted.v1</code>, donde
   <code>resource_type</code> es <code>tenant</code>, <code>tenant_domain</code>, <code>organization</code>, <code>member</code>,
   <code>organization_membership</code>, <code>team</code>, <code>team_membership</code> o una de las familias
-  de negocio <code>provider</code>, <code>custom_role</code>, <code>virtual_model</code>, <code>middleware</code>,
-  <code>team_settings</code>, <code>application</code>, <code>quota</code> y <code>alert</code>. La clave de un equipo es <code>{"tenant_id","organization_id","team_id"}</code>,
+  de negocio <code>provider</code>, <code>llm_model</code>, <code>custom_role</code>, <code>virtual_model</code>,
+  <code>middleware</code>, <code>personal_virtual_model</code>, <code>team_settings</code>, <code>application</code>,
+  <code>quota</code> y <code>alert</code>. La clave de un equipo es <code>{"tenant_id","organization_id","team_id"}</code>,
   la de una pertenencia añade <code>member_id</code>. Una eliminación no lleva <code>etag</code>.</li>
 <li><strong>Un evento por recurso y por commit.</strong> Una operación sin cambios o una
   transacción revertida no publica nada. Dentro de un commit, las eliminaciones
@@ -3919,9 +3964,11 @@ se rechazan.</p>
 </tbody>
 </table>
 <h2 id="recursos-de-negocio">Recursos de negocio<a class="headerlink" href="#recursos-de-negocio" title="Permanent link">&para;</a></h2>
-<p>Ocho familias propias de Xolo siguen el mismo contrato que las familias
+<p>Diez familias propias de Xolo siguen el mismo contrato que las familias
 comunes: lectura unitaria con <code>ETag</code>, listas paginadas, <code>PUT</code> condicionales y
-eventos. El manifiesto anuncia <code>business_resources</code>.</p>
+eventos. <code>llm_model</code> y <code>personal_virtual_model</code> son de solo lectura: ni <code>PUT</code>
+ni <code>DELETE</code> (<code>405</code>), véase <a href="#modelos-llm">Modelos LLM</a> y
+<a href="#modelos-personales">Modelos personales</a>. El manifiesto anuncia <code>business_resources</code>.</p>
 <table>
 <thead>
 <tr>
@@ -3949,6 +3996,14 @@ eventos. El manifiesto anuncia <code>business_resources</code>.</p>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
 <td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/providers[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/llm-models[/{key}]</code></td>
+</tr>
+<tr>
+<td><code>GET</code>, <code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/members/{memberID}/personal-models[/{key}]</code></td>
 </tr>
 <tr>
 <td><code>GET</code>, <code>GET</code>, <code>PUT</code>, <code>DELETE</code></td>
@@ -4013,6 +4068,14 @@ obligatorio, <code>null</code> solo donde se indica.</p>
 <tr>
 <td><code>middleware</code></td>
 <td><code>{"name","description","enabled","priority","applies_to_all","targets":[{"kind","id"}],"graph"}</code></td>
+</tr>
+<tr>
+<td><code>llm_model</code></td>
+<td><code>{"provider_id","proxy_name","kind","enabled"}</code>, de solo lectura</td>
+</tr>
+<tr>
+<td><code>personal_virtual_model</code></td>
+<td><code>{"name","description","team_id","catalog_overrides","graph"}</code>, de solo lectura, bajo un miembro</td>
 </tr>
 <tr>
 <td><code>provider</code></td>
@@ -4157,7 +4220,8 @@ escribe entero con su <code>PUT</code> o nodo a nodo:</p>
 <li><strong>Los destinos</strong> de un middleware son <code>{"kind":"llm"|"virtual","id"}</code>,
   modelos o modelos virtuales de la organización (<code>404 parent_not_found</code>),
   ordenados y sin duplicados; se conservan, pero se ignoran, cuando
-  <code>applies_to_all</code> está activo.</li>
+  <code>applies_to_all</code> está activo. Un ID <code>llm</code> es la clave de un
+  <a href="#modelos-llm">modelo LLM</a>.</li>
 <li><strong>Un nodo no tiene revisión propia.</strong> Las rutas de nodos devuelven el <code>ETag</code>
   del pipeline, y un <code>PUT</code> de nodo se condiciona a él: una modificación de
   nodo y una reescritura concurrente del grafo, por esta API o por la interfaz
@@ -4187,7 +4251,99 @@ escribe entero con su <code>PUT</code> o nodo a nodo:</p>
   todos los servidores.</li>
 <li>Límites conocidos: eliminar un modelo virtual o un middleware, aquí como en
   la interfaz web, deja en su sitio los grants y vinculaciones de equipo que
-  lo designan; los modelos virtuales personales quedan fuera de esta API.</li>
+  lo designan.</li>
+</ul>
+<h3 id="modelos-llm">Modelos LLM<a class="headerlink" href="#modelos-llm" title="Permanent link">&para;</a></h3>
+<p>Los modelos de los proveedores de una organización forman la familia
+<code>llm_model</code>, de solo lectura: se gestionan desde la interfaz web, y la API
+expone lo que un plano de control necesita para resolver los destinos <code>llm</code>
+de un middleware y los <code>model_grants</code> de un equipo, cuyo <code>model_id</code> es su
+clave.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/llm-models</code> — paginada como las demás colecciones</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/organizations/{orgID}/llm-models/{key}</code> — un modelo, con su <code>ETag</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span><span class="nt">&quot;provider_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;proxy_name&quot;</span><span class="p">:</span><span class="s2">&quot;meta/llama&quot;</span><span class="p">,</span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="s2">&quot;completion&quot;</span><span class="p">,</span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="kc">true</span><span class="p">}</span>
+</span></code></pre></div>
+<ul>
+<li><code>kind</code> vale <code>completion</code>, <code>embeddings</code> o <code>decision</code>. Los modelos
+  desactivados se listan, con <code>enabled</code> a <code>false</code>: un destino o un grant puede
+  designar uno, y la pasarela no sirve ninguno.</li>
+<li><strong>Resolución de nombres.</strong> <code>proxy_name</code> es el nombre del modelo dentro de su
+  organización, sin el slug de la organización ni segmento de equipo. La
+  pasarela resuelve un nombre solicitado <code>&lt;org&gt;/&lt;team&gt;/&lt;model&gt;</code> quitando el
+  segmento de equipo, cuando es el slug de un equipo de la organización, y
+  luego <code>&lt;org&gt;/&lt;model&gt;</code> quitando el slug de la organización; el resto, que
+  puede contener <code>/</code>, se compara con el <code>proxy_name</code> de los modelos activos.</li>
+<li>No se exponen ni el modelo de origen, ni la URL base, ni el cuerpo
+  adicional, ni la tarificación, ni el catálogo: modificarlos no cambia ningún
+  <code>ETag</code> ni publica ningún evento. Crear, renombrar, activar, desactivar o
+  eliminar un modelo publica <code>llm_model.created.v1</code>, <code>.updated.v1</code> o
+  <code>.deleted.v1</code>; eliminar un proveedor publica la eliminación de sus modelos
+  antes que la suya.</li>
+<li><code>PUT</code> y <code>DELETE</code> responden <code>405</code>. La familia no tiene autoridad de
+  escritura: no forma parte de <code>XOLO_OWNERSHIP</code>, y solo la instancia local la
+  escribe.</li>
+<li>La migración <code>202610230001</code> proyecta los modelos existentes sin publicar
+  ningún evento; como las anteriores, exige detener todos los servidores.</li>
+</ul>
+<h3 id="modelos-personales">Modelos personales<a class="headerlink" href="#modelos-personales" title="Permanent link">&para;</a></h3>
+<p>Los modelos virtuales que un miembro construye para sí mismo, llamados
+<code>~/&lt;nombre&gt;</code>, forman la familia <code>personal_virtual_model</code>, de solo lectura.
+Dependen del miembro, no de una organización, y se gestionan desde el perfil.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/members/{memberID}/personal-models</code> — paginada como las demás colecciones</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/v1/xolo/tenants/{tenantID}/members/{memberID}/personal-models/{key}</code> — un modelo, con su <code>ETag</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;router&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="nt">&quot;team_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;catalog_overrides&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="nt">&quot;graph&quot;</span><span class="p">:{</span><span class="nt">&quot;nodes&quot;</span><span class="p">:[</span><span class="err">…</span><span class="p">],</span><span class="nt">&quot;edges&quot;</span><span class="p">:[</span><span class="err">…</span><span class="p">]}}</span>
+</span></code></pre></div>
+<ul>
+<li>La clave de un elemento y de un evento es
+  <code>{"tenant_id","member_id","resource_id"}</code>.</li>
+<li><code>team_id</code> es el equipo al que se imputan las solicitudes, elegido por el
+  miembro, vacío si no eligió ninguno; puede designar un equipo eliminado
+  desde entonces, lo que rechaza las solicitudes hasta que el miembro elija
+  otro. <code>graph</code> es el pipeline, como para un modelo virtual, sin los secretos
+  de sus nodos plugin, que no se devuelven ni se enumeran.</li>
+<li><strong>Resolución de nombres.</strong> La pasarela resuelve <code>~/&lt;nombre&gt;</code> entre los
+  modelos del miembro que autentica la solicitud; <code>name</code> es ese <code>&lt;nombre&gt;</code>.</li>
+<li>Crear, modificar o eliminar un modelo personal publica
+  <code>personal_virtual_model.created.v1</code>, <code>.updated.v1</code> o <code>.deleted.v1</code>;
+  eliminar o purgar un miembro publica la eliminación de sus modelos. Un
+  cambio solo de los secretos de sus nodos no publica nada.</li>
+<li><code>PUT</code> y <code>DELETE</code> responden <code>405</code>. La familia no tiene autoridad de
+  escritura: no forma parte de <code>XOLO_OWNERSHIP</code>, y solo la instancia local la
+  escribe.</li>
+<li>La migración <code>202610230001</code> proyecta también los modelos personales
+  existentes.</li>
 </ul>
 <h2 id="autoridad-de-escritura-adopcion-y-desvinculacion">Autoridad de escritura, adopción y desvinculación<a class="headerlink" href="#autoridad-de-escritura-adopcion-y-desvinculacion" title="Permanent link">&para;</a></h2>
 <p>Cada familia del contrato común, así como las suscripciones webhook, tiene una
@@ -4209,7 +4365,7 @@ invitaciones), el plano de control (este listener) o ambos.</p>
 </tr>
 </tbody>
 </table>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>XOLO_OWNERSHIP=tenant=control_plane,tenant_domain=control_plane,organization=control_plane,member=control_plane,organization_membership=control_plane,subscription=control_plane
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>XOLO_OWNERSHIP=tenant=control_plane,tenant_domain=control_plane,organization=control_plane,member=control_plane,organization_membership=control_plane,subscription=control_plane
 </span></code></pre></div>
 <ul>
 <li><code>shared</code>, el valor por defecto, conserva el comportamiento anterior: ambos
@@ -4226,7 +4382,7 @@ proyección que la escritura modifica, cascadas incluidas: eliminar un tenant
 cuyos miembros dependen de otra autoridad se rechaza en bloque, sin eliminar
 ni publicar nada. Los campos fuera del contrato siguen siendo locales sea cual
 sea la política: roles de plataforma, moneda y reparto de cuota de una
-organización, modelos, modelos virtuales, middlewares y tokens de
+organización, modelos LLM y tokens de
 aplicación. Las cuentas de aplicación y los tokens de API
 siguen siendo utilizables, y las lecturas conservan sus permisos.
 <code>GET /v1/xolo/ownership</code> devuelve la política efectiva, y el manifiesto anuncia
@@ -4260,10 +4416,10 @@ en flujo el inventario de la instancia: cada proyección de las familias comunes
 negocio de todos los tenants, recursos suspendidos incluidos, leídas sobre una misma
 instantánea coherente sin tomar ningún bloqueo. El formato, <code>xolo-adoption/1</code>,
 es NDJSON (<code>application/x-ndjson</code>):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>…
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>…
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
 </span></code></pre></div>
 <ul>
 <li>Los registros siguen el orden de <code>families</code>, padres antes que hijos; <code>key</code>,
@@ -4314,7 +4470,7 @@ memoria. Muestra la fuente, <code>c0</code> y el número de registros de cada fa
    datos.</li>
 <li>Ejecute:</li>
 </ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span>…<span class="w"> </span>xolo-adoption<span class="w"> </span>detach<span class="w"> </span>-writers-stopped<span class="w"> </span>-operator-access-verified
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">XOLO_STORAGE_DATABASE_DSN</span><span class="o">=</span>…<span class="w"> </span>xolo-adoption<span class="w"> </span>detach<span class="w"> </span>-writers-stopped<span class="w"> </span>-operator-access-verified
 </span></code></pre></div>
 <ol>
 <li>Retire los valores <code>control_plane</code> de <code>XOLO_OWNERSHIP</code> y reinicie cada
@@ -4406,9 +4562,9 @@ purga el ámbito una vez transcurrida la retención.</p>
 </tbody>
 </table>
 <p>Una eliminación se lee así:</p>
-<div class="language-json highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="nt">&quot;resource_type&quot;</span><span class="p">:</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="nt">&quot;tenant_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;resource_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w"> </span><span class="nt">&quot;deleted_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purge_after&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;etag&quot;</span><span class="p">:</span><span class="s2">&quot;W/\&quot;42\&quot;&quot;</span><span class="p">,</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w"> </span><span class="nt">&quot;export_sha256&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;confirmed_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purged_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;attempts&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;diagnostic&quot;</span><span class="p">:</span><span class="s2">&quot;purged&quot;</span><span class="p">}</span>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{</span><span class="nt">&quot;resource_type&quot;</span><span class="p">:</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span><span class="nt">&quot;tenant_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;resource_id&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w"> </span><span class="nt">&quot;deleted_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purge_after&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;etag&quot;</span><span class="p">:</span><span class="s2">&quot;W/\&quot;42\&quot;&quot;</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w"> </span><span class="nt">&quot;export_sha256&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;confirmed_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;purged_at&quot;</span><span class="p">:</span><span class="s2">&quot;…&quot;</span><span class="p">,</span><span class="nt">&quot;attempts&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;diagnostic&quot;</span><span class="p">:</span><span class="s2">&quot;purged&quot;</span><span class="p">}</span>
 </span></code></pre></div>
 <p><code>etag</code> está presente hasta la purga; <code>export_sha256</code> y <code>confirmed_at</code> una vez
 confirmada la exportación; <code>purged_at</code>, y <code>purged_with</code> para un recurso
@@ -4442,9 +4598,9 @@ purgado con su tenant, una vez hecha la purga. <code>diagnostic</code> vale
   proveedores, valores de los tokens, secretos de los plugins y de los
   webhooks, sesiones OIDC y entregas en cola.</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>{&quot;format&quot;:&quot;xolo-deletion/1&quot;,&quot;source&quot;:…,&quot;deletion&quot;:{…,&quot;etag&quot;:…}}
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>{&quot;table&quot;:&quot;organizations&quot;,&quot;row&quot;:{…}}          (una por fila)
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>{&quot;count&quot;:…,&quot;complete&quot;:true,&quot;sha256&quot;:…}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>{&quot;format&quot;:&quot;xolo-deletion/1&quot;,&quot;source&quot;:…,&quot;deletion&quot;:{…,&quot;etag&quot;:…}}
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>{&quot;table&quot;:&quot;organizations&quot;,&quot;row&quot;:{…}}          (una por fila)
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>{&quot;count&quot;:…,&quot;complete&quot;:true,&quot;sha256&quot;:…}
 </span></code></pre></div>
 <p>El SHA-256 del trailer cubre todas las líneas anteriores, saltos de línea
   incluidos; una exportación sin trailer fue interrumpida. Nada en ella
@@ -4834,52 +4990,52 @@ claves secundarias y los tokens eliminados en cascada en la caché compartida.</
 en instalaciones nuevas y actualizaciones. Su rollback rechaza borrar el historial.</p>
 <h2 id="pki-de-desarrollo-y-ejemplo">PKI de desarrollo y ejemplo<a class="headerlink" href="#pki-de-desarrollo-y-ejemplo" title="Permanent link">&para;</a></h2>
 <p>El certificado cliente debe incluir el URI que se configura en la lista autorizada:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Certificate authority</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Server certificate</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="c1"># Client certificate</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>dev-pki<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>dev-pki
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Certificate authority</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>openssl<span class="w"> </span>req<span class="w"> </span>-x509<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>-keyout<span class="w"> </span>ca.key<span class="w"> </span>-out<span class="w"> </span>ca.crt<span class="w"> </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=xolo-dev-ca&quot;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Server certificate</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>server.key<span class="w"> </span>-out<span class="w"> </span>server.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=localhost&quot;</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>server.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span>-out<span class="w"> </span>server.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=DNS:localhost,IP:127.0.0.1\nextendedKeyUsage=serverAuth&quot;</span><span class="o">)</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1"># Client certificate</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>openssl<span class="w"> </span>req<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-nodes<span class="w"> </span>-keyout<span class="w"> </span>client.key<span class="w"> </span>-out<span class="w"> </span>client.csr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span>-subj<span class="w"> </span><span class="s2">&quot;/CN=control-plane&quot;</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>openssl<span class="w"> </span>x509<span class="w"> </span>-req<span class="w"> </span>-in<span class="w"> </span>client.csr<span class="w"> </span>-CA<span class="w"> </span>ca.crt<span class="w"> </span>-CAkey<span class="w"> </span>ca.key<span class="w"> </span>-CAcreateserial<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">  </span>-out<span class="w"> </span>client.crt<span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">  </span>-extfile<span class="w"> </span>&lt;<span class="o">(</span><span class="nb">printf</span><span class="w"> </span><span class="s2">&quot;subjectAltName=URI:urn:xolo:client:control-plane\nextendedKeyUsage=clientAuth&quot;</span><span class="o">)</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>bin/server
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># Refused: no client certificate</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># Accepted: read the identifier of the default tenant</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="c1"># Create an organization with an identifier of your choice</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
-</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nv">XOLO_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="nv">XOLO_PROVISIONNING_API_ENABLED</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nv">XOLO_PROVISIONNING_API_AUTHORIZED_URIS</span><span class="o">=</span>urn:xolo:client:control-plane<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CERT_FILE</span><span class="o">=</span>dev-pki/server.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_KEY_FILE</span><span class="o">=</span>dev-pki/server.key<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="nv">XOLO_PROVISIONNING_API_TLS_CLIENT_CA_FILE</span><span class="o">=</span>dev-pki/ca.crt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>bin/server
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># Refused: no client certificate</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>curl<span class="w"> </span>-sk<span class="w"> </span>https://localhost:3003/v1/manifest
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="nv">CURL</span><span class="o">=</span><span class="s2">&quot;curl -s --cacert dev-pki/ca.crt --cert dev-pki/client.crt --key dev-pki/client.key -H Content-Type:application/json&quot;</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="c1"># Accepted: read the identifier of the default tenant</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="nv">$CURL</span><span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/xolo/tenants?slug=default&quot;</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="nv">TENANT</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># the id read above</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="c1"># Create an organization with an identifier of your choice</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="nv">ORG</span><span class="o">=</span><span class="k">$(</span>uuidgen<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span>A-Z<span class="w"> </span>a-z<span class="k">)</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="nv">$CURL</span><span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">&quot;https://localhost:3003/v1/tenants/</span><span class="nv">$TENANT</span><span class="s2">/organizations/</span><span class="nv">$ORG</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;slug&quot;:&quot;acme&quot;,&quot;name&quot;:&quot;Acme&quot;,&quot;status&quot;:&quot;active&quot;}&#39;</span>
 </span></code></pre></div>
 <p>En producción, utilice una autoridad de certificación gestionada (Vault, cert-manager, PKI interna) y rote los certificados de cliente.</p>
 <h2 id="fuera-del-alcance-actual">Fuera del alcance actual<a class="headerlink" href="#fuera-del-alcance-actual" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Los modelos LLM, modelos virtuales personales, tokens de aplicación y parámetros de eventos: siguen gestionándose desde la interfaz web.</li>
+<li>La escritura de los modelos LLM y de los modelos virtuales personales, de solo lectura aquí; los tokens de aplicación y parámetros de eventos: siguen gestionándose desde la interfaz web.</li>
 <li>Los alcances por certificado: cualquier URI autorizado administra la instancia completa.</li>
 <li>Todavía no se genera ninguna especificación OpenAPI.</li>
 </ul>
