@@ -3207,7 +3207,7 @@
 <h2 id="pipeline-integration">Pipeline Integration<a class="headerlink" href="#pipeline-integration" title="Permanent link">&para;</a></h2>
 <p>Plugins integrate into the <strong>pipeline engine</strong> via their ports. Each plugin node in a pipeline graph:</p>
 <ol>
-<li>Receives upstream port values in <code>PreRequestInput.InputsJson</code> (JSON object <code>{portName: value}</code>)</li>
+<li>Receives upstream port values through <code>pluginsdk.PreRequestInputs(in)</code> (map <code>{portName: value}</code>)</li>
 <li>Produces downstream port values in <code>PreRequestOutput.OutputsJson</code> (JSON object <code>{portName: value}</code>)</li>
 </ol>
 <p>The pipeline engine topologically sorts nodes and passes outputs from upstream nodes as inputs to downstream nodes. This enables composing plugins into dataflow graphs without code changes — only wiring in the UI.</p>
@@ -3237,22 +3237,33 @@
 <tr>
 <td><code>Model</code></td>
 <td><code>string</code></td>
-<td>Full LLM request body JSON (same as <code>ec.BodyJSON</code> in the pipeline engine)</td>
+<td>Full JSON body of the LLM request entering the node: the <code>request</code> input when an upstream node feeds one, the incoming request body otherwise</td>
 </tr>
 <tr>
 <td><code>MessagesJson</code></td>
 <td><code>string</code></td>
-<td>JSON-encoded messages array extracted from the request body</td>
+<td>Messages rewritten by an upstream node, empty when they are those of <code>Model</code></td>
 </tr>
 <tr>
 <td><code>InputsJson</code></td>
 <td><code>string</code></td>
-<td>JSON object <code>{portName: value}</code> for connected input ports</td>
+<td>JSON object <code>{portName: value}</code> for connected input ports, minus the ports below</td>
+</tr>
+<tr>
+<td><code>RequestInputPorts</code></td>
+<td><code>[]string</code></td>
+<td>Input ports whose value is the request body held in <code>Model</code></td>
+</tr>
+<tr>
+<td><code>MessagesInputPorts</code></td>
+<td><code>[]string</code></td>
+<td>Input ports whose value is the messages entering the node</td>
 </tr>
 </tbody>
 </table>
 <blockquote>
-<p><strong>Note:</strong> <code>Model</code> does <strong>not</strong> contain just the model name — it contains the entire raw request body as JSON. Use <code>MessagesJson</code> for messages, or parse <code>Model</code> as JSON to access other fields such as <code>model</code>, <code>temperature</code>, <code>max_tokens</code>, etc.</p>
+<p><strong>Note:</strong> <code>Model</code> does <strong>not</strong> contain just the model name — it contains the entire raw request body as JSON. Parse it to access fields such as <code>model</code>, <code>temperature</code>, <code>max_tokens</code>, etc. Downstream of a node that rewrites the body, such as the pseudonymizer, it holds the rewritten body, never the original one.</p>
+<p><strong>Read the messages and inputs through the SDK.</strong> The host sends the request body once per call: <code>MessagesJson</code> is left empty while the messages are those of the body, and an input port that only repeats the body or the messages is left out of <code>InputsJson</code>. Call <code>pluginsdk.PreRequestMessages(in)</code> for the messages and <code>pluginsdk.PreRequestInputs(in)</code> for the inputs; they restore what was left out. Reading the raw fields would see no messages and miss ports. Since protocol version 3.</p>
 </blockquote>
 <p><strong>Output (<code>PreRequestOutput</code>):</strong></p>
 <table>
@@ -3318,8 +3329,8 @@
 <p><strong>Example — producing output port values (request-inspector):</strong></p>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">Plugin</span><span class="p">)</span><span class="w"> </span><span class="nx">PreRequest</span><span class="p">(</span><span class="nx">_</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nx">outputs</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kd">interface</span><span class="p">{}{</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="s">&quot;has_vision&quot;</span><span class="p">:</span><span class="w">   </span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">HasImage</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">MessagesJson</span><span class="p">),</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">        </span><span class="s">&quot;input_tokens&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">EstimateTokens</span><span class="p">(</span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">Context</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">MessagesJson</span><span class="p">)),</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="s">&quot;has_vision&quot;</span><span class="p">:</span><span class="w">   </span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">HasImage</span><span class="p">(</span><span class="nx">pluginsdk</span><span class="p">.</span><span class="nx">PreRequestMessages</span><span class="p">(</span><span class="nx">in</span><span class="p">)),</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">        </span><span class="s">&quot;input_tokens&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">EstimateTokens</span><span class="p">(</span><span class="nx">requesttext</span><span class="p">.</span><span class="nx">Context</span><span class="p">(</span><span class="nx">pluginsdk</span><span class="p">.</span><span class="nx">PreRequestMessages</span><span class="p">(</span><span class="nx">in</span><span class="p">))),</span>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">outputs</span><span class="p">)</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">{</span>
@@ -3388,7 +3399,7 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <p><strong>Example — modifying messages (prepending a system prompt):</strong></p>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">Plugin</span><span class="p">)</span><span class="w"> </span><span class="nx">PreRequest</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">messages</span><span class="w"> </span><span class="p">[]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">GetMessagesJson</span><span class="p">()),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">messages</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Unmarshal</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">pluginsdk</span><span class="p">.</span><span class="nx">PreRequestMessages</span><span class="p">(</span><span class="nx">in</span><span class="p">)),</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">messages</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">{</span><span class="nx">Allowed</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span>
 </span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nx">newMessages</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">append</span><span class="p">([]</span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">any</span><span class="p">{</span>
@@ -3403,11 +3414,16 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 </span></code></pre></div>
 <p><strong>Example — passthrough port forwarding (forward all inputs to outputs):</strong></p>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">Plugin</span><span class="p">)</span><span class="w"> </span><span class="nx">PreRequest</span><span class="p">(</span><span class="nx">_</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">{</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">        </span><span class="nx">Allowed</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">        </span><span class="nx">OutputsJson</span><span class="p">:</span><span class="w"> </span><span class="nx">in</span><span class="p">.</span><span class="nx">InputsJson</span><span class="p">,</span><span class="w"> </span><span class="c1">// forward all inputs as outputs</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="nx">inputs</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pluginsdk</span><span class="p">.</span><span class="nx">PreRequestInputs</span><span class="p">(</span><span class="nx">in</span><span class="p">)</span><span class="w"> </span><span class="c1">// InputsJson alone misses the ports left out</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nx">b</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">inputs</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">{</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">        </span><span class="nx">Allowed</span><span class="p">:</span><span class="w">     </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">        </span><span class="nx">OutputsJson</span><span class="p">:</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">b</span><span class="p">),</span><span class="w"> </span><span class="c1">// forward all inputs as outputs</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="2-post_response">2. POST_RESPONSE<a class="headerlink" href="#2-post_response" title="Permanent link">&para;</a></h3>
 <p>Invoked <strong>after</strong> the LLM proxy responds (or errors). Typical uses: logging, quota tracking, response transformation (e.g. de-pseudonymisation).</p>
@@ -3493,7 +3509,7 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <p>The <code>arguments</code> of a call are themselves a JSON document. Restore the values inside the decoded document and re-encode it, rather than substituting text into the encoded form: a value carrying a backslash or a newline, a Windows path or a two-line postal address, would otherwise produce arguments the client can no longer parse.</p>
 <p><strong>Example — response transformation using node_state:</strong></p>
 <div class="language-go highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">Plugin</span><span class="p">)</span><span class="w"> </span><span class="nx">PreRequest</span><span class="p">(</span><span class="nx">_</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nx">mapping</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">buildPseudonymMap</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">GetMessagesJson</span><span class="p">())</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nx">mapping</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">buildPseudonymMap</span><span class="p">(</span><span class="nx">pluginsdk</span><span class="p">.</span><span class="nx">PreRequestMessages</span><span class="p">(</span><span class="nx">in</span><span class="p">))</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nx">state</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshal</span><span class="p">(</span><span class="nx">mapping</span><span class="p">)</span>
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">proto</span><span class="p">.</span><span class="nx">PreRequestOutput</span><span class="p">{</span>
 </span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="nx">Allowed</span><span class="p">:</span><span class="w">   </span><span class="kc">true</span><span class="p">,</span>
@@ -3546,7 +3562,7 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <tr>
 <td><code>MessagesJson</code></td>
 <td><code>string</code></td>
-<td>JSON-encoded messages</td>
+<td>Rewritten messages, empty when they are those of <code>BodyJson</code>: read them with <code>pluginsdk.ResolveModelMessages(in)</code></td>
 </tr>
 <tr>
 <td><code>VirtualModels</code></td>
@@ -3561,7 +3577,7 @@ otherwise, so always go through the <code>GetXxx()</code> accessors.</p>
 <tr>
 <td><code>BodyJson</code></td>
 <td><code>string</code></td>
-<td>Raw request body JSON</td>
+<td>Raw JSON body of the request entering the node, as <code>PreRequestInput.Model</code></td>
 </tr>
 </tbody>
 </table>
@@ -3852,8 +3868,9 @@ d'organisation ne révoque donc pas les autorisations OAuth personnelles.</p>
 <li>Arrêter toutes les instances qui écrivent dans la base, puis sauvegarder la
    base et conserver la clé de chiffrement existante.</li>
 <li>Reconstruire et livrer ensemble le serveur, le SDK et tous les plugins. Cette
-   évolution utilise le protocole de plugin version 2 ; les anciens binaires sont
-   refusés au démarrage.</li>
+   évolution a fait passer le protocole de plugin à la version 2 ; les binaires
+   construits pour un protocole antérieur à celui du serveur sont refusés au
+   démarrage.</li>
 <li>Démarrer une seule instance pour appliquer la migration <code>202609300003</code>, avant
    de réouvrir les écritures. La migration vérifie les identifiants invalides et
    les doublons, crée l'unicité <code>(org_id, plugin_name, node_id, key)</code>, puis supprime
@@ -3870,6 +3887,20 @@ Les autorisations OAuth qui avaient été enregistrées sous un périmètre
 d'organisation doivent être renouvelées depuis le profil : aucun repli de lecture
 ne les récupère. Les plugins installés restent des composants de confiance ; ce
 correctif ne constitue pas une autorisation des RPC face à un binaire malveillant.</p>
+<h2 id="protocole-version-3-corps-de-requete-transmis-une-seule-fois">Protocole version 3 : corps de requête transmis une seule fois<a class="headerlink" href="#protocole-version-3-corps-de-requete-transmis-une-seule-fois" title="Permanent link">&para;</a></h2>
+<p>Jusqu'au protocole 2, un appel <code>PreRequest</code> transportait la conversation jusqu'à
+trois fois : dans le corps de la requête (<code>Model</code>), dans <code>MessagesJson</code> et dans
+le port d'entrée <code>request</code> de <code>InputsJson</code>. Une longue conversation d'agent de
+code dépassait alors la taille maximale d'un message gRPC.</p>
+<p>Depuis le protocole 3, chaque donnée n'est transmise qu'une fois, et un plugin
+lit les messages et ses entrées avec <code>pluginsdk.PreRequestMessages</code>,
+<code>pluginsdk.ResolveModelMessages</code> et <code>pluginsdk.PreRequestInputs</code>. <code>Model</code> (et
+<code>BodyJson</code> pour <code>ResolveModel</code>) contient désormais le corps qui entre dans le
+nœud : en aval d'un nœud qui réécrit le corps, comme le pseudonymizer, c'est le
+corps réécrit, et un plugin n'y voit plus les valeurs d'origine. La taille
+maximale d'un message se règle avec <code>XOLO_PLUGINS_MAX_MESSAGE_SIZE</code> (64 Mio par
+défaut). Reconstruire et livrer ensemble le serveur et tous les plugins : les
+binaires du protocole 2 sont refusés au démarrage.</p>
 <h2 id="emitting-events">Emitting Events<a class="headerlink" href="#emitting-events" title="Permanent link">&para;</a></h2>
 <p>Plugins can push events into Xolo's <a href="../../../concepts/eventql/">event system</a> so their
 activity shows up in the events explorer and can trigger alerts — for example a

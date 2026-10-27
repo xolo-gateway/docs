@@ -3710,6 +3710,11 @@
 <td>Limite mémoire (<code>GOMEMLIMIT</code>) appliquée à chaque sous-processus plugin, ex. <code>512MiB</code>.</td>
 </tr>
 <tr>
+<td><code>XOLO_PLUGINS_MAX_MESSAGE_SIZE</code></td>
+<td><code>67108864</code> (64 Mio)</td>
+<td>Taille maximale, en octets, d'un message échangé entre Xolo et un plugin, dans les deux sens. Une requête traversant un plugin <code>PreRequest</code> (pseudonymizer, prompt-guard…) lui est transmise en entier : une longue conversation d'agent de code ou des pièces jointes en ligne peuvent dépasser cette borne, la requête échoue alors avec une erreur <code>ResourceExhausted</code> « received message larger than max ». La valeur, comprise entre 1 Mio et 1 Gio, est transmise à chaque plugin au démarrage ; une valeur hors de ces bornes empêche le serveur de démarrer.</td>
+</tr>
+<tr>
 <td><code>XOLO_PLUGINS_RESTART_COOLDOWN</code></td>
 <td><code>30s</code></td>
 <td>Délai minimum entre deux redémarrages d'un même plugin, pour éviter les redémarrages en boucle.</td>
