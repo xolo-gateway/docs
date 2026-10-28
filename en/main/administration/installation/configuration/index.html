@@ -569,6 +569,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Language
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2171,6 +2182,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#language" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Language
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2313,6 +2335,24 @@
 <td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
 <td><code>1000</code></td>
 <td>Rows removed by one purge transaction, 1 to 100 000.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="language">Language<a class="headerlink" href="#language" title="Permanent link">&para;</a></h2>
+<p>The web interface is available in English, French and Spanish. Each request uses the language chosen with the language switch (stored in the <code>xolo_locale</code> cookie), otherwise the best match of the browser's <code>Accept-Language</code> header, otherwise the default below.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_DEFAULT_LOCALE</code></td>
+<td><code>fr</code></td>
+<td>Language used when neither the switch nor the browser selects a supported one: <code>en</code>, <code>fr</code> or <code>es</code>.</td>
 </tr>
 </tbody>
 </table>
