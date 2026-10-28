@@ -542,6 +542,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#idioma" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Idioma
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2144,6 +2155,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#idioma" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Idioma
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2286,6 +2308,24 @@
 <td><code>XOLO_LIFECYCLE_PURGE_BATCH</code></td>
 <td><code>1000</code></td>
 <td>Filas eliminadas por transacción de purga, de 1 a 100 000.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="idioma">Idioma<a class="headerlink" href="#idioma" title="Permanent link">&para;</a></h2>
+<p>La interfaz web está disponible en inglés, francés y español. Cada solicitud usa el idioma elegido con el selector de idioma (guardado en la cookie <code>xolo_locale</code>); si no, la mejor coincidencia de la cabecera <code>Accept-Language</code> del navegador; si no, el idioma predeterminado indicado abajo.</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Valor predeterminado</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>XOLO_DEFAULT_LOCALE</code></td>
+<td><code>fr</code></td>
+<td>Idioma usado cuando ni el selector ni el navegador indican uno compatible: <code>en</code>, <code>fr</code> o <code>es</code>.</td>
 </tr>
 </tbody>
 </table>
