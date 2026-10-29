@@ -1919,6 +1919,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#language-chosen-in-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Language chosen in Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#adoption-export" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2909,6 +2920,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#language-chosen-in-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Language chosen in Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#adoption-export" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3269,7 +3291,7 @@ first-request failure.</p>
 <tr>
 <td><code>PUT</code></td>
 <td><code>/v1/tenants/{tenantID}/members/{memberID}</code></td>
-<td><code>{"email","tenant_role","status"}</code>, optional <code>"display_name"</code> and <code>"identity"</code></td>
+<td><code>{"email","tenant_role","status"}</code>, optional <code>"display_name"</code>, <code>"locale"</code> and <code>"identity"</code></td>
 </tr>
 <tr>
 <td><code>PUT</code></td>
@@ -3322,7 +3344,8 @@ Treat it as a set: its order is not significant.</p>
   representation and its <code>ETag</code>. A <code>PUT</code> identical to the stored state changes
   nothing, writes no audit and keeps its <code>ETag</code>, so a client can replay its
   whole desired state.</li>
-<li><strong>A <code>PUT</code> replaces the representation.</strong> An omitted <code>display_name</code> is empty.
+<li><strong>A <code>PUT</code> replaces the representation.</strong> An omitted <code>display_name</code> or
+  <code>locale</code> is empty, and left out of the representation.
   An omitted <code>identity</code> is kept, see <a href="#declared-identity">Declared identity</a>.
   Fields outside the contract — descriptions, currencies, sign-in links,
   platform roles, custom roles — are never touched.</li>
@@ -3348,8 +3371,15 @@ or updates its slug, name and status. An organization identifier already used
 by another tenant is a <code>409</code>.</p>
 <h3 id="members">Members<a class="headerlink" href="#members" title="Permanent link">&para;</a></h3>
 <p><code>PUT …/members/{memberID}</code> creates the member or updates it: email, display
-name, tenant role, status and declared identity. <code>suspended</code> deactivates the
-account. The platform roles are never modified.</p>
+name, locale, tenant role, status and declared identity. <code>suspended</code> deactivates
+the account. The platform roles are never modified.</p>
+<p><code>locale</code> is the language the person chose for the interface. It is trimmed,
+never re-cased, and must then be empty or a canonical language tag: 2 or 3
+lowercase letters, optionally a script (<code>-Hant</code>), optionally a region (<code>-BR</code>,
+<code>-419</code>), 12 bytes at most. <code>fr-fr</code>, <code>FR</code> or <code>fr_FR</code> are
+<code>400 invalid_representation</code>. A valid tag Xolo does not offer, such as <code>pt-BR</code>,
+is kept as is: the web UI uses the closest language it supports, see
+<a href="#language-chosen-in-xolo">Language chosen in Xolo</a>.</p>
 <p><strong>A member can be provisioned ahead of their first sign-in.</strong> A <code>PUT</code> on an
 unknown identifier creates the account with the platform <code>user</code> role, linked to
 no sign-in yet: its first sign-in links it, through its declared identity or a
@@ -4395,13 +4425,33 @@ plane declared:</p>
   bootstrap the instance, and the application accounts. Any other identity is
   refused with <code>403</code>.</li>
 </ul>
+<h3 id="language-chosen-in-xolo">Language chosen in Xolo<a class="headerlink" href="#language-chosen-in-xolo" title="Permanent link">&para;</a></h3>
+<p>The web UI is displayed in, in order: the language of the signed-in member's
+<code>locale</code> when Xolo offers one close to it, the language chosen with the switch
+on this browser (<code>xolo_locale</code> cookie), <code>Accept-Language</code>, then
+<code>XOLO_DEFAULT_LOCALE</code>.</p>
+<p>The language switch works signed out, on this browser only. Signed in, it also
+stores the choice as the member's <code>locale</code>, even with <code>member=control_plane</code>:
+it is the one member field Xolo changes itself. That change writes only
+<code>locale</code>, is audited with the member as actor and publishes exactly one
+<code>member.updated.v1</code>, with a request ID Xolo generated, in the same
+transaction. Choosing the same language again publishes nothing. Every other
+member field stays refused locally. The control plane adopts the choice and
+passes it on to the other applications; its next <code>PUT</code> replaces <code>locale</code> like
+any other field.</p>
+<blockquote>
+<p><strong>Before upgrading.</strong> A <code>PUT</code> that omits <code>locale</code> clears the language the
+member chose in Xolo. A control plane unaware of the field therefore resets
+every member's language the next time it replays its members: upgrade it to
+send <code>locale</code> first.</p>
+</blockquote>
 <h3 id="adoption-export">Adoption export<a class="headerlink" href="#adoption-export" title="Permanent link">&para;</a></h3>
 <p><code>GET /v1/xolo/adoption/export</code>, like <code>xolo-adoption export</code>, streams the
 inventory of the instance: every projection of the common and business
 families of every tenant, suspended resources included, read on one consistent snapshot without
 taking any lock. The format, <code>xolo-adoption/1</code>, is NDJSON
 (<code>application/x-ndjson</code>):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.3&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>…
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
