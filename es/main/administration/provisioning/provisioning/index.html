@@ -1892,6 +1892,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#idioma-elegido-en-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Idioma elegido en Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exportacion-de-adopcion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -2882,6 +2893,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#idioma-elegido-en-xolo" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Idioma elegido en Xolo
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exportacion-de-adopcion" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3239,7 +3261,7 @@ límite, la respuesta es <code>429</code>, con <code>rate_limited</code> y <code
 <tr>
 <td><code>PUT</code></td>
 <td><code>/v1/tenants/{tenantID}/members/{memberID}</code></td>
-<td><code>{"email","tenant_role","status"}</code>, <code>"display_name"</code> e <code>"identity"</code> opcionales</td>
+<td><code>{"email","tenant_role","status"}</code>, <code>"display_name"</code>, <code>"locale"</code> e <code>"identity"</code> opcionales</td>
 </tr>
 <tr>
 <td><code>PUT</code></td>
@@ -3292,8 +3314,8 @@ Trátela como un conjunto: su orden no es significativo.</p>
   almacenada y su <code>ETag</code>. Un <code>PUT</code> idéntico al estado almacenado no cambia nada,
   no escribe auditoría y conserva su <code>ETag</code>: un cliente puede repetir todo su
   estado deseado.</li>
-<li><strong>Un <code>PUT</code> reemplaza la representación.</strong> Un <code>display_name</code> omitido queda
-  vacío. Una <code>identity</code> omitida se conserva, consulte
+<li><strong>Un <code>PUT</code> reemplaza la representación.</strong> Un <code>display_name</code> o un <code>locale</code>
+  omitido queda vacío y fuera de la representación. Una <code>identity</code> omitida se conserva, consulte
   <a href="#identidad-declarada">Identidad declarada</a>. Los campos fuera del contrato —
   descripciones, monedas, vínculos de inicio de sesión, roles de plataforma,
   roles personalizados — nunca se modifican.</li>
@@ -3321,8 +3343,16 @@ actualiza su slug, su nombre y su estado. Un identificador de organización ya
 usado por otro tenant da <code>409</code>.</p>
 <h3 id="miembros">Miembros<a class="headerlink" href="#miembros" title="Permanent link">&para;</a></h3>
 <p><code>PUT …/members/{memberID}</code> crea el miembro o lo actualiza: email, nombre visible,
-rol de tenant, estado e identidad declarada. <code>suspended</code> desactiva la cuenta.
-Los roles de plataforma nunca se modifican.</p>
+idioma (<code>locale</code>), rol de tenant, estado e identidad declarada. <code>suspended</code>
+desactiva la cuenta. Los roles de plataforma nunca se modifican.</p>
+<p><code>locale</code> es el idioma que la persona eligió para la interfaz. Se recortan sus
+espacios, nunca se cambian sus mayúsculas, y debe quedar vacío o ser una
+etiqueta de idioma canónica: 2 o 3 letras minúsculas, opcionalmente una
+escritura (<code>-Hant</code>), opcionalmente una región (<code>-BR</code>, <code>-419</code>), 12 bytes como
+máximo. <code>fr-fr</code>, <code>FR</code> o <code>fr_FR</code> se rechazan con <code>400 invalid_representation</code>.
+Una etiqueta válida que Xolo no ofrece, como <code>pt-BR</code>, se conserva tal cual: la
+interfaz web usa el idioma ofrecido más cercano, consulte
+<a href="#idioma-elegido-en-xolo">Idioma elegido en Xolo</a>.</p>
 <p><strong>Un miembro puede aprovisionarse antes de su primer inicio de sesión.</strong> Un <code>PUT</code>
 sobre un identificador desconocido crea la cuenta con el rol de plataforma
 <code>user</code>, sin vínculo con ningún inicio de sesión: su primer inicio de sesión la
@@ -4410,13 +4440,33 @@ el plano de control declaró:</p>
   administradores por defecto, que inicializan la instancia, y las cuentas de
   aplicación. Cualquier otra identidad se rechaza con <code>403</code>.</li>
 </ul>
+<h3 id="idioma-elegido-en-xolo">Idioma elegido en Xolo<a class="headerlink" href="#idioma-elegido-en-xolo" title="Permanent link">&para;</a></h3>
+<p>La interfaz web se muestra, en este orden: en el idioma del <code>locale</code> del
+miembro conectado si Xolo ofrece uno cercano, en el idioma elegido con el
+selector en este navegador (cookie <code>xolo_locale</code>), según <code>Accept-Language</code> y
+luego en <code>XOLO_DEFAULT_LOCALE</code>.</p>
+<p>El selector de idioma funciona sin sesión, solo en este navegador. Con sesión,
+también guarda la elección como <code>locale</code> del miembro, incluso con
+<code>member=control_plane</code>: es el único campo del miembro que Xolo modifica por sí
+mismo. Ese cambio solo escribe <code>locale</code>, se audita con el miembro como actor y
+publica exactamente un <code>member.updated.v1</code>, con un identificador de petición
+generado por Xolo, en la misma transacción. Elegir de nuevo el mismo idioma no
+publica nada. Todos los demás campos del miembro siguen rechazados localmente.
+El plano de control adopta la elección y la transmite a las demás
+aplicaciones; su siguiente <code>PUT</code> reemplaza <code>locale</code> como cualquier otro campo.</p>
+<blockquote>
+<p><strong>Antes de actualizar.</strong> Un <code>PUT</code> que omite <code>locale</code> borra el idioma que el
+miembro eligió en Xolo. Un plano de control que desconoce el campo restablece
+así el idioma de cada miembro la próxima vez que reproduce sus miembros:
+actualícelo primero para que envíe <code>locale</code>.</p>
+</blockquote>
 <h3 id="exportacion-de-adopcion">Exportación de adopción<a class="headerlink" href="#exportacion-de-adopcion" title="Permanent link">&para;</a></h3>
 <p><code>GET /v1/xolo/adoption/export</code>, al igual que <code>xolo-adoption export</code>, transmite
 en flujo el inventario de la instancia: cada proyección de las familias comunes y de
 negocio de todos los tenants, recursos suspendidos incluidos, leídas sobre una misma
 instantánea coherente sin tomar ningún bloqueo. El formato, <code>xolo-adoption/1</code>,
 es NDJSON (<code>application/x-ndjson</code>):</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.2&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{&quot;version&quot;:&quot;xolo-adoption/1&quot;,&quot;contract&quot;:&quot;0.1.0-draft.3&quot;,&quot;source&quot;:&quot;urn:uuid:…&quot;,&quot;c0&quot;:&quot;…&quot;,&quot;families&quot;:[&quot;tenant&quot;,&quot;tenant_domain&quot;,&quot;organization&quot;,&quot;member&quot;,&quot;organization_membership&quot;,&quot;team&quot;,&quot;team_membership&quot;,&quot;provider&quot;,&quot;custom_role&quot;,&quot;team_settings&quot;,&quot;application&quot;,&quot;quota&quot;,&quot;alert&quot;]}
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>{&quot;family&quot;:&quot;tenant&quot;,&quot;key&quot;:{&quot;tenant_id&quot;:&quot;…&quot;},&quot;representation&quot;:{…},&quot;etag&quot;:&quot;W/\&quot;42\&quot;&quot;}
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>…
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>{&quot;count&quot;:128,&quot;complete&quot;:true,&quot;sha256&quot;:&quot;…&quot;}
