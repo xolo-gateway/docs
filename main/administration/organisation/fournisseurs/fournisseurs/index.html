@@ -1112,13 +1112,63 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#limites-par-modele" class="md-nav__link">
+  <a href="#decompte-par-modele" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Limites par modèle
+        Décompte par modèle
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Décompte par modèle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commun-pondere-par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Commun, pondéré par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modeles-publies-sous-plusieurs-noms" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles publiés sous plusieurs noms
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-pause-et-jauges" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Mise en pause et jauges
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -3456,13 +3506,63 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#limites-par-modele" class="md-nav__link">
+  <a href="#decompte-par-modele" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Limites par modèle
+        Décompte par modèle
       </span>
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Décompte par modèle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commun-pondere-par-modele" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Commun, pondéré par modèle
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modeles-publies-sous-plusieurs-noms" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Modèles publiés sous plusieurs noms
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-pause-et-jauges" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Mise en pause et jauges
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -4012,16 +4112,32 @@ du modèle.</p>
 <p>Le champ « Reset dans » se recopie depuis l'écran du fournisseur (par exemple
 <code>4h29m</code>) : Xolo le convertit en un ancrage absolu, de sorte que ses fenêtres
 coïncident avec les réinitialisations réelles du forfait.</p>
-<h3 id="limites-par-modele">Limites par modèle<a class="headerlink" href="#limites-par-modele" title="Permanent link">&para;</a></h3>
-<p>Certains forfaits ne limitent pas le fournisseur dans son ensemble, mais chaque
-modèle séparément. C'est le cas d'OpenCode Go : chaque modèle dispose de son
-propre budget mensuel, dont 20 % sur 5 heures et 50 % sur une semaine. Cocher
-<strong>Décompter par modèle</strong> sur une fenêtre lui donne ce comportement : chaque
-modèle amont a sa propre fenêtre et ses propres budgets, et épuiser un modèle ne
-bloque pas les autres.</p>
-<p>Les budgets de la contrainte s'appliquent alors à chaque modèle. Le champ
-<strong>Budgets propres à certains modèles</strong> les remplace pour les modèles qu'il
-liste, un par ligne, sous leur nom amont (le « modèle réel ») :</p>
+<h3 id="decompte-par-modele">Décompte par modèle<a class="headerlink" href="#decompte-par-modele" title="Permanent link">&para;</a></h3>
+<p>Une fenêtre se décompte de trois façons, au choix dans son champ <strong>Décompte</strong> :</p>
+<table>
+<thead>
+<tr>
+<th>Décompte</th>
+<th>Ce que compte la fenêtre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fournisseur entier</strong></td>
+<td>Tous les modèles consomment les mêmes budgets, chacun pour ce qu'il coûte</td>
+</tr>
+<tr>
+<td><strong>Par modèle</strong></td>
+<td>Chaque modèle a sa propre fenêtre et ses propres budgets</td>
+</tr>
+<tr>
+<td><strong>Commun, pondéré par modèle</strong></td>
+<td>Tous les modèles consomment les mêmes budgets, chacun à son propre rythme</td>
+</tr>
+</tbody>
+</table>
+<p>Le champ <strong>Budgets propres à certains modèles</strong> donne un budget à part aux
+modèles qu'il liste, un par ligne, sous leur nom amont (le « modèle réel ») :</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kimi-k3 = 3
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>deepseek-v4.1-flash = 16, 50000000 tokens
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>longcat-2.5-preview-free = illimité
@@ -4029,25 +4145,86 @@ liste, un par ligne, sous leur nom amont (le « modèle réel ») :</p>
 <p>Une valeur s'exprime dans la devise du fournisseur, un budget tokens porte le
 suffixe <code>tokens</code>, et <code>illimité</code> lève toute limite pour ce modèle. Un modèle listé
 remplace les deux budgets de la contrainte : <code>kimi-k3 = 3</code> ne garde pas le
-budget tokens de la contrainte pour <code>kimi-k3</code>.</p>
+budget tokens de la contrainte pour <code>kimi-k3</code>. Un modèle absent de la liste
+prend les budgets de la contrainte. Ce champ n'a de sens qu'avec un décompte
+par modèle ou commun.</p>
+<h4 id="par-modele">Par modèle<a class="headerlink" href="#par-modele" title="Permanent link">&para;</a></h4>
+<p>Pour les forfaits qui limitent chaque modèle séparément : chaque modèle amont a
+sa propre fenêtre et ses propres budgets, et épuiser un modèle ne bloque pas les
+autres. La répartition entre utilisateurs s'applique modèle par modèle : un
+utilisateur actif sur un modèle n'entame pas la part des autres modèles.</p>
+<p>Quand le fournisseur répond <code>429</code>, seul le modèle demandé est mis en pause.</p>
+<h4 id="commun-pondere-par-modele">Commun, pondéré par modèle<a class="headerlink" href="#commun-pondere-par-modele" title="Permanent link">&para;</a></h4>
+<p>Pour les forfaits qui publient une limite par modèle mais ne décomptent qu'une
+seule fenêtre. C'est le cas d'OpenCode Go : sa page de limites indique, pour
+chaque modèle, l'usage mensuel que permet le forfait s'il n'est consommé
+qu'avec ce modèle (160 $ pour DeepSeek V4.1 Flash, 60 $ pour MiMo-V2.6-Pro en
+Go Plus), mais son tableau de bord n'affiche qu'une jauge par fenêtre, tous
+modèles confondus.</p>
+<p>Le budget de la contrainte est celui de la fenêtre, et le budget propre d'un
+modèle fixe son rythme : un modèle consomme <code>coût × budget de la contrainte /
+budget du modèle</code>. Avec une fenêtre de 60 $ et DeepSeek à 160 $, 16 $ de
+DeepSeek remplissent 6 $ de la fenêtre. Un modèle déclaré <code>illimité</code> ne la
+remplit pas. Un budget propre doit être positif, et d'un type que la contrainte
+possède : un budget tokens n'a pas de rythme à fixer sur une contrainte sans
+budget tokens.</p>
+<p>La fenêtre, sa jauge et la répartition entre utilisateurs sont communes à tous
+les modèles : un <code>429</code> du fournisseur met la fenêtre en pause pour tous, sauf
+si le plan décompte aussi une fenêtre par modèle (voir
+<a href="#mise-en-pause-et-jauges">Mise en pause et jauges</a>). Pour
+OpenCode Go, déclarez les trois fenêtres en décompte commun, avec les limites de
+la page du forfait :</p>
+<table>
+<thead>
+<tr>
+<th>Fenêtre</th>
+<th>Budget de la contrainte</th>
+<th>Budget d'un modèle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5h</td>
+<td>20 % de l'usage mensuel</td>
+<td>20 % de sa limite mensuelle</td>
+</tr>
+<tr>
+<td>Semaine</td>
+<td>50 % de l'usage mensuel</td>
+<td>50 % de sa limite mensuelle</td>
+</tr>
+<tr>
+<td>Mois</td>
+<td>usage mensuel</td>
+<td>sa limite mensuelle</td>
+</tr>
+</tbody>
+</table>
+<p>La semaine d'OpenCode Go se réinitialise le lundi à 00:00 UTC : recopiez le
+« Reset dans » de son tableau de bord pour en faire une fenêtre fixe.</p>
+<h4 id="modeles-publies-sous-plusieurs-noms">Modèles publiés sous plusieurs noms<a class="headerlink" href="#modeles-publies-sous-plusieurs-noms" title="Permanent link">&para;</a></h4>
 <p>Deux modèles Xolo qui pointent vers le même modèle amont, par exemple deux noms
 publiés avec des réglages différents, sont décomptés ensemble, comme le fait le
-fournisseur. Xolo garde ce regroupement 30 secondes : un modèle créé ou modifié
-compte avec ses homonymes après ce délai. Si la liste des modèles ne peut pas
-être lue, la requête est décomptée sur le seul modèle demandé, et le compteur
-<code>xolo_plan_model_grouping_failures_total</code> s'incrémente. La répartition entre
-utilisateurs s'applique modèle par modèle : un
-utilisateur actif sur un modèle n'entame pas la part des autres modèles.</p>
-<p>Un plan peut mêler les deux portées : une fenêtre décomptée par modèle et une
+fournisseur, et prennent le même rythme. Xolo garde la liste des modèles 30
+secondes : un modèle créé ou modifié compte avec ses homonymes après ce délai.
+Si la liste ne peut pas être lue, une fenêtre par modèle décompte le seul
+modèle demandé, une fenêtre commune compte chaque modèle au rythme le plus
+élevé de la contrainte, ce qui la ferme plus tôt, et le compteur
+<code>xolo_plan_model_grouping_failures_total</code> s'incrémente. L'usage d'un modèle
+supprimé depuis compte lui aussi à ce rythme.</p>
+<h4 id="mise-en-pause-et-jauges">Mise en pause et jauges<a class="headerlink" href="#mise-en-pause-et-jauges" title="Permanent link">&para;</a></h4>
+<p>Un plan peut mêler les portées : une fenêtre décomptée par modèle et une
 autre sur l'ensemble du fournisseur s'appliquent toutes les deux. Quand un plan
 décompte par modèle et que le fournisseur répond <code>429</code>, seul le modèle demandé
 est mis en pause, pour la durée indiquée par l'en-tête <code>Retry-After</code>, ou cinq
-minutes à défaut.
+minutes à défaut : ses fenêtres sur l'ensemble du fournisseur et ses fenêtres
+communes restent ouvertes, le <code>429</code> ne pouvant pas leur être attribué.
 Un <code>429</code> dont l'erreur est de type <code>server_error</code>, par exemple un fournisseur
 saturé qui demande de réessayer dans quelques secondes, ne dit rien du forfait :
 il est transmis au client sans mise en pause.</p>
 <p>Sur la page d'usage et le tableau de bord, une contrainte par modèle affiche une
-jauge par modèle consommé dans la fenêtre en cours.</p>
+jauge par modèle consommé dans la fenêtre en cours ; une contrainte commune
+affiche une seule jauge, sa consommation pondérée.</p>
 <h3 id="repartition-entre-utilisateurs">Répartition entre utilisateurs<a class="headerlink" href="#repartition-entre-utilisateurs" title="Permanent link">&para;</a></h3>
 <p>Le budget est commun, mais un utilisateur ne peut pas le consommer en entier. Sa
 part se compose de deux termes :</p>
