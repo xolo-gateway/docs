@@ -4313,7 +4313,15 @@ part se compose de deux termes :</p>
   peut qu'élargir une part : si la répartition du reliquat donnait moins que la
   part courante, c'est la part courante qui s'applique.</li>
 </ul>
-<p>Ces quatre réglages sont facultatifs et se trouvent sous « Répartition entre
+<p>Un <strong>seuil de partage</strong> peut enfin suspendre ces parts tant que le forfait a de
+la place pour tous : sous ce seuil de remplissage, chacun consomme librement,
+même au-delà de sa part, jusqu'à ce que le forfait l'atteigne ; au-delà, les
+parts s'appliquent comme décrit plus haut. Avec un seuil de 70 %, un forfait
+rempli à 40 % reste ouvert à tous ; un utilisateur qui a déjà dépassé sa part
+peut consommer jusqu'à ce que le forfait atteigne 70 %, puis il est arrêté et
+la marge restante revient aux autres. Laissé vide, ou à 0, les parts
+s'appliquent dès la première requête.</p>
+<p>Ces cinq réglages sont facultatifs et se trouvent sous « Répartition entre
 utilisateurs » dans le formulaire de la contrainte. Laissés vides, ils prennent
 leurs valeurs par défaut.</p>
 <table>
@@ -4345,6 +4353,11 @@ leurs valeurs par défaut.</p>
 <td>5 % de la fenêtre, entre 30 min et 4 h</td>
 <td>Borne absolue de cette ouverture : 30 min avant le reset d'une fenêtre de 5 h, 4 h avant celui d'une fenêtre hebdomadaire</td>
 </tr>
+<tr>
+<td><strong>Seuil de partage</strong></td>
+<td>0 %</td>
+<td>Remplissage du forfait sous lequel les parts ne s'appliquent pas ; 0 les applique dès la première requête</td>
+</tr>
 </tbody>
 </table>
 <p>Une valeur illisible ou hors bornes est refusée à l'enregistrement, avec un
@@ -4356,7 +4369,8 @@ requête : elle peut donc varier au cours d'une même fenêtre, à la hausse com
 la baisse. Le tableau de bord affiche, sous chaque jauge d'abonnement, le nombre
 d'utilisateurs actifs sur lequel la part a été calculée, ainsi qu'une mention
 lorsque le rythme resserre la part, lorsque le forfait déjà consommé par les
-autres la plafonne, ou lorsque la fin de fenêtre l'élargit.</p>
+autres la plafonne, lorsque la fin de fenêtre l'élargit, ou lorsque le forfait,
+sous son seuil de partage, est en accès libre.</p>
 <h3 id="plusieurs-cles-pour-un-meme-abonnement">Plusieurs clés pour un même abonnement<a class="headerlink" href="#plusieurs-cles-pour-un-meme-abonnement" title="Permanent link">&para;</a></h3>
 <p>Un forfait d'équipe, comme OpenCode Go Teams, donne à chaque membre sa propre
 clé et ses propres limites. Pour en faire profiter plus d'utilisateurs Xolo qu'il
