@@ -3946,7 +3946,7 @@
 <h2 id="verification">Vérification<a class="headerlink" href="#verification" title="Permanent link">&para;</a></h2>
 <p>Le fichier <code>.env.dist</code> à la racine du dépôt liste l'ensemble des variables avec leurs commentaires. En cas de configuration invalide (secret manquant, fournisseur OIDC mal formé…), <code>xolo-server</code> refuse de démarrer et affiche l'erreur en clair sur la sortie standard.</p>
 <h2 id="langue">Langue<a class="headerlink" href="#langue" title="Permanent link">&para;</a></h2>
-<p>L'interface web est disponible en anglais, en français et en espagnol. Chaque requête utilise la langue choisie avec le sélecteur de langue (conservée dans le cookie <code>xolo_locale</code>), sinon la meilleure correspondance de l'en-tête <code>Accept-Language</code> du navigateur, sinon la langue par défaut ci-dessous.</p>
+<p>L'interface web est disponible en anglais, en français et en espagnol. Chaque requête utilise la langue choisie par le membre connecté, conservée avec son compte (ou une langue proche, <code>fr-CA</code> donnant le français), sinon la langue choisie avec le sélecteur de langue sur ce navigateur (conservée dans le cookie <code>xolo_locale</code>), sinon la meilleure correspondance de l'en-tête <code>Accept-Language</code> du navigateur, sinon la langue par défaut ci-dessous.</p>
 <table>
 <thead>
 <tr>
