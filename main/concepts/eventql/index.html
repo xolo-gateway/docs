@@ -3850,6 +3850,12 @@ par <code>plugin.&lt;nom&gt;.</code> (voir le tutoriel plugin, section <em>Emitt
 <td><code>reason</code>, <code>error</code>, <code>strategy</code></td>
 </tr>
 <tr>
+<td><code>plugin.pseudonymizer.index-key.unavailable</code></td>
+<td><code>warning</code></td>
+<td>Le plugin <code>pseudonymizer</code> numérote les jetons d'une requête dans l'ordre d'apparition, la clé d'index du nœud étant indisponible (magasin de secrets en erreur, clé illisible) : un jeton d'un tour précédent peut alors être restitué à une autre personne</td>
+<td><code>error</code>, <code>strategy</code></td>
+</tr>
+<tr>
 <td><code>plugin.pseudonymizer.placeholders.neutralized</code></td>
 <td><code>warning</code> / <code>info</code></td>
 <td>Le plugin <code>pseudonymizer</code> rend inertes (<code>⟦X⟧</code> devient <code>[[X]]</code>) des jetons du nœud qu'aucune correspondance ne restitue : inventés par le modèle dans une réponse (<code>warning</code>), ou présents dans le contenu d'une requête, le plus souvent l'historique d'un tour précédent (<code>info</code>)</td>
