@@ -3947,6 +3947,11 @@
 <td>Fréquence de relecture du catalogue, une minute au moins. Pour ne plus le lire, <code>XOLO_CATALOG_ENABLED=false</code>.</td>
 </tr>
 <tr>
+<td><code>XOLO_CATALOG_FOLLOW</code></td>
+<td><code>true</code></td>
+<td>Met à jour les modèles importés depuis le catalogue à chaque nouvelle version : une valeur que le catalogue change est reprise tant qu'elle n'a pas été modifiée dans Xolo (voir <a href="../../organisation/fournisseurs/fournisseurs/#suivre-le-catalogue">Suivre le catalogue</a>). À <code>false</code>, les modèles gardent leurs valeurs d'import.</td>
+</tr>
+<tr>
 <td><code>XOLO_TASK_RUNNER_URI</code></td>
 <td><code>memory://taskrunner?parallelism=5&amp;cleanupInterval=10m&amp;cleanupDelay=1h</code></td>
 <td>Configuration du planificateur de tâches de fond.</td>

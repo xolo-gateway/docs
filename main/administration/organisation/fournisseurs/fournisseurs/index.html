@@ -1392,6 +1392,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Importer depuis le catalogue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suivre-le-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suivre le catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -3836,6 +3853,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Importer depuis le catalogue">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#suivre-le-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Suivre le catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -4722,6 +4756,17 @@ historique d'usage.</p>
 <p>Le <a href="https://github.com/xolo-gateway/catalog">catalogue ouvert de modèles</a>, maintenu par le projet, recense des fournisseurs avec leurs modèles, leurs prix, leurs fenêtres et leurs forfaits. Chaque chiffre y a une source, une date et un statut : publié, mesuré ou estimé. Les prix, les listes de modèles et les forfaits sont relus chaque jour sur les pages des fournisseurs.</p>
 <p>Cliquez sur <strong>Importer depuis le catalogue</strong>, sur la liste des fournisseurs pour créer un fournisseur, ou sur la page des modèles d'un fournisseur existant pour le mettre à jour. Le fournisseur du catalogue qui a la même URL de base est proposé en premier. Choisissez-le, et le forfait auquel vous êtes abonné s'il y en a un, puis <strong>Prévisualiser les changements</strong> : la suite est celle de l'import d'un bundle (voir ci-dessous), avec le même aperçu à cocher. Les prix importés sont ceux du palier de base.</p>
 <p>L'instance lit la dernière version du catalogue à son adresse (<code>XOLO_CATALOG_URL</code>) et n'en embarque aucune copie : si elle n'a pas encore pu la lire, l'import et le pré-remplissage l'indiquent. <code>XOLO_CATALOG_ENABLED=false</code> retire ces deux fonctions.</p>
+<h4 id="suivre-le-catalogue">Suivre le catalogue<a class="headerlink" href="#suivre-le-catalogue" title="Permanent link">&para;</a></h4>
+<p>Un modèle importé depuis le catalogue garde la trace de son entrée : le fournisseur du catalogue, le modèle et la version. À chaque nouvelle version, Xolo compare chaque valeur que donne le catalogue (description, type de modèle, prix, fenêtres, paramètres actifs, débit, capacités, type d'API et URL) avec celle de la version précédente et avec celle du modèle :</p>
+<ul>
+<li>une valeur que le catalogue change est reprise si le modèle a encore la valeur importée ;</li>
+<li>une valeur que vous avez modifiée est conservée, quoi que fasse le catalogue ;</li>
+<li>le nom proxy, l'activation, la limite de tokens et le corps additionnel ne sont jamais touchés.</li>
+</ul>
+<p>Chaque prix, chaque fenêtre et chaque borne de débit est suivi séparément : modifier le prix d'entrée laisse le prix de sortie suivre le catalogue.</p>
+<p>Pour un fournisseur dans une autre devise que le catalogue, un prix que le catalogue change est converti au taux du jour ; un prix qu'il ne change pas reste celui de l'import, même si le taux bouge. Sans taux de change, le fournisseur est laissé en l'état jusqu'à la relecture suivante. Un modèle dont le catalogue ne liste plus l'offre garde ses valeurs. Les écritures passent par les mêmes contrôles qu'un import : un changement d'API qui ne servirait plus le type du modèle est refusé.</p>
+<p>Le formulaire d'un modèle suivi présente un encart <strong>Suivi du catalogue</strong>. Il rappelle l'entrée et la version suivies, et liste les champs qui diffèrent du catalogue avec les deux valeurs : <strong>Utiliser la valeur du catalogue</strong> l'applique. <strong>Ne plus suivre le catalogue</strong> détache le modèle, qui garde alors ses valeurs. Les champs dont la valeur est une estimation du catalogue, et que vous n'avez pas modifiés, portent le badge <strong>estimé</strong>.</p>
+<p>Le suivi tourne en tâche de fond sur chaque instance, à l'intervalle de relecture du catalogue (<code>XOLO_CATALOG_REFRESH_INTERVAL</code>) ; <code>XOLO_CATALOG_FOLLOW=false</code> le désactive sans retirer l'import. Seuls les modèles importés depuis le catalogue sont suivis, ceux d'un bundle ou du pré-remplissage ne le sont pas. Le forfait du fournisseur n'est pas suivi.</p>
 <h3 id="exporter-et-importer-un-fournisseur-configure">Exporter et importer un fournisseur configuré<a class="headerlink" href="#exporter-et-importer-un-fournisseur-configure" title="Permanent link">&para;</a></h3>
 <p>Un bundle reprend un fournisseur et la configuration de ses modèles dans un fichier JSON, pour la copier dans une autre organisation sans tout ressaisir.</p>
 <p><strong>Exporter.</strong> Sur la page des modèles, ouvrez <strong>Exporter</strong> et choisissez <strong>Tous les modèles</strong> ou <strong>Modèles actifs seulement</strong>. Le fichier contient les paramètres du fournisseur (type, URL de base, devise, niveau d'infrastructure, retry, rate limit, en-têtes de requête, mode de facturation et plan) et chaque modèle avec tous ses champs : nom proxy, prix par million de tokens, fenêtres, capacités, type d'API et URL, paramètres actifs, débit, limite de tokens et corps additionnel. Il ne contient jamais la clé API ni les identifiants internes de Xolo. Les en-têtes de requête dont le nom évoque un identifiant (<code>key</code>, <code>token</code>, <code>auth</code>, <code>secret</code>…) n'y figurent pas non plus : le bundle n'en garde que les noms, et l'aperçu de l'import rappelle de les reconfigurer. Appliquer les en-têtes importés à un fournisseur existant conserve ceux-là s'il les a déjà, et un bundle écrit à la main qui en contiendrait est refusé. Un identifiant placé sous un autre nom d'en-tête, lui, serait exporté. Les modèles y sont repérés par leur identifiant chez le fournisseur (<code>real_model</code>).</p>
