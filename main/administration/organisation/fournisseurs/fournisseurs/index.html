@@ -1384,6 +1384,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importer-depuis-le-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Importer depuis le catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exporter-et-importer-un-fournisseur-configure" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -3817,6 +3828,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#importer-depuis-le-catalogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Importer depuis le catalogue
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#exporter-et-importer-un-fournisseur-configure" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
@@ -4683,7 +4705,7 @@ historique d'usage.</p>
 </table>
 <p>OpenCode Go refuse toute requête sans en-tête <code>x-opencode-session</code> et demande aux clients de s'identifier par leur <code>User-Agent</code>. Dans la section <strong>En-têtes de requête</strong> du fournisseur, renseignez <code>x-opencode-session</code> comme <strong>En-tête de session</strong> et ajoutez un en-tête fixe <code>User-Agent</code>, par exemple <code>xolo/1.0</code>. Les modèles marqués <code>contributor</code>, comme Gemini, exigent en plus d'accepter l'entraînement sur les requêtes dans les réglages de confidentialité du compte OpenCode.</p>
 <blockquote>
-<p><strong>Astuce</strong> : Cliquez sur <strong>Pré-remplir depuis models.dev</strong> pour importer automatiquement les informations d'un modèle depuis le catalogue.</p>
+<p><strong>Astuce</strong> : Cliquez sur <strong>Pré-remplir depuis le catalogue</strong> pour remplir les champs d'un modèle depuis le <a href="#importer-depuis-le-catalogue">catalogue ouvert de modèles</a> : prix, fenêtres, capacités, paramètres actifs et, s'il passe par une autre API que celle du fournisseur, son type d'API et son URL. Les prix sont convertis dans la devise du fournisseur. Un message signale les valeurs estimées et les prix qui varient selon la taille du prompt ou l'heure (le formulaire prend le palier de base).</p>
 </blockquote>
 <h3 id="importer-les-modeles-du-fournisseur">Importer les modèles du fournisseur<a class="headerlink" href="#importer-les-modeles-du-fournisseur" title="Permanent link">&para;</a></h3>
 <p>Plutôt que de déclarer les modèles un par un, cliquez sur <strong>Importer depuis le fournisseur</strong> sur la page des modèles. Xolo interroge la liste des modèles du fournisseur avec sa clé API : <code>GET &lt;URL de base&gt;/models</code> pour les types <code>openai</code>, <code>openai-responses</code>, <code>gemini</code>, <code>mistral</code> et <code>openrouter</code>, <code>GET /v1/models</code> pour le type <code>anthropic</code>. La page affiche chaque modèle avec une case à cocher. Un modèle que le fournisseur sert déjà sous un autre nom proxy est grisé.</p>
@@ -4696,6 +4718,10 @@ historique d'usage.</p>
 <li>utilisent le type d'API et l'URL du fournisseur. Un modèle servi par une autre API, comme Qwen chez OpenCode Go, se règle ensuite dans son formulaire (voir <a href="#acces-a-lapi">Accès à l'API</a>).</li>
 </ul>
 <p>Xolo relit la liste du fournisseur au moment de l'import. Un modèle qu'il ne liste plus, ou dont le nom proxy est déjà pris dans l'organisation (modèles désactivés et modèles virtuels compris), est laissé de côté, et la page indique pourquoi, comme pour un modèle que l'enregistrement n'a pas pu créer.</p>
+<h3 id="importer-depuis-le-catalogue">Importer depuis le catalogue<a class="headerlink" href="#importer-depuis-le-catalogue" title="Permanent link">&para;</a></h3>
+<p>Le <a href="https://github.com/xolo-gateway/catalog">catalogue ouvert de modèles</a>, maintenu par le projet, recense des fournisseurs avec leurs modèles, leurs prix, leurs fenêtres et leurs forfaits. Chaque chiffre y a une source, une date et un statut : publié, mesuré ou estimé. Les prix, les listes de modèles et les forfaits sont relus chaque jour sur les pages des fournisseurs.</p>
+<p>Cliquez sur <strong>Importer depuis le catalogue</strong>, sur la liste des fournisseurs pour créer un fournisseur, ou sur la page des modèles d'un fournisseur existant pour le mettre à jour. Le fournisseur du catalogue qui a la même URL de base est proposé en premier. Choisissez-le, et le forfait auquel vous êtes abonné s'il y en a un, puis <strong>Prévisualiser les changements</strong> : la suite est celle de l'import d'un bundle (voir ci-dessous), avec le même aperçu à cocher. Les prix importés sont ceux du palier de base.</p>
+<p>L'instance lit la dernière version du catalogue à son adresse (<code>XOLO_CATALOG_URL</code>) et n'en embarque aucune copie : si elle n'a pas encore pu la lire, l'import et le pré-remplissage l'indiquent. <code>XOLO_CATALOG_ENABLED=false</code> retire ces deux fonctions.</p>
 <h3 id="exporter-et-importer-un-fournisseur-configure">Exporter et importer un fournisseur configuré<a class="headerlink" href="#exporter-et-importer-un-fournisseur-configure" title="Permanent link">&para;</a></h3>
 <p>Un bundle reprend un fournisseur et la configuration de ses modèles dans un fichier JSON, pour la copier dans une autre organisation sans tout ressaisir.</p>
 <p><strong>Exporter.</strong> Sur la page des modèles, ouvrez <strong>Exporter</strong> et choisissez <strong>Tous les modèles</strong> ou <strong>Modèles actifs seulement</strong>. Le fichier contient les paramètres du fournisseur (type, URL de base, devise, niveau d'infrastructure, retry, rate limit, en-têtes de requête, mode de facturation et plan) et chaque modèle avec tous ses champs : nom proxy, prix par million de tokens, fenêtres, capacités, type d'API et URL, paramètres actifs, débit, limite de tokens et corps additionnel. Il ne contient jamais la clé API ni les identifiants internes de Xolo. Les en-têtes de requête dont le nom évoque un identifiant (<code>key</code>, <code>token</code>, <code>auth</code>, <code>secret</code>…) n'y figurent pas non plus : le bundle n'en garde que les noms, et l'aperçu de l'import rappelle de les reconfigurer. Appliquer les en-têtes importés à un fournisseur existant conserve ceux-là s'il les a déjà, et un bundle écrit à la main qui en contiendrait est refusé. Un identifiant placé sous un autre nom d'en-tête, lui, serait exporté. Les modèles y sont repérés par leur identifiant chez le fournisseur (<code>real_model</code>).</p>

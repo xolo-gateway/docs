@@ -3932,6 +3932,21 @@
 <td>Fraîcheur et fréquence de rafraîchissement des taux.</td>
 </tr>
 <tr>
+<td><code>XOLO_CATALOG_ENABLED</code></td>
+<td><code>true</code></td>
+<td>Active l'import depuis le <a href="https://github.com/xolo-gateway/catalog">catalogue ouvert de modèles</a> sur les pages des fournisseurs et le pré-remplissage du formulaire de modèle. À <code>false</code>, ces fonctions disparaissent de l'interface et leurs routes répondent 404.</td>
+</tr>
+<tr>
+<td><code>XOLO_CATALOG_URL</code></td>
+<td><code>https://github.com/xolo-gateway/catalog/releases/latest/download/catalog.json</code></td>
+<td>Release du catalogue que l'instance lit, au démarrage puis à chaque intervalle de relecture. Xolo n'embarque aucune copie du catalogue : tant qu'aucune release n'a pu être lue, l'import et le pré-remplissage indiquent que le catalogue est indisponible ; une lecture qui échoue ensuite garde la dernière release lue. Pointez-la vers un miroir interne pour une instance sans accès à GitHub ; une valeur vide désactive le catalogue comme <code>XOLO_CATALOG_ENABLED=false</code>.</td>
+</tr>
+<tr>
+<td><code>XOLO_CATALOG_REFRESH_INTERVAL</code></td>
+<td><code>24h</code></td>
+<td>Fréquence de relecture du catalogue, une minute au moins. Pour ne plus le lire, <code>XOLO_CATALOG_ENABLED=false</code>.</td>
+</tr>
+<tr>
 <td><code>XOLO_TASK_RUNNER_URI</code></td>
 <td><code>memory://taskrunner?parallelism=5&amp;cleanupInterval=10m&amp;cleanupDelay=1h</code></td>
 <td>Configuration du planificateur de tâches de fond.</td>
