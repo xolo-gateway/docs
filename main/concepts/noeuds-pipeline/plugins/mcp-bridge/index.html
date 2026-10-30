@@ -3218,6 +3218,31 @@
 <td></td>
 </tr>
 <tr>
+<td><code>resources</code></td>
+<td>Ressources MCP lues et injectées avant le premier appel, une par ligne</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prefetchTool</code></td>
+<td>Outil appelé une fois avant le premier appel au modèle, à chaque requête</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prefetchArguments</code></td>
+<td>Arguments JSON de cet outil, avec jetons</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>prefetchLabel</code></td>
+<td>Titre du bloc injecté</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prefetchResultTemplate</code></td>
+<td>Gabarit du résultat, <code>{{result}}</code> remplacé par le texte</td>
+<td></td>
+</tr>
+<tr>
 <td><code>timeoutSeconds</code></td>
 <td>Délai maximal en secondes</td>
 <td></td>
@@ -3231,6 +3256,13 @@
 </table>
 <h2 id="en-pratique">En pratique<a class="headerlink" href="#en-pratique" title="Permanent link">&para;</a></h2>
 <p>Le modèle peut appeler les outils pendant la génération, la passerelle exécute l'appel et renvoie le résultat. Les secrets d'authentification ne sont jamais écrits dans le graphe. Les résultats d'outils sont la surface d'injection indirecte ; <a href=".././prompt-guard/"><code>prompt-guard</code></a> les inspecte au fil de la boucle quand il est présent dans le pipeline.</p>
+<p>Un modèle n'appelle pas un outil parce qu'on le lui demande, il l'appelle quand il estime en avoir besoin. Une recherche documentaire qu'il saute de temps en temps produit une réponse assurée sans rien derrière. Deux champs répondent à ça sans écrire de prompt.</p>
+<p><code>prefetchTool</code> nomme un outil que la passerelle appelle elle-même <strong>avant le premier appel au modèle</strong>, à chaque requête. Le résultat est ajouté à la conversation, et le modèle le lit comme un contexte qu'on lui donne. <code>prefetchArguments</code> dit avec quoi l'appeler. Ses valeurs peuvent contenir des jetons : <code>{{last_user_message}}</code>, <code>{{user_id}}</code>, <code>{{org_id}}</code>, <code>{{display_name}}</code> et <code>{{session_id}}</code>. Une requête dont le dernier message utilisateur est vide ne déclenche pas l'appel : un outil de recherche interrogé avec une question vide renvoie du vide, que le modèle doit ensuite interpréter. <code>prefetchResultTemplate</code> encadre le résultat, <code>prefetchLabel</code> le titre. L'outil pré-appelé doit figurer parmi les outils autorisés : le filtre reste ce que l'administrateur a accordé.</p>
+<p><code>resources</code> liste, une par ligne, des ressources MCP désignées par leur URI ou par le nom que le serveur leur donne. Elles sont lues à chaque requête et injectées de la même façon. Une ressource absente ou illisible n'échoue pas la requête : le texte injecté le dit, l'opérateur le voit dans la réponse du modèle. Un serveur qui n'annonce pas la capacité <em>resources</em> n'est pas interrogé. Le contenu binaire est signalé par son type plutôt qu'encodé dans la requête.</p>
+<p>Les deux passent par les mêmes inspecteurs de résultats d'outils que les appels venant du modèle : un contexte pré-appelé est une surface d'injection indirecte au même titre qu'une page web rapportée par un outil.</p>
+<p>Le contexte injecté est ajouté au <strong>dernier message de l'utilisateur</strong>, pas dans un message à part. Deux messages utilisateur consécutifs sont refusés par les fournisseurs qui imposent l'alternance des rôles, et recollés silencieusement par les autres. Sans message utilisateur à compléter, le bloc forme le message à lui seul.</p>
+<p>Un contenu bloqué par un inspecteur refuse la requête, comme un résultat d'outil que <code>prompt-guard</code> rejette. Un appel qui échoue, lui, n'échoue pas la requête : le texte injecté dit « the tool failed » et le modèle répond avec ce qu'il a. La différence est voulue : un serveur injoignable est un incident passager, un contenu jugé hostile est une décision.</p>
+<p>Le plugin ouvre <strong>une session MCP par conversation</strong>, et non une par appel. Une session porte l'état que le serveur garde de son côté — une transaction, un jeu de résultats paginé — et le rouvrir à chaque tour d'outil le perd. La conversation est celle que la passerelle reçoit du client. Quand le client n'en envoie pas, la passerelle en dérive une de l'utilisateur, de l'organisation, du jeton et du <strong>premier message</strong> de la conversation : deux conversations qui commencent par le même message partagent alors la même session, et donc l'état que le serveur garde de son côté. Une requête pour laquelle aucune clé n'est dérivable (pas d'organisation ni d'utilisateur résolus) n'est pas mutualisée : elle ouvre une session pour elle seule et la referme. La session reste ouverte cinq minutes après le dernier appel, puis se referme. Une session que le serveur a terminée est détectée à l'appel suivant, qui la remplace et réessaie une fois.</p>
 
 
 
