@@ -3834,8 +3834,8 @@ par <code>plugin.&lt;nom&gt;.</code> (voir le tutoriel plugin, section <em>Emitt
 <tr>
 <td><code>plugin.pseudonymizer.sensitive-data.leak</code></td>
 <td><code>error</code></td>
-<td>Le mode strict du plugin <code>pseudonymizer</code> détecte une fuite résiduelle après anonymisation</td>
-<td><code>leak_count</code>, <code>leak_&lt;type&gt;</code></td>
+<td>La vérification du plugin <code>pseudonymizer</code> détecte une fuite résiduelle après anonymisation (un événement par requête)</td>
+<td><code>leak_count</code>, <code>leak_&lt;type&gt;</code>, <code>action</code> : <code>reported</code> (la requête est partie pseudonymisée), <code>blocked</code> (refusée à cause de la fuite), <code>refused</code> (refusée pour un autre motif, rien n'a atteint le modèle) ou <code>passthrough</code> (partie en clair après une erreur). <code>leak_count</code> compte les valeurs distinctes de la requête, sauf avec <code>blocked</code>, où il compte les occurrences du contenu refusé</td>
 </tr>
 <tr>
 <td><code>plugin.pseudonymizer.attachment.blocked</code></td>
