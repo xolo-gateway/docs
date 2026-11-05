@@ -3828,6 +3828,7 @@ organisation.</p>
 <ul>
 <li><code>description</code> ;</li>
 <li><code>context_length</code> ;</li>
+<li><code>top_provider.context_length</code> et <code>top_provider.max_completion_tokens</code>, la fenêtre de contexte et le nombre maximal de tokens que le modèle peut écrire dans une réponse, pour dimensionner <code>max_tokens</code>. Un modèle virtuel publie les plus petites fenêtres de ses candidats, ou sa surcharge <code>MaxOutputTokens</code>. Une fenêtre inconnue est omise, et seuls les modèles de complétion ont cet objet. <code>per_request_limits</code> reste la limite de tokens fixée par l'opérateur ;</li>
 <li><code>architecture.input_modalities</code>, qui contient <code>image</code> quand le modèle lit les images ;</li>
 <li><code>supported_parameters</code>, qui contient <code>tools</code> et <code>reasoning</code> selon ses capacités ;</li>
 <li><code>pricing.prompt</code> et <code>pricing.completion</code>, exprimés en unités monétaires pour 1 000 tokens.</li>
