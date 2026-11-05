@@ -2940,6 +2940,7 @@
 <ul>
 <li><code>description</code>;</li>
 <li><code>context_length</code>;</li>
+<li><code>top_provider.context_length</code> and <code>top_provider.max_completion_tokens</code>, the context window and the most tokens the model can write in one answer, to size <code>max_tokens</code> with. A virtual model publishes the smallest windows of its candidates, or its <code>MaxOutputTokens</code> override. An unknown window is left out, and only completion models have the object. <code>per_request_limits</code> stays the token limit the operator set;</li>
 <li><code>architecture.input_modalities</code>, which contains <code>image</code> when the model reads images;</li>
 <li><code>supported_parameters</code>, which contains <code>tools</code> and <code>reasoning</code> according to its capabilities;</li>
 <li><code>pricing.prompt</code> and <code>pricing.completion</code>, in currency units per 1,000 tokens.</li>
