@@ -460,6 +460,23 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation &amp; deployment
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="././" class="md-nav__link md-nav__link--active">
         
   
@@ -475,6 +492,37 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#health-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Health probes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2045,6 +2093,11 @@
                       
                     
                     
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -2056,6 +2109,25 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#health-probes" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Health probes
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2153,6 +2225,42 @@
 <h1 id="installation-deployment">Installation &amp; deployment<a class="headerlink" href="#installation-deployment" title="Permanent link">&para;</a></h1>
 <p>Before upgrading an existing database, follow the <a href="./uuid-migration/">UUID migration procedure</a>. All old replicas and workers must be stopped.</p>
 <p>This page has not been translated yet. See the <a href="https://xolo-gateway.org/latest/">French version</a> for the full content.</p>
+<h2 id="health-probes">Health probes<a class="headerlink" href="#health-probes" title="Permanent link">&para;</a></h2>
+<p>Every instance answers two paths without authentication, for a load balancer
+or an orchestrator:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Answers <code>200</code> when…</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/healthz</code></td>
+<td>the process serves HTTP requests</td>
+<td>liveness probe</td>
+</tr>
+<tr>
+<td><code>/readyz</code></td>
+<td>the instance also reaches its database (within 0.8 s)</td>
+<td>readiness probe</td>
+</tr>
+</tbody>
+</table>
+<p><code>/readyz</code> answers <code>503</code> while the database is unreachable: the instance leaves
+the load balancer without being restarted. Its result is shared for 0.8 s,
+so a flood of probes costs the database one check. Both paths are answered
+before tenant resolution, logging, HTTP metrics and the rate limiter: a probe
+addresses the instance by its own address, which is no tenant's domain.</p>
+<p>On PostgreSQL, <code>/readyz</code> goes through a connection of its own, outside the
+application's pool: a pool saturated by traffic does not take every instance
+out of the load balancer at once. The probe tells whether the database answers,
+not whether the instance is busy. Count one more connection per instance.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">healthcheck</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wget&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-qO-&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:3002/readyz&quot;</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
 
 
 
