@@ -4188,10 +4188,10 @@ obligatorio, <code>null</code> solo donde se indica.</p>
   <code>team_settings</code> y <code>team_membership</code>; la antigua ruta <code>/v1/xolo/…/teams</code>, que
   incluía los miembros, desaparece.</li>
 </ul>
-<p>Límite conocido: la caché de cada proceso mantiene válidos los tokens de una
-aplicación desactivada hasta que caducan sus entradas
-(<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>): una escritura mediante este
-listener solo vacía la caché de su propio proceso.</p>
+<p>Una escritura mediante este listener invalida las cachés de todas las
+instancias que comparten la base: los tokens de una aplicación desactivada
+dejan de aceptarse en <code>XOLO_STORAGE_DATABASE_CACHE_COHERENCE_INTERVAL</code> (1 s por
+defecto), o al caducar la caché cuando ese intervalo vale <code>0</code>.</p>
 <h3 id="modelos-virtuales-y-middlewares">Modelos virtuales y middlewares<a class="headerlink" href="#modelos-virtuales-y-middlewares" title="Permanent link">&para;</a></h3>
 <p>Los modelos virtuales y los middlewares llevan un grafo de pipeline, que se
 escribe entero con su <code>PUT</code> o nodo a nodo:</p>
