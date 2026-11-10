@@ -529,6 +529,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Option 1 : image Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sondes-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sondes de santé
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3051,6 +3068,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Option 1 : image Docker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sondes-de-sante" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sondes de santé
+      </span>
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3208,14 +3242,51 @@
 <li><code>XOLO_PLUGINS_DIR</code> vaut <code>/plugins</code> par défaut. L'image embarque déjà les plugins officiels (<code>time-restriction</code>, <code>dummy-model</code>, <code>fuzzy-evaluator</code>, <code>request-inspector</code>, <code>complexity-scorer</code>, <code>text-classifier</code>, <code>llm-classifier</code>, <code>energy-estimator</code>, <code>budget-pressure</code>, <code>script-processor</code>, <code>pseudonymizer</code>, <code>mcp-bridge</code>, <code>system-prompt</code>) à cet emplacement.</li>
 <li>Le port exposé est <code>3002</code>.</li>
 </ul>
+<h3 id="sondes-de-sante">Sondes de santé<a class="headerlink" href="#sondes-de-sante" title="Permanent link">&para;</a></h3>
+<p>Chaque instance répond sans authentification sur deux chemins, à destination
+d'un répartiteur de charge ou d'un orchestrateur :</p>
+<table>
+<thead>
+<tr>
+<th>Chemin</th>
+<th>Répond <code>200</code> quand…</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/healthz</code></td>
+<td>le processus sert des requêtes HTTP</td>
+<td>sonde de vivacité (<em>liveness</em>)</td>
+</tr>
+<tr>
+<td><code>/readyz</code></td>
+<td>l'instance joint aussi sa base de données (en 0,8 s)</td>
+<td>sonde de disponibilité</td>
+</tr>
+</tbody>
+</table>
+<p><code>/readyz</code> répond <code>503</code> tant que la base est injoignable : l'instance sort du
+répartiteur sans être redémarrée. Son résultat est partagé pendant 0,8 s :
+un afflux de sondes ne coûte qu'une vérification à la base. Les deux chemins
+passent avant la résolution du locataire, la journalisation, les métriques HTTP
+et la limitation de débit : une sonde vise l'instance par son adresse, qui n'est
+le domaine d'aucun locataire.</p>
+<p>Sur PostgreSQL, <code>/readyz</code> passe par une connexion qui lui est propre, hors du
+pool de l'application : un pool saturé par le trafic ne fait pas sortir toutes
+les instances du répartiteur en même temps. La sonde dit si la base répond, pas
+si l'instance est occupée. Comptez une connexion de plus par instance.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">healthcheck</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wget&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-qO-&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:3002/readyz&quot;</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
 <p>Pour un déploiement avec <code>docker-compose</code>, ajoutez un service pointant vers cette image, un volume nommé pour <code>/data</code>, et les variables d'environnement décrites dans <a href="./configuration/">Configuration</a>.</p>
 <h2 id="option-2-binaire-compile-depuis-les-sources">Option 2 : binaire compilé depuis les sources<a class="headerlink" href="#option-2-binaire-compile-depuis-les-sources" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xolo-gateway/xolo.git
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>xolo
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>cp<span class="w"> </span>.env.dist<span class="w"> </span>.env
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># éditez .env : XOLO_SECRET_KEY, XOLO_HTTP_AUTHN_DEFAULT_ADMINS, un fournisseur d&#39;auth…</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>make<span class="w"> </span>build<span class="w">          </span><span class="c1"># compile bin/server et les plugins dans bin/plugins/</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>make<span class="w"> </span><span class="nv">CMD</span><span class="o">=</span><span class="s1">&#39;bin/server&#39;</span><span class="w"> </span>run-with-env
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xolo-gateway/xolo.git
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>xolo
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cp<span class="w"> </span>.env.dist<span class="w"> </span>.env
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># éditez .env : XOLO_SECRET_KEY, XOLO_HTTP_AUTHN_DEFAULT_ADMINS, un fournisseur d&#39;auth…</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>make<span class="w"> </span>build<span class="w">          </span><span class="c1"># compile bin/server et les plugins dans bin/plugins/</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>make<span class="w"> </span><span class="nv">CMD</span><span class="o">=</span><span class="s1">&#39;bin/server&#39;</span><span class="w"> </span>run-with-env
 </span></code></pre></div>
 <p><code>make build</code> enchaîne <code>build-server</code>, <code>build-migrate</code>, <code>build-frontend</code> et la compilation de tous les plugins présents sous <code>plugins/</code>. Si vous modifiez des fichiers <code>.templ</code> ou le CSS Tailwind, lancez <code>make generate</code> avant <code>make build</code>.</p>
 <p>Pour un rechargement à chaud en développement, <code>make watch</code> (nécessite <code>.env</code> et l'outil <code>modd</code>, récupéré automatiquement dans <code>tools/</code>).</p>

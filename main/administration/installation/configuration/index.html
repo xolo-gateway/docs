@@ -3545,6 +3545,11 @@
 <td>—</td>
 <td>Limitation de débit HTTP par IP.</td>
 </tr>
+<tr>
+<td><code>XOLO_HTTP_RATE_LIMIT_TRUSTED_PROXIES</code></td>
+<td>—</td>
+<td>Adresses ou plages CIDR des mandataires placés devant l'instance (contrôleur d'ingress, répartiteur de charge), séparées par des virgules. Renseignée, l'adresse du client est la première entrée de <code>X-Forwarded-For</code> qui n'est pas l'un d'eux en partant de la droite, et les en-têtes ne sont lus que sur une connexion venue d'un mandataire de confiance ; <code>X-Real-Ip</code> est alors ignoré, les mandataires devant compléter <code>X-Forwarded-For</code> : derrière un mandataire qui ne transmet que <code>X-Real-Ip</code>, tous les clients partageraient sa limite. Vide, c'est l'entrée la plus à gauche, que le client peut forger pour échapper à la limite ; un avertissement le signale au démarrage. Indiquez les adresses des mandataires eux-mêmes (pods du contrôleur d'ingress, répartiteur) plutôt que tout le réseau des pods : un client compris dans une plage de confiance peut de nouveau forger l'en-tête. Une plage IPv6 qui couvre tout l'espace IPv4 mappé (<code>::/0</code>, <code>::ffff:0:0/96</code>) couvre aussi les adresses IPv4. Une valeur invalide empêche le démarrage.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="authentification">Authentification<a class="headerlink" href="#authentification" title="Permanent link">&para;</a></h2>
