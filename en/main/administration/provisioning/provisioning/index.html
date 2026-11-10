@@ -4190,9 +4190,10 @@ only where shown.</p>
   published as <code>team</code>, <code>team_settings</code> and <code>team_membership</code> resources; the
   former <code>/v1/xolo/…/teams</code> route, which embedded the members, is gone.</li>
 </ul>
-<p>Known limit: the cache of each process keeps a deactivated application's
-tokens valid until its entries expire (<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>):
-a write through this listener clears the cache of its own process only.</p>
+<p>A write through this listener invalidates the caches of every instance
+sharing the database: a deactivated application's tokens stop authenticating
+within <code>XOLO_STORAGE_DATABASE_CACHE_COHERENCE_INTERVAL</code> (1 s by default), or
+within the cache TTL when that interval is <code>0</code>.</p>
 <h3 id="virtual-models-and-middlewares">Virtual models and middlewares<a class="headerlink" href="#virtual-models-and-middlewares" title="Permanent link">&para;</a></h3>
 <p>Virtual models and middlewares carry a pipeline graph, edited as a whole by
 their <code>PUT</code> or node by node:</p>
