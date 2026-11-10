@@ -433,6 +433,23 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Instalación y despliegue
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="././" class="md-nav__link md-nav__link--active">
         
   
@@ -448,6 +465,37 @@
   
 
       </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sondas-de-salud" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sondas de salud
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2018,6 +2066,11 @@
                       
                     
                     
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
                   
                   <div class="md-sidebar__inner">
                     
@@ -2029,6 +2082,25 @@
   
     
   
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sondas-de-salud" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Sondas de salud
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2126,6 +2198,44 @@
 <h1 id="instalacion-y-despliegue">Instalación y despliegue<a class="headerlink" href="#instalacion-y-despliegue" title="Permanent link">&para;</a></h1>
 <p>Antes de actualizar una base existente, siga el <a href="./uuid-migration/">procedimiento de migración UUID</a>. Detenga todas las réplicas y workers antiguos.</p>
 <p>Esta pagina aun no ha sido traducida. Consulte la <a href="https://xolo-gateway.org/latest/">version en frances</a> para el contenido completo.</p>
+<h2 id="sondas-de-salud">Sondas de salud<a class="headerlink" href="#sondas-de-salud" title="Permanent link">&para;</a></h2>
+<p>Cada instancia responde sin autenticación en dos rutas, para un balanceador de
+carga o un orquestador:</p>
+<table>
+<thead>
+<tr>
+<th>Ruta</th>
+<th>Responde <code>200</code> cuando…</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/healthz</code></td>
+<td>el proceso atiende peticiones HTTP</td>
+<td>sonda de vida (liveness)</td>
+</tr>
+<tr>
+<td><code>/readyz</code></td>
+<td>la instancia también alcanza su base de datos (en 0,8 s)</td>
+<td>sonda de disponibilidad</td>
+</tr>
+</tbody>
+</table>
+<p><code>/readyz</code> responde <code>503</code> mientras la base de datos es inalcanzable: la
+instancia sale del balanceador sin reiniciarse. Su resultado se comparte
+durante 0,8 s, de modo que una avalancha de sondas solo cuesta una
+comprobación a la base. Ambas rutas se atienden antes de la resolución del
+inquilino, del registro, de las métricas HTTP y del limitador de tasa: una
+sonda se dirige a la instancia por su propia dirección, que no es el dominio de
+ningún inquilino.</p>
+<p>En PostgreSQL, <code>/readyz</code> usa una conexión propia, fuera del pool de la
+aplicación: un pool saturado por el tráfico no saca a todas las instancias del
+balanceador a la vez. La sonda indica si la base responde, no si la instancia
+está ocupada. Cuente una conexión más por instancia.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">healthcheck</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wget&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-qO-&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:3002/readyz&quot;</span><span class="p p-Indicator">]</span>
+</span></code></pre></div>
 
 
 
