@@ -3695,6 +3695,11 @@
 <td>Taille et TTL des caches en mémoire pour les utilisateurs et fournisseurs (activés par défaut, 25 entrées, 60 min).</td>
 </tr>
 <tr>
+<td><code>XOLO_STORAGE_DATABASE_CACHE_COHERENCE_INTERVAL</code></td>
+<td><code>1s</code></td>
+<td>Fréquence à laquelle une instance vérifie, dans la base, qu'une autre n'a pas modifié une entrée de ses caches d'utilisateurs, de jetons, de fournisseurs et de modèles. C'est le délai pendant lequel un jeton révoqué, un utilisateur désactivé ou une clé de fournisseur changée peut encore servir sur les autres instances. <code>0</code> désactive la vérification : les autres instances gardent alors l'ancienne entrée jusqu'à la fin de son TTL, ce qui n'est sûr qu'avec une instance unique. Toutes les instances d'un même déploiement doivent partager ce réglage et celui des caches.</td>
+</tr>
+<tr>
 <td><code>XOLO_STORAGE_DATABASE_CACHE_QUOTA_ENABLED</code></td>
 <td><code>true</code></td>
 <td>Réutilise les totaux de dépense lus à chaque requête proxy pour la vérification des budgets, au lieu de les relire à chaque fois. Les totaux eux-mêmes viennent de compteurs journaliers tenus à l'enregistrement de l'usage, pas d'une agrégation de l'historique.</td>

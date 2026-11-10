@@ -5100,10 +5100,10 @@ seule : ni <code>PUT</code> ni <code>DELETE</code> (<code>405</code>), voir <a h
   <code>team_settings</code> et <code>team_membership</code> ; l'ancienne route <code>/v1/xolo/…/teams</code>,
   qui intégrait les membres, disparaît.</li>
 </ul>
-<p>Limite connue : le cache de chaque processus garde valides les jetons d'une
-application désactivée jusqu'à l'expiration de ses entrées
-(<code>XOLO_STORAGE_DATABASE_CACHE_USERS_TTL</code>) : une écriture via cet écouteur ne
-vide que le cache de son propre processus.</p>
+<p>Une écriture via cet écouteur invalide les caches de toutes les instances qui
+partagent la base : les jetons d'une application désactivée cessent d'être
+acceptés en <code>XOLO_STORAGE_DATABASE_CACHE_COHERENCE_INTERVAL</code> (1 s par défaut),
+ou à l'expiration du cache quand cet intervalle vaut <code>0</code>.</p>
 <h3 id="modeles-virtuels-et-middlewares">Modèles virtuels et middlewares<a class="headerlink" href="#modeles-virtuels-et-middlewares" title="Permanent link">&para;</a></h3>
 <p>Les modèles virtuels et les middlewares portent un graphe de pipeline, écrit
 en entier par leur <code>PUT</code> ou nœud par nœud :</p>
