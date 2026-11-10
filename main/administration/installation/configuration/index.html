@@ -3681,8 +3681,8 @@
 </tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_POOL_MAX_IDLE_CONNS</code></td>
-<td><code>5</code></td>
-<td>Connexions inactives conservées dans le pool (le pool de lecture sur SQLite).</td>
+<td><code>MAX_OPEN_CONNS</code></td>
+<td>Connexions inactives conservées dans le pool (le pool de lecture sur SQLite). Par défaut autant que les connexions ouvertes, 25 si leur nombre est illimité (<code>0</code>) : avec moins, le pool ferme sous charge les connexions qu'une rafale lui rend et les rouvre à la suivante, une poignée de main TCP et une authentification à chaque fois. Mesuré sur PostgreSQL avec l'ancien défaut de 5 : environ 40 nouvelles sessions par seconde à 300 req/s, et une instance de 2 vCPU plafonnée à 420 req/s au lieu de 500.</td>
 </tr>
 <tr>
 <td><code>XOLO_STORAGE_DATABASE_POOL_CONN_MAX_LIFETIME</code></td>
