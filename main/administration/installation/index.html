@@ -549,10 +549,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-2-binaire-compile-depuis-les-sources" class="md-nav__link">
+  <a href="#option-2-paquets-rpm-et-debian" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Option 2 : binaire compilé depuis les sources
+        Option 2 : paquets RPM et Debian
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-3-binaire-compile-depuis-les-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Option 3 : binaire compilé depuis les sources
       </span>
     </span>
   </a>
@@ -3088,10 +3099,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-2-binaire-compile-depuis-les-sources" class="md-nav__link">
+  <a href="#option-2-paquets-rpm-et-debian" class="md-nav__link">
     <span class="md-ellipsis">
       <span class="md-typeset">
-        Option 2 : binaire compilé depuis les sources
+        Option 2 : paquets RPM et Debian
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-3-binaire-compile-depuis-les-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Option 3 : binaire compilé depuis les sources
       </span>
     </span>
   </a>
@@ -3280,13 +3302,87 @@ si l'instance est occupée. Comptez une connexion de plus par instance.</p>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;wget&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-qO-&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:3002/readyz&quot;</span><span class="p p-Indicator">]</span>
 </span></code></pre></div>
 <p>Pour un déploiement avec <code>docker-compose</code>, ajoutez un service pointant vers cette image, un volume nommé pour <code>/data</code>, et les variables d'environnement décrites dans <a href="./configuration/">Configuration</a>.</p>
-<h2 id="option-2-binaire-compile-depuis-les-sources">Option 2 : binaire compilé depuis les sources<a class="headerlink" href="#option-2-binaire-compile-depuis-les-sources" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xolo-gateway/xolo.git
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">cd</span><span class="w"> </span>xolo
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cp<span class="w"> </span>.env.dist<span class="w"> </span>.env
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># éditez .env : XOLO_SECRET_KEY, XOLO_HTTP_AUTHN_DEFAULT_ADMINS, un fournisseur d&#39;auth…</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>make<span class="w"> </span>build<span class="w">          </span><span class="c1"># compile bin/server et les plugins dans bin/plugins/</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>make<span class="w"> </span><span class="nv">CMD</span><span class="o">=</span><span class="s1">&#39;bin/server&#39;</span><span class="w"> </span>run-with-env
+<h2 id="option-2-paquets-rpm-et-debian">Option 2 : paquets RPM et Debian<a class="headerlink" href="#option-2-paquets-rpm-et-debian" title="Permanent link">&para;</a></h2>
+<p>Chaque version publie sur sa <a href="https://github.com/xolo-gateway/xolo/releases">page GitHub</a> des paquets aux formats <code>.rpm</code> et <code>.deb</code>, pour <code>x86_64</code> et <code>arm64</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Paquet</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xolo</code></td>
+<td><code>xolo-server</code>, <code>xolo-migrate</code>, <code>xolo-adoption</code>, <code>xolo-admin</code>, le service systemd <code>xolo</code></td>
+</tr>
+<tr>
+<td><code>xolo-plugin-&lt;nom&gt;</code></td>
+<td>un plugin officiel, installé sous <code>/usr/lib/xolo/plugins</code> (un paquet par plugin : <code>xolo-plugin-pseudonymizer</code>, <code>xolo-plugin-mcp-bridge</code>…)</td>
+</tr>
+<tr>
+<td><code>xolo-plugin-all</code></td>
+<td>aucun fichier : dépend de tous les paquets de plugins officiels</td>
+</tr>
+</tbody>
+</table>
+<p>Les binaires sont liés statiquement : les paquets ne dépendent d'aucune bibliothèque du système. Ils sont installés et vérifiés à chaque modification sur Red Hat Enterprise Linux 10 et 9, Debian 13 et 12 ; les distributions qui en dérivent (AlmaLinux, Rocky Linux, Ubuntu) conviennent aussi.</p>
+<p>Téléchargez le paquet <code>xolo</code> et ceux des plugins voulus, ou tous les paquets de la version avec <code>xolo-plugin-all</code>, puis installez-les ensemble :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Red Hat Enterprise Linux, AlmaLinux, Rocky Linux : tout</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>./xolo-*.x86_64.rpm<span class="w"> </span>./xolo-plugin-all-*.noarch.rpm
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Debian, Ubuntu : le serveur et deux plugins</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>./xolo_*_amd64.deb<span class="w"> </span>./xolo-plugin-pseudonymizer_*_amd64.deb<span class="w"> </span>./xolo-plugin-mcp-bridge_*_amd64.deb
+</span></code></pre></div>
+<p>Le serveur ne découvre ses plugins qu'au démarrage : installer, mettre à jour ou retirer des paquets de plugins redémarre le service s'il tournait, une seule fois pour tous les paquets d'une même commande. Sur Red Hat, la relance qui suit une suppression a lieu 5 secondes après la commande.</p>
+<p>Les paquets ne sont pas signés et ne sont pas servis par un dépôt <code>dnf</code> ou <code>apt</code> : contrôlez les fichiers téléchargés avec le <code>checksums.txt</code> de la version.</p>
+<p>L'installation crée le compte système <code>xolo</code> et les fichiers suivants :</p>
+<table>
+<thead>
+<tr>
+<th>Chemin</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/etc/xolo/xolo.env</code></td>
+<td>Configuration : une variable <code>XOLO_*</code> par ligne. Conservé lors des mises à jour.</td>
+</tr>
+<tr>
+<td><code>/etc/xolo/secret.env</code></td>
+<td><code>XOLO_SECRET_KEY</code> et <code>XOLO_HTTP_SESSION_KEYS</code>, générés à la première installation, jamais remplacés.</td>
+</tr>
+<tr>
+<td><code>/var/lib/xolo</code></td>
+<td>Base SQLite (<code>data.sqlite</code>), créée au premier démarrage.</td>
+</tr>
+<tr>
+<td><code>/var/cache/xolo</code></td>
+<td>Modèles téléchargés par le plugin <code>pseudonymizer</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Sauvegardez <code>/etc/xolo/secret.env</code> avec la base : sans <code>XOLO_SECRET_KEY</code>, les clés API des fournisseurs qu'elle contient sont illisibles.</p>
+<p>Le service n'est ni activé ni démarré par le paquet, puisqu'il lui faut d'abord un fournisseur d'authentification. Renseignez <code>/etc/xolo/xolo.env</code> (voir <a href="./configuration/">Configuration</a>), puis :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--now<span class="w"> </span>xolo
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>xolo<span class="w"> </span>-f
+</span></code></pre></div>
+<p>Une mise à jour du paquet redémarre le service s'il tournait. Sa désinstallation l'arrête et laisse en place la configuration, <code>/etc/xolo/secret.env</code>, la base et le compte <code>xolo</code>, même après un <code>apt purge</code> ; retirez-les à la main pour effacer l'instance. Sur Red Hat, la désinstallation désactive aussi le service ; sur Debian, il reste activé jusqu'au <code>apt purge</code>, et revient au prochain démarrage de la machine après une réinstallation.</p>
+<p>Les commandes d'administration hors ligne <code>xolo-migrate</code> (<a href="./uuid-migration/">migration UUID</a>) et <code>xolo-adoption</code> ne lisent leur configuration que dans l'environnement. <code>xolo-admin</code> les lance avec celle du service (<code>/etc/xolo/xolo.env</code> et <code>/etc/xolo/secret.env</code>), sous le compte <code>xolo</code> : lancées en root, elles laisseraient à la base SQLite des fichiers que le service ne pourrait plus ouvrir.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>xolo
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>sudo<span class="w"> </span>xolo-admin<span class="w"> </span>migrate<span class="w"> </span>diagnose
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>sudo<span class="w"> </span>xolo-admin<span class="w"> </span>migrate<span class="w"> </span>plan<span class="w"> </span>-out<span class="w"> </span>/var/lib/xolo/recovery.json
+</span></code></pre></div>
+<p>Les fichiers qu'elles écrivent doivent être accessibles en écriture au compte <code>xolo</code>, sous <code>/var/lib/xolo</code> par exemple.</p>
+<p>Sur Red Hat Enterprise Linux, ouvrez le port dans le pare-feu si l'instance est jointe sans mandataire inverse sur la même machine : <code>sudo firewall-cmd --permanent --add-port=3002/tcp &amp;&amp; sudo firewall-cmd --reload</code>.</p>
+<h2 id="option-3-binaire-compile-depuis-les-sources">Option 3 : binaire compilé depuis les sources<a class="headerlink" href="#option-3-binaire-compile-depuis-les-sources" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/xolo-gateway/xolo.git
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">cd</span><span class="w"> </span>xolo
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cp<span class="w"> </span>.env.dist<span class="w"> </span>.env
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># éditez .env : XOLO_SECRET_KEY, XOLO_HTTP_AUTHN_DEFAULT_ADMINS, un fournisseur d&#39;auth…</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>make<span class="w"> </span>build<span class="w">          </span><span class="c1"># compile bin/server et les plugins dans bin/plugins/</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>make<span class="w"> </span><span class="nv">CMD</span><span class="o">=</span><span class="s1">&#39;bin/server&#39;</span><span class="w"> </span>run-with-env
 </span></code></pre></div>
 <p><code>make build</code> enchaîne <code>build-server</code>, <code>build-migrate</code>, <code>build-frontend</code> et la compilation de tous les plugins présents sous <code>plugins/</code>. Si vous modifiez des fichiers <code>.templ</code> ou le CSS Tailwind, lancez <code>make generate</code> avant <code>make build</code>.</p>
 <p>Pour un rechargement à chaud en développement, <code>make watch</code> (nécessite <code>.env</code> et l'outil <code>modd</code>, récupéré automatiquement dans <code>tools/</code>).</p>
