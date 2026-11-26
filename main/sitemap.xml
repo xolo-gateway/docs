@@ -151,6 +151,15 @@
         <loc>https://xolo-gateway.org/main/utilisation/evenements/evenement/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/utilisation/tutoriels/agent-garde/agent-garde/</loc>
+        <loc>https://xolo-gateway.org/main/utilisation/guides/agent-outille/agent-outille/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/utilisation/guides/donnees-personnelles/donnees-personnelles/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/utilisation/guides/evenements-personnalises/evenements-personnalises/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/utilisation/guides/selection-automatique/selection-automatique/</loc>
       </url>
 </urlset>
