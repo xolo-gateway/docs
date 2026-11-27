@@ -1931,7 +1931,7 @@ html .md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
 }
 
 /* Sous la largeur où le menu passe en tiroir, l'en-tête n'a plus la place. */
-@media screen and (max-width: 59.9844em) {
+@media screen and (max-width: 76.234375em) {
   .md-header .xolo-header-link {
     display: none;
   }

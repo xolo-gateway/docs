@@ -39,6 +39,10 @@ def main():
         parts = line.split()
         if len(parts) != 2 or any(not p.endswith("/") or p.startswith("/") for p in parts):
             sys.exit(f"{redirects}:{number} : attendu « ancien/chemin/ nouveau/chemin/ »")
+        # Une page de redirection s'écrit sous l'ancien chemin : il ne doit pas
+        # sortir de docs/<lang>.
+        if any(part in ("", ".", "..") for p in parts for part in p.rstrip("/").split("/")):
+            sys.exit(f"{redirects}:{number} : chemin relatif interdit (., .. ou //)")
         old, new = parts
         page = docs / old / "index.md"
         if page.exists() or (docs / (old.rstrip("/") + ".md")).exists():

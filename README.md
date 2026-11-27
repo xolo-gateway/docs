@@ -18,7 +18,7 @@ langue cible, pas vers la page équivalente.
 
 ## En local
 
-Python 3.10 ou plus et Git. `DOC_LANG` (défaut `fr`) choisit la langue.
+Python 3.11 ou plus (pour `tomllib`) et Git. `DOC_LANG` (défaut `fr`) choisit la langue.
 
 ```bash
 make tools-sync                        # installe Zensical et Mike dans tools/.venv/

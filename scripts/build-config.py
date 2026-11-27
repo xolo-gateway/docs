@@ -4,7 +4,8 @@
 La navigation vit avec les pages, dans xolo-gateway/xolo (docs/<lang>/nav.toml),
 pour qu'un déplacement de page et l'entrée de menu qui le suit partent dans le
 même commit. scripts/prepare-source.sh la range sous content/.nav/<lang>.toml ;
-ce script l'insère dans la configuration de la langue. Une version de Xolo
+ce script l'insère dans la configuration de la langue. Chaque entrée cite un
+fichier .md relatif à docs/<lang>, comme le fait Zensical. Une version de Xolo
 sans nav.toml garde la navigation déduite de l'arborescence.
 
 La page « Trouver un expert » vient d'un troisième dépôt et peut manquer. Elle
@@ -52,10 +53,12 @@ def pages(nav):
 
 def with_experts(text, config, content):
     """Signale au thème que la page des experts existe, pour le lien d'en-tête."""
-    if not (content / EXPERTS_PAGE).is_file():
-        return text
+    # La clé est refusée même sans page : déclarée à la main, elle afficherait
+    # un lien vers une page absente.
     if "experts_page" in config.get("project", {}).get("extra", {}):
         sys.exit("project.extra.experts_page est réservé à scripts/build-config.py")
+    if not (content / EXPERTS_PAGE).is_file():
+        return text
     return text.rstrip("\n") + (
         "\n\n# Ajouté par scripts/build-config.py : la page des experts a été générée.\n"
         '[project.extra.experts_page]\nlink = "experts/"\n'
@@ -86,6 +89,9 @@ def build(lang):
     if "nav" in config.get("project", {}):
         sys.exit(f"{source.name} déclare déjà nav : retirez-la, elle vient de Xolo")
 
+    # La navigation s'insère juste après l'en-tête de la table [project]. La
+    # ligne « [project] » ne doit donc apparaître qu'une fois dans le fichier,
+    # y compris à l'intérieur d'une chaîne multi-lignes.
     header = "[project]\n"
     if text.count(header) != 1:
         sys.exit(f"{source.name} : une seule table [project] est attendue")
