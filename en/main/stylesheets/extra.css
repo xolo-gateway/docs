@@ -1908,3 +1908,31 @@ html .md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
   color: var(--xolo-muted);
   font-size: 0.7rem;
 }
+
+/* Lien d'en-tête vers « Trouver un expert », à gauche du sélecteur de langue. */
+.md-header .xolo-header-link {
+  align-self: center;
+  margin-right: 0.4rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: var(--xolo-radius-md);
+  /* Le fond du survol, à moitié dilué : le lien se remarque sans peser. */
+  background: color-mix(in oklab, var(--xolo-primary-soft) 50%, transparent);
+  color: var(--xolo-primary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.md-header .xolo-header-link:hover,
+.md-header .xolo-header-link--active {
+  background: var(--xolo-primary-soft);
+  color: var(--xolo-primary);
+}
+
+/* Sous la largeur où le menu passe en tiroir, l'en-tête n'a plus la place. */
+@media screen and (max-width: 76.234375em) {
+  .md-header .xolo-header-link {
+    display: none;
+  }
+}
