@@ -7,124 +7,88 @@
         <loc>https://xolo-gateway.org/main/experts/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/</loc>
+        <loc>https://xolo-gateway.org/main/decouvrir/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/hebergement-agpl/</loc>
+        <loc>https://xolo-gateway.org/main/decouvrir/budgets-et-quotas/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/installation/</loc>
+        <loc>https://xolo-gateway.org/main/decouvrir/estimation-energetique/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/installation/configuration/</loc>
+        <loc>https://xolo-gateway.org/main/decouvrir/fournisseurs-modeles-pipeline/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/installation/plugins/</loc>
+        <loc>https://xolo-gateway.org/main/decouvrir/organisation-et-permissions/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/installation/uuid-migration/</loc>
+        <loc>https://xolo-gateway.org/main/developpement/plugins/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/</loc>
+        <loc>https://xolo-gateway.org/main/exploitation/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/application/application/</loc>
+        <loc>https://xolo-gateway.org/main/exploitation/configuration/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/budget/budget/</loc>
+        <loc>https://xolo-gateway.org/main/exploitation/hebergement-agpl/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/equipes/equipes/</loc>
+        <loc>https://xolo-gateway.org/main/exploitation/installation/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/fournisseurs/fournisseurs/</loc>
+        <loc>https://xolo-gateway.org/main/exploitation/provisioning/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/invitation/invitation/</loc>
+        <loc>https://xolo-gateway.org/main/guides/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/membre/membre/</loc>
+        <loc>https://xolo-gateway.org/main/guides/agent-outille/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/middleware/middleware/</loc>
+        <loc>https://xolo-gateway.org/main/guides/donnees-personnelles/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/parametres/parametre/</loc>
+        <loc>https://xolo-gateway.org/main/guides/evenements-personnalises/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/roles/roles/</loc>
+        <loc>https://xolo-gateway.org/main/guides/selection-automatique/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/organisation/virtual_model/virtual_model/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/administration/provisioning/provisioning/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/applications/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/budget/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/budgets-et-quotas/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/equipes/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/estimation-energetique/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/fournisseurs/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/eventql/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/invitations/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/fournisseurs-modeles-pipeline/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/membres/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/organisation-et-permissions/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/middlewares/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/modeles-virtuels/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/noeuds-integres/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/parametres/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/budget-pressure/</loc>
+        <loc>https://xolo-gateway.org/main/organisation/roles/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/complexity-scorer/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/dummy-model/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/energy-estimator/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/fuzzy-evaluator/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/llm-classifier/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/mcp-bridge/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/prompt-guard/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/pseudonymizer/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/request-inspector/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/script-processor/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/system-prompt/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/text-classifier/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/concepts/noeuds-pipeline/plugins/time-restriction/</loc>
+        <loc>https://xolo-gateway.org/main/premiers-pas/</loc>
       </url>
       <url>
         <loc>https://xolo-gateway.org/main/projet/communaute/</loc>
@@ -142,24 +106,66 @@
         <loc>https://xolo-gateway.org/main/projet/securite/</loc>
       </url>
       <url>
+        <loc>https://xolo-gateway.org/main/reference/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/eventql/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/noeuds-integres/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/budget-pressure/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/complexity-scorer/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/dummy-model/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/energy-estimator/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/fuzzy-evaluator/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/llm-classifier/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/mcp-bridge/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/prompt-guard/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/pseudonymizer/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/request-inspector/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/script-processor/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/system-prompt/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/text-classifier/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/main/reference/noeuds/plugins/time-restriction/</loc>
+      </url>
+      <url>
         <loc>https://xolo-gateway.org/main/utilisation/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/utilisation/dashboard/dashboard/</loc>
+        <loc>https://xolo-gateway.org/main/utilisation/evenements/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/main/utilisation/evenements/evenement/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/utilisation/guides/agent-outille/agent-outille/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/utilisation/guides/donnees-personnelles/donnees-personnelles/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/utilisation/guides/evenements-personnalises/evenements-personnalises/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/main/utilisation/guides/selection-automatique/selection-automatique/</loc>
+        <loc>https://xolo-gateway.org/main/utilisation/tableau-de-bord/</loc>
       </url>
 </urlset>

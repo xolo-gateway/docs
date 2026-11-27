@@ -1,0 +1,3040 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation officielle de Xolo — passerelle LLM souveraine">
+      
+      
+        <meta name="author" content="Xolo Gateway">
+      
+      
+        <link rel="canonical" href="https://xolo-gateway.org/main/guides/selection-automatique/">
+      
+      
+        <link rel="prev" href="../evenements-personnalises/">
+      
+      
+        <link rel="next" href="../../organisation/">
+      
+      
+        
+          <link rel="alternate" href="/latest/" hreflang="fr">
+        
+          <link rel="alternate" href="/en/latest/" hreflang="en">
+        
+          <link rel="alternate" href="/es/latest/" hreflang="es">
+        
+      
+      
+      <link rel="icon" href="../../logo.svg">
+      <meta name="generator" content="zensical-0.0.53">
+    
+    
+      
+        <title>Guide : choisir le modèle automatiquement - Xolo</title>
+      
+    
+    
+      
+        
+      
+      <link rel="stylesheet" href="../../assets/stylesheets/modern/main.20815dad.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,500,500i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_scope.pathname.endsWith("/")||(__md_scope=new URL(__md_scope.pathname+"/",location)),__md_hash=e=>[...e].reduce(((e,t)=>(e<<5)-e+t.charCodeAt(0)),0),__md_get=(e,t=localStorage,_=__md_scope)=>JSON.parse(t.getItem(_.pathname+"."+e)),__md_set=(e,t,_=localStorage,a=__md_scope)=>{try{_.setItem(a.pathname+"."+e,JSON.stringify(t))}catch(e){}},document.documentElement.setAttribute("data-platform",navigator.platform)</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer" aria-label="Navigation"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#guide-choisir-le-modele-automatiquement" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-header__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-menu" viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Xolo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Guide : choisir le modèle automatiquement
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+      <div class="md-header__option">
+  <div class="md-select">
+    <button class="md-header__button md-icon xolo-lang" aria-label="Sélectionner la langue">
+      <span class="xolo-lang__code">fr</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="md-select__inner">
+      <ul class="md-select__list">
+        
+          <li class="md-select__item">
+            <a href="/latest/" hreflang="fr" class="md-select__link">
+              Français
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/en/latest/" hreflang="en" class="md-select__link">
+              English
+            </a>
+          </li>
+        
+          <li class="md-select__item">
+            <a href="/es/latest/" hreflang="es" class="md-select__link">
+              Español
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search" aria-label="Recherche">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-search" viewBox="0 0 24 24"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog" aria-label="Recherche">
+  <button type="button" class="md-search__button">
+    Recherche
+  </button>
+</div>
+      
+    
+    <div class="md-header__source">
+      
+        <a href="https://github.com/xolo-gateway/xolo" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+      
+    </div>
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://xolo-gateway.org" title="Xolo" class="md-nav__button md-logo" aria-label="Xolo" data-md-component="logo">
+      
+  <img src="../../logo.svg" alt="Xolo" class="xolo-header-logo">
+
+    </a>
+    Xolo
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/xolo-gateway/xolo" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2026 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    xolo-gateway/xolo
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Bienvenue dans Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../experts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Trouver un expert
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Decouvrir
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Decouvrir
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decouvrir/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Découvrir Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decouvrir/budgets-et-quotas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budgets et quotas
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decouvrir/estimation-energetique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Estimation de l'énergie consommée par une requête LLM
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decouvrir/fournisseurs-modeles-pipeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs, modèles et pipelines
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decouvrir/organisation-et-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organisation, rôles et permissions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Developpement
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Developpement
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developpement/plugins/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Développement de plugins (Go)
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Exploitation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Exploitation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploitation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Exploiter l'instance
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploitation/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Configuration
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploitation/hebergement-agpl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Héberger Xolo : ce que l'AGPL implique
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploitation/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Installation &amp; déploiement
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploitation/provisioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  API de provisioning
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guides
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Guides
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guides : construire un modèle virtuel
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agent-outille/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guide : un agent outillé, protégé des injections de prompt
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../donnees-personnelles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guide : protéger les données personnelles
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../evenements-personnalises/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guide : lever des événements personnalisés
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guide : choisir le modèle automatiquement
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="././" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Guide : choisir le modèle automatiquement
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Prérequis
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-1-le-modele-virtuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 1 : le modèle virtuel
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-2-mesurer-la-complexite" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 2 : mesurer la complexité
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-3-trois-niveaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 3 : trois niveaux
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-4-menager-le-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 4 : ménager le budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-5-les-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 5 : les images
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-6-tracer-le-choix" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 6 : tracer le choix
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-7-tester" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 7 : tester
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-8-regler-les-seuils" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 8 : régler les seuils
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ce-quil-faut-savoir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ce qu'il faut savoir
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pour aller plus loin
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Organisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Organisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Administrer une organisation
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/applications/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Applications
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Budget
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/equipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Équipes
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/fournisseurs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Fournisseurs
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/invitations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Invitation des utilisateurs
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/membres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Membres
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/middlewares/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Middleware
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/modeles-virtuels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Modèle virtuel
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/parametres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Paramètres
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../organisation/roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Rôles &amp; Permissions
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Premiers pas
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Premiers pas
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../premiers-pas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Premiers pas
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Projet
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Projet
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projet/communaute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Communauté
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projet/contribuer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Contribuer à Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projet/gouvernance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Gouvernance
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projet/marque/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Politique de marque
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projet/securite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Politique de sécurité
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Reference
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Reference
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Référence
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/eventql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Syntaxe eventql
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Noeuds
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Noeuds
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Nœuds de pipeline : intégrés et plugins
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/noeuds-integres/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Nœuds intégrés
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_3_3" id="__nav_10_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Plugins
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_10_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Plugins
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/budget-pressure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  budget-pressure
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/complexity-scorer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  complexity-scorer
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/dummy-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  dummy-model
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/energy-estimator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  energy-estimator
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/fuzzy-evaluator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  fuzzy-evaluator
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/llm-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  llm-classifier
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/mcp-bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  mcp-bridge
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/prompt-guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  prompt-guard
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/pseudonymizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  pseudonymizer
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/request-inspector/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  request-inspector
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/script-processor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  script-processor
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/system-prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  system-prompt
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/text-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  text-classifier
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/noeuds/plugins/time-restriction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  time-restriction
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Utilisation
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+  Utilisation
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Utiliser Xolo
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/evenements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Événements
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../utilisation/tableau-de-bord/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+  Tableau de bord
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  
+                    
+                    
+                    
+                      
+                    
+                    
+                      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+                      <div class="md-sidebar-button__wrapper">
+                        <label class="md-sidebar-button" for="__toc"></label>
+                      </div>
+                    
+                  
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequis" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Prérequis
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-1-le-modele-virtuel" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 1 : le modèle virtuel
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-2-mesurer-la-complexite" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 2 : mesurer la complexité
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-3-trois-niveaux" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 3 : trois niveaux
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-4-menager-le-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 4 : ménager le budget
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-5-les-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 5 : les images
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-6-tracer-le-choix" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 6 : tracer le choix
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-7-tester" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 7 : tester
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etape-8-regler-les-seuils" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Étape 8 : régler les seuils
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ce-quil-faut-savoir" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Ce qu'il faut savoir
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pour-aller-plus-loin" class="md-nav__link">
+    <span class="md-ellipsis">
+      <span class="md-typeset">
+        Pour aller plus loin
+      </span>
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  
+    
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  
+  <span class="md-ellipsis">
+    Bienvenue dans Xolo
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+    
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  
+  <span class="md-ellipsis">
+    Guides
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+  
+
+
+<h1 id="guide-choisir-le-modele-automatiquement">Guide : choisir le modèle automatiquement<a class="headerlink" href="#guide-choisir-le-modele-automatiquement" title="Permanent link">&para;</a></h1>
+<p>Ce guide construit un modèle virtuel <code>acme/auto</code> qui choisit, à chaque requête, le modèle le moins cher capable d'y répondre. Une salutation part vers un petit modèle, une demande d'architecture vers le plus capable, une image vers un modèle qui lit les images. Les clients demandent <code>acme/auto</code> et n'ont plus à choisir.</p>
+<p>Le fichier <a download="auto.bundle.json" href=".././auto.bundle.json"><code>auto.bundle.json</code></a> contient le résultat final : téléchargez-le, puis chargez-le avec le bouton <strong>Importer un bundle</strong> de la page Modèles virtuels. Après import, remplacez les quatre modèles d'exemple par les vôtres, dans les nœuds <code>model_ref</code>.</p>
+<h2 id="prerequis">Prérequis<a class="headerlink" href="#prerequis" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Une organisation dont vous êtes administrateur, avec la permission d'écrire les modèles virtuels.</li>
+<li>Quatre modèles déclarés dans l'organisation, avec leur coût renseigné. Le routage n'a d'intérêt que si ces coûts diffèrent, et le <a href="../../utilisation/tableau-de-bord/">tableau de bord</a> s'en sert pour mesurer l'économie. Ce guide les appelle :</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Modèle</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>acme/leger</code></td>
+<td>Petit modèle, rapide et peu cher : salutations, questions factuelles, traductions courtes</td>
+</tr>
+<tr>
+<td><code>acme/standard</code></td>
+<td>Modèle intermédiaire : explications, rédaction, comparaisons, débogage</td>
+</tr>
+<tr>
+<td><code>acme/expert</code></td>
+<td>Le plus capable et le plus cher : conception, analyses longues et contraintes</td>
+</tr>
+<tr>
+<td><code>acme/vision</code></td>
+<td>Un modèle qui lit les images</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Les plugins <code>complexity-scorer</code>, <code>request-inspector</code> et <code>budget-pressure</code> chargés sur le serveur. Aucun n'appelle de modèle : le choix ne coûte que quelques millisecondes.</li>
+</ul>
+<h2 id="etape-1-le-modele-virtuel">Étape 1 : le modèle virtuel<a class="headerlink" href="#etape-1-le-modele-virtuel" title="Permanent link">&para;</a></h2>
+<p>Les clients ne doivent avoir qu'un nom à retenir : <code>acme/auto</code>. Le modèle virtuel porte ce nom et décide, à chaque requête, du modèle qui répondra vraiment. Changer de modèle, de seuil ou de fournisseur se fera ensuite ici, sans toucher aux applications qui l'appellent.</p>
+<p>Créez un modèle virtuel nommé <code>auto</code> et ouvrez son éditeur (voir <a href="../../organisation/modeles-virtuels/">Modèle virtuel</a>). Ajoutez un nœud <code>model</code> et reliez <code>generator.request</code> à <code>model.request</code>, puis <code>model.response</code> à <code>sink.response</code>.</p>
+<p>Le nœud <code>model</code> ne nommera aucun modèle : son port <code>model_name</code> recevra le choix calculé par le graphe. Dès que ce port est connecté, le champ <strong>Modèle appelé</strong> est ignoré.</p>
+<p><img alt="Le nœud model : le champ Modèle appelé est ignoré dès que le port model_name est connecté" src=".././screenshots/selection-automatique/model.png" /></p>
+<h2 id="etape-2-mesurer-la-complexite">Étape 2 : mesurer la complexité<a class="headerlink" href="#etape-2-mesurer-la-complexite" title="Permanent link">&para;</a></h2>
+<p>Pour choisir le modèle le moins cher capable de répondre, il faut d'abord estimer ce que la demande exige. Une salutation ne demande pas le même modèle qu'une analyse en dix contraintes. Le score de complexité fournit cette estimation, sans appeler de modèle, donc sans coût ni délai notables.</p>
+<p>Ajoutez le plugin <code>complexity-scorer</code> et reliez <code>generator.request</code> à son port <code>request</code>. Il donne sur <code>complexity</code> un score entre 0 et 1, et sur <code>level</code> une étiquette, de <code>trivial</code> à <code>very_complex</code>.</p>
+<p>Le score porte sur le dernier message de l'utilisateur. Il monte avec les contraintes explicites (format, longueur, ton, sources), les demandes de raisonnement (comparer, justifier, concevoir), la présence de code et la structure du texte. Quelques mesures, pour se faire une idée de l'échelle :</p>
+<table>
+<thead>
+<tr>
+<th>Score</th>
+<th>Demande</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0,033</td>
+<td>Quelle heure est-il à Tokyo ?</td>
+</tr>
+<tr>
+<td>0,040</td>
+<td>Bonjour !</td>
+</tr>
+<tr>
+<td>0,082</td>
+<td>Traduis « bonne journée » en anglais.</td>
+</tr>
+<tr>
+<td>0,083</td>
+<td>Écris une fonction Python qui inverse une chaîne de caractères.</td>
+</tr>
+<tr>
+<td>0,127</td>
+<td>Propose un plan de formation de trois mois pour un développeur junior, avec des objectifs par semaine et un tableau de suivi.</td>
+</tr>
+<tr>
+<td>0,194</td>
+<td>Rédige un courriel de relance pour une facture impayée depuis trente jours, sur un ton courtois mais ferme.</td>
+</tr>
+<tr>
+<td>0,195</td>
+<td>Explique comment fonctionne le protocole HTTPS et pourquoi il protège les données échangées avec un site.</td>
+</tr>
+<tr>
+<td>0,228</td>
+<td>Compare les avantages et les inconvénients du télétravail pour une petite équipe, en trois paragraphes.</td>
+</tr>
+<tr>
+<td>0,433</td>
+<td>Pourquoi mon script Python renvoie-t-il <code>KeyError: 'nom'</code> ? (avec le bloc de code)</td>
+</tr>
+<tr>
+<td>0,433</td>
+<td>Analyse les risques juridiques d'un contrat de sous-traitance sans clause de confidentialité, compare deux options de rédaction et recommande la plus sûre.</td>
+</tr>
+<tr>
+<td>0,629</td>
+<td>Conçois l'architecture d'un service de réservation qui tient 10 000 requêtes par seconde : justifie le choix de la base de données, du cache et de la file de messages, et présente les compromis dans un tableau.</td>
+</tr>
+<tr>
+<td>0,972</td>
+<td>Une analyse comparative de deux architectures avec trois sources, un tableau, des recommandations chiffrées, 800 mots au plus et un ton formel.</td>
+</tr>
+</tbody>
+</table>
+<p>Les scores se concentrent dans le bas de l'échelle : une demande ordinaire dépasse rarement 0,25. D'où les seuils de ce guide, <strong>0,15</strong> et <strong>0,5</strong>, plutôt que des tiers réguliers.</p>
+<h2 id="etape-3-trois-niveaux">Étape 3 : trois niveaux<a class="headerlink" href="#etape-3-trois-niveaux" title="Permanent link">&para;</a></h2>
+<p>Un score ne choisit rien à lui seul : il faut le traduire en décision. Trois niveaux suffisent le plus souvent à obtenir l'essentiel de l'économie, car la plupart des demandes sont simples. Chaque niveau de plus complique le réglage pour un gain moindre.</p>
+<p>Deux questions suffisent à ranger une demande en trois niveaux. Chacune est un <code>compare</code>, et chaque réponse choisit entre deux modèles avec un <code>select</code>.</p>
+<p>Ajoutez trois <code>model_ref</code>, réglés sur <code>acme/leger</code>, <code>acme/standard</code> et <code>acme/expert</code>, puis :</p>
+<p><img alt="Un model_ref réglé sur acme/leger" src=".././screenshots/selection-automatique/model-ref.png" /></p>
+<ol>
+<li>Un <code>compare</code> libellé « demande difficile ? », opérateur <code>gte</code>, seuil 0,5. Reliez <code>complexity-scorer.complexity</code> à son port <code>value</code>.</li>
+<li>Un <code>select</code> libellé « standard ou expert ». Reliez le <code>result</code> du premier <code>compare</code> à sa <code>condition</code>, le <code>model_ref</code> expert à <code>when_true</code>, le standard à <code>when_false</code>.</li>
+<li>Un <code>compare</code> libellé « demande simple ? », opérateur <code>lt</code>, seuil 0,15, lui aussi alimenté par <code>complexity</code>.</li>
+<li>Un <code>select</code> libellé « modèle selon complexité ». Sa <code>condition</code> vient du second <code>compare</code>, <code>when_true</code> du <code>model_ref</code> léger, et <code>when_false</code> de la sortie <code>value</code> du premier <code>select</code>.</li>
+</ol>
+<p>Le second <code>select</code> reçoit ainsi soit le modèle léger, soit le choix déjà fait entre standard et expert. Le graphe se lit comme une suite de questions : simple ? léger ; sinon, difficile ? expert ; sinon, standard.</p>
+<p><img alt="Le compare « demande difficile ? » : opérateur gte, seuil 0,5" src=".././screenshots/selection-automatique/compare.png" /></p>
+<p><img alt="Les trois niveaux : deux compare, trois model_ref et deux select" src=".././screenshots/selection-automatique/niveaux.png" /></p>
+<h2 id="etape-4-menager-le-budget">Étape 4 : ménager le budget<a class="headerlink" href="#etape-4-menager-le-budget" title="Permanent link">&para;</a></h2>
+<p>Un utilisateur qui a presque épuisé son budget sera bientôt refusé par son quota, au milieu de son travail. Mieux vaut le servir avec le modèle léger tant qu'il lui reste du budget. Une réponse plus simple vaut mieux qu'un refus, et le budget dure plus longtemps.</p>
+<p>Ajoutez le plugin <code>budget-pressure</code>, alimenté par <code>generator.request</code>. Son port <code>budget_pressure</code> donne la part déjà consommée du budget le plus proche de sa limite parmi ceux qui s'appliquent à la requête : celui de l'utilisateur, de son organisation ou de son équipe, sur le jour, le mois ou l'année. 0,9 veut dire 90 %. Sans budget, il vaut 0.</p>
+<p>Ajoutez un <code>compare</code> libellé « budget presque épuisé ? », opérateur <code>gte</code>, seuil 0,9, et un <code>select</code> libellé « modèle selon budget » : <code>condition</code> depuis ce <code>compare</code>, <code>when_true</code> depuis le <code>model_ref</code> léger, <code>when_false</code> depuis la sortie du <code>select</code> de l'étape 3.</p>
+<h2 id="etape-5-les-images">Étape 5 : les images<a class="headerlink" href="#etape-5-les-images" title="Permanent link">&para;</a></h2>
+<p>Une image ne peut aller que vers un modèle qui lit les images, quels que soient la complexité et le budget. Envoyée à un autre modèle, elle est ignorée, ou la requête échoue. Cette règle passe donc avant toutes les autres.</p>
+<p>Ajoutez le plugin <code>request-inspector</code>, alimenté par <code>generator.request</code>, un <code>model_ref</code> réglé sur <code>acme/vision</code> et un dernier <code>select</code> libellé « modèle retenu » : <code>condition</code> depuis <code>request-inspector.has_vision</code>, <code>when_true</code> depuis le <code>model_ref</code> vision, <code>when_false</code> depuis le <code>select</code> de l'étape 4.</p>
+<p>Placé en dernier, ce <code>select</code> l'emporte sur le budget : un utilisateur au bout de son budget qui envoie une image va vers le modèle vision, puisque le modèle léger ne la verrait pas. Si vous préférez l'inverse, échangez l'ordre des deux étapes.</p>
+<p>Reliez enfin la sortie <code>value</code> de ce dernier <code>select</code> au port <code>model_name</code> du nœud <code>model</code>.</p>
+<h2 id="etape-6-tracer-le-choix">Étape 6 : tracer le choix<a class="headerlink" href="#etape-6-tracer-le-choix" title="Permanent link">&para;</a></h2>
+<p>Un routage qu'on ne voit pas ne se règle pas. Sans trace, on ne sait ni quel modèle a répondu à quelle demande, ni si les seuils envoient trop de demandes vers le modèle cher. La trace enregistre, pour chaque requête, ce que le graphe a mesuré et ce qu'il a décidé.</p>
+<p>Ajoutez un nœud <code>trace</code>, libellé <code>auto</code>, avec cinq ports : <code>complexity</code> (number), <code>level</code> (string), <code>budget_pressure</code> (number), <code>has_vision</code> (boolean) et <code>model_name</code> (string). Reliez-y les sorties du même nom, et la sortie du dernier <code>select</code> sur <code>model_name</code>. Chaque requête produit un événement <code>pipeline.trace</code> qui donne ce que le graphe a mesuré et ce qu'il a choisi. Les seuils se règlent à partir de ces événements.</p>
+<p>Une <code>note</code> sur le canevas rappelle les seuils retenus et la date à laquelle les revoir.</p>
+<p>Enregistrez. Le bandeau indique <strong>Graphe valide</strong>.</p>
+<p><img alt="Le pipeline complet du modèle acme/auto" src=".././screenshots/selection-automatique/pipeline.png" /></p>
+<h2 id="etape-7-tester">Étape 7 : tester<a class="headerlink" href="#etape-7-tester" title="Permanent link">&para;</a></h2>
+<p>Avant de laisser <code>acme/auto</code> choisir pour les utilisateurs, vérifiez qu'il choisit comme prévu sur des demandes dont vous connaissez la réponse : une simple, une ordinaire, une exigeante, une avec image.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-s<span class="w"> </span>http://localhost:3002/api/v1/chat/completions<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$XOLO_TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;model&quot;:&quot;acme/auto&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Bonjour !&quot;}]}&#39;</span>
+</span></code></pre></div>
+<p>Les traces enregistrées pour quelques demandes :</p>
+<table>
+<thead>
+<tr>
+<th>Demande</th>
+<th><code>complexity</code></th>
+<th><code>level</code></th>
+<th><code>model_name</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bonjour !</td>
+<td>0,040</td>
+<td><code>trivial</code></td>
+<td><code>acme/leger</code></td>
+</tr>
+<tr>
+<td>Explique comment fonctionne le protocole HTTPS…</td>
+<td>0,195</td>
+<td><code>trivial</code></td>
+<td><code>acme/standard</code></td>
+</tr>
+<tr>
+<td>Conçois l'architecture d'un service de réservation…</td>
+<td>0,629</td>
+<td><code>complex</code></td>
+<td><code>acme/expert</code></td>
+</tr>
+<tr>
+<td>Bonjour !, avec une image jointe</td>
+<td>0,040</td>
+<td><code>trivial</code></td>
+<td><code>acme/vision</code></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Les traces « auto » dans la page Événements" src=".././screenshots/selection-automatique/evenements.png" /></p>
+<h2 id="etape-8-regler-les-seuils">Étape 8 : régler les seuils<a class="headerlink" href="#etape-8-regler-les-seuils" title="Permanent link">&para;</a></h2>
+<p>Les seuils de départ viennent de quelques demandes d'exemple, et vos utilisateurs écrivent autrement. Seul le trafic réel montre si le compromis entre coût et qualité est le bon.</p>
+<p>Après une semaine de trafic réel, la page <strong>Événements</strong> filtrée sur <code>{type="pipeline.trace"} | label="auto"</code> donne la répartition des demandes entre les modèles, et le tableau de bord ce qu'elles ont coûté. Si le modèle expert reçoit trop de demandes qui n'en valaient pas la peine, montez son seuil. Si les utilisateurs se plaignent des réponses du modèle léger, baissez le sien.</p>
+<p>Pour essayer un nouveau seuil sans l'imposer à tous, un nœud <a href="../../reference/noeuds/noeuds-integres/#sample"><code>sample</code></a> à 10 % par utilisateur, branché sur un <code>select</code> entre l'ancien et le nouveau réglage, et un port de plus sur la trace, permettent de comparer les deux sur les mêmes semaines.</p>
+<h2 id="ce-quil-faut-savoir">Ce qu'il faut savoir<a class="headerlink" href="#ce-quil-faut-savoir" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Le score mesure la forme de la demande, pas la difficulté du sujet.</strong> « Explique la différence entre une SARL et une SAS, puis indique laquelle convient à deux associés qui veulent lever des fonds » obtient 0,096 et part vers le modèle léger, parce qu'elle est courte et sans contrainte de forme. Essayée avec un petit modèle local, la réponse contenait des erreurs juridiques. Pour qu'un domaine sensible aille toujours vers le modèle expert, ajoutez un <a href="../../reference/noeuds/plugins/text-classifier/"><code>text-classifier</code></a>, sans appel de modèle, ou un <a href="../../reference/noeuds/plugins/llm-classifier/"><code>llm-classifier</code></a>, plus précis mais qui ajoute un appel, suivi d'un <code>compare</code> sur la catégorie et d'un <code>select</code> de plus.</li>
+<li><strong>Pas de repli avec un nom calculé.</strong> Le nœud <a href="../../reference/noeuds/noeuds-integres/#model_fallback"><code>model_fallback</code></a> ignore sa liste dès que son port <code>model_name</code> est connecté : avec un modèle choisi par le graphe, une panne du fournisseur remonte au client.</li>
+<li><strong>Chaque modèle nommé dans le graphe est accessible à travers lui.</strong> Une équipe qui a accès à <code>acme/auto</code> peut se voir servir <code>acme/expert</code> même sans accès direct à ce modèle : c'est voulu, le modèle virtuel décide pour elle.</li>
+<li><strong>Au-delà de trois signaux,</strong> les <code>compare</code> et <code>select</code> se multiplient. Un <code>math</code> en moyenne pondérée de la complexité, de la pression budgétaire et du coût énergétique donne un score unique, et le plugin <a href="../../reference/noeuds/plugins/fuzzy-evaluator/"><code>fuzzy-evaluator</code></a> des transitions progressives à la place des seuils.</li>
+</ul>
+<h2 id="pour-aller-plus-loin">Pour aller plus loin<a class="headerlink" href="#pour-aller-plus-loin" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Être prévenu quand un budget s'épuise,</strong> plutôt que seulement basculer vers le modèle léger : voir le <a href=".././evenements-personnalises/">guide des événements personnalisés</a>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+  
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="lucide lucide-circle-arrow-up" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V8"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © Xolo Gateway
+    </div>
+  
+  
+    Made with
+    <a href="https://zensical.org/" target="_blank" rel="noopener">
+      Zensical
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate":null,"base":"../..","features":["navigation.sections","navigation.path","navigation.top","navigation.tracking","toc.follow","content.code.copy","search.highlight"],"search":"../../assets/javascripts/workers/search.7d14d953.min.js","tags":null,"translations":{"clipboard.copied":"Copié dans le presse-papier","clipboard.copy":"Copier dans le presse-papier","search.result.more.one":"1 de plus sur cette page","search.result.more.other":"# de plus sur cette page","search.result.none":"Aucun document trouvé","search.result.one":"1 document trouvé","search.result.other":"# documents trouvés","search.result.placeholder":"Taper pour démarrer la recherche","search.result.term.missing":"Non trouvé","select.version":"Sélectionner la version"},"version":{"alias":true,"default":"latest","provider":"mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.69c251d7.min.js"></script>
+      
+    
+  </body>
+</html>
