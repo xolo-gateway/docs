@@ -30,6 +30,9 @@ jobs:
       - name: Install local tools
         run: make tools-sync
 
+      - name: Test the preparation scripts
+        run: make test
+
       - name: Prepare documentation from Xolo main
         env:
           XOLO_REF: main

@@ -17,6 +17,14 @@ extra_css = [
   "stylesheets/extra.css",
 ]
 
+# Visionneuse d'images : un clic ouvre la capture en grand, avec zoom et
+# déplacement. Les captures de pipelines sont illisibles à la largeur de la
+# colonne de texte.
+[project.plugins.glightbox]
+zoomable = true
+draggable = true
+auto_caption = true
+
 [project.theme]
 variant = "modern"
 language = "es"
@@ -25,7 +33,6 @@ favicon = "logo.svg"
 custom_dir = "overrides"
 
 features = [
-  "navigation.sections",   # titled top-level groups in the nav
   "navigation.path",       # breadcrumb above the title
   "navigation.top",        # back to top
   "navigation.tracking",   # the URL tracks the section being read
@@ -142,12 +149,12 @@ subtitle2 = "respaldo y ponderación"
 
 [[project.extra.home.actions]]
 title = "Instalar Xolo"
-link = "administration/installation/"
+link = "exploitation/installation/"
 primary = true
 
 [[project.extra.home.actions]]
 title = "Entender el modelo"
-link = "concepts/"
+link = "decouvrir/"
 
 [project.extra.home.paths]
 title = "Por dónde empezar"
@@ -159,11 +166,11 @@ description = "Instalación, configuración, plugins Go, aprovisionamiento. Para
 icon = "deploy"
 tone = "primary"
 meta = "15 páginas"
-link = "administration/"
+link = "exploitation/"
 links = [
-  { title = "Instalación y despliegue", link = "administration/installation/" },
-  { title = "Configuración", link = "administration/installation/configuration/" },
-  { title = "API de aprovisionamiento", link = "administration/provisioning/provisioning/" },
+  { title = "Instalación y despliegue", link = "exploitation/installation/" },
+  { title = "Configuración", link = "exploitation/configuration/" },
+  { title = "API de aprovisionamiento", link = "exploitation/provisioning/" },
 ]
 
 [[project.extra.home.paths.items]]
@@ -172,11 +179,11 @@ description = "El modelo de organización, el pipeline proveedor → modelo → 
 icon = "concept"
 tone = "purple"
 meta = "6 páginas"
-link = "concepts/"
+link = "decouvrir/"
 links = [
-  { title = "Organización, roles y permisos", link = "concepts/organisation-et-permissions/" },
-  { title = "Proveedores, modelos y pipelines", link = "concepts/fournisseurs-modeles-pipeline/" },
-  { title = "Presupuestos y cuotas", link = "concepts/budgets-et-quotas/" },
+  { title = "Organización, roles y permisos", link = "decouvrir/organisation-et-permissions/" },
+  { title = "Proveedores, modelos y pipelines", link = "decouvrir/fournisseurs-modeles-pipeline/" },
+  { title = "Presupuestos y cuotas", link = "decouvrir/budgets-et-quotas/" },
 ]
 
 [[project.extra.home.paths.items]]
@@ -187,9 +194,9 @@ tone = "neutral"
 meta = "3 páginas"
 link = "utilisation/"
 links = [
-  { title = "Panel de control", link = "utilisation/dashboard/dashboard/" },
-  { title = "Eventos", link = "utilisation/evenements/evenement/" },
-  { title = "Sintaxis eventql", link = "concepts/eventql/" },
+  { title = "Panel de control", link = "utilisation/tableau-de-bord/" },
+  { title = "Eventos", link = "utilisation/evenements/" },
+  { title = "Sintaxis eventql", link = "reference/eventql/" },
 ]
 
 [project.extra.home.quickstart]
@@ -199,22 +206,25 @@ description = "Una instancia local, una clave, una primera llamada."
 [[project.extra.home.quickstart.tabs]]
 title = "docker"
 code = """
-$ docker run -p 8080:8080 \\
-    ghcr.io/xolo-gateway/xolo:latest
+# clave secreta, administrador e inicio de sesión: ver la instalación
+$ docker run -p 3002:3002 --env-file xolo.env \\
+    ghcr.io/xolo-gateway/xolo-server:latest
 
-# después, una vez creada la organización
-$ curl localhost:8080/v1/chat/completions \\
+# luego, con una organización, un proveedor y una clave API
+$ curl localhost:3002/api/v1/chat/completions \\
     -H "Authorization: Bearer $XOLO_KEY" \\
-    -d '{"model":"gpt-4o-mini","messages":[…]}'
+    -d '{"model":"acme/gpt-4o-mini","messages":[…]}'
 """
 
 [[project.extra.home.quickstart.tabs]]
 title = "source"
 code = """
 $ git clone https://github.com/xolo-gateway/xolo
-$ cd xolo && make run
+$ cd xolo && cp .env.dist .env
+# complete .env, luego
+$ make build && make CMD='bin/server' run-with-env
 
-# la interfaz escucha en http://localhost:8080
+# la interfaz escucha en http://localhost:3002
 """
 
 [project.extra.home.highlights]

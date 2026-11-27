@@ -17,6 +17,14 @@ extra_css = [
   "stylesheets/extra.css",
 ]
 
+# Visionneuse d'images : un clic ouvre la capture en grand, avec zoom et
+# déplacement. Les captures de pipelines sont illisibles à la largeur de la
+# colonne de texte.
+[project.plugins.glightbox]
+zoomable = true
+draggable = true
+auto_caption = true
+
 [project.theme]
 variant = "modern"
 language = "en"
@@ -25,7 +33,6 @@ favicon = "logo.svg"
 custom_dir = "overrides"
 
 features = [
-  "navigation.sections",   # titled top-level groups in the nav
   "navigation.path",       # breadcrumb above the title
   "navigation.top",        # back to top
   "navigation.tracking",   # the URL tracks the section being read
@@ -142,12 +149,12 @@ subtitle2 = "fallback and weighting"
 
 [[project.extra.home.actions]]
 title = "Install Xolo"
-link = "administration/installation/"
+link = "exploitation/installation/"
 primary = true
 
 [[project.extra.home.actions]]
 title = "Understand the model"
-link = "concepts/"
+link = "decouvrir/"
 
 [project.extra.home.paths]
 title = "Where to start"
@@ -159,11 +166,11 @@ description = "Installation, configuration, Go plugins, provisioning. For ops an
 icon = "deploy"
 tone = "primary"
 meta = "15 pages"
-link = "administration/"
+link = "exploitation/"
 links = [
-  { title = "Installation & deployment", link = "administration/installation/" },
-  { title = "Configuration", link = "administration/installation/configuration/" },
-  { title = "Provisioning API", link = "administration/provisioning/provisioning/" },
+  { title = "Installation & deployment", link = "exploitation/installation/" },
+  { title = "Configuration", link = "exploitation/configuration/" },
+  { title = "Provisioning API", link = "exploitation/provisioning/" },
 ]
 
 [[project.extra.home.paths.items]]
@@ -172,11 +179,11 @@ description = "The organisation model, the provider → model → middleware pip
 icon = "concept"
 tone = "purple"
 meta = "6 pages"
-link = "concepts/"
+link = "decouvrir/"
 links = [
-  { title = "Organisation, roles and permissions", link = "concepts/organisation-et-permissions/" },
-  { title = "Providers, models and pipelines", link = "concepts/fournisseurs-modeles-pipeline/" },
-  { title = "Budgets and quotas", link = "concepts/budgets-et-quotas/" },
+  { title = "Organisation, roles and permissions", link = "decouvrir/organisation-et-permissions/" },
+  { title = "Providers, models and pipelines", link = "decouvrir/fournisseurs-modeles-pipeline/" },
+  { title = "Budgets and quotas", link = "decouvrir/budgets-et-quotas/" },
 ]
 
 [[project.extra.home.paths.items]]
@@ -187,9 +194,9 @@ tone = "neutral"
 meta = "3 pages"
 link = "utilisation/"
 links = [
-  { title = "Dashboard", link = "utilisation/dashboard/dashboard/" },
-  { title = "Events", link = "utilisation/evenements/evenement/" },
-  { title = "eventql syntax", link = "concepts/eventql/" },
+  { title = "Dashboard", link = "utilisation/tableau-de-bord/" },
+  { title = "Events", link = "utilisation/evenements/" },
+  { title = "eventql syntax", link = "reference/eventql/" },
 ]
 
 [project.extra.home.quickstart]
@@ -199,22 +206,25 @@ description = "A local instance, a key, a first call."
 [[project.extra.home.quickstart.tabs]]
 title = "docker"
 code = """
-$ docker run -p 8080:8080 \\
-    ghcr.io/xolo-gateway/xolo:latest
+# secret key, administrator and sign-in: see the installation page
+$ docker run -p 3002:3002 --env-file xolo.env \\
+    ghcr.io/xolo-gateway/xolo-server:latest
 
-# then, once the organisation is created
-$ curl localhost:8080/v1/chat/completions \\
+# then, with an organization, a provider and an API key
+$ curl localhost:3002/api/v1/chat/completions \\
     -H "Authorization: Bearer $XOLO_KEY" \\
-    -d '{"model":"gpt-4o-mini","messages":[…]}'
+    -d '{"model":"acme/gpt-4o-mini","messages":[…]}'
 """
 
 [[project.extra.home.quickstart.tabs]]
 title = "source"
 code = """
 $ git clone https://github.com/xolo-gateway/xolo
-$ cd xolo && make run
+$ cd xolo && cp .env.dist .env
+# fill in .env, then
+$ make build && make CMD='bin/server' run-with-env
 
-# the interface listens on http://localhost:8080
+# the interface listens on http://localhost:3002
 """
 
 [project.extra.home.highlights]

@@ -45,7 +45,9 @@ REDIRECT_TEMPLATE := $(CURDIR)/overrides/mike-redirect-template.html
 # /main/, /X.Y.Z/) ; anglais et espagnol sont publiés sous /en/ et /es/.
 LANGUAGES := fr en es
 DOC_LANG ?= fr
-CONFIG := zensical.$(DOC_LANG).toml
+# La configuration construite est zensical.<lang>.toml complétée de la
+# navigation livrée par Xolo : voir scripts/build-config.py.
+CONFIG := zensical.$(DOC_LANG).build.toml
 DEPLOY_PREFIX := $(if $(filter fr,$(DOC_LANG)),,$(DOC_LANG))
 
 .PHONY: help
@@ -57,6 +59,7 @@ help:
 		"  make tools-lock                 Génère tools/requirements.lock" \
 		"  make tools-sync                 Installe depuis tools/requirements.lock" \
 		"  make tools-clean                Supprime l'environnement Python local" \
+		"  make test                      Teste les scripts de préparation (nav, redirections)" \
 		"  make prepare XOLO_REF=...       Récupère les sources : Xolo et experts" \
 		"  make prepare-experts            Régénère la seule page « Trouver un expert »" \
 		"  make prepare-experts EXPERTS_SOURCE=...  Depuis un dossier local" \
@@ -117,25 +120,36 @@ prepare-experts:
 	EXPERTS_REQUIRED="$(EXPERTS_REQUIRED)" \
 		./scripts/prepare-experts.sh
 
+# Tests des scripts de préparation (navigation, redirections), sur une
+# arborescence synthétique : la CI construit Xolo main, qui ne les exerce pas
+# tant que ses sources ne livrent pas nav.toml et redirects.txt.
+.PHONY: test
+test:
+	"$(PYTHON)" -m unittest discover -s scripts -p 'test_*.py'
+
+.PHONY: config
+config:
+	@./scripts/build-config.py $(LANGUAGES)
+
 .PHONY: build
-build: tools
+build: tools config
 	"$(ZENSICAL)" build --clean --config-file "$(CONFIG)"
 
 .PHONY: check
-check: tools
+check: tools config
 	"$(ZENSICAL)" build --clean --strict --config-file "$(CONFIG)"
 
 .PHONY: check-all
-check-all: tools
+check-all: tools config
 	@for lang in $(LANGUAGES); do \
 		echo "== check $$lang =="; \
-		"$(ZENSICAL)" build --clean --strict --config-file "zensical.$$lang.toml" || exit 1; \
+		"$(ZENSICAL)" build --clean --strict --config-file "zensical.$$lang.build.toml" || exit 1; \
 	done
 
 # La page des experts est régénérée à chaque démarrage : elle vient d'un autre
 # dépôt, Zensical ne sait pas la reconstruire tout seul.
 .PHONY: serve
-serve: tools prepare-experts
+serve: tools prepare-experts config
 	"$(ZENSICAL)" serve --config-file "$(CONFIG)"
 
 .PHONY: preview
@@ -149,7 +163,7 @@ require-version:
 	}
 
 .PHONY: publish
-publish: require-version tools
+publish: require-version tools config
 	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
@@ -171,7 +185,7 @@ publish-latest: ALIASES=latest
 publish-latest: publish
 
 .PHONY: alias
-alias: require-version tools
+alias: require-version tools config
 	@test -n "$(ALIASES)" || { echo "ALIASES est obligatoire"; exit 1; }; \
 	args=(--deploy-prefix "$(DEPLOY_PREFIX)" --update-aliases --alias-type="$(ALIAS_TYPE)" --template "$(REDIRECT_TEMPLATE)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
@@ -180,7 +194,7 @@ alias: require-version tools
 	"$(MIKE)" alias --config-file "$(CONFIG)" "$${args[@]}" "$(VERSION)" $(ALIASES)
 
 .PHONY: set-default
-set-default: tools
+set-default: tools config
 	@args=(--deploy-prefix "$(DEPLOY_PREFIX)" --template "$(REDIRECT_TEMPLATE)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
@@ -195,11 +209,11 @@ set-default-all: tools
 	done
 
 .PHONY: versions
-versions: tools
+versions: tools config
 	"$(MIKE)" list --config-file "$(CONFIG)" --deploy-prefix "$(DEPLOY_PREFIX)"
 
 .PHONY: delete
-delete: require-version tools
+delete: require-version tools config
 	@args=(--deploy-prefix "$(DEPLOY_PREFIX)"); \
 	if [[ "$(PUSH)" == "true" ]]; then \
 		args+=(--push); \
@@ -212,3 +226,4 @@ clean:
 		"$(CURDIR)/site" \
 		"$(CURDIR)/.cache" \
 		"$(CURDIR)/.cache-zensical"
+	rm -f "$(CURDIR)"/zensical.*.build.toml
