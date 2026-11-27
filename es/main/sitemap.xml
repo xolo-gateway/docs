@@ -4,10 +4,13 @@
         <loc>https://xolo-gateway.org/es/main/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/es/main/experts/</loc>
+        <loc>https://xolo-gateway.org/es/main/decouvrir/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/es/main/decouvrir/</loc>
+        <loc>https://xolo-gateway.org/es/main/decouvrir/organisation-et-permissions/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/decouvrir/fournisseurs-modeles-pipeline/</loc>
       </url>
       <url>
         <loc>https://xolo-gateway.org/es/main/decouvrir/budgets-et-quotas/</loc>
@@ -16,69 +19,63 @@
         <loc>https://xolo-gateway.org/es/main/decouvrir/estimation-energetique/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/es/main/decouvrir/fournisseurs-modeles-pipeline/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/decouvrir/organisation-et-permissions/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/developpement/plugins/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/exploitation/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/exploitation/configuration/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/exploitation/installation/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/exploitation/provisioning/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/applications/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/budget/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/equipes/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/fournisseurs/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/invitations/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/membres/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/middlewares/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/modeles-virtuels/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/parametres/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/organisation/roles/</loc>
-      </url>
-      <url>
-        <loc>https://xolo-gateway.org/es/main/reference/eventql/</loc>
-      </url>
-      <url>
         <loc>https://xolo-gateway.org/es/main/utilisation/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/utilisation/tableau-de-bord/</loc>
       </url>
       <url>
         <loc>https://xolo-gateway.org/es/main/utilisation/evenements/</loc>
       </url>
       <url>
-        <loc>https://xolo-gateway.org/es/main/utilisation/tableau-de-bord/</loc>
+        <loc>https://xolo-gateway.org/es/main/organisation/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/membres/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/invitations/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/roles/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/equipes/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/budget/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/fournisseurs/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/modeles-virtuels/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/middlewares/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/applications/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/organisation/parametres/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/exploitation/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/exploitation/installation/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/exploitation/configuration/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/exploitation/provisioning/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/reference/eventql/</loc>
+      </url>
+      <url>
+        <loc>https://xolo-gateway.org/es/main/developpement/plugins/</loc>
       </url>
 </urlset>
