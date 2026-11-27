@@ -74,6 +74,8 @@ for lang in "${languages[@]}"; do
     "${content_dir}/${lang}" \
     "${repository}" \
     "${ref}"
+  # Navigation et redirections livrées avec les pages : voir le script.
+  "${root_dir}/scripts/apply-source-settings.py" "${content_dir}" "${lang}"
   prepared+=("${lang}")
 done
 

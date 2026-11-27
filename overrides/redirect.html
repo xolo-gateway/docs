@@ -1,0 +1,19 @@
+{#-
+  Page laissée à l'ancienne adresse d'une page déplacée : voir
+  scripts/apply-source-settings.py. Le lien reste dans le corps pour un
+  navigateur qui ignore la redirection.
+-#}
+<!doctype html>
+<html lang="{{ config.theme.language }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ config.site_name }}</title>
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="{{ page.meta.redirect }}">
+    <meta http-equiv="refresh" content="0; url={{ page.meta.redirect }}">
+    <script>location.replace({{ page.meta.redirect | tojson }} + location.hash)</script>
+  </head>
+  <body>
+    <a href="{{ page.meta.redirect }}">{{ page.meta.redirect }}</a>
+  </body>
+</html>

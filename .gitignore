@@ -9,6 +9,9 @@
 
 /site/
 
+# Configurations construites par scripts/build-config.py
+/zensical.*.build.toml
+
 # Temporary source repository (cloned Xolo)
 /.cache/
 
