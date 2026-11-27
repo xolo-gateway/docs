@@ -30,6 +30,30 @@ make prepare-source check-all XOLO_SOURCE=../xolo XOLO_REF=main
 make help                              # toutes les cibles
 ```
 
+## Navigation et redirections
+
+La navigation vit avec les pages, dans Xolo : `docs/<lang>/nav.toml` contient
+une clé `nav` au format de Zensical. `scripts/prepare-source.sh` la sort du
+contenu, et `scripts/build-config.py` (cible `make config`, appelée par toutes
+les cibles de build et de publication) l'insère dans
+`zensical.<lang>.build.toml`, la configuration réellement construite. Une page
+déplacée et son entrée de menu partent ainsi dans le même commit, et une
+version de Xolo sans `nav.toml` garde la navigation déduite de l'arborescence.
+Une page citée qui n'existe pas arrête le build.
+
+`docs/<lang>/redirects.txt` liste les pages déplacées, une par ligne :
+`ancien/chemin/ nouveau/chemin/`. Chaque ligne devient une page à l'ancienne
+adresse qui renvoie vers la nouvelle (`overrides/redirect.html`), pour que les
+liens déjà posés vers `/latest/` et `/main/` tiennent.
+
+Les liens de la page d'accueil, eux, restent dans `zensical.<lang>.toml` : ils
+suivent l'arborescence de `xolo@main`.
+
+## Images
+
+Un clic sur une image l'ouvre en grand, avec zoom et déplacement (plugin
+`glightbox` de Zensical). Le thème charge la bibliothèque depuis `unpkg.com`.
+
 ## Liens hors documentation
 
 Les pages de Xolo renvoient aux fichiers de la racine du dépôt (`LICENSE.md`,
@@ -85,6 +109,12 @@ entreprise ; leur format est documenté dans le README de ce dossier.
 `scripts/render-experts.py` en tire `content/<lang>/experts.md`, dans les trois
 langues. Les libellés de la page (titre, chapeau, pastille) sont dans
 `[project.extra.experts]` de chaque `zensical.<lang>.toml`.
+
+La page n'est pas dans le menu. Quand elle a été générée,
+`scripts/build-config.py` renseigne `[project.extra.experts_page]`, et l'en-tête
+affiche son lien à gauche du sélecteur de langue
+(`overrides/partials/alternate.html`). Sous la largeur où le menu passe en
+tiroir, ce lien est masqué.
 
 Les sponsors passent devant, puis le poids croissant, puis le nom. Leur lien
 sort en `rel="noopener"` ; les autres gardent `nofollow`. Une fiche

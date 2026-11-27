@@ -3,6 +3,16 @@
   (« FR ») suivi d'un chevron, plutôt que l'icône « traduction » du thème.
   Le reste (liste déroulante au survol) est celui de Zensical.
 -#}
+{#-
+  Lien vers « Trouver un expert », à gauche du sélecteur : la page vient d'un
+  autre dépôt et n'est pas dans le menu. scripts/build-config.py ne renseigne
+  experts_page que si elle a été générée.
+-#}
+{% if config.extra.experts_page %}
+  <a class="xolo-header-link{{ ' xolo-header-link--active' if page.url == config.extra.experts_page.link }}" href="{{ config.extra.experts_page.link | url }}">
+    {{ config.extra.experts.title }}
+  </a>
+{% endif %}
 <div class="md-header__option">
   <div class="md-select">
     <button class="md-header__button md-icon xolo-lang" aria-label="{{ lang.t('select.language') }}">

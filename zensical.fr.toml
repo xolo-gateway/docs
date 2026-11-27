@@ -17,6 +17,14 @@ extra_css = [
   "stylesheets/extra.css",
 ]
 
+# Visionneuse d'images : un clic ouvre la capture en grand, avec zoom et
+# déplacement. Les captures de pipelines sont illisibles à la largeur de la
+# colonne de texte.
+[project.plugins.glightbox]
+zoomable = true
+draggable = true
+auto_caption = true
+
 [project.theme]
 variant = "modern"
 language = "fr"
@@ -25,7 +33,6 @@ favicon = "logo.svg"
 custom_dir = "overrides"
 
 features = [
-  "navigation.sections",   # groupes de premier niveau titrés dans la nav
   "navigation.path",       # fil d'Ariane au-dessus du titre
   "navigation.top",        # retour en haut de page
   "navigation.tracking",   # l'URL suit la section lue
@@ -146,64 +153,63 @@ subtitle = "pipeline : plugins, modèles"
 subtitle2 = "repli et pondération"
 
 [[project.extra.home.actions]]
-title = "Installer Xolo"
-link = "administration/installation/"
+title = "Premiers pas"
+link = "premiers-pas/"
 primary = true
 
 [[project.extra.home.actions]]
 title = "Comprendre le modèle"
-link = "concepts/"
+link = "decouvrir/"
 
 [project.extra.home.paths]
 title = "Par où commencer"
-subtitle = "Trois parcours, selon votre rôle"
-
-[[project.extra.home.paths.items]]
-title = "Déployer"
-description = """
-Installation, configuration, plugins Go, provisioning. Pour les ops et les \
-administrateurs.\
-"""
-icon = "deploy"
-tone = "primary"
-meta = "15 pages"
-link = "administration/"
-links = [
-  { title = "Installation & déploiement", link = "administration/installation/" },
-  { title = "Configuration", link = "administration/installation/configuration/" },
-  { title = "API de provisioning", link = "administration/provisioning/provisioning/" },
-]
+subtitle = "Trois étapes, dans l'ordre"
 
 [[project.extra.home.paths.items]]
 title = "Comprendre"
 description = """
-Le modèle d'organisation, le pipeline fournisseur → modèle → middleware, les \
-budgets, l'énergie.\
+Ce que fait Xolo et les notions à connaître : organisation, fournisseur, \
+modèle virtuel, budget.\
 """
 icon = "concept"
 tone = "purple"
-meta = "6 pages"
-link = "concepts/"
+meta = "5 pages"
+link = "decouvrir/"
 links = [
-  { title = "Organisation, rôles et permissions", link = "concepts/organisation-et-permissions/" },
-  { title = "Fournisseurs, modèles et pipelines", link = "concepts/fournisseurs-modeles-pipeline/" },
-  { title = "Budgets et quotas", link = "concepts/budgets-et-quotas/" },
+  { title = "Organisation et permissions", link = "decouvrir/organisation-et-permissions/" },
+  { title = "Fournisseurs, modèles et pipelines", link = "decouvrir/fournisseurs-modeles-pipeline/" },
+  { title = "Budgets et quotas", link = "decouvrir/budgets-et-quotas/" },
 ]
 
 [[project.extra.home.paths.items]]
-title = "Utiliser"
+title = "Démarrer"
 description = """
-Le quotidien dans l'interface : tableau de bord, événements, alertes, \
-recherche eventql.\
+Une instance, un fournisseur, une clé API et une première requête, en cinq \
+étapes.\
+"""
+icon = "deploy"
+tone = "primary"
+meta = "20 minutes"
+link = "premiers-pas/"
+links = [
+  { title = "Premiers pas", link = "premiers-pas/" },
+  { title = "Installation", link = "exploitation/installation/" },
+  { title = "Administrer une organisation", link = "organisation/" },
+]
+
+[[project.extra.home.paths.items]]
+title = "Construire"
+description = """
+Quatre modèles virtuels pas à pas, chacun avec son pipeline à importer.\
 """
 icon = "use"
 tone = "neutral"
-meta = "3 pages"
-link = "utilisation/"
+meta = "4 guides"
+link = "guides/"
 links = [
-  { title = "Tableau de bord", link = "utilisation/dashboard/dashboard/" },
-  { title = "Événements", link = "utilisation/evenements/evenement/" },
-  { title = "Syntaxe eventql", link = "concepts/eventql/" },
+  { title = "Protéger les données personnelles", link = "guides/donnees-personnelles/" },
+  { title = "Un agent outillé", link = "guides/agent-outille/" },
+  { title = "Choisir le modèle automatiquement", link = "guides/selection-automatique/" },
 ]
 
 [project.extra.home.quickstart]
@@ -213,22 +219,25 @@ description = "Une instance locale, une clé, un premier appel."
 [[project.extra.home.quickstart.tabs]]
 title = "docker"
 code = """
-$ docker run -p 8080:8080 \\
-    ghcr.io/xolo-gateway/xolo:latest
+# clé secrète, administrateur et connexion : voir Premiers pas
+$ docker run -p 3002:3002 --env-file xolo.env \\
+    ghcr.io/xolo-gateway/xolo-server:latest
 
-# puis, une fois l'organisation créée
-$ curl localhost:8080/v1/chat/completions \\
+# puis, avec une organisation, un fournisseur et une clé API
+$ curl localhost:3002/api/v1/chat/completions \\
     -H "Authorization: Bearer $XOLO_KEY" \\
-    -d '{"model":"gpt-4o-mini","messages":[…]}'
+    -d '{"model":"acme/gpt-4o-mini","messages":[…]}'
 """
 
 [[project.extra.home.quickstart.tabs]]
 title = "source"
 code = """
 $ git clone https://github.com/xolo-gateway/xolo
-$ cd xolo && make run
+$ cd xolo && cp .env.dist .env
+# renseignez .env, puis
+$ make build && make CMD='bin/server' run-with-env
 
-# l'interface écoute sur http://localhost:8080
+# l'interface écoute sur http://localhost:3002
 """
 
 [project.extra.home.highlights]
