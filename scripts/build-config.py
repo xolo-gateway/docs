@@ -51,6 +51,21 @@ def pages(nav):
                     yield from pages(value)
 
 
+def project_header(lines, name):
+    """Index de la ligne d'en-tête « [project] », hors des chaînes multi-lignes."""
+    found = []
+    quote = None
+    for index, line in enumerate(lines):
+        if quote is None and line.strip() == "[project]":
+            found.append(index)
+        for delimiter in ('"""', "'''"):
+            if quote in (None, delimiter) and line.count(delimiter) % 2 == 1:
+                quote = None if quote else delimiter
+    if len(found) != 1:
+        sys.exit(f"{name} : une seule table [project] est attendue")
+    return found[0]
+
+
 def with_experts(text, config, content):
     """Signale au thème que la page des experts existe, pour le lien d'en-tête."""
     # La clé est refusée même sans page : déclarée à la main, elle afficherait
@@ -89,18 +104,17 @@ def build(lang):
     if "nav" in config.get("project", {}):
         sys.exit(f"{source.name} déclare déjà nav : retirez-la, elle vient de Xolo")
 
-    # La navigation s'insère juste après l'en-tête de la table [project]. La
-    # ligne « [project] » ne doit donc apparaître qu'une fois dans le fichier,
-    # y compris à l'intérieur d'une chaîne multi-lignes.
-    header = "[project]\n"
-    if text.count(header) != 1:
-        sys.exit(f"{source.name} : une seule table [project] est attendue")
+    # Insertion textuelle, pour garder les commentaires et la mise en forme du
+    # fichier source : la navigation suit l'en-tête de la table [project].
+    lines = text.splitlines(keepends=True)
+    index = project_header(lines, source.name)
     block = (
-        f"{header}# Navigation insérée par scripts/build-config.py depuis "
+        f"# Navigation insérée par scripts/build-config.py depuis "
         f"docs/{lang}/nav.toml de Xolo.\nnav = {toml_value(nav)}\n"
     )
-    result = text.replace(header, block, 1)
-    tomllib.loads(result)
+    result = "".join(lines[: index + 1]) + block + "".join(lines[index + 1 :])
+    if tomllib.loads(result)["project"].get("nav") != nav:
+        sys.exit(f"{source.name} : la navigation insérée ne se relit pas à l'identique")
     target.write_text(result, encoding="utf-8")
     return f"navigation de Xolo, {sum(1 for _ in pages(nav))} pages"
 

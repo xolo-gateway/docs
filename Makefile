@@ -59,6 +59,7 @@ help:
 		"  make tools-lock                 Génère tools/requirements.lock" \
 		"  make tools-sync                 Installe depuis tools/requirements.lock" \
 		"  make tools-clean                Supprime l'environnement Python local" \
+		"  make test                      Teste les scripts de préparation (nav, redirections)" \
 		"  make prepare XOLO_REF=...       Récupère les sources : Xolo et experts" \
 		"  make prepare-experts            Régénère la seule page « Trouver un expert »" \
 		"  make prepare-experts EXPERTS_SOURCE=...  Depuis un dossier local" \
@@ -118,6 +119,13 @@ prepare-experts:
 	EXPERTS_SOURCE="$(EXPERTS_SOURCE)" \
 	EXPERTS_REQUIRED="$(EXPERTS_REQUIRED)" \
 		./scripts/prepare-experts.sh
+
+# Tests des scripts de préparation (navigation, redirections), sur une
+# arborescence synthétique : la CI construit Xolo main, qui ne les exerce pas
+# tant que ses sources ne livrent pas nav.toml et redirects.txt.
+.PHONY: test
+test:
+	"$(PYTHON)" -m unittest discover -s scripts -p 'test_*.py'
 
 .PHONY: config
 config:
@@ -218,3 +226,4 @@ clean:
 		"$(CURDIR)/site" \
 		"$(CURDIR)/.cache" \
 		"$(CURDIR)/.cache-zensical"
+	rm -f "$(CURDIR)"/zensical.*.build.toml
